@@ -16,7 +16,7 @@ NULL
 #' @param ... arguments passed to \code{\link{requirePackage}}.
 #' 
 #' @return nothing
-#' @keywords internal
+#' @export
 #' 
 requireRUnit <- local({
 			
@@ -284,30 +284,6 @@ checkWarning <- function(expr, expected=NULL, msg=NULL){
 	
 	TRUE
 }
-
-#' \code{checkIdenticalRNG} checks if two objects have the same RNG
-#' settings.
-#' 
-#' @param x,y objects from which RNG settings are extracted.
-#' @param ... extra arguments passed to \code{\link[rngtools]{rng.equal}} 
-#' in \code{checkIdenticalRNG}.
-#' 
-#' @export
-#' @rdname uchecks
-#' @examples 
-#' 
-#' # check for differences in RNG
-#' set.seed(123)
-#' checkIdenticalRNG(123)
-#' try( checkIdenticalRNG(123, 123) )
-#' try( checkIdenticalRNG(123, 1:3) )
-#' 
-checkIdenticalRNG <- function(x, y=getRNG(), ...){
-	library(rngtools)
-	requireRUnit()
-	checkTrue(rng.equal(x, y), ...)
-}
-
 
 #' Make Vignette for Unit Tests
 #' 

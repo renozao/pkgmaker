@@ -16,5 +16,4 @@
   the RUnit framework, choosing amongst \sQuote{RUnitX},
   \sQuote{svUnit} and \sQuote{RUnit}.
 }
-\keyword{internal}
 
