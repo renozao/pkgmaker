@@ -1,7 +1,7 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.8.19
+Version: 0.9
 Date: 2012-11-03
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@cbio.uct.ac.za>
@@ -14,7 +14,7 @@ Description: This package provides some low-level utilities to use for package
     It is still under heavy development and changes in the interface(s) are
     more than likely to happen.
 License: GPL (>=2)
-URL: http://pkgmaker.r-forge.r-project.org, http://cran.r-project.org
+URL: http://pkgmaker.r-forge.r-project.org/pkgmaker
 LazyLoad: yes
 Depends:
     R (>= 2.15),
@@ -28,7 +28,7 @@ Imports:
     xtable
 Suggests:
     registry,
-    devtools (>= 0.7.1),
+    devtools (>= 0.8),
     bibtex,
     RUnit,
     testthat,

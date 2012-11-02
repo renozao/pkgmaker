@@ -17,13 +17,13 @@ authors <- packageDescription(pkg)$Author
 
 \usepackage[colorlinks]{hyperref}
 \author{\Sexpr{authors}}
-\title{\texttt{\Sexpr{pkg}}: Unit testing results\footnote{Vignette computed  on Sat Nov  3 00:19:02 2012}}
+\title{\texttt{\Sexpr{pkg}}: Unit testing results\footnote{Vignette computed  on Sat Nov  3 01:17:49 2012}}
 \date{\texttt{\Sexpr{pkg}} version \Sexpr{prettyVersion} as of \Sexpr{prettyDate}}
 \begin{document}
 \maketitle
 
 \begin{verbatim}
-RUNIT TEST PROTOCOL -- Sat Nov  3 00:19:02 2012 
+RUNIT TEST PROTOCOL -- Sat Nov  3 01:17:49 2012 
 *********************************************** 
 Number of test functions: 3 
 Number of errors: 0 
@@ -40,7 +40,7 @@ package:pkgmaker - 3 test functions, 0 errors, 0 failures
   \item Locale: \verb|LC_CTYPE=en_ZA.UTF-8|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=en_ZA.UTF-8|, \verb|LC_COLLATE=en_ZA.UTF-8|, \verb|LC_MONETARY=en_ZA.UTF-8|, \verb|LC_MESSAGES=en_ZA.UTF-8|, \verb|LC_PAPER=C|, \verb|LC_NAME=C|, \verb|LC_ADDRESS=C|, \verb|LC_TELEPHONE=C|, \verb|LC_MEASUREMENT=en_ZA.UTF-8|, \verb|LC_IDENTIFICATION=C|
   \item Base packages: base, datasets, graphics, grDevices, methods,
     stats, utils
-  \item Other packages: codetools~0.2-8, digest~0.5.2, pkgmaker~0.8.19,
+  \item Other packages: codetools~0.2-8, digest~0.5.2, pkgmaker~0.9,
     RUnit~0.4.26, stringr~0.6
   \item Loaded via a namespace (and not attached): plyr~1.7.1,
     xtable~1.7-0
