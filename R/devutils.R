@@ -211,6 +211,9 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 #' @export
 topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	
+	if( n==1L && !is.null(ns <- getLoadingNamespace()) ){
+		return(ns)
+	}
 	nf <- sys.nframe()
 	i <- 0
 	res <- character()
@@ -231,7 +234,7 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 			res <- getPackageName(e)
 #			print(res)
 		}else{
-			warning('Could not find top namespace.', immediate.=TRUE)
+			#warning('Could not find top namespace.', immediate.=TRUE)
 			return('')
 		}
 	}
@@ -251,7 +254,9 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 #' @rdname devutils
 #' @export
 topns <- function(strict=TRUE){
-	asNamespace(topns_name(n=1L, strict=strict))
+	ns <- topns_name(n=1L, strict=strict)
+	if( ns == '.GlobalEnv' ) return( .GlobalEnv )
+	else if( nchar(ns) ) asNamespace(ns)
 	#packageEnv(skip=TRUE, verbose=verbose)
 }
 

@@ -338,9 +338,11 @@ makeUnitVignette <- function(pkg, file=paste(pkg, '-unitTests.pdf', sep=''), ...
 	}
 	
 	# run unit tests if not check or if the test results are not there (e.g., R CMD build)
-	env <- str_trim(capture.output(system('env', intern=TRUE)))
-	if( check )	write(env, file="~/Rnmf/check_env.txt")
-	else write(env, file="~/Rnmf/make_env.txt")
+#	if( userIs('renaud') ){
+#		env <- str_trim(capture.output(system('env', intern=TRUE)))
+#		if( check )	write(env, file="~/check_env.txt")
+#		else write(env, file="~/make_env.txt")
+#	}
 	
 #	if( !check || !is.dir(utestPath(package=package)) ){
 	if( !check ){

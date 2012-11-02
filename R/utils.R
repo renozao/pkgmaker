@@ -734,3 +734,15 @@ attr_mode <- function(x){
 	}
 	x
 }
+
+
+#' Checking R User 
+#' 
+#' Tests if the current R user is amongst a given set of users.
+#' 
+#' @param user the usernames to check for, as a character vector. 
+#' 
+#' @export
+userIs <- function(user){
+	setNames(Sys.info()['user'], NULL) %in% user
+}

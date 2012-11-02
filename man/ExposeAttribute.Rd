@@ -38,7 +38,7 @@
   \item{value}{replacement value for mode. It can be
   \code{NULL} to remove the ExposeAttribute wrapper, a
   single character string to define a permission for all
-  atributes (eg., \code{'rw'} or \code{'r'}), or a list
+  atributes (e.g., \code{'rw'} or \code{'r'}), or a list
   specifying access permission for specific attributes or
   classes of attributes defined by regular expressions. For
   example, \code{list(a='r', b='w', `blabla.*`='rw')} set
