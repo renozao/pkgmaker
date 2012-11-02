@@ -337,8 +337,13 @@ makeUnitVignette <- function(pkg, file=paste(pkg, '-unitTests.pdf', sep=''), ...
 		stop("Could not load package '", pkg, "' for testing [libPath= ", str_out(.libPaths(), Inf), "]")
 	}
 	
-	# run unit tests if not check or if the test results are not there (e.g., R CMD build) 
-	if( !check || !is.dir(utestPath(package=package)) ){
+	# run unit tests if not check or if the test results are not there (e.g., R CMD build)
+	env <- str_trim(capture.output(system('env', intern=TRUE)))
+	if( check )	write(env, file="~/Rnmf/check_env.txt")
+	else write(env, file="~/Rnmf/make_env.txt")
+	
+#	if( !check || !is.dir(utestPath(package=package)) ){
+	if( !check ){
 		
 		# run unit tests
 		tests <- utest(package, ...)

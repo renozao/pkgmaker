@@ -123,10 +123,12 @@ isDevNamespace <- function(name){
 		name <- getPackageName(topenv(e))
 	}
 	
-	if( isNamespaceLoaded(name) ) return( FALSE )
-	
+	# cannot be true if the namespace is not loaded
+	if( !isNamespaceLoaded(name) ) return( FALSE )
+	# get the namespace environment
 	ns <- asNamespace(name)
-	is.null(ns$.__DEVTOOLS__)
+	# check for the presence of a .__DEVTOOLS__ object
+	exists('.__DEVTOOLS__', where=ns)
 	
 }
 

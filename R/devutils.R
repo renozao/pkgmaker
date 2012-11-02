@@ -337,26 +337,21 @@ packagePath <- function(..., package=NULL, lib=NULL){
 	# when loading a package during the post-install check
 	if( is.null(path) || path == '' ){
 		# get the info from the loadingNamespace
-		info <- getLoadingNamespace(info=TRUE)
-		path <- 
-			if( !is.null(info) ) # check whether we are loading the namespace 
-				file.path(info$libname, info$pkgname)
-			else{# we are in dev mode: use devtools
-				library(devtools)
-				p <- as.package(pname)
-				
-				# handle special sub-directories of the package's root directory
-				dots <- list(...)
-				Rdirs <- c('data', 'R', 'src', 'exec', 'tests', 'demo'
-							, 'exec', 'libs', 'man', 'help', 'html'
-							, 'Meta')
-				if( length(dots) == 0L || sub("^/?([^/]+).*", "\\1", ..1) %in%  Rdirs)
-					p$path
-				else file.path(p$path,'inst')
-				
-			}
-	}	
+		if( !is.null(info <- getLoadingNamespace(info=TRUE)) )
+			path <- file.path(info$libname, info$pkgname)
+	}
 	stopifnot( !is.null(path) && path != '' )
+	
+	# for development packages: add inst prefix if necessary
+	if( isDevNamespace(pname) ){
+		# handle special sub-directories of the package's root directory
+		dots <- list(...)
+		Rdirs <- c('data', 'R', 'src', 'exec', 'tests', 'demo'
+				, 'exec', 'libs', 'man', 'help', 'html'
+				, 'Meta')
+		if( length(dots) && !sub("^/?([^/]+).*", "\\1", ..1) %in%  Rdirs)
+			path <- file.path(path,'inst')
+	}
 	
 	# add other part of the path
 	file.path(path, ...)	
