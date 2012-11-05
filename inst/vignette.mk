@@ -83,7 +83,7 @@ TMP_INSTALL_DIR:=tmplib
 endif
 endif
 
-endif
+endif #end not R_CHECK
 
 
 # Define command for temporary installation (used when make is directly called,
@@ -135,6 +135,12 @@ ifdef LOCAL_MODE
 else
 	# Mode: Production
 endif
+ifneq ($(R_CHECK),0)
+	# R CMD check: TRUE
+else
+	# R CMD check: FALSE
+endif
+
 	# Detected vignettes: $(PDF_OBJS)
 
 clean:
@@ -167,16 +173,21 @@ endif
 	$(do_install)
 	# Generating vignette $@ from ${SRC_DIR}/$*.Rnw
 	# Using R_LIBS: $(R_LIBS)
+	# Compiling ${SRC_DIR}/$*.Rnw into $*.tex
 	$(RSCRIPT) --vanilla -e "pkgmaker::rnw('${SRC_DIR}/$*.Rnw', '$*.tex');"
 		
 	# Generating pdf $@ from $*.tex
 ifdef MAKEPDF
 ifdef USE_PDFLATEX
-	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))
+	$(eval VIGNETTE_BASENAME := $*)
 	# Using pdflatex
+	# LaTeX compilation 1/3
 	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
+	# Compiling bibliography with bibtex
 	-bibtex $(VIGNETTE_BASENAME)
+	# LaTeX compilation 2/3
 	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
+	# LaTeX compilation 3/3
 	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
 ifndef QUICK
 	# Compact vignettes
@@ -189,8 +200,11 @@ endif
 	
 else
 	# Using tools::texi2dvi
+	# LaTeX compilation 1/2
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( '$*.tex', pdf = TRUE, clean = FALSE )"
+	# Compiling bibliography with bibtex
 	-bibtex $*
+	# LaTeX compilation 2/2
 	$(RSCRIPT) --vanilla -e "tools::texi2dvi( '$*.tex', pdf = TRUE, clean = TRUE )"
 endif
 endif	
@@ -203,7 +217,6 @@ endif
 	$(do_install)
 	# Generating vignette for unit tests: $@
 	# Using R_LIBS: $(R_LIBS)
-	# Make test vignette
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
 ifdef LOCAL_MODE
 	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))

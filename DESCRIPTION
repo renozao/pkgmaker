@@ -1,10 +1,10 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.9
+Version: 0.9.1
 Date: 2012-11-03
 Author: Renaud Gaujoux
-Maintainer: Renaud Gaujoux <renaud@cbio.uct.ac.za>
+Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
 Description: This package provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
     options and registries, vignette, unit test and bibtex related utilities.
