@@ -108,7 +108,11 @@ Rversion <- function(){
 #' @export
 str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", "){
 	if( isNA(max) ) max <- Inf
-	suffix <- if( length(x) > max ) ", ..."
+	suffix <- NULL
+	if( max > 2 && length(x) > max ){
+		suffix <- "..."
+		x <- c(head(x, max-1), tail(x, 1))
+	}
 	x <- head(x, max)
 	
 	# add quotes if necessary
@@ -122,7 +126,11 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ")
 		nm <- str_c(names(x),'=')
 		x <- paste(ifelse(nm=='=','',nm), x, sep='')
 	}
-	paste(paste(x, collapse=sep), suffix, sep='')
+	# insert suffix
+	if( !is.null(suffix) ){
+		x <- c(head(x, length(x)-1L), suffix, tail(x, 1L))
+	}
+	paste(paste(x, collapse=sep), sep='')
 }
 
 #' Builds formatted string from a list of complex values.

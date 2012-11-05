@@ -495,12 +495,12 @@ rnwCite <- function(x){
 	l <- readLines(x$file)
 	
 	# identify driver
-	dr <- str_match(l, "\\\\cite((CRAN)|(BioC)|(BioCAnn))pkg\\{([^}]*)\\}")
+	dr <- str_match(l, "\\\\cite((CRAN)|(BioC)|(BioCAnn))?pkg\\{([^}]*)\\}")
 	w <- which(!is.na(dr[,6L]))
-	rnw_message("Detected package citation: ", appendLF=FALSE)
+	rnw_message("Detected package citation(s): ", appendLF=FALSE)
 	if( length(w) > 0L ){
-		inc <- unique(str_trim(dr[w,6L]))
-		message(str_out(inc))
+		inc <- unique(str_trim(unlist(strsplit(dr[w,6L],","))))
+		message(str_out(inc), ' [', length(inc), ']')
 		inc
 	}else
 		message("NONE")
