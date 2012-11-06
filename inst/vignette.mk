@@ -141,11 +141,12 @@ else
 	# R CMD check: FALSE
 endif
 
-	# Detected vignettes: $(PDF_OBJS)
+	# Detected vignettes: $(RNW_OBJS)
 
 clean:
 	rm -fr *.bbl *.run.xml *.blg *.aux *.out *-blx.bib \
-	*.log *.err Rplots.pdf tests-results tmplib vignette_*.mk vignette.mk 
+	*.log *.err Rplots.pdf tests-results tmplib vignette_*.mk vignette.mk \
+	cleveref.sty 
 ifndef LOCAL_MODE
 	rm -f $(TEX_OBJS)
 endif

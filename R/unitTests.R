@@ -387,26 +387,29 @@ authors <- packageDescription(pkg)$Author
 \\begin{document}
 \\maketitle
 
-\\begin{verbatim}
 @results@
-\\end{verbatim}
 
 \\section*{Session Information}
 @sessionInfo@
 
 \\end{document}
 "
+	verbatim_wrap <- function(...){
+		c("\\\\begin{verbatim}\n", ..., "\n\\\\end{verbatim}")
+	}
 	# default is to load the unit test results from the global output directory
 	if( is.null(results) ){
 		upath <- utestPath(package=pkg)
 		results <- list.files(upath, pattern="\\.txt$", full.names=TRUE)
-		if( !length(results) )
-			results <- str_c('Could not find any unit test result in "', upath, '"')
+		if( !length(results) ){
+			results <- verbatim_wrap('Could not find any unit test result in "', upath, '"')
+		}
 	}
 	
 	if( is.file(results[1L]) ){
 		resFile <- results[1L]
-		results <- readLines(resFile)
+		name <- str_match(resFile, "([^.]+)\\.[^.]+$")[,2L]
+		results <- c(str_c("\\\\section{", name, "}"), verbatim_wrap(readLines(resFile)))
 	}else{
 		resFile <- NULL
 	}
@@ -424,7 +427,7 @@ authors <- packageDescription(pkg)$Author
 	resnote <- str_c("\\footnote{Vignette computed ", if( check ) ' via R CMD check/build ', ' on ', date(),"}")
 	if( check ){ 
 		# add path to included file if compiled from R CMD check (for debug purposes)
-		lfile <- gsub("([_$])", "\\\\\\1", resFile)
+		lfile <- gsub("([_$])", "\\\\\\1", paste(resFile, collapse="\\\\"))
 		resnote <- str_c(resnote, " \\footnote{File: '", lfile, "'}")
 	}
 	contents <-	gsub("@resNote@", gsub("\\", "\\\\", resnote, fixed=TRUE), contents)
@@ -780,19 +783,28 @@ setMethod('utest', 'RUnitTestSuite',
 		
 		pathReport <- file.path(outdir, str_c("utest.", sub("[:]", "_", x$name)))
 		
-		if( quiet ){
-			suppressWarnings(suppressMessages(out <- capture.output(
+		t <- system.time({
+			if( quiet ){
+				suppressWarnings(suppressMessages(out <- capture.output(
+					tests <- runTestSuite(x, ...)
+				)))
+			}else 
 				tests <- runTestSuite(x, ...)
-			)))
-		}else 
-			tests <- runTestSuite(x, ...)
+		})
 		
 		## Report to stdout and text files
 		cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
-		printTextProtocol(tests, showDetails=FALSE,
-				fileName=paste(pathReport, ".Summary.txt", sep=""))
-		printTextProtocol(tests, showDetails=TRUE,
-				fileName=paste(pathReport, ".txt", sep=""))
+		summary_file <- paste(pathReport, ".Summary.txt", sep="")
+		printTextProtocol(tests, showDetails=FALSE,	fileName=summary_file)
+		# append timing
+		st <- c("\nTotal execution time\n***************************"
+				, paste(capture.output(print(t)), collapse="\n"))
+		write(st, file=summary_file, append=TRUE)
+		# detailed report
+		details_file <- paste(pathReport, ".Details.txt", sep="")
+		printTextProtocol(tests, showDetails=TRUE, fileName=details_file)
+		write(st, file=details_file, append=TRUE)
+		#
 		
 		## Report to HTML file
 		printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
