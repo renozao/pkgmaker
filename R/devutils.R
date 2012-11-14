@@ -51,10 +51,12 @@ R.SHLIB <- function(libname, ...){
 #' @param path path to the package source directory
 #' @param lib installation directory. Defaults to the user's R 
 #' default installation directory. 
+#' @param vignettes logical that indicates if the vignettes should be 
+#' rebuilt and installed.
 #' 
 #' @export
 #' 
-quickinstall <- function(path, lib=NULL){
+quickinstall <- function(path, lib=NULL, vignettes=FALSE){
 	
 	npath <- normalizePath(path)
 	nlib <- if( !is.null(lib) ) normalizePath(lib)
@@ -64,12 +66,16 @@ quickinstall <- function(path, lib=NULL){
 	on.exit( setwd(owd) )
 	# build
 	message("# Building package `", pkg$package, "` in '", getwd(), "'")
-	R.CMD('build', '--no-manual --no-resave-data --no-vignettes ', npath)
+	opts <- '--no-manual --no-resave-data '
+	if( !vignettes ) opts <- str_c(opts, '--no-vignettes ')
+	R.CMD('build', opts, npath)
 	spkg <- paste(pkg$package, '_', pkg$version, '.tar.gz', sep='')
 	if( !file.exists(spkg) ) stop('Error in building package `', pkg$package,'`')
 	# install
 	message("# Installing package `", pkg$package, "`", if( !is.null(lib) ) str_c("in '", nlib, "'"))
-	R.CMD('INSTALL', if( !is.null(lib) ) paste('-l', nlib), ' --no-docs --no-multiarch --no-demo --with-keep.source ', spkg)
+	opts_inst <- ' --no-multiarch --no-demo --with-keep.source '
+	if( !vignettes ) opts_inst <- str_c(opts_inst, '--no-docs ')
+	R.CMD('INSTALL', if( !is.null(lib) ) paste('-l', nlib), opts_inst, spkg)
 }
 
 #' Compile Source Files from a Development Package
