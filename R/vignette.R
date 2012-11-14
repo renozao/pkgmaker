@@ -558,9 +558,11 @@ vignetteMakefile <- function(user=NULL, package=NULL, skip=NULL
 	
 	l <- paste(readLines(template), collapse="\n")
     # Check user: LOCAL_MODE if in declared user
+	localMode <- FALSE
 	if( !is.null(user) ){
 		l <- subMakeVar('USER', str_c(user, collapse=', '), l)
 		if( (cuser <- Sys.info()["user"]) %in% user ){
+			localMode <- TRUE
 			l <- defMakeVar('LOCAL_MODE', cuser, l)
 		}
 	}else{
@@ -573,7 +575,17 @@ vignetteMakefile <- function(user=NULL, package=NULL, skip=NULL
 		if( is(d, 'try-error') ){
 			stop("Could not infer package name: file '", df, "' not found.")
 		}
-		package <- d[1L,'Package']
+		d <- as.list(as.data.frame(d, stringsAsFactors=FALSE))
+		package <- d$Package
+	}else if( length(find.package(package, quiet=TRUE)) ){
+		d <- packageDescription(package)
+	}else{
+		df <- file.path(getwd(), '..', 'DESCRIPTION')
+		d <- try(read.dcf(df), silent=TRUE)
+		if( is(d, 'try-error') ){
+			stop("Could not load DESCRIPTION file '", df, "'.")
+		}
+		d <- as.list(as.data.frame(d, stringsAsFactors=FALSE))
 	}
 	l <- defMakeVar('MAKE_R_PACKAGE', package, l)
 	# Vignettes files:
@@ -592,7 +604,14 @@ vignetteMakefile <- function(user=NULL, package=NULL, skip=NULL
 	if( !is.null(skip) )
 		rnwFiles <- setdiff(rnwFiles, skip)
 	l <- subMakeVar('RNW_SRCS', paste(rnwFiles, collapse=' '), l)
-	
+	# reset pdf objects in local mode to point to ../inst/doc
+	noBuildVignettes <- if( !is.null(d$BuildVignettes) ) tolower(d$BuildVignettes)=='no' else FALSE
+	if( localMode && noBuildVignettes ){
+		l <- defMakeVar('INST_TARGET', 1, l)
+		l <- defMakeVar('PDF_OBJS'
+						, paste(file.path('../inst/doc', sub("\\.Rnw$", ".pdf", rnwFiles)), collapse=' ')
+						, l)
+	}
 	# create makefile
 	mk <- if( temp ) tempfile('vignette_', tmpdir='.', fileext='.mk') else 'vignette.mk'
 	cat(l, file=mk)
