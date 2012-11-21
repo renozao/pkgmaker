@@ -120,7 +120,7 @@ endif
 ifdef INST_TARGET
 define update_inst_doc
 	# Moving PDF files to ../inst/doc
-	mv -f $*.pdf ../inst/doc
+	mv -f $1.pdf ../inst/doc
 endef
 else
 define update_inst_doc
@@ -221,7 +221,7 @@ endif
 endif	
 	# Update fake vignette file ./$*.Rnw
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeFakeVignette('${SRC_DIR}/$*.Rnw', '$*.Rnw')"
-	$(update_inst_doc)
+	$(call update_inst_doc, $*)
 
 # only run tests if not checking: CRAN check run the tests separately
 %-unitTests.pdf:
@@ -234,5 +234,8 @@ ifdef LOCAL_MODE
 	# Compact vignette file
 	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf')"
 endif
-	$(update_inst_doc)
+	$(call update_inst_doc, $*-unitTests.pdf)
+	
+update_doc:
+	$(call update_inst_doc, *)
 
