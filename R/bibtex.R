@@ -23,6 +23,7 @@
 #' character string), NULL for \code{stdout}, or a \code{link{connection}} object. 
 #' If \code{file} is a character string, an extension '.bib' is appended if not 
 #' already present.
+#' @param prefix character string to prepend to the generated packages' Bibtex key.
 #' @param append a logical that indicates that the Bibtex entries should be added
 #' to the file. If \code{FALSE} (default), the file is overwritten.  
 #' @param verbose a logical to toggle verbosity. If \code{file=NULL}, verbosity 
@@ -56,7 +57,7 @@
 #' 
 #' \dontshow{ unlink(c('references.bib', 'references2.bib'))}
 #' 
-write.bib <- function(entry=NULL, file="Rpackages.bib", append = FALSE, verbose = TRUE)
+write.bib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = FALSE, verbose = TRUE)
 {
 	# special handling of file=NULL: use stdout()
 	if( is.null(file) ){
@@ -90,8 +91,11 @@ write.bib <- function(entry=NULL, file="Rpackages.bib", append = FALSE, verbose 
 				n.converted <- sum(ok)
 				
 				## add bibtex keys to each entry
-				pkgs <- lapply(seq_along(pkgs), function(i) if(length(bibs[[i]]) > 1)
-								paste(pkgs[i], c('', 2:length(bibs[[i]])), sep = "") else pkgs[i])
+				pkgs <- lapply(seq_along(pkgs), function(i){
+							if(length(bibs[[i]]) > 1)
+								paste(prefix, pkgs[i], c('', 2:length(bibs[[i]])), sep = "") 
+							else paste(prefix, pkgs[i], sep='')
+				})
 				pkgs <- do.call("c", pkgs)
 				bibs <- do.call("c", bibs)		
 				# formatting function for bibtex keys:

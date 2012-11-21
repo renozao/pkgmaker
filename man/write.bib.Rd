@@ -4,7 +4,7 @@
 \title{Generate a Bibtex File from Package Citations}
 \usage{
   write.bib(entry = NULL, file = "Rpackages.bib",
-    append = FALSE, verbose = TRUE)
+    prefix = "", append = FALSE, verbose = TRUE)
 }
 \arguments{
   \item{entry}{a \code{\link{bibentry}} object or a
@@ -16,6 +16,9 @@
   \code{stdout}, or a \code{link{connection}} object. If
   \code{file} is a character string, an extension '.bib' is
   appended if not already present.}
+
+  \item{prefix}{character string to prepend to the
+  generated packages' Bibtex key.}
 
   \item{append}{a logical that indicates that the Bibtex
   entries should be added to the file. If \code{FALSE}

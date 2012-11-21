@@ -134,7 +134,11 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 \\def\\@@CRANpkg#1{\\href{http://cran.r-project.org/package=#1}{\\pkgname{#1}} package\\footnote{\\CRANurl{#1}}}
 \\makeatother
 %% citeCRANpkg
-\\newcommand{\\citeCRANpkg}[1]{\\CRANpkg{#1}~\\cite{#1}}
+\\makeatletter
+\\def\\citeCRANpkg{\\@ifstar\\@citeCRANpkg\\@@citeCRANpkg}
+\\def\\@citeCRANpkg#1{\\CRANpkg{#1}\\cite*{Rpackage:#1}}
+\\def\\@@citeCRANpkg#1{\\CRANpkg{#1}~\\cite{Rpackage:#1}}
+\\makeatother
 \\newcommand{\\CRANnmf}{\\href{http://cran.r-project.org/package=NMF}{CRAN}}
 \\newcommand{\\CRANnmfURL}{\\url{http://cran.r-project.org/package=NMF}}
 ")
@@ -145,11 +149,11 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 "% Bioconductor
 \\newcommand{\\BioCurl}[1]{\\url{http://www.bioconductor.org/packages/release/bioc/html/#1.html}}
 \\newcommand{\\BioCpkg}[1]{\\href{http://www.bioconductor.org/packages/release/bioc/html/#1.html}{\\pkgname{#1}} package\\footnote{\\BioCurl{#1}}}
-\\newcommand{\\citeBioCpkg}[1]{\\BioCpkg{#1}~\\cite{#1}}
+\\newcommand{\\citeBioCpkg}[1]{\\BioCpkg{#1}~\\cite{Rpackage:#1}}
 % Bioconductor annotation
 \\newcommand{\\BioCAnnurl}[1]{\\url{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}}
 \\newcommand{\\BioCAnnpkg}[1]{\\href{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}{\\Rcode{#1}} annotation package\\footnote{\\BioCAnnurl{#1}}}
-\\newcommand{\\citeBioCAnnpkg}[1]{\\BioCAnnpkg{#1}~\\cite{#1}}
+\\newcommand{\\citeBioCAnnpkg}[1]{\\BioCAnnpkg{#1}~\\cite{Rpackage:#1}}
 ")
 }
 
@@ -296,7 +300,7 @@ rnw <- function(x, file=NULL, ..., raw=FALSE){
 	# Package citations
 	if( !is.null(keys <- x$cite) ){
 		message("# Writing package bibtex file [", length(keys)," key(s)] ... ", appendLF=FALSE)
-		write.bib(keys, file='Rpackages.bib', verbose=FALSE)
+		write.bib(keys, file='Rpackages.bib', prefix='Rpackage:', verbose=FALSE)
 		message('OK')
 	}
 	#
@@ -493,13 +497,25 @@ rnwCite <- function(x){
 	
 	# read all lines in
 	l <- readLines(x$file)
+
+	.parse <- function(x, pattern, idx){
+		dr <- str_match_all(l, pattern)
+		dr <- dr[sapply(dr, length)>0L]
+		unlist(lapply(dr, '[', , idx))
+	}
 	
-	# identify driver
-	dr <- str_match(l, "\\\\cite((CRAN)|(BioC)|(BioCAnn))?pkg\\{([^}]*)\\}")
-	w <- which(!is.na(dr[,6L]))
+	# extract package citations: \citeCRANpkg - like
+	cite <- .parse(l, "\\\\cite((CRAN)|(BioC)|(BioCAnn))?pkg[*]?\\{([^}]*)\\}", 6L)
+	# \cite{Rpackage:pkgname, ...} - like
+	cite2 <- .parse(l, "\\\\cite[^{ ]*\\{([^}]*)\\}", 2L)
+	if( length(cite2) ){
+		cite2 <- .parse(cite2, '.*Rpackage:([^,}]+).*', 2L)
+		cite <- c(cite, cite2)
+	}
+	
 	rnw_message("Detected package citation(s): ", appendLF=FALSE)
-	if( length(w) > 0L ){
-		inc <- unique(str_trim(unlist(strsplit(dr[w,6L],","))))
+	if( length(cite) > 0L ){
+		inc <- unique(str_trim(unlist(strsplit(cite, ","))))
 		message(str_out(inc), ' [', length(inc), ']')
 		inc
 	}else
