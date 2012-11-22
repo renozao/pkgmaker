@@ -97,7 +97,7 @@ packageExtra <- function(handler, extra=NULL, ..., package=NULL, .wrap=FALSE){
 	if( is.null(extra) ) return( grep(str_c("^", handler), extras$names(), value=TRUE) )
 	
 	key <- str_c(handler, ':', extra)
-	if( !doSet ){
+	if( .wrap || !doSet ){
 		args <- extras$get(key)
 		if( .wrap ){
 			f <- function(...){
@@ -105,15 +105,17 @@ packageExtra <- function(handler, extra=NULL, ..., package=NULL, .wrap=FALSE){
 				if( is.null(fhandler) )
 					stop("Could not find action handler '", handler, "'")
 				args <- expand_list(list(...), args, .exact=FALSE)
-				print(args)
-				do.call(fhandler, args)
+				message("# Running extra action '", key, "' ...")
+				message("# Using arguments: ", str_out(names(args), Inf))
+				res <- do.call(fhandler, args)
+				message("# DONE [", key, "]")
+				res
 			}
 			f
 		}else args
 		
 	}else{ # set the arguments in the package internal registry
-		if( !isRunningPostponedAction() )
-			message("# Adding extra action '", key, "' in ", environmentName(where))
+		message("Register extra action '", key, "' in ", environmentName(where))
 		extras$set(key, args)
 	}
 }
