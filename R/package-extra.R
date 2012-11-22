@@ -108,7 +108,7 @@ packageExtra <- function(handler, extra=NULL, ..., package=NULL, .wrap=FALSE){
 				message("# Running extra action '", key, "' ...")
 				message("# Using arguments: ", str_out(names(args), Inf))
 				res <- do.call(fhandler, args)
-				message("# DONE [", key, "]")
+				message("# DONE [", key, "]\n")
 				res
 			}
 			f
