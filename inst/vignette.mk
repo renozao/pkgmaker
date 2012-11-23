@@ -234,7 +234,7 @@ ifdef LOCAL_MODE
 	# Compact vignette file
 	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf')"
 endif
-	$(call update_inst_doc, $*-unitTests.pdf)
+	$(call update_inst_doc, $*-unitTests)
 	
 update_doc:
 	$(call update_inst_doc, *)
