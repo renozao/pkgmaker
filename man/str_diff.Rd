@@ -1,6 +1,6 @@
 \name{str_diff}
 \alias{str_diff}
-\title{Differences between strings}
+\title{Finding Differences Between Strings}
 \usage{
   str_diff(x, y)
 }

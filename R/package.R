@@ -79,6 +79,7 @@ onUnload <- function(libpath) {
 #' Currently not used.
 #' @param verbose logical that toggles verbose messages.
 #'
+#' @import digest
 #' @export
 #' 
 #' @examples

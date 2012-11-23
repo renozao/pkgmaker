@@ -1,4 +1,5 @@
 \name{packageExtraHandler}
+\alias{install.extrapackages}
 \alias{install.extras}
 \alias{packageExtra}
 \alias{packageExtraHandler}
@@ -12,7 +13,11 @@
 
   packageExtraRunner(handler)
 
-  install.extras(package, extra = NULL, ...)
+  install.extras(package, extra = NULL, ...,
+    .verbose = getOption("verbose"))
+
+  install.extrapackages(package, extra = NULL, ...,
+    .verbose = getOption("verbose"))
 }
 \arguments{
   \item{handler}{name of a handler, e.g, \code{'install'}.
@@ -39,6 +44,14 @@
   \item{.wrap}{logical that indicates if a function that
   runs the extra action should be returned or only the
   default arguments}
+
+  \item{.verbose}{logical that indicates if verbose
+  messages about the extra actions being run should be
+  displayed.}
+}
+\value{
+  the runner function associated with the newly registered
+  handler, as built by \code{packageExtraRunner}.
 }
 \description{
   These functions define a framework to register actions
@@ -51,12 +64,17 @@
 
   \code{packageExtraRunner} defines a function to run all
   or some of the actions registered for a given handler in
-  a given package. For example, \code{install.extras} is
-  the runner defined for the extra handler \code{'install'}
-  via \code{packageExtraRunner('install')}.
+  a given package. For example, the function
+  \code{install.extrapackages} is the runner defined for
+  the extra handler \code{'install'} via
+  \code{packageExtraRunner('install')}.
 
-  \code{install.extras} runner for actions registered for
-  the extra handler \code{'install'}.
+  \code{install.extras} runs all extra actions registered
+  for a given package.
+
+  \code{install.extrapackages} runs all extra
+  \code{'install'} actions, i.e. those registered for
+  handler \code{'install'}.
 }
 \details{
   \code{packageExtraHandler} defines main action handler

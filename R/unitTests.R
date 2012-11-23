@@ -500,7 +500,7 @@ authors <- packageDescription(pkg)$Author
 #' @return the name of the framework as a character string or NULL if
 #' it could not be detected.
 #' 
-#' @importFrom codetools makeCodeWalker
+#' @import codetools
 #' @export
 utestFramework <- function(x, eval=FALSE){
 	
@@ -510,7 +510,7 @@ utestFramework <- function(x, eval=FALSE){
 	
 	# walk code using codetools looking up for known test functions
 	if( !is.null(expr) ){
-		cw <- codetools::makeCodeWalker(leaf= function(e, w) if( is.symbol(e) ) cat(e, "\n"))
+		cw <- makeCodeWalker(leaf= function(e, w) if( is.symbol(e) ) cat(e, "\n"))
 		s <- str_trim(capture.output(walkCode(expr, cw)))
 		if( length(s) > 1L ){
 			for( f in names(.UFdata) ){
@@ -559,6 +559,7 @@ utestFramework <- function(x, eval=FALSE){
 #' 
 #' @return a test function with no arguments that wrapping around \code{expr} 
 #' 
+#' @import digest
 #' @export
 #' 
 unit.test <- function(x, expr, framework=NULL, envir=parent.frame()){

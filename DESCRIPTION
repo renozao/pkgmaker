@@ -1,7 +1,7 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.9.4
+Version: 0.9.5
 Date: 2012-11-03
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
@@ -19,11 +19,11 @@ LazyLoad: yes
 Depends:
     R (>= 2.15),
     methods,
-    stats,
+    stats
+Imports:
+    codetools,
     digest,
     stringr,
-    codetools
-Imports:
     methods,
     xtable
 Suggests:

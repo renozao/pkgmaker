@@ -1,13 +1,15 @@
 \name{str_out}
 \alias{str_desc}
+\alias{str_fun}
 \alias{str_out}
-\title{Prints formatted list of values given as a character vector for use in show
-methods or error/warning messages.}
+\title{Formatting Utilities}
 \usage{
   str_out(x, max = 3L, quote = is.character(x),
     use.names = FALSE, sep = ", ")
 
   str_desc(object, exdent = 0L)
+
+  str_fun(object)
 }
 \arguments{
   \item{x}{character vector}
@@ -35,10 +37,15 @@ methods or error/warning messages.}
   a single character string
 }
 \description{
-  Prints formatted list of values given as a character
-  vector for use in show methods or error/warning messages.
+  \code{str_out} formats character vectors for use in show
+  methods or error/warning messages.
 
-  Builds formatted string from a list of complex values.
+  \code{str_desc} builds formatted string from a list of
+  complex values.
+
+  \code{str_fun} extracts and formats a function signature.
+  It typically formats the output
+  \code{capture.output(args(object))}.
 }
 \examples{
 x <- letters[1:10]
@@ -46,5 +53,6 @@ str_out(x)
 str_out(x, 8)
 str_out(x, Inf)
 str_out(x, quote=FALSE)
+str_fun(install.packages)
 }
 

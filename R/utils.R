@@ -4,8 +4,6 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
-library(digest)
-
 # or-NULL operator (borrowed from Hadley Wickham)
 '%||%' <- function(x, y) if( !is.null(x) ) x else y
 
@@ -83,8 +81,10 @@ Rversion <- function(){
 	paste(R.version$major, R.version$minor, sep='.')
 }
 
-#' Prints formatted list of values given as a character vector for use in show 
-#' methods or error/warning messages.
+#' Formatting Utilities
+#' 
+#' \code{str_out} formats character vectors for use in show methods or 
+#' error/warning messages.
 #' 
 #' @param x character vector
 #' @param max maximum number of values to appear in the list. If \code{x} has 
@@ -133,7 +133,7 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ")
 	paste(paste(x, collapse=sep), sep='')
 }
 
-#' Builds formatted string from a list of complex values.
+#' \code{str_desc} builds formatted string from a list of complex values.
 #' 
 #' @param object an R object
 #' @param exdent extra indentation passed to str_wrap, and used if the output 
@@ -149,6 +149,17 @@ str_desc <- function(object, exdent=0L){
 	str_wrap(str_out(p, NA, use.names=TRUE, quote=FALSE), exdent=exdent)
 }
 
+#' \code{str_fun} extracts and formats a function signature.
+#' It typically formats the output \code{capture.output(args(object))}.
+#' @rdname str_out
+#' @export
+#' @examples 
+#' str_fun(install.packages)
+str_fun <- function(object){
+	s <- capture.output(args(object))
+	paste(s[-length(s)], collapse="\n")
+}
+
 # From example in ?toupper
 capwords <- function(s, strict = FALSE) {
     cap <- function(s) paste(toupper(substring(s,1,1)),
@@ -157,7 +168,7 @@ capwords <- function(s, strict = FALSE) {
     sapply(strsplit(s, split = " "), cap, USE.NAMES = !is.null(names(s)))
 }
 
-#' Differences between strings
+#' Finding Differences Between Strings
 #' 
 #' Computes which characters differ between two strings.
 #' 
@@ -253,7 +264,7 @@ extractLocalFun <- function(f){
 #' @return a paired list like the one returned by \code{\link{formals}}. 
 #' 
 #' @export
-#' @importFrom codetools getAssignedVar
+#' @import codetools
 #' @rdname formals
 allFormals <- function(f){
 	

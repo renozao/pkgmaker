@@ -143,7 +143,7 @@ compile_src <- function(pkg=NULL, load=TRUE){
 packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 	
 	# return package namespace
-	if( !missing(pkg) ){
+	if( !missing(pkg) && !is.null(pkg) ){
 		# - if the package is loaded: use asNamespace because as.environment does not
 		# return a correct environment (don't know why)
 		# - as.environment('package:*') will return the correct environment
