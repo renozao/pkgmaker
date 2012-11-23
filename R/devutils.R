@@ -348,8 +348,9 @@ packagePath <- function(..., package=NULL, lib=NULL){
 	# when loading a package during the post-install check
 	if( is.null(path) || path == '' ){
 		# get the info from the loadingNamespace
-		if( !is.null(info <- getLoadingNamespace(info=TRUE)) )
-			path <- file.path(info$libname, info$pkgname)
+		if( !is.null(info <- getLoadingNamespace(info=TRUE)) ){
+			path <- info$path
+		}
 	}
 	stopifnot( !is.null(path) && path != '' )
 	

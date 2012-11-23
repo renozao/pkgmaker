@@ -64,8 +64,10 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 	is.loading <- try(nsInfo <- loadingNamespaceInfo(), silent=TRUE)
 	if( !is(is.loading, 'try-error') ){
 		if( env ) asNamespace(as.name(nsInfo$pkgname))
-		else if( info ) nsInfo 
-		else nsInfo$pkgname
+		else if( info ){
+			nsInfo$path <- file.path(nsInfo$libname, nsInfo$pkgname)
+			nsInfo 
+		}else nsInfo$pkgname
 		
 	}else if( !nodev ){ # devtools namespaces are allowed
 		if( is_pkgcall('devtools') && (i <- is_funcall(devtools::load_all)) ){
