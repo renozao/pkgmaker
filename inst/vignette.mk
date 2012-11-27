@@ -224,7 +224,11 @@ endif
 	$(call update_inst_doc, $*)
 
 # only run tests if not checking: CRAN check run the tests separately
+ifdef INST_TARGET
+../inst/doc/%-unitTests.pdf:
+else
 %-unitTests.pdf:
+endif
 	$(do_install)
 	# Generating vignette for unit tests: $@
 	# Using R_LIBS: $(R_LIBS)
