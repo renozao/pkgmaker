@@ -78,5 +78,5 @@ source_files <- function(x, pattern=NULL, ...){
 file_extension <- function(x, ext=NULL){
 	
 	if( is.null(ext) ) sub(".*\\.([^.]{3})$","\\1",x)
-	else str_c(sub("(.*)(\\.([^.]{3}))$","\\1", x), '.', ext)
+	else str_c(sub("(.*)(\\.([^.]{3}))$","\\1", x), '.', sub("^.", '', ext))
 }

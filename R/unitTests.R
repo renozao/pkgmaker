@@ -602,7 +602,7 @@ packageTestEnv <- function(pkg){
 	e <- packageEnv()
 	# create test environment if necessary
 	if( is.null(e$.packageTest) )
-		e$.packageTest <- new.env(e)
+		e$.packageTest <- new.env(parent=e)
 	e$.packageTest
 }
 

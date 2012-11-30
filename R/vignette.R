@@ -247,7 +247,18 @@ runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=T
 	opts_chunk$set(...)
 	
 	# run knitr
-	knit(x$file, file)
+	e <- new.env()
+	if( is.null(file) || file_extension(file) %in% c('tex', 'pdf') ){
+		ofile <- if( file_extension(file) == 'pdf' ) file else NULL 
+		knit2pdf(x$file, ofile, envir=e)
+		if( is.null(file) ){
+			# remove pdf file
+			unlink(file.path(getwd(), basename(file_extension(x$file, 'pdf'))))
+		} else if( file_extension(file) == 'tex' ){
+			# move tex file
+			file.rename(file_extension(file, 'tex'), file)
+		}
+	}else knit(x$file, file, envir=e)
 }
 
 #' @S3method runVignette rnw_sweave 
