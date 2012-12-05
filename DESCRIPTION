@@ -50,3 +50,4 @@ Collate:
     'packages.R'
     'package-extra.R'
     'colors.R'
+    'graphics.R'
