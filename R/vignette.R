@@ -248,7 +248,7 @@ runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=T
 	
 	# run knitr
 	e <- new.env()
-	if( is.null(file) || file_extension(file) %in% c('tex', 'pdf') ){
+	if( FALSE && (is.null(file) || file_extension(file) %in% c('tex', 'pdf')) ){
 		ofile <- if( file_extension(file) == 'pdf' ) file else NULL 
 		knit2pdf(x$file, ofile, envir=e)
 		if( is.null(file) ){

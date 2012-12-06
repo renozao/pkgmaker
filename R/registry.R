@@ -160,11 +160,16 @@ print.package_metaregistry <- function(x, ...){
 setPackageRegistry <- function(name, regobj, description='', ..., overwrite=FALSE){
 	
 	library(registry)
-	# TODO: change default of overwrite to FALSE
+	
 	nm <- packageName()
 	ns_str <- str_ns()
 	# get meta-registry
 	regenv <- packageRegistry()
+	
+	# force overwrite in dev mode
+	if( missing(overwrite) && isDevNamespace(nm) ){
+		overwrite <- TRUE
+	}
 	
 	oldreg <- packageRegistry(name, error=FALSE)
 	if( !is.null(oldreg) ){
