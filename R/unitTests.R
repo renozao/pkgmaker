@@ -80,13 +80,14 @@ addToLogger <- function(name, value, logger=NULL){
 	logenv <- environment(logobj$incrementCheckNum)
 
 	if( is.function(value) ){# add function to logger
-		if( is.null(logger[[name]]) ){
+		if( is.null(logobj[[name]]) ){
 			environment(value) <- logenv 
 			logobj[[name]] <- value
 			
 			# update global logger if necessary
 			if( is.null(logger) ){
-				assign('.testLogger', logobj, envir=.GlobalEnv)
+				ge <- .GlobalEnv
+				assign('.testLogger', logobj, envir=ge)
 			}
 		}
 	}else{ # assign object in logger's local environment if not already there
@@ -153,14 +154,14 @@ checkPlot <- function(expr, msg=NULL, width=1000, height=NULL){
 			.getTestData <- 
 				.currentTestSuiteName <- 
 				.currentSourceFileName <- 
-				.getCheckNum <- NULL # to trick R CMD check
+				.getCheckNum <- NULL # not to get NOTES is R CMD check
 			addToLogger('getPlotfile', 
 				function(name, msg=''){
 					
 					td <- .getTestData()
 					# TODO from test function name
 					#fname <- tail(names(td[[.currentTestSuiteName]]$sourceFileResults[[.currentSourceFileName]]), 1L)
-					fname <- basename(tempfile(str_c(.currentTestSuiteName, '_', .currentSourceFileName, '_')))
+					fname <- basename(tempfile(paste(.currentTestSuiteName, '_', .currentSourceFileName, '_', sep='')))
 					paste(fname, .getCheckNum(), sep='_')
 					
 				}

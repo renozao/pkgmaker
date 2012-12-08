@@ -43,41 +43,6 @@ R.SHLIB <- function(libname, ...){
 	R.CMD('SHLIB', '-o ', libname, .Platform$dynlib.ext, ...)
 }
 
-#' Quick Installation of a Source Package
-#' 
-#' Builds and install a minimal version of a package from its 
-#' source directory.
-#' 
-#' @param path path to the package source directory
-#' @param lib installation directory. Defaults to the user's R 
-#' default installation directory. 
-#' @param vignettes logical that indicates if the vignettes should be 
-#' rebuilt and installed.
-#' 
-#' @export
-#' 
-quickinstall <- function(path, lib=NULL, vignettes=FALSE){
-	
-	npath <- normalizePath(path)
-	nlib <- if( !is.null(lib) ) normalizePath(lib)
-	pkg <- as.package(path)
-	
-	owd <- setwd(tempdir())
-	on.exit( setwd(owd) )
-	# build
-	message("# Building package `", pkg$package, "` in '", getwd(), "'")
-	opts <- '--no-manual --no-resave-data '
-	if( !vignettes ) opts <- str_c(opts, '--no-vignettes ')
-	R.CMD('build', opts, npath)
-	spkg <- paste(pkg$package, '_', pkg$version, '.tar.gz', sep='')
-	if( !file.exists(spkg) ) stop('Error in building package `', pkg$package,'`')
-	# install
-	message("# Installing package `", pkg$package, "`", if( !is.null(lib) ) str_c("in '", nlib, "'"))
-	opts_inst <- ' --no-multiarch --no-demo --with-keep.source '
-	if( !vignettes ) opts_inst <- str_c(opts_inst, '--no-docs ')
-	R.CMD('INSTALL', if( !is.null(lib) ) paste('-l', nlib), opts_inst, spkg)
-}
-
 #' Compile Source Files from a Development Package
 #' 
 #' @param pkg the name of the package to compile
@@ -330,20 +295,25 @@ str_ns <- function(envir=packageEnv()){
 #' its source directory served by devtools. 
 #' 
 #' @param package optional name of an installed package 
-#' @param lib path to a package library where to look. If \code{NA}, then only 
-#' development packages are looked up.
+#' @param lib.loc path to a library of R packages where to search the package
 #' @param ... arguments passed to \code{\link{file.path}}.
 #' 
 #' @rdname devutils
 #' @return a character string
 #' @export
-packagePath <- function(..., package=NULL, lib=NULL){
+packagePath <- function(..., package=NULL, lib.loc=NULL){
 	
 	# try to find the path from the package's environment (namespace)
 	pname <- packageName(package)
-	# try installed package
-	path <- if( !isNA(lib) ) system.file(package=pname, lib.loc=lib)		
-
+	
+	# check if one is currently loading the namespace
+	path <- NULL
+	if( !is.null(info <- getLoadingNamespace(info=TRUE)) && info$pkgname == pname ){
+		path <- info$path
+	}else {
+		# try loaded/installed package
+		path <- find.package(package=pname, lib.loc=lib.loc, quiet=TRUE)		
+	}
 	# somehow this fails when loading an installed package but is works 
 	# when loading a package during the post-install check
 	if( is.null(path) || path == '' ){
@@ -369,9 +339,7 @@ packagePath <- function(..., package=NULL, lib=NULL){
 	file.path(path, ...)	
 }
 
-#' Tests if a package is installed
-#' 
-#' @param lib.loc path to a library of R packages where to search the package
+#' \code{isPackageInstalled} checks if a package is installed.
 #' 
 #' @rdname devutils
 #' @export
@@ -405,24 +373,99 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' as \code{'package:*'}.
 #' @param quiet a logical that indicate if an error should be thrown if a 
 #' package is not found. It is also passed to \code{\link{find.package}}.
-#' 
+#' @param extract logical that indicates if DESCRIPTION of package 
+#' source files should be extracted.
+#' In this case there will be no valid path. 
 #' 
 #' @rdname devutils
-as.package <- function(x, ..., quiet=FALSE){
+as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	
-	# check for 'package:*'
-	if( is.character(x) ){
-		i <- grep('^package:', x)
-		if( length(i) > 0L ){
-			x[i] <- sapply(sub('^package:', '', x[i]), find.package, ..., quiet=quiet)
+	
+	if( is.null(x) ) return( devtools::as.package() )
+	if( devtools::is.package(x) ) return(x)
+	
+	if( extract && grepl("\\.tar\\.gz$", x) ){ # source file
+		# extract in tempdir
+		tmp <- tempfile(x)
+		on.exit( unlink(tmp, recursive=TRUE) )
+		pkg <- sub("_[0-9.]+\\.tar\\.gz$", '', x)
+		desc <- file.path(pkg, 'DESCRIPTION')
+		untar(x, desc, exdir=tmp)
+		return(devtools:::load_pkg_description(file.path(tmp, pkg)))
+	} else { # check for 'package:*'
+		if( grepl('^package:', x) ){
+			libs <- .libPaths()
+			pkg <- sub('^package:', '', x)
+			p <- lapply(libs, find.package, package=pkg, quiet=TRUE, verbose=FALSE)
+			p <- unlist(p[sapply(p, length)>0])
+			if( !length(p) ){
+				if( !quiet )
+					stop("Could not find installed package ", pkg)
+				return()
+			}
+			x <- p[1L]
 		}
 	}
-	res <- devtools::as.package(x)
-	if( !devtools::is.package(res) ) return()
-	res	
+	# try development packages
+	res <- try(devtools::as.package(x), silent=TRUE)
+	if( !is(res, 'try-error') )
+		return(res)
+	# try loaded or installed packages
+	if( length(res <- find.package(package=x, quiet=TRUE)) )
+		return(devtools::as.package(res))
+	if( quiet )
+		stop("Could not find package ", x)
+	NULL
 }
 
 NotImplemented <- function(msg){
 	stop("Not implemented - ", msg)
 }
 
+#' Loading Package Data
+#' 
+#' Loads package data using \code{\link[utils]{data}}, but allows the user to avoid
+#' NOTEs for a \sQuote{non visible binding variable} to be thrown when checking a package.
+#' This is possible because this function returns the loaded data.
+#'  
+#' @param list character vector containing the names of the data to load.
+#' @inheritParams utils::data
+#' @param ... other arguments eventually passed to \code{\link[utils]{data}}.
+#' 
+#' @return the loaded data.
+#' 
+#' @export
+#' @examples 
+#' 
+#' \dontrun{ mydata <- packageData('mydata') }
+#' 
+packageData <- function(list, envir = .GlobalEnv, ...){
+	
+	# same as utils::data if no 'list' argument
+	if( missing(list) ) return( data(..., envir=envir) )
+	# load into environment
+	data(list=list, ..., envir = envir)
+	# return the loaded data
+	if( length(list) == 1L ) get(list, envir=envir)
+	else sapply(list, get, envir=envir, simplify=FALSE)
+	
+}
+
+#' \code{ldata} loads a package data in the parent frame.
+#' It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
+#' 
+#' @rdname packageData
+#' @export
+#' @examples
+#' 
+#' \dontrun{ 
+#' # in a package' source => won't issue a NOTE
+#' myfunction function(){
+#' 	mydata <- ldata('mydata') 
+#' }
+#' }
+#' 
+ldata <- function(list, ...){
+	e <- parent.frame()
+	packageData(list=list, ..., envir=e)
+}

@@ -4,6 +4,42 @@
 # Creation: 29 Jun 2012
 ###############################################################################
 
+
+#' Quick Installation of a Source Package
+#' 
+#' Builds and install a minimal version of a package from its 
+#' source directory.
+#' 
+#' @param path path to the package source directory
+#' @param lib installation directory. Defaults to the user's R 
+#' default installation directory. 
+#' @param vignettes logical that indicates if the vignettes should be 
+#' rebuilt and installed.
+#' 
+#' @export
+#' 
+quickinstall <- function(path, lib=NULL, vignettes=FALSE){
+	
+	npath <- normalizePath(path)
+	nlib <- if( !is.null(lib) ) normalizePath(lib)
+	pkg <- as.package(path)
+	
+	owd <- setwd(tempdir())
+	on.exit( setwd(owd) )
+	# build
+	message("# Building package `", pkg$package, "` in '", getwd(), "'")
+	opts <- '--no-manual --no-resave-data '
+	if( !vignettes ) opts <- str_c(opts, '--no-vignettes ')
+	R.CMD('build', opts, npath)
+	spkg <- paste(pkg$package, '_', pkg$version, '.tar.gz', sep='')
+	if( !file.exists(spkg) ) stop('Error in building package `', pkg$package,'`')
+	# install
+	message("# Installing package `", pkg$package, "`", if( !is.null(lib) ) str_c("in '", nlib, "'"))
+	opts_inst <- ' --no-multiarch --no-demo --with-keep.source '
+	if( !vignettes ) opts_inst <- str_c(opts_inst, '--no-docs ')
+	R.CMD('INSTALL', if( !is.null(lib) ) paste('-l', nlib), opts_inst, spkg)
+}
+
 #' Require a Package
 #' 
 #' Require a package with a custom error message
@@ -37,24 +73,46 @@ packageDependencies <- function(x, recursive=FALSE){
 	unlist(d)
 }
 
-# taken from devtools:::install_deps but add field Suggests
-install_alldeps <- function (pkg = NULL, ...) 
+#' Installing All Package Dependencies
+#' 
+#' Install all dependencies from a package source directory or 
+#' package source file. 
+#' 
+#' @param pkg package path or source file
+#' @param all logical that indicates if 'Suggests' packages
+#' should be installed.
+#' @param ... extra arguments passed to \code{\link{install.packages}}.
+#' @param dryrun logical that indicates if the packages should be 
+#' effectively installed or only shown. 
+#' 
+#' @export
+#' @examples 
+#' 
+#' try( install.dependencies('Matrix', dryrun=TRUE) )
+#' \dontrun{
+#' install.dependencies("mypackage_1.0.tar.gz", dryrun=TRUE)
+#' }
+#' 
+install.dependencies <- function (pkg = NULL, all=FALSE, ..., dryrun=FALSE) 
 {
-	pkg <- as.package(pkg)
+	pkg <- as.package(pkg, extract=TRUE)
 	#parse_deps <- devtools:::parse_deps
-	deps <- c(parse_deps(pkg$depends), parse_deps(pkg$imports), 
-			parse_deps(pkg$linkingto), parse_deps(pkg$suggests))
-	not.installed <- function(x) length(find.package(x, quiet = TRUE)) == 
-				0
+	deps <- c(parse_deps(pkg$depends)
+			, parse_deps(pkg$imports) 
+			, parse_deps(pkg$linkingto)
+			, if( isTRUE(all) ) parse_deps(pkg$suggests) )
+	not.installed <- function(x) length(find.package(x, quiet = TRUE)) == 0
+	message("Package dependencies for ", pkg$package, ": ", str_out(deps, Inf))
 	deps <- Filter(not.installed, deps)
-	if (length(deps) == 0) 
+	if (length(deps) == 0){
+		message("Missing: none")
 		return(invisible())
-	message("Installing dependencies for ", pkg$package, ":\n", 
-			paste(deps, collapse = ", "))
-	install.packages(deps, ...)
+	}
+	message("Missing: ", str_out(deps, Inf))
+	message("Installing ", length(deps), " dependencies for ", pkg$package)
+	if( !dryrun ) install.packages(deps, ...)
 	invisible(deps)
 }
-
 
 #' Setting Mirrors and Repositories
 #' 

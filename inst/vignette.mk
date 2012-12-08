@@ -202,7 +202,7 @@ ifdef USE_PDFLATEX
 	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
 ifndef QUICK
 	# Compact vignettes
-	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf')"
+	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf', gs_quality = 'ebook')"
 endif
 	# Remove temporary LaTeX files (but keep the .tex)
 	rm -fr $(VIGNETTE_BASENAME).toc $(VIGNETTE_BASENAME).log \
@@ -236,7 +236,7 @@ endif
 ifdef LOCAL_MODE
 	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))
 	# Compact vignette file
-	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf')"
+	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf', gs_quality = 'ebook')"
 endif
 	$(call update_inst_doc, $*-unitTests)
 	

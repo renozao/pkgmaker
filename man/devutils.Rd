@@ -20,11 +20,11 @@
 
   str_ns(envir = packageEnv())
 
-  packagePath(..., package = NULL, lib = NULL)
+  packagePath(..., package = NULL, lib.loc = NULL)
 
   isPackageInstalled(..., lib.loc = NULL)
 
-  as.package(x, ..., quiet = FALSE)
+  as.package(x, ..., quiet = FALSE, extract = FALSE)
 }
 \arguments{
   \item{pkg}{package name. If missing the environment of
@@ -58,13 +58,10 @@
 
   \item{package}{optional name of an installed package}
 
-  \item{lib}{path to a package library where to look. If
-  \code{NA}, then only development packages are looked up.}
-
-  \item{...}{arguments passed to \code{\link{file.path}}.}
-
   \item{lib.loc}{path to a library of R packages where to
   search the package}
+
+  \item{...}{arguments passed to \code{\link{file.path}}.}
 
   \item{x}{package specified by its
   installation/development path or its name as
@@ -73,6 +70,10 @@
   \item{quiet}{a logical that indicate if an error should
   be thrown if a package is not found. It is also passed to
   \code{\link{find.package}}.}
+
+  \item{extract}{logical that indicates if DESCRIPTION of
+  package source files should be extracted. In this case
+  there will be no valid path.}
 }
 \value{
   \code{packageEnv} returns an environment
@@ -115,7 +116,8 @@
   the case of an installed package, or its source directory
   served by devtools.
 
-  Tests if a package is installed
+  \code{isPackageInstalled} checks if a package is
+  installed.
 
   \code{as.package} is enhanced version of
   \code{\link[devtools]{as.package}}, that is not exported

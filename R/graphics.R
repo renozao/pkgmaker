@@ -25,7 +25,7 @@ NULL
 #' mfrow(4)
 #' mfrow(10)
 mfrow <- function(n){
-	if( n == 1 ) 1
+	if( n == 1 ) c(1, 1)
 	else if( n == 2 ) c(1, 2)
 	else if( n <= 4 ) c(2, 2)
 	else if( n <= 6 ) c(3, 2)
@@ -36,3 +36,14 @@ mfrow <- function(n){
 	}
 }
 
+round.pretty <- function(x, min=2){
+	
+	if( is.null(x) ) return(NULL)		
+	n <- 0
+	y <- round(sort(x), n)
+	while( any(diff(y)==0) ){
+		n <- n+1
+		y <- round(sort(x), n)
+	}	
+	round(x, max(min,n))
+}

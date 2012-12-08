@@ -34,6 +34,12 @@ setupPackageOptions <- function(..., NAME=NULL, ENVIR=parent.frame(), RESET=FALS
 	
 	defaults <- .list_or_named_dots(...)
 	
+	# do not write into the Global environment
+	e <- parent.frame()
+	if( missing(ENVIR) && identical(e, .GlobalEnv) ){
+		ENVIR <- NULL
+	}
+	
 	# get calling package
 	pkg <- packageName(.Global=TRUE)
 	

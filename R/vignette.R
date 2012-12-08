@@ -288,6 +288,8 @@ runVignette.rnw_sweave <- function(x, file=NULL, ...){
 #' @rdname vignette
 #' @export
 rnw <- function(x, file=NULL, ..., raw=FALSE){
+	
+	library(methods)
 	# load rnw file
 	x <- as.rnw(x, ...)	
 	
@@ -578,6 +580,7 @@ quick_install <- function(path, ..., lib.loc){
 vignetteMakefile <- function(user=NULL, package=NULL, skip=NULL
 							, print=TRUE, template=NULL, temp=FALSE){
 	
+	library(methods)
 	## create makefile from template
 	# load template makefile
 	if( is.null(template) )
