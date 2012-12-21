@@ -15,10 +15,19 @@ NULL
 #' 
 #' @param ... extra arguments that are concatenated and appended to 
 #' the command. 
+#' @param lib.loc logical that indicates if the current library locations
+#' should be used.
+#' If a character vector, then it is used as the library path specification.
 #' 
 #' @export
-R.exec <- function(...){
+R.exec <- function(..., lib.loc=TRUE){
 	cmd <- paste(file.path(R.home(), 'bin', 'R'), ' ', ..., sep='', collapse='')
+	# add lib path
+	if( isTRUE(lib.loc) ) lib.loc <- .libPaths()
+	if( !isNA(lib.loc) ){
+		lib.loc <- paste(.libPaths(), collapse=':')
+		cmd <- paste("R_LIBS=", lib.loc, ' ', cmd, sep='')
+	}
 	message(cmd)
 	system(cmd)
 }

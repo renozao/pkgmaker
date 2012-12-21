@@ -4,7 +4,7 @@
 \alias{R.SHLIB}
 \title{Executing R Commands}
 \usage{
-  R.exec(...)
+  R.exec(..., lib.loc = TRUE)
 
   R.CMD(cmd, ...)
 
@@ -13,6 +13,10 @@
 \arguments{
   \item{...}{extra arguments that are concatenated and
   appended to the command.}
+
+  \item{lib.loc}{logical that indicates if the current
+  library locations should be used. If a character vector,
+  then it is used as the library path specification.}
 
   \item{cmd}{command to run, e.g. \sQuote{check} or
   \sQuote{INSTALL}.}
