@@ -5,7 +5,11 @@
 ###############################################################################
 
 path.protect <- function(...){
-  paste('"', file.path(...), '"', sep='')
+  f <- file.path(...)
+  if( .Platform$OS.type == 'windows' ){
+    f <- gsub("\\\\", "/", f)
+  }
+  paste('"', f, '"', sep='')
 }
 
 #' Quick Installation of a Source Package
