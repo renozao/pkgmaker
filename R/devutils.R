@@ -9,6 +9,28 @@
 #' @include logging.R
 NULL
 
+set_libPaths <- function(lib.loc=NULL){
+  ol <- Sys.getenv('R_LIBS')
+  olib <- .libPaths()
+  res <- list(R_LIBS=ol, .libPaths=olib)
+  if( isNA(lib.loc) ) return(res)
+  
+  # add lib path
+  if( is.null(lib.loc) ) lib.loc <- .libPaths()
+  if( is.character(lib.loc) ){
+    # current .libPaths
+    .libPaths(lib.loc)
+    # R_LIBS env variable
+    rlibs <- paste(lib.loc, collapse=.Platform$path.sep)
+    Sys.setenv(R_LIBS=rlibs)
+  }else if( is.list(lib.loc) ){
+    Sys.setenv(R_LIBS=lib.loc$R_LIBS)
+    .libPaths(lib.loc$.libPaths)
+  }
+  
+  res
+}
+
 #' Executing R Commands
 #' 
 #' \code{R.exec} executes a single R command via \code{\link{system2}}.
@@ -20,16 +42,14 @@ NULL
 #' If a character vector, then it is used as the library path specification.
 #' 
 #' @export
-R.exec <- function(..., lib.loc=TRUE){
-	cmd <- paste(file.path(R.home(), 'bin', 'R'), ' ', ..., sep='', collapse='')
+R.exec <- function(..., lib.loc=NULL){
+	cmd <- paste(file.path(R.home('bin'), 'R'), ' ', ..., sep='', collapse='')
 	# add lib path
-	if( isTRUE(lib.loc) ) lib.loc <- .libPaths()
-	if( !isNA(lib.loc) ){
-		lib.loc <- paste(.libPaths(), collapse=':')
-		cmd <- paste("R_LIBS=", lib.loc, ' ', cmd, sep='')
-	}
+	ol <- set_libPaths(lib.loc)
+	on.exit(set_libPaths(ol))
+
 	message(cmd)
-	system(cmd)
+	system(cmd, intern=TRUE)
 }
 
 #' \code{R.CMD} executes R CMD commands.
@@ -200,7 +220,7 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	while( i <= nf && length(res) < n ){
 		e <- sys.frame(i)
 		if( !strict || !identical(e, .GlobalEnv) ){
-			pkg <- getPackageName(e, create=FALSE)
+			pkg <- methods::getPackageName(e, create=FALSE)
 			if( pkg != '' ){
 				res <- c(res, pkg)
 			}
@@ -211,7 +231,7 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	if( !length(res) ){# try with packageEnv
 		e <- packageEnv(skip=TRUE)
 		if( isNamespace(e) ){
-			res <- getPackageName(e)
+			res <- methods::getPackageName(e)
 #			print(res)
 		}else{
 			#warning('Could not find top namespace.', immediate.=TRUE)
