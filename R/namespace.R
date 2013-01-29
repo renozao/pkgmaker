@@ -34,7 +34,7 @@ pkg_calls <- function(){
 		f <- sys.function(i)
 		e <- environment(f)
 		if( !is.null(e) ){
-			pkg <- getPackageName(e, create=FALSE)
+			pkg <- methods::getPackageName(e, create=FALSE)
 			if( pkg != '' ) res <- c(res, pkg)
 		}
 		i <- i + 1
@@ -121,7 +121,7 @@ isNamespaceLoaded <- function(name){
 isDevNamespace <- function(name){
 	if( missing(name) ){
 		e <- parent.frame()
-		name <- getPackageName(topenv(e))
+		name <- methods::getPackageName(topenv(e))
 	}
 	
 	# cannot be true if the namespace is not loaded
