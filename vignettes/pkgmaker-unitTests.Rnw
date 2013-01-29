@@ -17,7 +17,7 @@ authors <- packageDescription(pkg)$Author
 
 \usepackage[colorlinks]{hyperref}
 \author{\Sexpr{authors}}
-\title{\texttt{\Sexpr{pkg}}: Unit testing results\footnote{Vignette computed  on Fri Dec  7 07:42:11 2012}}
+\title{\texttt{\Sexpr{pkg}}: Unit testing results\footnote{Vignette computed  on Tue Jan 29 10:16:16 2013}}
 \date{\texttt{\Sexpr{pkg}} version \Sexpr{prettyVersion} as of \Sexpr{prettyDate}}
 \begin{document}
 \maketitle
@@ -25,7 +25,7 @@ authors <- packageDescription(pkg)$Author
 \section{Details}
 \begin{verbatim}
 
-RUNIT TEST PROTOCOL -- Fri Dec  7 07:42:11 2012 
+RUNIT TEST PROTOCOL -- Tue Jan 29 10:16:15 2013 
 *********************************************** 
 Number of test functions: 4 
 Number of errors: 0 
@@ -43,32 +43,32 @@ Test Suite: package:pkgmaker
 Test function regexp: ^test. 
 Test file regexp: ^runit.*.[rR]$ 
 Involved directory: 
-/tmp/tmp.CEhtgyPStF/pkgmaker/tests 
+C:UsersShenorrLab.MEDICINEAppDataLocalTempRpkglib_14941d1f12d0pkgmakertests 
 --------------------------- 
-Test file: /tmp/tmp.CEhtgyPStF/pkgmaker/tests/runit.options.r 
-test.option_link: (12 checks) ... OK (0.01 seconds)
-test.resetOptions: (9 checks) ... OK (0.01 seconds)
+Test file: C:UsersShenorrLab.MEDICINEAppDataLocalTempRpkglib_14941d1f12d0pkgmakertests/runit.options.r 
+test.option_link: (12 checks) ... OK (0.02 seconds)
+test.resetOptions: (9 checks) ... OK (0 seconds)
 --------------------------- 
-Test file: /tmp/tmp.CEhtgyPStF/pkgmaker/tests/runit.utils.r 
-test.errorCheck: (8 checks) ... OK (0 seconds)
-test.ExposeAttribute: (20 checks) ... OK (0.02 seconds)
+Test file: C:UsersShenorrLab.MEDICINEAppDataLocalTempRpkglib_14941d1f12d0pkgmakertests/runit.utils.r 
+test.errorCheck: (8 checks) ... OK (0.02 seconds)
+test.ExposeAttribute: (20 checks) ... OK (0.05 seconds)
 
 Total execution time
 ***************************
    user  system elapsed 
-  0.164   0.000   0.165 
+   0.18    0.02    0.20 
 
 \end{verbatim}
 
 \section*{Session Information}
 \begin{itemize}\raggedright
-  \item R version 2.15.2 (2012-10-26), \verb|i686-pc-linux-gnu|
-  \item Locale: \verb|LC_CTYPE=en_ZA.UTF-8|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=en_ZA.UTF-8|, \verb|LC_COLLATE=en_ZA.UTF-8|, \verb|LC_MONETARY=en_ZA.UTF-8|, \verb|LC_MESSAGES=en_ZA.UTF-8|, \verb|LC_PAPER=C|, \verb|LC_NAME=C|, \verb|LC_ADDRESS=C|, \verb|LC_TELEPHONE=C|, \verb|LC_MEASUREMENT=en_ZA.UTF-8|, \verb|LC_IDENTIFICATION=C|
+  \item R version 2.15.2 (2012-10-26), \verb|i386-w64-mingw32|
+  \item Locale: \verb|LC_COLLATE=English_United Kingdom.1252|, \verb|LC_CTYPE=English_United Kingdom.1252|, \verb|LC_MONETARY=English_United Kingdom.1252|, \verb|LC_NUMERIC=C|, \verb|LC_TIME=English_United Kingdom.1252|
   \item Base packages: base, datasets, graphics, grDevices, methods,
     stats, utils
-  \item Other packages: pkgmaker~0.10.1, RUnit~0.4.26, stringr~0.6.1
+  \item Other packages: pkgmaker~0.10.4, RUnit~0.4.26, stringr~0.6.2
   \item Loaded via a namespace (and not attached): codetools~0.2-8,
-    digest~0.5.2, plyr~1.7.1, xtable~1.7-0
+    digest~0.6.0, xtable~1.7-0
 \end{itemize}
 
 \end{document}

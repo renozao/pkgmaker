@@ -5,3 +5,5 @@ vignettes/Rpackages\.bib
 vignettes/.*\.tex
 vignettes/vignette.mk$
 ^README.md$
+^.*\.Rproj$
+^\.Rproj\.user$

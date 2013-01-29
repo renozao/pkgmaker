@@ -4,7 +4,7 @@
 \alias{R.SHLIB}
 \title{Executing R Commands}
 \usage{
-  R.exec(..., lib.loc = TRUE)
+  R.exec(..., lib.loc = NULL)
 
   R.CMD(cmd, ...)
 
