@@ -23,9 +23,9 @@
 
   rnwChildren(x)
 
-  vignetteMakefile(user = NULL, package = NULL,
-    skip = NULL, print = TRUE, template = NULL,
-    temp = FALSE)
+  vignetteMakefile(package = NULL, skip = NULL,
+    print = TRUE, template = NULL, temp = FALSE,
+    checkMode = isCRANcheck(), user = NULL)
 }
 \arguments{
   \item{x}{vignette source file specification as a path or
@@ -51,10 +51,6 @@
   when building a vignette directly from a package's
   \code{'vignettes'} sub-directory.}
 
-  \item{user}{username of the package's author. It is used
-  to compile the vignette differently when called locally
-  or on CRAN check machines.}
-
   \item{skip}{Vignette files to skip (basename).}
 
   \item{print}{logical that specifies if the path should be
@@ -68,6 +64,16 @@
   \item{temp}{logical that indicates if the generated
   makefile should using a temporary filename (\code{TRUE}),
   or simply named \dQuote{vignette.mk}}
+
+  \item{checkMode}{logical that indicates if the vignettes
+  should be generated as in a CRAN check (\code{TRUE}) or
+  in development mode, in which case \code{pdflatex},
+  \code{bibtex}, and, optionally, \code{qpdf} are
+  required.}
+
+  \item{user}{character vector containing usernames that
+  enforce \code{checkMode=TRUE}, if the function is called
+  from within their session.}
 }
 \description{
   \code{rnw} provides a unified interface to run vignettes

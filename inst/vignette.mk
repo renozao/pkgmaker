@@ -54,7 +54,6 @@ ifdef LOCAL_MODE
 USE_PDFLATEX=1
 endif
 
-export R_LIBS=$(shell pwd)/../../lib
 export MAKE_R_PACKAGE
 
 ifdef LOCAL_MODE
@@ -74,16 +73,22 @@ ifndef install
 install=yes
 endif
 
+ifneq ('$(install)', 'no')
 ifeq ('$(install)','yes')
 # install in temporary directory at each run
-TMP_INSTALL_DIR:=$(shell mktemp -d)
+TMP_INSTALL_DIR:=#%TMP_INSTALL_DIR%#
+FORCE_INSTALL:=TRUE
 else
 ifeq ('$(install)','quick')
 QUICK=1
-$(shell mkdir -p tmplib)
-TMP_INSTALL_DIR:=tmplib
+FORCE_INSTALL:=FALSE
+TMP_INSTALL_DIR:='tmplib'
 endif
 endif
+
+# export R_LIBS
+export R_LIBS:=#%R_LIBS_DEV%#
+endif # end install pkg
 
 endif #end not R_CHECK
 
@@ -91,30 +96,30 @@ endif #end not R_CHECK
 # Define command for temporary installation (used when make is directly called,
 # i.e. when not in check/build/INSTALL)
 ifdef TMP_INSTALL_DIR
-define do_install
-  @if [ ! -d "$(TMP_INSTALL_DIR)" ]; then \
-  	echo "ERROR: installation directory '$(TMP_INSTALL_DIR)' does not exist."; \
-  	exit 1; \
-  fi
-  
+define do_install  
   @if [ ! -d "$(TMP_INSTALL_DIR)/$(MAKE_R_PACKAGE)" ]; then \
-		echo "# Installing the package in tempdir '$(TMP_INSTALL_DIR)'"; \
-  	$(eval R_LIBS := $(TMP_INSTALL_DIR):$(R_LIBS)) \
-  	echo "# Using R_LIBS: $(R_LIBS)"; \
-  	$(RSCRIPT) --vanilla --quiet -e "pkgmaker::quickinstall('..', lib='$(TMP_INSTALL_DIR)')" > Rinstall.log 2> Rinstall.err; \
-  	if [ ! -d "$(TMP_INSTALL_DIR)/$(MAKE_R_PACKAGE)" ]; then \
-  		echo "ERROR: Temporary installation failed: see files Rinstall.log and Rinstall.err"; \
-  		echo "# Removing temporary library directory $(TMP_INSTALL_DIR)"; \
-  		exit 1; \
-  	else \
-  		echo "# Package successfully installed"; \
-  	fi \
+	echo "# Installing package '$(MAKE_R_PACKAGE)' in '$(TMP_INSTALL_DIR)' "; \
+	$(RSCRIPT) --vanilla --quiet -e "pkgmaker::quickinstall('..', '$(TMP_INSTALL_DIR)')" > Rinstall.log 2> Rinstall.err; \
+	if [ ! -d "$(TMP_INSTALL_DIR)/$(MAKE_R_PACKAGE)" ]; then \
+		echo "ERROR: Temporary installation failed: see files Rinstall.log and Rinstall.err"; \
+		echo "# Removing temporary library directory $(TMP_INSTALL_DIR)"; \
+		exit 1; \
+	else \
+		echo "# Package successfully installed"; \
+	fi \
   fi
 endef
 else
 define do_install
 endef	
 endif
+
+define showInfo
+  @echo "# Using R home: $(R_HOME)"
+  @echo "# Using R architecture: $(R_ARCH_BIN)"
+  @echo "# Using R bin directory: $(R_BIN)"
+  @echo "# Using R_LIBS: $(R_LIBS)"
+endef
 
 #%INST_TARGET%#
 ifdef INST_TARGET
@@ -131,8 +136,11 @@ all: init $(PDF_OBJS) do_clean
 	@echo "# All vignettes in 'vignettes' are up to date"
 
 init:
-	# Generating vignettes for package $(MAKE_R_PACKAGE)
-	# Maintainer(s): #%USER%#
+	# Generating vignettes for package '$(MAKE_R_PACKAGE)'
+	# User: #%VIGNETTE_USER%#
+	# Maintainer(s): #%VIGNETTE_MAINTAINERS%#
+	$(showInfo)
+
 ifdef LOCAL_MODE
 	# Mode: Local Development [$(LOCAL_MODE)]
 else
@@ -161,11 +169,11 @@ clean-all: clean
 	rm -fr $(TEX_OBJS) $(PDF_OBJS) $(RNW_SRCS)
 
 setvars:
-ifeq (${R_HOME},)
-R_HOME=	$(shell R RHOME)
+ifeq (${R_BIN},)
+R_BIN=#%R_BIN%#
 endif
-RPROG=	$(R_HOME)/bin/R
-RSCRIPT=$(R_HOME)/bin/Rscript
+RPROG:=$(R_BIN)/R
+RSCRIPT:=$(R_BIN)/Rscript
 
 .SECONDARY: %.tex
 
@@ -181,33 +189,29 @@ ifdef INST_TARGET
 else
 %.pdf: ${SRC_DIR}/%.Rnw
 endif
-	$(do_install)
 	# Generating vignette $@ from ${SRC_DIR}/$*.Rnw
-	# Using R_LIBS: $(R_LIBS)
+	$(showInfo)
+	$(do_install)
 	# Compiling ${SRC_DIR}/$*.Rnw into $*.tex
 	$(RSCRIPT) --vanilla -e "pkgmaker::rnw('${SRC_DIR}/$*.Rnw', '$*.tex');"
-		
 	# Generating pdf $@ from $*.tex
 ifdef MAKEPDF
 ifdef USE_PDFLATEX
-	$(eval VIGNETTE_BASENAME := $*)
 	# Using pdflatex
 	# LaTeX compilation 1/3
-	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
+	@pdflatex $* >> $*-pdflatex.log
 	# Compiling bibliography with bibtex
-	-bibtex $(VIGNETTE_BASENAME)
+	-bibtex $*
 	# LaTeX compilation 2/3
-	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
+	@pdflatex $* >> $*-pdflatex.log
 	# LaTeX compilation 3/3
-	@pdflatex $(VIGNETTE_BASENAME) >> $(VIGNETTE_BASENAME)-pdflatex.log
+	@pdflatex $* >> $*-pdflatex.log
 ifndef QUICK
 	# Compact vignettes
-	$(RSCRIPT) --vanilla -e "tools::compactPDF('$(VIGNETTE_BASENAME).pdf', gs_quality = 'ebook')"
+	$(RSCRIPT) --vanilla -e "tools::compactPDF('$*.pdf', gs_quality = 'ebook')"
 endif
 	# Remove temporary LaTeX files (but keep the .tex)
-	rm -fr $(VIGNETTE_BASENAME).toc $(VIGNETTE_BASENAME).log \
-	$(VIGNETTE_BASENAME).bbl $(VIGNETTE_BASENAME).blg \
-	$(VIGNETTE_BASENAME).aux $(VIGNETTE_BASENAME).out $(VIGNETTE_BASENAME)-blx.bib	
+	rm -fr $*.toc $*.log $*.bbl $*.blg $*.aux $*.out $*-blx.bib	
 	
 else
 	# Using tools::texi2dvi
@@ -231,7 +235,8 @@ else
 endif
 	$(do_install)
 	# Generating vignette for unit tests: $@
-	# Using R_LIBS: $(R_LIBS)
+	$(showInfo)
+	$(do_install)
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
 ifdef LOCAL_MODE
 	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))
