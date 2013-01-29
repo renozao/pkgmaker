@@ -4,6 +4,9 @@
 # Creation: 29 Jun 2012
 ###############################################################################
 
+path.protect <- function(...){
+  paste('"', file.path(...), '"', sep='')
+}
 
 #' Quick Installation of a Source Package
 #' 
@@ -11,34 +14,88 @@
 #' source directory.
 #' 
 #' @param path path to the package source directory
-#' @param destdir installation directory. Defaults to the user's R 
-#' default installation directory. 
+#' @param destdir installation directory. 
+#' If \code{NULL}, the package is installed in the default installation library.
+#' If \code{NA}, the package is installed in a temporary directory, whose path is returned
+#' as a value.
 #' @param vignettes logical that indicates if the vignettes should be 
 #' rebuilt and installed.
-#' @param ... extra arguments passed to \code{\link{R.CMD}} (e.g., \var{lib.loc})
+#' @param force logical that indicates if the package should be installed even if a previous
+#' installation exists in the installation library.
+#' @param ... extra arguments passed to \code{\link{R.CMD}}
+#' @param lib.loc library specification.
+#' If \code{TRUE} then the installation directory \code{destdir} is added to the default 
+#' library paths.
+#' This can be usefull if dependencies are installed in this directory.
+#' If \code{NULL}, then the default library path is left unchanged.
+#' 
+#' @return The path of the library where the package was installed.
 #' 
 #' @export
 #' 
-quickinstall <- function(path, destdir=NULL, vignettes=FALSE, ...){
+quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., lib.loc=if(!is.null(destdir)) TRUE){
 	
 	npath <- normalizePath(path)
-	nlib <- if( !is.null(destdir) ) normalizePath(destdir)
 	pkg <- as.package(path)
+  
+  # define installation library
+	nlib <- if( !is.null(destdir) ) destdir
+  else if( isNA(destdir) ) tempfile("pkglib_")
+  
+  # normalize path
+  if( !is.null(nlib) ){
+    # create direcory if needed
+    if( !is.dir(nlib) ) dir.create(nlib, recursive=TRUE)
+    nlib <- normalizePath(nlib)
+    
+    if( !is.dir(nlib) ){
+      stop("Could not install package '", pkg$package, "': installation directory '", nlib, "' does not exist.")
+    }
+    
+    # add destination directory to default libraries
+    if( isTRUE(lib.loc) ) lib.loc <- unique(c(nlib, .libPaths()))
+  }
+  
+  # setup result string
+	res <- invisible(if( !is.null(destdir) ) nlib else .libPaths()[1L])
+  
+  # early exit if the package already exists in the library (and not forcing install)
+	message("# Check for previous package installation ... ", appendLF=FALSE)
+  if( !is.null(destdir) && is.dir(file.path(nlib, pkg$package)) ){
+    if( !force ){
+      message("YES (skip)")
+      return(res)
+    }
+    message("YES (replace)")
+  }else message("NO")
+  
+	# add lib path
+	ol <- set_libPaths(lib.loc)
+	on.exit(set_libPaths(ol), add=TRUE)
+	message("Using R Libraries: ", str_out(.libPaths(), Inf))
 	
 	owd <- setwd(tempdir())
-	on.exit( setwd(owd) )
+	on.exit( setwd(owd), add=TRUE)
+  
 	# build
 	message("# Building package `", pkg$package, "` in '", getwd(), "'")
 	opts <- '--no-manual --no-resave-data '
 	if( !vignettes ) opts <- str_c(opts, '--no-vignettes ')
-	R.CMD('build', opts, npath, ...)
+	R.CMD('build', opts, path.protect(npath), ...)
 	spkg <- paste(pkg$package, '_', pkg$version, '.tar.gz', sep='')
 	if( !file.exists(spkg) ) stop('Error in building package `', pkg$package,'`')
 	# install
-	message("# Installing package `", pkg$package, "`", if( !is.null(destdir) ) str_c("in '", nlib, "'"))
-	opts_inst <- ' --no-multiarch --no-demo --with-keep.source '
+	message("# Installing package `", pkg$package, "`"
+          , if( !is.null(destdir) ){
+            tmp <- if( isNA(destdir) ) 'temporary '
+            str_c("in ", tmp, "'", nlib, "'")
+          })
+  opts_inst <- ' --no-multiarch --no-demo --with-keep.source '
 	if( !vignettes ) opts_inst <- str_c(opts_inst, '--no-docs ')
-	R.CMD('INSTALL', if( !is.null(destdir) ) paste('-l', nlib), opts_inst, spkg, ...)
+	R.CMD('INSTALL', if( !is.null(destdir) ) paste('-l', path.protect(nlib)), opts_inst, path.protect(spkg), ...)
+  
+  # return installation library
+	invisible(res)
 }
 
 #' Require a Package
@@ -260,3 +317,32 @@ add_lib <- function(..., append=FALSE){
 	else c(..., .libPaths())
 	.libPaths(p)
 }
+
+
+#' Package Check Utils
+#' 
+#' \code{isCRANcheck} tells if one is running CRAN check.
+#' 
+#' @param what type of CRAN check to test for.
+#' Possible values are:
+#' \describe{
+#' \item{\code{'timing'}}{Check if the flag \code{'--timing'} was set.}
+#' }
+#' 
+#' @references Adapted from the function \code{CRAN}
+#' in the \pkg{fda} package.
+#' 
+#' @export
+isCRANcheck <- function(what='timing'){
+  
+  envar <- c(timing="_R_CHECK_TIMINGS_")
+  x <- envar[what]
+  
+  x. <- unlist(setNames(lapply(x, Sys.getenv), what))
+  nchar(as.character(x.)) > 0
+}
+#' \code{isCRAN_timing} tells if one is running CRAN check with flag \code{'--timing'}.
+#' 
+#' @export
+#' @rdname isCRANcheck
+isCRAN_timing <- function() isCRANcheck('timing')
