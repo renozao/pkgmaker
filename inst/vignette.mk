@@ -82,7 +82,7 @@ else
 ifeq ('$(install)','quick')
 QUICK=1
 FORCE_INSTALL:=FALSE
-TMP_INSTALL_DIR:='tmplib'
+TMP_INSTALL_DIR:=tmplib
 endif
 endif
 
@@ -190,7 +190,6 @@ else
 %.pdf: ${SRC_DIR}/%.Rnw
 endif
 	# Generating vignette $@ from ${SRC_DIR}/$*.Rnw
-	$(showInfo)
 	$(do_install)
 	# Compiling ${SRC_DIR}/$*.Rnw into $*.tex
 	$(RSCRIPT) --vanilla -e "pkgmaker::rnw('${SRC_DIR}/$*.Rnw', '$*.tex');"
@@ -233,9 +232,7 @@ ifdef INST_TARGET
 else
 %-unitTests.pdf:
 endif
-	$(do_install)
 	# Generating vignette for unit tests: $@
-	$(showInfo)
 	$(do_install)
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
 ifdef LOCAL_MODE
