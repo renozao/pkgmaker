@@ -90,19 +90,21 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 
 #' Tests if a namespace is being loaded.
 #' 
-#' @param name the name of a namespace whose loading state is tested.
+#' @param ns the name of a namespace or a namespace whose loading state is tested.
 #' If missing \code{isLoadingNamespace} test if any namespace is being loaded.
 #' @param nodev logical that indicates if loading devtools namespace should 
 #' be discarded.
 #' 
 #' @rdname namespace
 #' @export
-isLoadingNamespace <- function(name, nodev=FALSE){
+isLoadingNamespace <- function(ns, nodev=FALSE){
 	
-	nspkg <- getLoadingNamespace(nodev=nodev)
-	if( missing(name) ) !is.null(nspkg)
-	else if( is.null(nspkg) ) FALSE
-	else nspkg == name
+	if( missing(ns) ) !is.null(getLoadingNamespace(nodev=nodev))
+	else{
+		nspkg <- getLoadingNamespace(nodev=nodev, env=is.environment(ns))
+		if( is.null(nspkg) ) FALSE
+		else identical(nspkg, ns)
+	}
 }
 
 #' \code{isNamespaceLoaded} tests if a given namespace is loaded, without loading it, 
@@ -110,24 +112,29 @@ isLoadingNamespace <- function(name, nodev=FALSE){
 #' 
 #' @rdname namespace
 #' @export
-isNamespaceLoaded <- function(name){
-	name %in% loadedNamespaces()
+isNamespaceLoaded <- function(ns){
+	if( is.environment(ns) ){
+		if( !isNamespace(ns) ) return(FALSE)
+		else ns <- getPackageName(ns)
+	}
+	if( isString(ns) ) ns %in% loadedNamespaces()
+	else stop("Invalid argument `ns`: only support strings and environments.")
 }
 
 #' \code{isDevNamespace} tests the -- current -- namespace is a devtools namespace.
 #' 
 #' @rdname namespace
 #' @export
-isDevNamespace <- function(name){
-	if( missing(name) ){
+isDevNamespace <- function(ns){
+	if( missing(ns) ){
 		e <- parent.frame()
-		name <- methods::getPackageName(topenv(e))
+		ns <- methods::getPackageName(topenv(e))
 	}
 	
 	# cannot be true if the namespace is not loaded
-	if( !isNamespaceLoaded(name) ) return( FALSE )
+	if( !isNamespaceLoaded(ns) ) return( FALSE )
 	# get the namespace environment
-	ns <- asNamespace(name)
+	if( isString(ns) ) ns <- asNamespace(ns)
 	# check for the presence of a .__DEVTOOLS__ object
 	exists('.__DEVTOOLS__', where=ns)
 	
