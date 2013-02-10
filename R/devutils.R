@@ -142,9 +142,10 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 		# return a correct environment (don't know why)
 		# - as.environment('package:*') will return the correct environment
 		# in dev mode.
-		env <- 
-		if( !is.null(path.package(pkg, quiet=TRUE)) ) asNamespace(pkg)
+		env <- if( is.environment(pkg) ) topenv(pkg)
+		else if( !is.null(path.package(pkg, quiet=TRUE)) ) asNamespace(pkg)
 		else if( isLoadingNamespace(pkg) ) getLoadingNamespace(env=TRUE)
+		else if( isNamespaceLoaded(pkg) ) asNamespace(pkg)
 		else if( pkg %in% search() ) as.environment(pkg)
 		else as.environment(str_c('package:', pkg)) # dev mode
 		return(env)
