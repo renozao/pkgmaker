@@ -1,6 +1,6 @@
 \name{isCRANcheck}
-\alias{isCRAN_timing}
 \alias{isCRANcheck}
+\alias{isCRAN_timing}
 \title{Package Check Utils}
 \usage{
   isCRANcheck(what = "timing")

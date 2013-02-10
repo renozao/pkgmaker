@@ -1,10 +1,10 @@
 \name{option_symlink}
-\alias{[[.package_options}
 \alias{as.package_options}
 \alias{is_option_symlink}
 \alias{listPackageOptions}
 \alias{option_symlink}
 \alias{option_symlink_target}
+\alias{[[.package_options}
 \alias{packageOptions}
 \title{\code{option_symlink} creates a symbolic link to option \code{x}.}
 \usage{

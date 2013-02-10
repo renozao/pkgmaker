@@ -1,9 +1,9 @@
 \docType{methods}
 \name{utest}
 \alias{utest}
-\alias{utest-methods}
 \alias{utest,character-method}
 \alias{utest,function-method}
+\alias{utest-methods}
 \alias{utest,RUnitTestSuite-method}
 \title{Running Unit Tests}
 \usage{

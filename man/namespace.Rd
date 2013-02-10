@@ -9,11 +9,11 @@
   getLoadingNamespace(env = FALSE, info = FALSE,
     nodev = FALSE)
 
-  isLoadingNamespace(name, nodev = FALSE)
+  isLoadingNamespace(ns, nodev = FALSE)
 
-  isNamespaceLoaded(name)
+  isNamespaceLoaded(ns)
 
-  isDevNamespace(name)
+  isDevNamespace(ns)
 
   addNamespaceExport(x)
 }
@@ -25,9 +25,10 @@
   \item{info}{logical that indicates that the complete
   information list should be returned}
 
-  \item{name}{the name of a namespace whose loading state
-  is tested. If missing \code{isLoadingNamespace} test if
-  any namespace is being loaded.}
+  \item{ns}{the name of a namespace or a namespace whose
+  loading state is tested. If missing
+  \code{isLoadingNamespace} test if any namespace is being
+  loaded.}
 
   \item{nodev}{logical that indicates if loading devtools
   namespace should be discarded.}
