@@ -30,7 +30,7 @@ NULL
 #' keep options possibly saved in a reloaded workspace.
 #'
 #' @export
-setupPackageOptions <- function(..., NAME=NULL, ENVIR=parent.frame(), RESET=FALSE){
+setupPackageOptions <- function(..., NAME=NULL, ENVIR=topenv(parent.frame()), RESET=FALSE){
 	
 	defaults <- .list_or_named_dots(...)
 	
