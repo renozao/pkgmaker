@@ -3,7 +3,7 @@
 \title{Package Specific Options}
 \usage{
   setupPackageOptions(..., NAME = NULL,
-    ENVIR = parent.frame(), RESET = FALSE)
+    ENVIR = topenv(parent.frame()), RESET = FALSE)
 }
 \arguments{
   \item{...}{a single named list or named arguments that
