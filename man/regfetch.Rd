@@ -3,17 +3,18 @@
 \alias{regfetch}
 \title{Finds an entry in a registry.}
 \usage{
-  regfetch(regobj, key = NULL, all = FALSE, error = TRUE,
-    exact = FALSE, verbose = FALSE, entry = FALSE,
-    msg = NULL)
+  regfetch(regobj, ..., all = FALSE, error = TRUE,
+    exact = FALSE, KEYS = NULL, verbose = FALSE,
+    entry = FALSE, msg = NULL)
 
-  pkgregfetch(name, ..., msg = NULL,
-    package = topenv(parent.frame()))
+  pkgregfetch(regname, ..., msg = NULL,
+    where = topenv(parent.frame()))
 }
 \arguments{
   \item{regobj}{a registry object}
 
-  \item{key}{a key to match}
+  \item{...}{key value(s) to look up. If multiple indexes
+  are used, then the primary key should come first.}
 
   \item{all}{logical to indicate if hidden keys (starting
   with a '.') should be returned and output in message.}
@@ -24,6 +25,10 @@
   \item{exact}{a logical that indicates if matching should
   be exact or partial}
 
+  \item{KEYS}{alternative way of passing the key value(s).
+  If not missing, then arguments in \code{...} are
+  discarded.}
+
   \item{verbose}{a logical that indicates if verbosity
   should be toggle on}
 
@@ -31,16 +36,10 @@
 
   \item{msg}{a header to use in case of error.}
 
-  \item{name}{Name of a sub-registry, used as its
+  \item{regname}{Name of a sub-registry, used as its
   identifier.}
 
-  \item{...}{named values used to set extra information
-  about the new registry, that are stored in the
-  corresponding fields of the meta-registry. Currently not
-  used, as no extra field other than \code{'description'}
-  is defined.}
-
-  \item{package}{package where to store or look for the
+  \item{where}{package name or namespace that owns the
   registry.}
 }
 \description{
@@ -48,7 +47,7 @@
   queried from a \code{\link[registry:regobj]{registry}}
   object.
 
-  \code{pkgregfetch} fetches entries in a package registry,
-  as set up by \code{\link{setPackageRegistry}}
+  \code{pkgregfetch} loads the requested package registry
+  and uses \code{regfetch} to retrieve data from it.
 }
 

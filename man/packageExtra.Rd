@@ -1,22 +1,29 @@
-\name{packageExtraHandler}
+\name{setPackageExtraHandler}
 \alias{install.extrapackages}
 \alias{install.extras}
 \alias{packageExtra}
 \alias{packageExtraHandler}
 \alias{packageExtraRunner}
+\alias{setPackageExtra}
+\alias{setPackageExtraHandler}
 \title{Install/Run Extra Things After Standard Package Installation}
 \usage{
-  packageExtraHandler(handler, fun, package = NULL)
+  setPackageExtraHandler(handler, fun, ...)
 
-  packageExtra(handler, extra = NULL, ..., package = NULL,
-    .wrap = FALSE)
+  packageExtraHandler(handler = NULL, ...)
+
+  setPackageExtra(handler, extra, ...)
+
+  packageExtra(handler = NULL, extra = NULL,
+    package = NULL, .wrap = FALSE)
 
   packageExtraRunner(handler)
 
-  install.extras(package, extra = NULL, ...,
-    .verbose = getOption("verbose"))
+  install.extras(package, extra = NULL, handler = handler,
+    ..., .verbose = getOption("verbose"))
 
-  install.extrapackages(package, extra = NULL, ...,
+  install.extrapackages(package, extra = NULL,
+    handler = handler, ...,
     .verbose = getOption("verbose"))
 }
 \arguments{
@@ -31,15 +38,15 @@
   internal registries. End users should not need to use
   this argument.}
 
-  \item{extra}{name of the extra action. When registering
-  an action with \code{}, it should be unique within the
-  package, or it will overwrite a previously registered
-  action.}
+  \item{...}{extra arguments passed to internal function
+  calls. In \code{packageExtraHandler}, these are passed to
+  \code{\link{pkgregfetch}}.
 
-  \item{...}{extra arguments passed to the actual call to
-  the handler. In \code{packageExtra}, these define default
-  arguments for the call, which can be overwritten by
-  arguments passed to the runner function.}
+  In \code{setPackageExtra}, these define default arguments
+  for the handler function. These are overwritten by
+  arguments in the call to runner function if any.}
+
+  \item{extra}{name of the extra action.}
 
   \item{.wrap}{logical that indicates if a function that
   runs the extra action should be returned or only the
@@ -59,8 +66,26 @@
   (lazy-)loading a package, and run later on, e.g., after
   the package is installed using dedicated commands.
 
-  \code{packageExtra} registers extra actions for a given
-  handler.
+  \code{setPackageExtraHandler} defines main action handler
+  functions, for which actions are defined as a set of
+  arguments and registered using \code{setPackageExtra}.
+
+  \code{packageExtraHandler} retrieves a given handler from
+  the registry.
+
+  For example, calling \code{setPackageExtra('install',
+  pkgs='non_CRAN_pkg', repos='http://non-standard-repo')}
+  in a source file of package 'myPkg' registers the call
+  \code{install.packages('non_CRAN_pkg',
+  repos='http://non-standard-repo', ...)} in a registry
+  internal to the package. All calls to
+  \code{setPackageExtra('install', ...)} can then be run by
+  the user, as a post installation step via
+  \code{install.extrapackages('myPkg', ..)}.
+
+  \code{packageExtra} retrieve a given extra action, either
+  as its registry entry, or as a function that would
+  perform the given action.
 
   \code{packageExtraRunner} defines a function to run all
   or some of the actions registered for a given handler in
@@ -69,26 +94,16 @@
   the extra handler \code{'install'} via
   \code{packageExtraRunner('install')}.
 
-  \code{install.extras} runs all extra actions registered
-  for a given package.
+  \code{install.extrapackages} runs all extra actions
+  registered for a given package.
 
-  \code{install.extrapackages} runs all extra
-  \code{'install'} actions, i.e. those registered for
-  handler \code{'install'}.
-}
-\details{
-  \code{packageExtraHandler} defines main action handler
-  functions, for which default arguments are registered
-  using \code{packageExtra}.
-
-  For example, calling \code{packageExtra('install',
-  pkgs='non_CRAN_pkg', repos='http://non-standard-repo')}
-  in a source file of package 'myPkg' registers the call
-  \code{install.packages('non_CRAN_pkg',
-  repos='http://non-standard-repo', ...)} in a registry
-  internal to the package. All calls to
-  \code{packageExtra('install', ...)} can then be run by
-  the user, as a post installation step via
-  \code{install.extra('myPkg', ..)}.
+  \code{install.extrapackages} is defined as the extra
+  handler for the extra action handler
+  \code{'install.packages'}. All arguments in \code{...}
+  are passed to \code{\link{install.packages}}. By default,
+  packages that are already installed are not re-installed.
+  An extra argument \code{force} allows to force their
+  installation. The packages are loaded if their
+  installation is successful.
 }
 

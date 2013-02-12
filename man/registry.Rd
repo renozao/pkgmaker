@@ -6,24 +6,25 @@
 \alias{setPackageRegistryEntry}
 \title{Package Registry}
 \usage{
-  packageRegistry(name = NULL, quiet = FALSE,
-    entry = FALSE, package = topenv(parent.frame()))
+  packageRegistry(regname = NULL, quiet = FALSE,
+    entry = FALSE, update = !entry,
+    package = topenv(parent.frame()))
 
-  packageRegistries(name = NULL, package = NULL,
+  packageRegistries(regname = NULL, package = NULL,
     primary = FALSE)
 
-  hasPackageRegistry(name = NULL, package)
+  hasPackageRegistry(regname = NULL, package)
 
-  setPackageRegistry(name, regobj, description = "",
+  setPackageRegistry(regname, regobj, description = "",
     entrydesc = NA, ..., package = topenv(parent.frame()),
     overwrite = FALSE)
 
-  setPackageRegistryEntry(key, name, ...,
+  setPackageRegistryEntry(regname, key, ...,
     overwrite = FALSE, verbose = FALSE,
     where = topenv(parent.frame()), msg = NULL)
 }
 \arguments{
-  \item{name}{Name of a sub-registry, used as its
+  \item{regname}{Name of a sub-registry, used as its
   identifier.}
 
   \item{quiet}{a logical that indicates that one should
@@ -33,6 +34,10 @@
   \item{entry}{logical that indicates if the corresponding
   meta registry entry should be directly returned, without
   any other processing.}
+
+  \item{update}{logical that indicates if the package
+  registry should be updated, by adding/removing entries
+  from other loaded/unloaded packages.}
 
   \item{package}{package where to store or look for the
   registry.}
