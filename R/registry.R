@@ -31,8 +31,24 @@ fix_registry <- function(regobj){
 	SEALED_ENTRIES <-
 	DATA <- 
 	.delete_entry <- 
-	.get_entries <- 
+	.get_entries <-
+	.get_fields <- 
+	.get_entries_old <- 
 	NULL
+
+	# .get_entries
+	assign('.get_entries_old', get('.get_entries', .REGENV, inherits=FALSE), .REGENV)
+	hook <- function(...){
+		# remove fields that are not keys
+		f <- .get_fields()
+		keyfield <- names(f[sapply(f, function(x) isTRUE(x$is_key) )])
+		index_fields <- list(...)
+		i <- match(keyfield, names(index_fields))
+		index_fields[i[!is.na(i)]]
+		do.call(.get_entries_old, index_fields)
+	}
+	environment(hook) <- .REGENV
+	assign('.get_entries', hook, .REGENV)
 	
 	# fix bug in delete_entry
 	hook <- function(...){
@@ -163,21 +179,24 @@ fix_registry <- function(regobj){
 #' a package namespace, e.g., when a package is lazy-loaded on installation or loaded
 #' via the function \code{\link[devtools]{load_all}} from the \pkg{devtools} package.  
 #'   
-#' @param name Name of a sub-registry, used as its identifier.
+#' @param regname Name of a sub-registry, used as its identifier.
 #' @param quiet a logical that indicates that one should return the (meta-)registry if it exists, 
 #' or \code{NULL} otherwise, without throwing any error.
 #' @param entry logical that indicates if the corresponding meta registry entry should 
 #' be directly returned, without any other processing.
+#' @param update logical that indicates if the package registry should be updated, by adding/removing 
+#' entries from other loaded/unloaded packages. 
 #' @param package package where to store or look for the registry.
 #' @return a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument 
 #' \code{quiet}).
 #' 
 #' @rdname registry
 #' @export
-packageRegistry <- function(name=NULL, quiet=FALSE, entry=FALSE, package=topenv(parent.frame())){
+packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entry, package=topenv(parent.frame())){
 	
 	library(registry)
 	metaregname <- '.packageRegistry'
+	name <- regname
 
 	# get package environment
 	e <- packageEnv(package)	
@@ -197,18 +216,17 @@ packageRegistry <- function(name=NULL, quiet=FALSE, entry=FALSE, package=topenv(
 		} 
 		# retrieve sub-registry entry
 		nm <- packageSlot(pkgreg) 
-		reg <- regfetch(pkgreg, name, exact=TRUE, error=FALSE)
+		reg <- regfetch(pkgreg, key=name, exact=TRUE, error=FALSE)
 		
 		if( is.null(reg) ){# not found
 			if( quiet ) return(NULL)
 			# throw error
 			stop("Could not find registry `", name, "` in package `", nm, "`.")
-		}else if( entry ){
-			# return plain registry entry if requested
-			return(reg)
 		}else{
 			# synchronise and substitute by primary sub-registry (if necessary)
-			reg <- .update_pkgreg(reg)
+			if( update ) reg <- .update_pkgreg(reg)
+			# return plain registry entry if requested
+			if( entry )	return(reg)
 			# return sub-registry object
 			reg$regobj
 		}
@@ -252,7 +270,7 @@ packageRegistry <- function(name=NULL, quiet=FALSE, entry=FALSE, package=topenv(
 			}
 			
 			# list packages that have local versions of this registry
-			reglist <- packageRegistries(name=fullkey)
+			reglist <- packageRegistries(fullkey)
 #			print(reglist)
 			pkgs <- names(reglist)
 			# add entries from new packages into the primary registry
@@ -285,7 +303,7 @@ packageRegistry <- function(name=NULL, quiet=FALSE, entry=FALSE, package=topenv(
 #'  
 #' @rdname registry
 #' @export
-packageRegistries <- function(name=NULL, package=NULL, primary=FALSE){
+packageRegistries <- function(regname=NULL, package=NULL, primary=FALSE){
 	lns <- loadedNamespaces()
 	if( !is.null(package) ) lns <- lns[lns %in% package]
 	
@@ -305,10 +323,10 @@ packageRegistries <- function(name=NULL, package=NULL, primary=FALSE){
 	})
 
 	res <- unlist(res)			
-	if( !is.null(name) ){
-		res <- res[res == name]
+	if( !is.null(regname) ){
+		res <- res[res == regname]
 		if( primary && length(res) > 1L ){
-			warning("Package registry - Found multiple primary registries '", name, "' in packages "
+			warning("Package registry - Found multiple primary registries '", regname, "' in packages "
 					, str_out(res, Inf), " [using first one only]")
 			res <- res[1L]
 		}
@@ -321,8 +339,8 @@ packageRegistries <- function(name=NULL, package=NULL, primary=FALSE){
 #' 
 #' @rdname registry
 #' @export
-hasPackageRegistry <- function(name=NULL, package){
-	isNamespaceLoaded(package) && !is.null( packageRegistry(name=name, package=package, quiet=TRUE, entry=TRUE) )
+hasPackageRegistry <- function(regname=NULL, package){
+	isNamespaceLoaded(package) && !is.null( packageRegistry(regname, package=package, quiet=TRUE, entry=TRUE) )
 }
 
 #' @S3method format package_subregistry
@@ -377,7 +395,7 @@ xtable.package_metaregistry <- function(x, ...){
 #' @inheritParams packageRegistry
 #' @rdname registry
 #' @export
-setPackageRegistry <- function(name, regobj
+setPackageRegistry <- function(regname, regobj
 								, description='', entrydesc=NA
 								, ...
 								, package=topenv(parent.frame())
@@ -390,7 +408,7 @@ setPackageRegistry <- function(name, regobj
 		overwrite <- TRUE
 	}
 	# check if sub-registry already exists
-	oldreg <- packageRegistry(name, quiet=TRUE, package=package)
+	oldreg <- packageRegistry(regname, quiet=TRUE, package=package)
 	if( !is.null(oldreg) && !overwrite ){
 		return( oldreg )
 	}
@@ -403,16 +421,16 @@ setPackageRegistry <- function(name, regobj
 	if( !is.null(oldreg) ){
 		if( !overwrite ){
 			if( isLoadingNamespace() ){ # exit if loading a namespace
-				message("NOTE: Did not create registry '", name,"' in ", ns_str, ": registry already exists.")
+				message("NOTE: Did not create registry '", regname,"' in ", ns_str, ": registry already exists.")
 				return(oldreg)
 			}
-			stop("Could not create registry '", name,"' in ", ns_str, ": registry already exists")
+			stop("Could not create registry '", regname,"' in ", ns_str, ": registry already exists")
 		}else{
-			message("Remove registry '", name,"' from ", ns_str)
-			regenv$delete_entry(name)
+			message("Remove registry '", regname,"' from ", ns_str)
+			regenv$delete_entry(regname)
 		}
 	}
-	message("Creating registry '", name,"' in ", ns_str, ' ... ', appendLF=FALSE)
+	message("Creating registry '", regname,"' in ", ns_str, ' ... ', appendLF=FALSE)
 	
 	.add_regclass <- function(x, newcl, before){
 		cl <- class(x)
@@ -422,10 +440,10 @@ setPackageRegistry <- function(name, regobj
 		x
 	}
 	
-	pkgregclass <- c(paste(name, 'package_registry', sep='_'), 'package_registry')
+	pkgregclass <- c(paste(regname, 'package_registry', sep='_'), 'package_registry')
 	if( is.character(regobj) ){# regobj specifies the S4 class of the registry entries
 		objtype <- regobj[1]
-		regobj <- registry(entry_class = paste(name, 'entry', sep='_')
+		regobj <- registry(entry_class = paste(regname, 'entry', sep='_')
 						, registry_class = c(pkgregclass, 'object_subregistry'))
 		# access key
 		regobj$set_field("key", type="character", is_key = TRUE
@@ -440,19 +458,37 @@ setPackageRegistry <- function(name, regobj
 	}
 	# add field for REGISTERING package
 	if( !"REGISTERINGpackage" %in% regobj$get_field_names() )
-		regobj$set_field("REGISTERINGpackage", type='character', is_mandatory=TRUE)
+		regobj$set_field("REGISTERINGpackage", type='character', is_mandatory=TRUE, index_FUN=match_exact)
 	# fix registry object
 	regobj <- fix_registry(regobj)
 	# add package
 	attr(regobj, 'package') <- nm
 	
 	# create new meta entry
-	regenv$set_entry(key=name, regobj=regobj
+	regenv$set_entry(key=regname, regobj=regobj
 					, description=description, entrydesc=entrydesc
 					, ...)
 	message('OK')
 	# return newly created registry
-	regenv$get_entry(name)$regobj
+	regenv$get_entry(regname)$regobj
+}
+
+regkeys <- function(regobj, ...){
+	
+	# get keys
+	f <- regobj$get_fields()
+	keyfield <- names(f[sapply(f, function(x) isTRUE(x$is_key) )])
+	if( nargs() == 1L ) return(keyfield)
+	
+	index_fields <- list(...)
+	if( is.null(names(index_fields)) && length(index_fields)==1L )
+		index_fields <- index_fields[[1L]]
+	index_fields <- index_fields[!sapply(index_fields, is.null)]
+	if( !length(index_fields) ) return(list())
+	
+	# remove fields that are not keys
+	i <- match(keyfield, names(index_fields))
+	index_fields[i[!is.na(i)]]
 }
 
 #' Finds an entry in a registry.
@@ -461,24 +497,44 @@ setPackageRegistry <- function(name, regobj
 #' from a \code{\link[registry:regobj]{registry}} object.
 #' 
 #' @param regobj a registry object
-#' @param key a key to match
+#' @param ... key value(s) to look up.
+#' If multiple indexes are used, then the primary key should come first.
 #' @param all logical to indicate if hidden keys (starting with a '.') should be 
 #' returned and output in message.
 #' @param error a logical that indicates if an error should be thrown if the key has no match 
 #' or multiple matches
 #' @param exact a logical that indicates if matching should be exact or partial
+#' @param KEYS alternative way of passing the key value(s).
+#' If not missing, then arguments in \code{...} are discarded.
 #' @param verbose a logical that indicates if verbosity should be toggle on
 #' @param entry a logical that indicates if the 
 #' @param msg a header to use in case of error.
 #' 
 #' @export
-regfetch <- function(regobj, key=NULL, all=FALSE, error=TRUE, exact=FALSE, verbose=FALSE, entry=FALSE, msg=NULL){
+regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
+						, KEYS = NULL
+						, verbose=FALSE, entry=FALSE, msg=NULL){
 	
 	# load the registry package
 	library(registry)
 	# list -- all -- keys if no key is specified
 	allkeys <- regobj$get_entry_names()
 	if( !all ) allkeys <- grep("^[^.]", allkeys, value=TRUE)
+	
+	index_fields <- if( !is.null(KEYS) ){
+		if( !is.list(KEYS) ) stop("Invalid argument <KEYS>: must be a list of field values.")
+		KEYS
+	}else list(...)
+	# extract primary key
+	key <- if( length(index_fields) ){
+		# remove fields that are not keys if named list
+		if( !is.null(names(index_fields)) )
+			index_fields <- regkeys(regobj, index_fields)
+		if( length(index_fields) ){
+			paste(unlist(index_fields), collapse='_')
+			str_out(index_fields, Inf, use.names=TRUE)
+		}
+	}
 	if( is.null(key) ){
 		return(allkeys)
 	}
@@ -496,35 +552,44 @@ regfetch <- function(regobj, key=NULL, all=FALSE, error=TRUE, exact=FALSE, verbo
 		else return(NULL)
 	}
 	
-	d <- regobj$get_entries(key)
-	
+	# get entry
+	d <- do.call(regobj$get_entries, index_fields)
 	# no entry found
 	if( is.null(d) ){
 		if( error ){
 			stop(msg, "No matching entry for key ", dQuote(key), " in the registry."
-							, "\n  Use one of:", str_wrap(str_out(sort(allkeys), NA), exdent=2))
+							, "\n  Use one of: ", str_wrap(str_out(sort(allkeys), NA), exdent=2))
 		}else return(NULL)
 	}
+	
+	if( exact ){
+		if( is.list(index_fields) ){
+			ex <- sapply(d, function(x) all(mapply(identical, index_fields, x[names(index_fields)])))
+		}else{
+			ex <- names(d) == index_fields
+		} 
+		# limit to exact mathes
+		if( length(i <- which(ex)) ) d <- d[i]
+		else if( error ){
+			stop(msg, "No exact match for key '", key, "' in the registry."
+					, "\n  Use one of: ", str_wrap(str_out(allkeys), exdent=2))
+		}else return(NULL) 
+		
+	}
+	
+	if( all ) return(d)
+	
 	# multiple match
+#	str(d)
 	if( length(d) > 1L ){
-		i <- which(key == names(d))
-		if( length(i) == 1L ) d <- d[i]
-		else if( all ) return(d) 
-		else if( error ) stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), NA))
-		else return(NA)
+		if( error ){
+			stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), NA))
+		}else return(NA)
 	}
 	
 	# check single match
 	if( length(d) != 1L )
 		stop("Unexpected error: more than one entry was selected.")
-	
-	# check it is an exact match
-	if( exact && names(d) != key ){
-		if( error ){
-			stop(msg, "No exact match for key '", key, "' in the registry."
-							, "\n  Use one of:", str_wrap(str_out(allkeys), exdent=2))
-		}else return(NULL)
-	}
 	
 	# return single match
 	d <- d[[1L]]
@@ -534,15 +599,21 @@ regfetch <- function(regobj, key=NULL, all=FALSE, error=TRUE, exact=FALSE, verbo
 	else d
 }
 #' \code{pkgregfetch} fetches entries in a package registry, as set up by 
-#' \code{\link{setPackageRegistry}}
+#' \code{\link{setPackageRegistry}}.
+#' 
+#' \code{pkgregfetch} loads the requested package registry and uses \code{regfetch} 
+#' to retrieve data from it.
 #' 
 #' @inheritParams setPackageRegistry
 #'  
 #' @rdname regfetch
 #' @export
-pkgregfetch <- function(name, ..., msg=NULL, package=topenv(parent.frame())){
-	regentry <- packageRegistry(name, entry=TRUE, package=package)
-	if( missing(msg) && !isNA(regentry$entrydesc) ) regentry$entrydesc
+pkgregfetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
+	# get package registry
+	regentry <- packageRegistry(regname, package=where, entry=TRUE, update=TRUE)
+	# define addon error message
+	if( missing(msg) && !isNA(regentry$entrydesc) ) msg <- regentry$entrydesc
+	# fetch from registry
 	regfetch(regentry$regobj, ..., msg=msg)
 }
 
@@ -591,11 +662,14 @@ setClassRegistry <- function(registry, Class, ...){
 #' 
 #' @rdname registry
 #' @export
-setPackageRegistryEntry <- function(key, name, ..., overwrite=FALSE, verbose=FALSE
+setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=FALSE
 									, where=topenv(parent.frame()), msg=NULL){
 	
-	if( isLoadingNamespace() ) verbose <- TRUE
-	registry <- name
+	if( isLoadingNamespace() ){
+		verbose <- TRUE
+		if( missing(overwrite) ) overwrite <- TRUE
+	}
+	registry <- regname
 	package <- where
 	
 	# check if the name provided is not empty
@@ -604,16 +678,13 @@ setPackageRegistryEntry <- function(key, name, ..., overwrite=FALSE, verbose=FAL
 	# build full key, that includes the name of the top calling namespace
 	fullkey <- key
 	top_ns <- topns(strict=FALSE)
-	if( !identical(top_ns, .GlobalEnv) ){
-		fullkey <- paste(packageName(top_ns), '::', key, sep='')
-	}
 	#
 	
 	# retrieve package registry (it must exist or this will throw an error)
 	package <- packageEnv(package)
-	subregentry <- packageRegistry(registry, package=package, entry=TRUE)
+	subregentry <- packageRegistry(registry, package=package, entry=TRUE, update=TRUE)
 	# get regobj (do that to ensure it is updated with entries from other packages)
-	regobj <- packageRegistry(registry, package=package)
+	regobj <- subregentry$regobj
 	
 	# setup complete list of fields
 	fields <- list(...)
@@ -625,25 +696,28 @@ setPackageRegistryEntry <- function(key, name, ..., overwrite=FALSE, verbose=FAL
 			names(fields) <- 'object'
 	}
 	fields$key <- key
-	fields$REGISTERINGpackage <- packageName(top_ns, .Global=TRUE)
+	regpkg <- packageName(top_ns, .Global=TRUE)
+	fields$REGISTERINGpackage <- regpkg
 #	str(fields)
 	#
 	
 	# check if the object is already registered
-	reg.method <- regfetch(regobj, key, exact=TRUE, error=FALSE)
+	oldentry <- regfetch(regobj, KEYS=fields, exact=TRUE, error=FALSE)
 	# error if already exists and not overwriting		
-	if( !is.null(reg.method) && !overwrite ){ 
+	if( !is.null(oldentry) && !overwrite ){ 
 		if( verbose ) message("ERROR")
 		stop("Cannot register ", objdesc, ": key already exists.")	
 	}
 	
 	# add entry
 	if( verbose ){
-		action <- if( is.null(reg.method) ) 'Registering' else 'Replacing'
+		action <- if( is.null(oldentry) ) 'Registering' else 'Replacing'
 		message(action, " ", objdesc, msg, " ... ", appendLF=FALSE)
 	}
 	# delete old entry
-	if( !is.null(reg.method) ) regobj$delete_entry(key)
+	if( !is.null(oldentry) ){
+		do.call(regobj$delete_entry, regkeys(regobj, fields))
+	}
 	# do add entry
 	do.call(regobj$set_entry, fields)
 	
@@ -681,7 +755,7 @@ setPackageRegistryEntry <- function(key, name, ..., overwrite=FALSE, verbose=FAL
 	#
 	
 	# return registered object
-	regfetch(regobj, key, exact=TRUE)
+	regfetch(regobj, KEYS=fields, exact=TRUE)
 
 }
 
