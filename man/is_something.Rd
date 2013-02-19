@@ -21,7 +21,7 @@
 
   isInteger(x)
 
-  isString(x)
+  isString(x, y, ignore.case = FALSE)
 
   is.dir(x)
 
@@ -31,6 +31,11 @@
 }
 \arguments{
   \item{x}{an R object}
+
+  \item{y}{character string to compare with.}
+
+  \item{ignore.case}{logical that indicates if the
+  comparison should be case sensistive.}
 
   \item{all}{logical that indicates if the object needs all
   names non empty}
@@ -52,7 +57,7 @@
 
   Tests if an object is a single integer
 
-  Test if an object is a single character string
+  \code{isString} tests if an object is a character string.
 
   Tests if a filename is a directory
 
