@@ -747,8 +747,14 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 											, parent = parent
 											, package = lns)
 		}
+		
+		action <- 'Adding'
+		if( !is.null(locentry <- regfetch(locregobj, KEYS=fields, exact=TRUE, error=FALSE)) ){
+			action <- 'Replacing'
+			do.call(locregobj$delete_entry, regkeys(locregobj, fields))
+		}
 		# add entry into local registry
-		if( verbose ) message("Adding entry '", key, "' in local registry '", fullregistry, "' ... ", appendLF=FALSE)
+		if( verbose ) message(action, " entry '", key, "' in registry '", fullregistry, "' ... ", appendLF=FALSE)
 		do.call(locregobj$set_entry, fields)
 		if( verbose ) message("OK")
 	}else if( verbose ) message("OK")
