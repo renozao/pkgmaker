@@ -53,10 +53,27 @@ isInteger <- function(x){
 }
 
 
-#' Test if an object is a single character string
+#' \code{isString} tests if an object is a character string. 
+#' 
+#' @param y character string to compare with.
+#' @param ignore.case logical that indicates if the comparison 
+#' should be case sensistive.
+#' 
 #' @rdname is_something
 #' @export
-isString <- function(x) is.character(x) && length(x) == 1L
+isString <- function(x, y, ignore.case=FALSE){
+	if( res <- is.character(x) && length(x) == 1L ){
+		if( !missing(y) ){
+			if( !isString(y) ) stop("Invalid argument 'y': must be a string itself.")
+			if( ignore.case ) {
+				x <- toupper(x)
+				y <- toupper(y)
+			}
+			res <-  x == y
+		}
+	}
+	res
+}
 
 #' Tests if a filename is a directory
 #' @rdname is_something
