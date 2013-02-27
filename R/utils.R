@@ -107,7 +107,7 @@ Rversion <- function(){
 #' 
 #' @export
 str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", "){
-	if( isNA(max) ) max <- Inf
+	if( is_NA(max) ) max <- Inf
 	suffix <- NULL
 	if( max > 2 && length(x) > max ){
 		suffix <- "..."

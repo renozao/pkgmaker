@@ -13,7 +13,7 @@ set_libPaths <- function(lib.loc=NULL){
   ol <- Sys.getenv('R_LIBS')
   olib <- .libPaths()
   res <- list(R_LIBS=ol, .libPaths=olib)
-  if( isNA(lib.loc) ) return(res)
+  if( is_NA(lib.loc) ) return(res)
   
   # add lib path
   if( is.null(lib.loc) ) lib.loc <- .libPaths()

@@ -435,7 +435,7 @@ authors <- packageDescription(pkg)$Author
 	
 	fileext <- toupper(file_extension(file))
 	fileext <- charmatch(fileext, c('RNW', 'TEX', 'PDF'))
-	if( isNA(fileext) )
+	if( is_NA(fileext) )
 		stop("Invalid output file extension [",fileext,"] from file '", file, "'")
 	
 	fileRNW <- if( fileext == 1L ) file else str_c(pkg, '-unitTests.Rnw')

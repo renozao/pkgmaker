@@ -281,7 +281,11 @@ packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entr
 					e <- reg$get_entries()
 					lapply(e, function(x){
 #						print(x)
-						do.call(primaryreg$set_entry, x)
+						# add entry if it does not exists already
+						oldentry <- regfetch(primaryreg, KEYS=e, exact=TRUE, error=FALSE)
+						if( is.null(oldentry) ){
+							do.call(primaryreg$set_entry, x)
+						}						
 					})
 				})
 			}
@@ -612,7 +616,7 @@ pkgregfetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
 	# get package registry
 	regentry <- packageRegistry(regname, package=where, entry=TRUE, update=TRUE)
 	# define addon error message
-	if( missing(msg) && !isNA(regentry$entrydesc) ) msg <- regentry$entrydesc
+	if( missing(msg) && !is_NA(regentry$entrydesc) ) msg <- regentry$entrydesc
 	# fetch from registry
 	regfetch(regentry$regobj, ..., msg=msg)
 }
@@ -688,7 +692,7 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 	
 	# setup complete list of fields
 	fields <- list(...)
-	objdesc <- if( !isNA(subregentry$entrydesc) ) subregentry$entrydesc else paste(registry, 'object')
+	objdesc <- if( !is_NA(subregentry$entrydesc) ) subregentry$entrydesc else paste(registry, 'object')
 	objdesc <- paste(objdesc, " '", key, "'", sep='')
 	if( length(fields)==1L ){
 		objdesc <- paste(objdesc, ' [', class(fields[[1L]]), ']', sep='')

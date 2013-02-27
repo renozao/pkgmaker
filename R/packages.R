@@ -44,7 +44,7 @@ quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., l
   
   # define installation library
 	nlib <- if( !is.null(destdir) ) destdir
-  else if( isNA(destdir) ) tempfile("pkglib_")
+  else if( is_NA(destdir) ) tempfile("pkglib_")
   
   # normalize path
   if( !is.null(nlib) ){
@@ -91,7 +91,7 @@ quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., l
 	# install
 	message("# Installing package `", pkg$package, "`"
           , if( !is.null(destdir) ){
-            tmp <- if( isNA(destdir) ) 'temporary '
+            tmp <- if( is_NA(destdir) ) 'temporary '
             str_c("in ", tmp, "'", nlib, "'")
           })
   opts_inst <- ' --no-multiarch --no-demo --with-keep.source '

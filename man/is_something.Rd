@@ -4,14 +4,14 @@
 \alias{isFALSE}
 \alias{is.file}
 \alias{isInteger}
-\alias{isNA}
+\alias{is_NA}
 \alias{isNumber}
 \alias{isReal}
 \alias{is_something}
 \alias{isString}
 \title{Testing Object Type}
 \usage{
-  isNA(x)
+  is_NA(x)
 
   isFALSE(x)
 

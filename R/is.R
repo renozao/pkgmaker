@@ -19,7 +19,7 @@ NULL
 #' @param x an R object
 #' @rdname is_something
 #' @export
-isNA <- function(x) 
+is_NA <- function(x) 
 	identical(x, NA) || identical(x, as.character(NA)) || identical(x, as.numeric(NA)) || identical(x, as.integer(NA))  
 
 #' Tests if a variable is exactly FALSE
