@@ -238,6 +238,8 @@ packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entr
 	.cacheMD5 <- list()
 	function(regentry){
 		
+		verbose <- getOption('verbose')
+		
 		# directly return entry if:
 		# - one is loading the namespace of the package (primary or not)
 		if( isLoadingNamespace(regentry$package) ) return(regentry) 		
@@ -253,19 +255,21 @@ packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entr
 #		print(ns)
 #		print(.cacheNS)
 		if( !identical(hash, .cacheMD5[[fullkey]]) ){
-			# message('Updating ', fullkey, " ... ", appendLF=FALSE)
+			if( verbose ) message('Updating registry ', fullkey, " ... ", appendLF=FALSE)
 			# remove entries from unloaded packages
 			if( length(.cacheNS[[fullkey]]) && length(notloaded <- setdiff(.cacheNS[[fullkey]], ns)) ){
-				lapply(notloaded, function(p){
-#					message("- rm from ", p, " ")
+				ndel <- sapply(notloaded, function(p){
+					if( verbose > 1L ) message("\n Removing entries from package ", p, " ... ", appendLF=FALSE)
 					e <- primaryreg$get_entry_names()
-					lapply(e, function(x){
+					n <- sapply(e, function(x){
 						rec <- primaryreg$get_entry(x)
 						if( rec$REGISTERINGpackage == p ){
-#							print(x)
 							primaryreg$delete_entry(x)
-						}
+							1L
+						}else 0L
 					})
+					if( verbose > 1L ) message('OK [', sum(n), ']')
+					sum(n)
 				})
 			}
 			
@@ -275,24 +279,26 @@ packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entr
 			pkgs <- names(reglist)
 			# add entries from new packages into the primary registry
 			if( length(miss <- setdiff(pkgs, .cacheNS[[fullkey]])) ){
-				lapply(miss, function(p){
-#					message("- from ", p, " ")
+				nadd <- sapply(miss, function(p){
+					if( verbose > 1L ) message("\n Adding entries from package ", p, " ... ", appendLF=FALSE)
 					reg <- packageRegistry(fullkey, package=p)
 					e <- reg$get_entries()
-					lapply(e, function(x){
-#						print(x)
+					n <- sapply(e, function(x){
 						# add entry if it does not exists already
-						oldentry <- regfetch(primaryreg, KEYS=e, exact=TRUE, error=FALSE)
+						oldentry <- regfetch(primaryreg, KEYS=x, exact=TRUE, error=FALSE)
 						if( is.null(oldentry) ){
 							do.call(primaryreg$set_entry, x)
-						}						
+							1L
+						}else 0L				
 					})
+					if( verbose > 1L ) message('OK [', sum(n), ']')
+					sum(n)
 				})
 			}
 			# store contributing packages and MD5 hash
 			.cacheNS[[fullkey]] <<- pkgs
 			.cacheMD5[[fullkey]] <<- digest(c(.cacheNS[[fullkey]], ns)) 
-#			message('OK')
+			if( verbose ) message('OK')
 		}
 		
 		regentry
