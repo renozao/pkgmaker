@@ -5,13 +5,14 @@
   alphacol(col, alpha = FALSE)
 }
 \arguments{
-  \item{col}{vector of any of the three kind of \R colors,
-  i.e., either a color name (an element of
+  \item{col}{vector of any of the three kinds of \R color
+  specifications, i.e., either a color name (as listed by
   \code{\link{colors}()}), a hexadecimal string of the form
   \code{"#rrggbb"} or \code{"#rrggbbaa"} (see
-  \code{\link{rgb}}), or an integer \code{i} meaning
-  \code{palette()[i]}.  Non-string values are coerced to
-  integer.}
+  \code{\link{rgb}}), or a positive integer \code{i}
+  meaning \code{\link{palette}()[i]} or \code{0} (see
+  \sQuote{Details}).  Non-character values are coerced to
+  integers.}
 
   \item{alpha}{logical value indicating whether alpha
   channel (opacity) values should be returned.}

@@ -226,8 +226,11 @@ runVignette.default <- function(x, file=NULL, ...){
 runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=TRUE){
 	library(knitr)
 	# expand path to cache to fix issue in knitr
-	bname <- sub("\\..{3}$", '', basename(x$file))
-	
+	bname <- sub("\\..{3}$", '', basename(x$file))	
+	# add suffix for windows
+	if( .Platform$OS.type == 'windows' ){ 
+		bname <- paste(bname, '-win', sep='')
+	}
 	# cache.path
 	if( !isFALSE(cache.path) ){
 		if( isTRUE(cache.path) ){
