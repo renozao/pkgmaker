@@ -160,7 +160,8 @@ endif
 clean:
 	rm -fr *.bbl *.run.xml *.blg *.aux *.out *-blx.bib \
 	*.log *.err Rplots.pdf tests-results tmplib vignette_*.mk vignette.mk \
-	cleveref.sty 
+	cleveref.sty \
+	runit.* 
 ifndef LOCAL_MODE
 	rm -f $(TEX_OBJS)
 endif
