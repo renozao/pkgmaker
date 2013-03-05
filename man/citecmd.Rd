@@ -1,8 +1,8 @@
-\name{cite}
-\alias{cite}
+\name{citecmd}
+\alias{citecmd}
 \title{Citing Package References}
 \usage{
-  cite(key, ..., REFERENCES = NULL)
+  citecmd(key, ..., REFERENCES = NULL)
 }
 \arguments{
   \item{key}{character vector of BibTex keys}
@@ -17,9 +17,10 @@
   entries
 }
 \description{
-  Create a citation string from package specific BibTex
-  entries, suitable to be used in Rd files. The entries are
-  looked in a file named REFERNCES.bib in the package's
-  root directory (i.e. inst/ in development mode).
+  Create a citation command from package specific BibTex
+  entries, suitable to be used in Rd files or Latex
+  documents. The entries are looked in a file named
+  REFERNCES.bib in the package's root directory (i.e. inst/
+  in development mode).
 }
 

@@ -181,8 +181,8 @@ packageReference <- function(key, short=FALSE){
 
 #' Citing Package References
 #' 
-#' Create a citation string from package specific BibTex entries, suitable to 
-#' be used in Rd files.
+#' Create a citation command from package specific BibTex entries, suitable to 
+#' be used in Rd files or Latex documents.
 #' The entries are looked in a file named REFERNCES.bib in the package's root 
 #' directory (i.e. inst/ in development mode).
 #'  
@@ -193,7 +193,7 @@ packageReference <- function(key, short=FALSE){
 #'  
 #' @export
 #' 
-cite <- local({
+citecmd <- local({
 	
 	.init <- list(REFERENCES=NULL, KEYS=NULL) 
 	.cache <- .init
@@ -254,9 +254,8 @@ cite <- local({
 	}
 })
 
-
-citepkg <- function(key, ...){
-	cite(str_c('package:', key), ...)
+citecmd_pkg <- function(key, ...){
+	citecmd(str_c('package:', key), ...)
 }
 
 #' Bibtex Utilities
