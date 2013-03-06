@@ -344,11 +344,50 @@ as.package_options <- function(..., defaults=NULL){
 	params
 }
 
-# internal function that mimic the behaviour of the base function 
-# \code{\link[base]{options}}.
+#' Quick Option-like Feature
+#' 
+#' \code{mkoptions} is a function that returns a function that 
+#' behaves like \code{\link[base]{options}}, with an attached 
+#' internal/local list of key-value pairs.
+#' 
+#' @rdname local-options
+#' @seealso \code{\link{setupPackageOptions}}
+#' @export
+#' 
+#' @examples
+#' f <- mkoptions(a=3, b=list(1,2,3))
+#' str(f())
+#' f('a')
+#' f('b')
+#' str(old <- f(a = 10))
+#' str(f())
+#' f(old)
+#' str(f())
+#' 
+mkoptions <- function(...){
+	
+	.DATA <- new.env(parent=emptyenv())
+	.defaults <- list(...)
+	.DATA$.options <- list(...)
+	function(...){		
+		.options(..., .DATA=.DATA)
+	}
+}
+
+#' \code{.options} is a low-level function that mimics the behaviour 
+#' of the base function \code{\link[base]{options}}, given a set 
+#' of key-value pairs.
+#' It is the workhorse function used in \code{mkoptions} and package-specific
+#' option sets (see \code{\link{setupPackageOptions}})
+#' 
+#' @param ... list of keys or key-value pairs.
+#' For \code{mkoptions} these define inital/default key-value pairs. 
+#' @param .DATA a list or an environment with an element \code{.options}.
+#' 
+#' @rdname local-options
 .options <- function(..., .DATA){
 	
-	opts <- if( is.package_options(.DATA) ) .DATA$.options else .DATA
+	opts <- if( is.package_options(.DATA) || is.environment(.DATA) ) .DATA$.options else .DATA
 	
 	params <- .list_or_named_dots(...)
 	# return complete option list if no other argument was passed
@@ -390,8 +429,8 @@ as.package_options <- function(..., defaults=NULL){
 	)	
 	#old <- old[!sapply(old, is.null)]
 
-	# update package_options object if necessary
-	if( is.package_options(.DATA) ) .DATA$.options <- opts
+	# update package_options object in place if necessary (NB: it is an environment)
+	if( is.package_options(.DATA) || is.environment(.DATA) ) .DATA$.options <- opts
 	
 	# return old values of the modified options
 	return( invisible(old) )

@@ -46,24 +46,24 @@
 \description{
   Testing Object Type
 
-  Tests if a variable is exactly NA (logical, character,
-  numeric or integer)
+  \code{is_NA} tests if a variable is exactly NA (logical,
+  character, numeric or integer)
 
-  Tests if a variable is exactly FALSE
+  \code{isFALSE} Tests if a variable is exactly FALSE.
 
-  Tests if a variable is a single number
+  \code{isNumber} tests if a variable is a single number
 
-  Tests if a variable is a single real number
+  \code{isReal} tests if a variable is a single real number
 
-  Tests if an object is a single integer
+  \code{isInteger} tests if an object is a single integer
 
   \code{isString} tests if an object is a character string.
 
-  Tests if a filename is a directory
+  \code{is.dir} tests if a filename is a directory.
 
-  Tests if a filename is a file
+  \code{is.file} tests if a filename is a file.
 
-  Tests if an object has names
+  \code{hasNames} tests if an object has names.
 }
 \seealso{
   \code{\link{isTRUE}}
