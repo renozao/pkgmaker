@@ -55,7 +55,7 @@
 #' # write to stdout()
 #' pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file=NULL)
 #' 
-#' \dontshow{ unlink(c('references.bib', 'references2.bib'))}
+#' \dontshow{ unlink(c('references.bib', 'references2.bib')) }
 #' 
 write.bib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = FALSE, verbose = TRUE)
 {

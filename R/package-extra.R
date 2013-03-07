@@ -158,9 +158,11 @@ packageExtra <- function(handler=NULL, extra=NULL, package=NULL, .wrap=FALSE){
 #' @rdname packageExtra
 #' @export
 packageExtraRunner <- function(handler){
-	
-	function(package, extra=NULL, handler=handler, ..., .verbose=getOption('verbose')){
-	
+
+	.handler <- handler
+	function(package, extra=NULL, handler=NULL, ..., .verbose=getOption('verbose')){
+		
+		if( missing(handler) ) handler <- .handler
 		.local <- function(p, ...){
 			# load list of extras
 			extras <- packageExtra(handler=handler, extra=extra, package=p)
@@ -168,9 +170,10 @@ packageExtraRunner <- function(handler){
 			sapply(extras, 
 				function(def, ...){
 					e <- def$key
-					f <- packageExtra(handler=handler, extra=e, package=p, .wrap=TRUE)
+					h <- def$handler
+					f <- packageExtra(handler=h, extra=e, package=p, .wrap=TRUE)
 					if( .verbose ){
-						message("# Running extra action '", handler, ':', e, "' ...")
+						message("# Running extra action '", h, ':', e, "' ...")
 						message("# Action: ", str_fun(f))
 						on.exit( message("# ERROR [", e, "]\n") )
 					}

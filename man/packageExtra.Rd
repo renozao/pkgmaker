@@ -19,12 +19,11 @@
 
   packageExtraRunner(handler)
 
-  install.extras(package, extra = NULL, handler = handler,
+  install.extras(package, extra = NULL, handler = NULL,
     ..., .verbose = getOption("verbose"))
 
   install.extrapackages(package, extra = NULL,
-    handler = handler, ...,
-    .verbose = getOption("verbose"))
+    handler = NULL, ..., .verbose = getOption("verbose"))
 }
 \arguments{
   \item{handler}{name of a handler, e.g, \code{'install'}.
