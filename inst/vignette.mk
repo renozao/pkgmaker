@@ -206,10 +206,8 @@ ifdef USE_PDFLATEX
 	@pdflatex $* >> $*-pdflatex.log
 	# LaTeX compilation 3/3
 	@pdflatex $* >> $*-pdflatex.log
-ifndef QUICK
 	# Compact vignettes
 	$(RSCRIPT) --vanilla -e "tools::compactPDF('$*.pdf', gs_quality = 'ebook')"
-endif
 	# Remove temporary LaTeX files (but keep the .tex)
 	rm -fr $*.toc $*.log $*.bbl $*.blg $*.aux $*.out $*-blx.bib	
 	
