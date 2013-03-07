@@ -49,7 +49,7 @@ R.exec <- function(..., lib.loc=NULL){
 	on.exit(set_libPaths(ol))
 
 	message(cmd)
-	system(cmd, intern=TRUE)
+	system(cmd, intern=interactive())
 }
 
 #' \code{R.CMD} executes R CMD commands.
