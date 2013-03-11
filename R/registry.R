@@ -22,8 +22,15 @@ NULL
 fix_registry <- function(regobj){
 	
 	# get private environment
-	.REGENV <- environment(environment(regobj$delete_entry)$f)
+	.REGENV <- environment(environment(regobj$n_of_entries)$f)
 	
+	# do not fix twice
+	if( isFixed <- exists('.isFixed', .REGENV, inherits=FALSE) ){
+		return(regobj)
+	}
+	
+#	message("REGENV:\n", capture.output(print(ls(.REGENV, all=TRUE))))
+#	message("env(delete_entry)\n", capture.output(print(ls(environment(environment(regobj$delete_entry)$f), all=TRUE))))
 	# dummy variables for R CMD check
 	PERMISSIONS <- 
 	.get_entry_indices <-  
@@ -31,49 +38,58 @@ fix_registry <- function(regobj){
 	SEALED_ENTRIES <-
 	DATA <- 
 	.delete_entry <- 
-	.get_entries <-
-	.get_fields <- 
-	.get_entries_old <- 
 	NULL
 
 	# .get_entries
-	assign('.get_entries_old', get('.get_entries', .REGENV, inherits=FALSE), .REGENV)
+	.get_entries <- get('.get_entries', .REGENV, inherits=FALSE)
+	.get_fields <- get('.get_fields', .REGENV, inherits=FALSE)
 	hook <- function(...){
 		# remove fields that are not keys
-		f <- .get_fields()
-		keyfield <- names(f[sapply(f, function(x) isTRUE(x$is_key) )])
-		index_fields <- list(...)
-		i <- match(keyfield, names(index_fields))
-		index_fields[i[!is.na(i)]]
-		do.call(.get_entries_old, index_fields)
+		fld <- .get_fields()
+		if( length(fld) ){
+			keyfield <- names(fld[sapply(fld, function(x) isTRUE(x$is_key) )])
+			index_fields <- list(...)
+			if( !is.null(names(index_fields)) ){
+				i <- match(keyfield, names(index_fields))
+				index_fields <- index_fields[i[!is.na(i)]]
+			}
+		}
+		do.call(.get_entries, index_fields)
 	}
-	environment(hook) <- .REGENV
 	assign('.get_entries', hook, .REGENV)
+	#
 	
 	# fix bug in delete_entry
 	hook <- function(...){
 		key <- list(...)
 		isString <- function(x) is.character(x) && length(x) == 1L
 		if( length(key) == 1L && isString(key[[1L]]) ){
-			key <- list(...)
+			
+			errmsg <- paste0("Could not delete entry '", key[[1L]],"': ")
 			if (!PERMISSIONS["delete_entries"]) 
-				stop("Deletion of entries not allowed.", call. = FALSE)
+				stop(errmsg, "deletion of entries denied due to restricted permissions.", call. = FALSE)
 			entry_index <- .get_entry_indices(key)
-			# fix
-			if( key[[1L]] %in% .get_entry_names() )
+			
+			# fix: check for exact match (on full key)
+			if( key[[1L]] %in% .get_entry_names() ){
 				entry_index <- match(key[[1L]], .get_entry_names())
+			}
 			#end_fix
-			if (length(entry_index) != 1) 
-				stop("Key specification must be unique.", call. = FALSE)
+			if( !length(entry_index) ){
+#				if( !quiet ) warning(errmsg, "not in registry.", immediate.=TRUE, call. = FALSE)
+				return()
+			}
+			if (length(entry_index) != 1)
+				stop(errmsg, "multiple matches.", call. = FALSE)
 			if (entry_index %in% SEALED_ENTRIES) 
-				stop(paste("Deletion of entry not allowed."), call. = FALSE)
+				stop(errmsg, "deletion of entry not allowed in sealed registry.", call. = FALSE)
 			DATA[entry_index] <<- NULL
 		} else .delete_entry(...)
 	}
 	environment(hook) <- .REGENV
 	regobj$delete_entry <- hook
 	#
-	
+
 	# fix bug in get_entry
 	hook <- function(...){
 		key <- list(...)
@@ -88,6 +104,26 @@ fix_registry <- function(regobj){
 	environment(hook) <- .REGENV
 	regobj$get_entry <- hook
 	#
+
+	# flag the registry as fixed
+	assign('.isFixed', TRUE, .REGENV)
+	# return fixed registry
+	regobj
+}
+
+
+testreg <- function(){
+	regobj <- registry()
+	regobj$set_field("X", type = TRUE)
+	regobj$set_field("Y", type = "character")
+	regobj$set_field("index", type = "character", is_key = TRUE,
+			index_FUN = match_partial_ignorecase)
+	# fix
+	regobj <- fix_registry(regobj)
+	
+	regobj$set_entry(X = TRUE, Y = "bla", index = "test")
+	regobj$set_entry(X = TRUE, Y = "bloblo", index = "test2")
+	regobj$set_entry(X = FALSE, Y = "foo", index = c("test", "bar"))
 	
 	regobj
 }
@@ -461,7 +497,9 @@ setPackageRegistry <- function(regname, regobj
 		# object
 		regobj$set_field("object", type=objtype, is_mandatory=TRUE, validity_FUN = validObject)
 	}else if( is(regobj, 'registry') ){
-		regobj <- .add_regclass(regobj, pkgregclass, 'registry')
+		if( !is(regobj, 'package_registry') ){
+			regobj <- .add_regclass(regobj, pkgregclass, 'registry')
+		}
 	}else{
 		message('ERROR')
 		stop("Invalid argument 'regobj': must be a class name or a registry object.")
@@ -486,8 +524,8 @@ setPackageRegistry <- function(regname, regobj
 regkeys <- function(regobj, ...){
 	
 	# get keys
-	f <- regobj$get_fields()
-	keyfield <- names(f[sapply(f, function(x) isTRUE(x$is_key) )])
+	fld <- regobj$get_fields()
+	keyfield <- names(fld[sapply(fld, function(x) isTRUE(x$is_key) )])
 	if( nargs() == 1L ) return(keyfield)
 	
 	index_fields <- list(...)
@@ -513,7 +551,9 @@ regkeys <- function(regobj, ...){
 #' returned and output in message.
 #' @param error a logical that indicates if an error should be thrown if the key has no match 
 #' or multiple matches
-#' @param exact a logical that indicates if matching should be exact or partial
+#' @param exact a logical that indicates if matching should be exact or partial.
+#' Note that if exact matches exist then they are returned, independently of the
+#' value of \code{exact}.
 #' @param KEYS alternative way of passing the key value(s).
 #' If not missing, then arguments in \code{...} are discarded.
 #' @param verbose a logical that indicates if verbosity should be toggle on
@@ -572,19 +612,21 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 		}else return(NULL)
 	}
 	
-	if( exact ){
-		if( is.list(index_fields) ){
-			ex <- sapply(d, function(x) all(mapply(identical, index_fields, x[names(index_fields)])))
-		}else{
-			ex <- names(d) == index_fields
-		} 
-		# limit to exact mathes
-		if( length(i <- which(ex)) ) d <- d[i]
-		else if( error ){
+	# look for exact matches
+	if( is.list(index_fields) ){
+		ex <- sapply(d, function(x) all(mapply(identical, index_fields, x[names(index_fields)])))
+	}else{
+		ex <- names(d) == index_fields
+	} 
+		
+	# limit to exact mathes
+	if( length(i <- which(ex)) ){
+		d <- d[i]
+	}else if( exact ){
+		if( error ){
 			stop(msg, "No exact match for key '", key, "' in the registry."
 					, "\n  Use one of: ", str_wrap(str_out(allkeys), exdent=2))
 		}else return(NULL) 
-		
 	}
 	
 	if( all ) return(d)
@@ -608,23 +650,62 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	if( !entry && is(regobj, 'object_subregistry') ) d$object
 	else d
 }
-#' \code{pkgregfetch} fetches entries in a package registry, as set up by 
+#' \code{pkgreg_fetch} fetches entries in a package registry, as set up by 
 #' \code{\link{setPackageRegistry}}.
 #' 
-#' \code{pkgregfetch} loads the requested package registry and uses \code{regfetch} 
+#' \code{pkgreg_fetch} loads the requested package registry and uses \code{regfetch} 
 #' to retrieve data from it.
 #' 
 #' @inheritParams setPackageRegistry
 #'  
 #' @rdname regfetch
 #' @export
-pkgregfetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
+pkgreg_fetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
 	# get package registry
 	regentry <- packageRegistry(regname, package=where, entry=TRUE, update=TRUE)
 	# define addon error message
 	if( missing(msg) && !is_NA(regentry$entrydesc) ) msg <- regentry$entrydesc
 	# fetch from registry
 	regfetch(regentry$regobj, ..., msg=msg)
+}
+
+#' \code{pkgreg_remove} removes an entry from a package registry.
+#' 
+#' @param quiet a logical that indicates if the operation should be performed quietly, 
+#' without throwing errors or warnings.
+#' 
+#' @rdname regfetch
+#' @export
+pkgreg_remove <- function(regname, ..., msg=NULL, where=topenv(parent.frame()), quiet=FALSE){
+	# get package registry
+	regentry <- packageRegistry(regname, package=where, entry=TRUE, update=TRUE)
+	# define addon error message
+	if( missing(msg) && !is_NA(regentry$entrydesc) ) msg <- regentry$entrydesc
+	# fetch from registry
+	entry <- regfetch(regentry$regobj, ..., exact=TRUE, error=FALSE, all=TRUE, msg=msg)
+	
+	res <- if( !is.null(entry) ){
+		# get the method registry and the method's fullname
+		name <- names(entry)
+		
+		if( !quiet ){
+			msg <- paste0("Removing ", msg, " '", name, "' from registry '", regname, "'")
+			message(msg, ' ... ', appendLF=FALSE)
+		}
+		# delete from registry
+		regentry$regobj$delete_entry(name)
+		if( !quiet ) message('OK')
+		TRUE
+	}else{
+		if( !quiet ){
+			name <- str_out(list(...), Inf, use.names=TRUE)
+			warning("Could not remove ", msg, " '", name, "': no matching registry entry.", call.=FALSE)
+		}
+		FALSE
+	}
+
+	if( quiet ) invisible(res)
+	else res
 }
 
 extract_pkg <- function(x){
@@ -712,7 +793,7 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 	#
 	
 	# check if the object is already registered
-	oldentry <- regfetch(regobj, KEYS=fields, exact=TRUE, error=FALSE)
+	oldentry <- regfetch(regobj, KEYS=fields, exact=TRUE, error=FALSE, all=TRUE)
 	# error if already exists and not overwriting		
 	if( !is.null(oldentry) && !overwrite ){ 
 		if( verbose ) message("ERROR")
@@ -726,10 +807,11 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 	}
 	# delete old entry
 	if( !is.null(oldentry) ){
-		do.call(regobj$delete_entry, regkeys(regobj, fields))
+		regobj$delete_entry(names(oldentry)[1L])
 	}
 	# do add entry
 	do.call(regobj$set_entry, fields)
+	if( verbose ) message("OK")
 	
 	# if the registration happens during loading another package: 
 	# create local registry and add entry to it.
@@ -737,11 +819,10 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 	# packageRegistry after the package is loaded.
 	lns <- getLoadingNamespace(env=TRUE)
 	if( !is.null(lns <- getLoadingNamespace(env=TRUE)) && !identical(lns, package) ){
-		if( verbose ) message("OK")
 		# clone registry
 		if( nchar(subregentry$parent) ){
 			warning("Deriving package registry '", registry, "' in package ", lns
-					, " to ", subregentry$parent, " instead of ", subregentry$package)
+					, " from ", subregentry$parent, " instead of ", subregentry$package, immediate.=TRUE)
 			parent <- subregentry$parent
 		}else parent <- subregentry$package
 		fullregistry <- str_c(parent, '::', registry)
@@ -750,7 +831,6 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 			# clone registry
 			locregobj <- clone_regobj(regobj, empty=TRUE)
 			# attach to loading namespace
-			if( verbose ) message("")
 			locregobj <- setPackageRegistry(fullregistry, locregobj
 											, description = subregentry$description
 											, entrydesc = subregentry$entrydesc
@@ -759,15 +839,15 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 		}
 		
 		action <- 'Adding'
-		if( !is.null(locentry <- regfetch(locregobj, KEYS=fields, exact=TRUE, error=FALSE)) ){
-			action <- 'Replacing'
-			do.call(locregobj$delete_entry, regkeys(locregobj, fields))
+		if( !is.null(locentry <- regfetch(locregobj, KEYS=fields, exact=TRUE, error=FALSE, all=TRUE)) ){
+			action <- 'Overwriting'
+			locregobj$delete_entry(names(locentry)[1L])
 		}
 		# add entry into local registry
 		if( verbose ) message(action, " entry '", key, "' in registry '", fullregistry, "' ... ", appendLF=FALSE)
 		do.call(locregobj$set_entry, fields)
 		if( verbose ) message("OK")
-	}else if( verbose ) message("OK")
+	}
 	#
 	
 	# return registered object
@@ -782,6 +862,8 @@ clone_regobj <- function(regobj, empty=FALSE){
 	saveRDS(regobj, file=tmp)
 	newreg <- readRDS(tmp)
 	# empty entries if necessary
-	if( empty ) sapply(newreg$get_entry_names(), newreg$delete_entry)
+	if( empty ){
+		sapply(newreg$get_entry_names(), newreg$delete_entry)
+	}
 	newreg
 }

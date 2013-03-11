@@ -1,4 +1,4 @@
-# TODO: Add comment
+# Package extra action registry
 # 
 # Author: renaud
 ###############################################################################
@@ -62,7 +62,7 @@ setPackageExtraHandler <- function(handler, fun, ...){
 #' \code{packageExtraHandler} retrieves a given handler from the registry. 
 #' 
 #' @param ... extra arguments passed to internal function calls.
-#' In \code{packageExtraHandler}, these are passed to \code{\link{pkgregfetch}}.
+#' In \code{packageExtraHandler}, these are passed to \code{\link{pkgreg_fetch}}.
 #' 
 #' In \code{setPackageExtra}, these define default arguments for the handler function. 
 #' These are overwritten by arguments in the call to runner function if any.
@@ -71,7 +71,7 @@ setPackageExtraHandler <- function(handler, fun, ...){
 #' @export 
 packageExtraHandler <- function(handler=NULL, ...){
 	# load handler from registry
-	pkgregfetch('extra_handler', key=handler, ...)
+	pkgreg_fetch('extra_handler', key=handler, ...)
 }
 #' \code{setPackageExtra} registers extra actions for a given handler.
 #' 
@@ -101,8 +101,8 @@ setPackageExtra <- function(handler, extra, ...){
 	}
 	args <- list(...)
 	pkg <- packageName(topenv(parent.frame()), .Global=TRUE)
-	setPackageRegistryEntry('extra_action', key=extra, handler=handler
-							, package=pkg, args=args
+	setPackageRegistryEntry('extra_action', key=extra, handler=handler, args=args
+							, package = pkg 
 							, msg=str_c(" for handler '", handler, "'"))
 }
 
@@ -131,7 +131,7 @@ setPackageExtra <- function(handler, extra, ...){
 packageExtra <- function(handler=NULL, extra=NULL, package=NULL, .wrap=FALSE){
 	
 	# load extra registry
-	extras <- pkgregfetch('extra_action', key=extra, handler=handler, package=package
+	extras <- pkgreg_fetch('extra_action', key=extra, handler=handler, package=package
 						, exact=TRUE, all=!.wrap)
 	
 	# return whole registry if no other argument is provided

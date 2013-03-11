@@ -39,7 +39,7 @@
 
   \item{...}{extra arguments passed to internal function
   calls. In \code{packageExtraHandler}, these are passed to
-  \code{\link{pkgregfetch}}.
+  \code{\link{pkgreg_fetch}}.
 
   In \code{setPackageExtra}, these define default arguments
   for the handler function. These are overwritten by

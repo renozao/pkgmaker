@@ -1,5 +1,6 @@
 \name{regfetch}
-\alias{pkgregfetch}
+\alias{pkgreg_fetch}
+\alias{pkgreg_remove}
 \alias{regfetch}
 \title{Finds an entry in a registry.}
 \usage{
@@ -7,8 +8,11 @@
     exact = FALSE, KEYS = NULL, verbose = FALSE,
     entry = FALSE, msg = NULL)
 
-  pkgregfetch(regname, ..., msg = NULL,
+  pkgreg_fetch(regname, ..., msg = NULL,
     where = topenv(parent.frame()))
+
+  pkgreg_remove(regname, ..., msg = NULL,
+    where = topenv(parent.frame()), quiet = FALSE)
 }
 \arguments{
   \item{regobj}{a registry object}
@@ -23,7 +27,9 @@
   be thrown if the key has no match or multiple matches}
 
   \item{exact}{a logical that indicates if matching should
-  be exact or partial}
+  be exact or partial. Note that if exact matches exist
+  then they are returned, independently of the value of
+  \code{exact}.}
 
   \item{KEYS}{alternative way of passing the key value(s).
   If not missing, then arguments in \code{...} are
@@ -36,6 +42,10 @@
 
   \item{msg}{a header to use in case of error.}
 
+  \item{quiet}{a logical that indicates if the operation
+  should be performed quietly, without throwing errors or
+  warnings.}
+
   \item{regname}{Name of a sub-registry, used as its
   identifier.}
 
@@ -47,7 +57,10 @@
   queried from a \code{\link[registry:regobj]{registry}}
   object.
 
-  \code{pkgregfetch} loads the requested package registry
+  \code{pkgreg_fetch} loads the requested package registry
   and uses \code{regfetch} to retrieve data from it.
+
+  \code{pkgreg_remove} removes an entry from a package
+  registry.
 }
 

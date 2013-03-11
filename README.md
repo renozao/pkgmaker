@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 
 The package `pkgmaker` provides implementeations of features commonly used when developing R packages:
 

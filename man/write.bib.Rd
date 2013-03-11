@@ -55,7 +55,7 @@ md5[1] == md5[2]
 # write to stdout()
 pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file=NULL)
 
-\dontshow{ unlink(c('references.bib', 'references2.bib'))}
+\dontshow{ unlink(c('references.bib', 'references2.bib')) }
 }
 \author{
   Renaud Gaujoux, based on the function
