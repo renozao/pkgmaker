@@ -608,7 +608,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	if( is.null(d) ){
 		if( error ){
 			stop(msg, "No matching entry for key ", dQuote(key), " in the registry."
-							, "\n  Use one of: ", str_wrap(str_out(sort(allkeys), NA), exdent=2))
+							, "\n  Use one of: ", str_wrap(str_out(sort(allkeys), Inf), exdent=2))
 		}else return(NULL)
 	}
 	
@@ -625,7 +625,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	}else if( exact ){
 		if( error ){
 			stop(msg, "No exact match for key '", key, "' in the registry."
-					, "\n  Use one of: ", str_wrap(str_out(allkeys), exdent=2))
+					, "\n  Use one of: ", str_wrap(str_out(allkeys, Inf), exdent=2))
 		}else return(NULL) 
 	}
 	
@@ -635,7 +635,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 #	str(d)
 	if( length(d) > 1L ){
 		if( error ){
-			stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), NA))
+			stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), Inf))
 		}else return(NA)
 	}
 	
