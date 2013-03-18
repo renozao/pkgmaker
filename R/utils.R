@@ -851,7 +851,11 @@ expand_list <- function(x, ..., .exact=TRUE, .names=!.exact){
 	i <- match(names(defaults), names(x_ex))
 	if( length(w <- which(is.na(i))) ){
 		n <- names(defaults)[w]
-		lapply(n, function(m) x[[m]] <<- defaults[[m]])
+		lapply(n, function(m){
+			if( is.null(defaults[[m]]) ){
+				x <<- c(x, setNames(list(NULL), m)) 
+			}else x[[m]] <<- defaults[[m]]
+		})
 	}
 	
 	x
