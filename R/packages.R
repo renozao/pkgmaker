@@ -327,23 +327,40 @@ add_lib <- function(..., append=FALSE){
 #' 
 #' \code{isCRANcheck} tells if one is running CRAN check.
 #' 
-#' @param what type of CRAN check to test for.
+#' @param ... each argument specifies a set of tests to do using an AND operator.
+#' The final result tests if any of the test set is true.
 #' Possible values are:
 #' \describe{
-#' \item{\code{'timing'}}{Check if the flag \code{'--timing'} was set.}
+#' \item{\code{'timing'}}{Check if the environment variable '_R_CHECK_TIMINGS_' is set, 
+#' as with the flag \code{'--timing'} was set.}
+#' \item{\code{'cran'}}{Check if the environment variable '_R_CHECK_CRAN_INCOMING_' is set, 
+#' as with the flag \code{'--as-cran'} was set.}
 #' }
 #' 
 #' @references Adapted from the function \code{CRAN}
 #' in the \pkg{fda} package.
 #' 
 #' @export
-isCRANcheck <- function(what='timing'){
+isCRANcheck <- function(...){
   
-  envar <- c(timing="_R_CHECK_TIMINGS_")
-  x <- envar[what]
+  tests <- list(...)
+  if( !length(tests) ){ #default tests
+	  tests <- list('timing', 'cran')
+  }
+  test_sets <- c(timing="_R_CHECK_TIMINGS_", cran='_R_CHECK_CRAN_INCOMING_')
+  tests <- sapply(tests, function(x){
+			  # convert named tests
+			  if( length(i <- which(x %in% names(test_sets))) ){
+				  y <- test_sets[x[i]]
+				  x <- x[-i]
+				  x <- c(x, y)
+			  }
+			  # get environment variables
+			  evar <- unlist(sapply(x, Sys.getenv))
+			  all(nchar(as.character(evar)) > 0)
+		  })
   
-  x. <- unlist(setNames(lapply(x, Sys.getenv), what))
-  nchar(as.character(x.)) > 0
+  any(tests)
 }
 #' \code{isCRAN_timing} tells if one is running CRAN check with flag \code{'--timing'}.
 #' 
