@@ -585,12 +585,17 @@ quick_install <- function(path, ..., lib.loc){
 #' and, optionally, \code{qpdf} are required.
 #' @param user character vector containing usernames that enforce \code{checkMode=TRUE}, 
 #' if the function is called from within their session.
+#' @param tests logical that enables the compilation of a vignette that gathers all unit 
+#' test results.
+#' Note that this means that all unit tests are run before generating the vignette.
+#' However, unit tests are not (re)-run at this stage when the vignettes are built 
+#' when checking the package with \code{R CMD check}.
 #' 
 #' @rdname vignette
 #' @export
 vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL, temp=FALSE
                              , checkMode = isCRANcheck()
-                             , user = NULL){
+                             , user = NULL, tests=TRUE){
 	
 	library(methods)
 	## create makefile from template
@@ -659,7 +664,7 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	# src
 	if( is.dir('src') ) rnwFiles <- list.files('src', pattern="\\.Rnw$")
 	# unit tests
-	if( is.dir('../tests') ) rnwFiles <- c(rnwFiles, str_c(package, '-unitTests.Rnw'))
+	if( tests && is.dir('../tests') ) rnwFiles <- c(rnwFiles, str_c(package, '-unitTests.Rnw'))
 	# non-fake vignettes
     rnwFiles <- c(rnwFiles, list.files('.', pattern="\\.Rnw$"))
 	# substitute in makefile
