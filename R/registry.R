@@ -568,8 +568,8 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	# load the registry package
 	library(registry)
 	# list -- all -- keys if no key is specified
-	allkeys <- regobj$get_entry_names()
-	if( !all ) allkeys <- grep("^[^.]", allkeys, value=TRUE)
+	keylist <- allkeys <- regobj$get_entry_names()
+	if( !all ) keylist <- grep("^[^.]", keylist, value=TRUE)
 	
 	index_fields <- if( !is.null(KEYS) ){
 		if( !is.list(KEYS) ) stop("Invalid argument <KEYS>: must be a list of field values.")
@@ -586,7 +586,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 		}
 	}
 	if( is.null(key) ){
-		return(allkeys)
+		return(keylist)
 	}
 	
 	# set verbosity level
@@ -608,7 +608,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	if( is.null(d) ){
 		if( error ){
 			stop(msg, "No matching entry for key ", dQuote(key), " in the registry."
-							, "\n  Use one of: ", str_wrap(str_out(sort(allkeys), Inf), exdent=2))
+							, "\n  Use one of: ", str_wrap(str_out(sort(allkeys), Inf), exdent=2), '.')
 		}else return(NULL)
 	}
 	
@@ -625,7 +625,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	}else if( exact ){
 		if( error ){
 			stop(msg, "No exact match for key '", key, "' in the registry."
-					, "\n  Use one of: ", str_wrap(str_out(allkeys, Inf), exdent=2))
+					, "\n  Use one of: ", str_wrap(str_out(allkeys, Inf), exdent=2), '.')
 		}else return(NULL) 
 	}
 	
@@ -635,7 +635,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 #	str(d)
 	if( length(d) > 1L ){
 		if( error ){
-			stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), Inf))
+			stop(msg, "Multiple entries found for key ", dQuote(key), ": ", str_out(sort(names(d)), Inf), '.')
 		}else return(NA)
 	}
 	
