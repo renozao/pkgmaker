@@ -28,6 +28,9 @@ RdSection2latex <- function(topic, i=1L, notitle=TRUE, ...){
 		ltx <- ltx[seq(w[1]+1, tail(w, 1)-1)]
 	}
 	ltx <- paste(ltx, collapse="\n")
+	# remove link commands
+	ltx <- gsub("\\\\LinkA\\{([^}]+)\\}\\{([^}]+)\\}", "\\2", ltx)
+	
 	cat(ltx)
 	invisible()
 }

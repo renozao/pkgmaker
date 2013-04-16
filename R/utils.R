@@ -906,3 +906,19 @@ expand_dots <- function(..., .exclude=NULL){
 	dotsCall
 }
 
+#' Check Environment Variables
+#' 
+#' Tells if some environment variable(s) are defined.
+#' 
+#' @param x environment variable name, as a character vector.
+#' 
+#' @export
+#' @examples 
+#' 
+#' hasEnvar('_R_CHECK_TIMINGS_')
+#' hasEnvar('ABCD')
+#' 
+hasEnvar <- function(x){
+	ev <- Sys.getenv()[x]
+	is.na(ev)
+}

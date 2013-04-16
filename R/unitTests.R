@@ -324,6 +324,9 @@ makeUnitVignette <- function(pkg, file=paste(pkg, '-unitTests.pdf', sep=''), ...
 #	if( !check || !is.dir(utestPath(package=package)) ){
 	if( !check ){
 		
+		# force running all tests 
+		utestCheckMode(FALSE)
+		
 		# run unit tests
 		tests <- utest(package, ...)
 		
@@ -649,7 +652,7 @@ list.tests <- function(x, pattern=NULL){
 setGeneric('utest', function(x, ...) standardGeneric('utest'))
 #' Run the unit test assoicated to a function. 
 #' 
-#' @param run a lgoical that indicates if the unit test should be run
+#' @param run a logical that indicates if the unit test should be run
 setMethod('utest', 'function',
 	function(x, run = TRUE){
 		# get actual name of the function
@@ -681,6 +684,13 @@ setMethod('utest', 'character',
 				, lib.loc = NULL){
 			
 			cat("#########################\n")
+			
+			# define environment variable that identifies a test run (if not already defined) 
+			if( is.na(utestCheckMode()) ){
+				oldUM <- utestCheckMode(TRUE)
+				on.exit( utestCheckMode(oldUM), add=TRUE)
+			}
+			
 			#print(system('env'))
 			# detect type of input string
 			path <- 

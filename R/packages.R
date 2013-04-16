@@ -325,15 +325,23 @@ add_lib <- function(..., append=FALSE){
 
 #' Package Check Utils
 #' 
-#' \code{isCRANcheck} tells if one is running CRAN check.
+#' \code{isCRANcheck} tries to identify if one is running CRAN checks.
+#' 
+#' Currently \code{isCRANcheck} returns \code{TRUE} if the check is run with 
+#' either environment variable \code{_R_CHECK_TIMINGS_} (as set by flag \code{'--timings'})
+#' or \code{_R_CHECK_CRAN_INCOMINGS_} (as set by flag \code{'--as-cran'}).
+#' 
+#' Note that the checks performed on CRAN farms are not always run with such flags, 
+#' so there is no guarantee this function identifies such runs, and one should 
+#' rely custom environment variables to enable specific tests or examples.
 #' 
 #' @param ... each argument specifies a set of tests to do using an AND operator.
 #' The final result tests if any of the test set is true.
 #' Possible values are:
 #' \describe{
-#' \item{\code{'timing'}}{Check if the environment variable '_R_CHECK_TIMINGS_' is set, 
+#' \item{\code{'timing'}}{Check if the environment variable \code{_R_CHECK_TIMINGS_} is set, 
 #' as with the flag \code{'--timing'} was set.}
-#' \item{\code{'cran'}}{Check if the environment variable '_R_CHECK_CRAN_INCOMING_' is set, 
+#' \item{\code{'cran'}}{Check if the environment variable \code{_R_CHECK_CRAN_INCOMING_} is set, 
 #' as with the flag \code{'--as-cran'} was set.}
 #' }
 #' 
@@ -367,3 +375,47 @@ isCRANcheck <- function(...){
 #' @export
 #' @rdname isCRANcheck
 isCRAN_timing <- function() isCRANcheck('timing')
+
+.utestCheckEnvarname <- '_R_CHECK_RUNNING_UTESTS_'
+
+#' \code{isCHECK} tries harder to test if running under \code{R CMD check}, at least  
+#' for unit tests that use the unified unit test framework defined by \pkg{pkgmaker} 
+#' (see \code{\link{utest}}).
+#' 
+#' \code{isCHECK} checks both CRAN expected flags and the value of environment variable
+#' \code{_R_CHECK_RUNNING_UTESTS_}.
+#' It will return \code{TRUE} if such variable is set to anything not equivalent 
+#' to \code{FALSE}.
+#' For example, the function \code{\link{utest}} sets it to the name of the package  
+#' being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}), 
+#' but unit tests run as part of unit tests vignettes are run with 
+#' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers cann run all tests.
+#' 
+#' @rdname isCRANcheck
+#' @export
+#' 
+#' @examples
+#' 
+#' isCHECK()
+#' 
+isCHECK <- function(){
+	isCRANcheck() || !isFALSE(utestCheckMode(raw=FALSE))
+}
+
+utestCheckMode <- function(value, raw=TRUE){
+	if( missing(value) ){
+		val <- Sys.getenv()[.utestCheckEnvarname]
+		# convert false values to FALSE if required
+		if( !raw && (is.na(val) || !nchar(val) || tolower(val) == 'false' || val == '0') ){
+			val <- FALSE
+		}
+		val
+	}else{
+		old <- utestCheckMode()
+		if( is_NA(value) ) Sys.unsetenv(.utestCheckEnvarname) # unset
+		else do.call(Sys.setenv, setNames(list(value), .utestCheckEnvarname)) # set value
+		# return old value
+		old	
+	}	
+}
+

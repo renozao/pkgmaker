@@ -26,7 +26,7 @@
   \item{...}{extra arguments to allow extensions and are
   passed to the unit framework running funcitons.}
 
-  \item{run}{a lgoical that indicates if the unit test
+  \item{run}{a logical that indicates if the unit test
   should be run}
 
   \item{filter}{pattern to match files that contain the

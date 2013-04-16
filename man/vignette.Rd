@@ -25,7 +25,7 @@
 
   vignetteMakefile(package = NULL, skip = NULL,
     print = TRUE, template = NULL, temp = FALSE,
-    checkMode = isCRANcheck(), user = NULL)
+    checkMode = isCRANcheck(), user = NULL, tests = TRUE)
 }
 \arguments{
   \item{x}{vignette source file specification as a path or
@@ -74,6 +74,13 @@
   \item{user}{character vector containing usernames that
   enforce \code{checkMode=TRUE}, if the function is called
   from within their session.}
+
+  \item{tests}{logical that enables the compilation of a
+  vignette that gathers all unit test results. Note that
+  this means that all unit tests are run before generating
+  the vignette. However, unit tests are not (re)-run at
+  this stage when the vignettes are built when checking the
+  package with \code{R CMD check}.}
 }
 \description{
   \code{rnw} provides a unified interface to run vignettes
