@@ -688,3 +688,31 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	}
 	invisible(l)
 }
+
+#' Compact PDF at Best
+#' 
+#' Compact PDFs using either \code{gs_quality='none'} or \code{'ebook'}, 
+#' depending on which compacts best (as per CRAN check criteria).
+#' 
+#' @inheritParams tools::compactPDF
+#' 
+#' @rdname vignette
+#' @export
+compactVignettes <- function(paths, ...){
+	
+	td <- tempfile(basename(paths))
+	file.copy(paths, td)
+	res <- tools::compactPDF(td, gs_quality = "none", ...) # use qpdf
+	diff_none <- format(res, diff = 1e5)
+	res <- tools::compactPDF(td, gs_quality = "ebook", ...)
+	diff_ebook <- format(res, diff = 2.5e5) # 250 KB for now
+	
+	if( length(diff_ebook) ){
+		tools::compactPDF(paths, gs_quality = "ebook", ...)
+		invisible('ebook')
+	}else{
+		tools::compactPDF(paths, gs_quality = "none", ...)
+		invisible('none')
+	}
+	
+}

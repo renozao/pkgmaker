@@ -10,11 +10,10 @@
   \code{\link{colors}()}), a hexadecimal string of the form
   \code{"#rrggbb"} or \code{"#rrggbbaa"} (see
   \code{\link{rgb}}), or a positive integer \code{i}
-  meaning \code{\link{palette}()[i]} or \code{0} (see
-  \sQuote{Details}).  Non-character values are coerced to
-  integers.}
+  meaning \code{\link{palette}()[i]}.  Non-numeric values
+  are coerced to character.}
 
-  \item{alpha}{logical value indicating whether alpha
+  \item{alpha}{logical value indicating whether the alpha
   channel (opacity) values should be returned.}
 }
 \description{
