@@ -262,6 +262,8 @@ topns <- function(strict=TRUE){
 }
 
 #' \code{packageName} returns the current package's name.
+#' It was made internal from version 0.16, since the package \pkg{utils} 
+#' exported its own \code{\link[utils]{packageName}} function in R-3.0.0. 
 #' 
 #' @param envir environment where to start looking for a package name.
 #' The default is to use the \strong{runtime} calling package environment.
@@ -271,7 +273,6 @@ topns <- function(strict=TRUE){
 #' @param rm.prefix logical that indicates if an eventual prefix 'package:' 
 #' should be removed from the returned string.
 #' 
-#' @export
 #' @rdname devutils
 #' @return a character string
 packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){

@@ -3,6 +3,9 @@
 # Author: renaud
 ###############################################################################
 
+#' @include devutils.R 
+NULL
+
 .getExtraEnv <- function(package){
 	if( missing(package) || is.null(package) ) where <- topns(FALSE)
 	else if( isString(package) ) {

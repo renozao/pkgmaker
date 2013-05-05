@@ -106,7 +106,10 @@
   package -- in which case \code{topenv} would not give the
   desired environment.
 
-  \code{packageName} returns the current package's name.
+  \code{packageName} returns the current package's name. It
+  was made internal from version 0.16, since the package
+  \pkg{utils} exported its own
+  \code{\link[utils]{packageName}} function in R-3.0.0.
 
   \code{str_ns} formats a package environment/namespace for
   log/info messages.
