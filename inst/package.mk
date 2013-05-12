@@ -25,7 +25,7 @@ R_LIBS=#%R_LIBS%#
 ifdef devel
 RSCRIPT=Rdscript
 RCMD=Rdevel
-DEVEL_FLAG=devel
+DEVEL_FLAG=-devel
 endif
 
 R_BIN=#%R_BIN%#
@@ -93,8 +93,8 @@ build-bin: build
 check: build checks/$(R_PACKAGE_TAR_GZ)
 	@cd checks && \
 	echo "\n*** STEP: CHECK\n" && \
-	mkdir -p $(R_PACKAGE_OS)-$(DEVEL_FLAG) && \
-	$(R_LIBS) $(RCMD) CMD check -o $(R_PACKAGE_OS)-$(DEVEL_FLAG) --as-cran --timings $(R_PACKAGE_TAR_GZ) 
+	mkdir -p $(R_PACKAGE_OS)$(DEVEL_FLAG) && \
+	$(R_LIBS) $(RCMD) CMD check -o $(R_PACKAGE_OS)$(DEVEL_FLAG) --as-cran --timings $(R_PACKAGE_TAR_GZ) 
 	echo "\n*** DONE: CHECK"
 
 roxygen: init
@@ -148,5 +148,7 @@ myCRAN: build
 	echo "OK" && \
 	echo "  - update index ... " && \
 	cd ~/projects/myCRAN/ && ./update && cd - && \
+	echo "  - update staticdocs ... " && \
+	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PATH)/../www/ web/$(R_PACKAGE) && \
 	echo "DONE: index" && \
 	echo "*** DONE: myCRAN\n"
