@@ -44,20 +44,20 @@
 #' @export
 #' @examples
 #' 
-#' #library(bibtex)
-#' pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file='references')
+#' write.pkgbib(c('bibtex', 'utils', 'tools'), file='references')
 #' bibs <- bibtex::read.bib('references.bib')
-#' pkgmaker::write.bib(bibs, 'references2.bib')
+#' write.pkgbib(bibs, 'references2.bib')
 #' md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
 #' md5[1] == md5[2]
 #' \dontshow{ stopifnot(md5[1] == md5[2]) }
 #' 
 #' # write to stdout()
-#' pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file=NULL)
+#' write.pkgbib(c('bibtex', 'utils', 'tools'), file=NULL)
 #' 
-#' \dontshow{ unlink(c('references.bib', 'references2.bib')) }
+#' # clean up 
+#' unlink(c('references.bib', 'references2.bib'))
 #' 
-write.bib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = FALSE, verbose = TRUE)
+write.pkgbib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = FALSE, verbose = TRUE)
 {
 	# special handling of file=NULL: use stdout()
 	if( is.null(file) ){
@@ -147,6 +147,10 @@ write.bib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = FALS
 	invisible(bibs)
 }
 
+#' @rdname pkgmaker-defunct
+write.bib <- function(...){
+	.Defunct('write.pkgbib', package = 'pkgmaker')
+}
 
 #' Package References
 #' 

@@ -1,9 +1,9 @@
 \encoding{utf8}
-\name{write.bib}
-\alias{write.bib}
+\name{write.pkgbib}
+\alias{write.pkgbib}
 \title{Generate a Bibtex File from Package Citations}
 \usage{
-  write.bib(entry = NULL, file = "Rpackages.bib",
+  write.pkgbib(entry = NULL, file = "Rpackages.bib",
     prefix = "", append = FALSE, verbose = TRUE)
 }
 \arguments{
@@ -44,18 +44,18 @@
   in the bibtex package.
 }
 \examples{
-#library(bibtex)
-pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file='references')
+write.pkgbib(c('bibtex', 'utils', 'tools'), file='references')
 bibs <- bibtex::read.bib('references.bib')
-pkgmaker::write.bib(bibs, 'references2.bib')
+write.pkgbib(bibs, 'references2.bib')
 md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
 md5[1] == md5[2]
 \dontshow{ stopifnot(md5[1] == md5[2]) }
 
 # write to stdout()
-pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file=NULL)
+write.pkgbib(c('bibtex', 'utils', 'tools'), file=NULL)
 
-\dontshow{ unlink(c('references.bib', 'references2.bib')) }
+# clean up
+unlink(c('references.bib', 'references2.bib'))
 }
 \author{
   Renaud Gaujoux, based on the function
