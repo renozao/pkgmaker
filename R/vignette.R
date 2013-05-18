@@ -316,7 +316,7 @@ rnw <- function(x, file=NULL, ..., raw=FALSE){
 	# Package citations
 	if( !is.null(keys <- x$cite) ){
 		message("# Writing package bibtex file [", length(keys)," key(s)] ... ", appendLF=FALSE)
-		write.bib(keys, file='Rpackages.bib', prefix='Rpackage:', verbose=FALSE)
+		write.pkgbib(keys, file='Rpackages.bib', prefix='Rpackage:', verbose=FALSE)
 		message('OK')
 	}
 	#
