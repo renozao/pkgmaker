@@ -135,6 +135,16 @@ packageDependencies <- function(x, recursive=FALSE){
 	unlist(d)
 }
 
+.biocLite <- function(...){
+	# install BiocInstaller if necessary
+	if( !require.quiet('BiocInstaller') ){
+		message("Installing biocLite")
+		source('http://www.bioconductor.org/biocLite.R')
+	}
+	f <- get('biocLite', 'package:BiocInstaller')
+	f(...)
+}
+
 #' Installing All Package Dependencies
 #' 
 #' Install all dependencies from a package source directory or 
@@ -158,7 +168,6 @@ packageDependencies <- function(x, recursive=FALSE){
 install.dependencies <- function (pkg = NULL, all=FALSE, ..., dryrun=FALSE) 
 {
 	pkg <- as.package(pkg, extract=TRUE)
-	#parse_deps <- devtools:::parse_deps
 	deps <- c(parse_deps(pkg$depends)
 			, parse_deps(pkg$imports) 
 			, parse_deps(pkg$linkingto)
@@ -172,7 +181,9 @@ install.dependencies <- function (pkg = NULL, all=FALSE, ..., dryrun=FALSE)
 	}
 	message("Missing: ", str_out(deps, Inf))
 	message("Installing ", length(deps), " dependencies for ", pkg$package)
-	if( !dryrun ) install.packages(deps, ...)
+	if( !dryrun ){
+		.biocLite(deps, ...)
+	}
 	invisible(deps)
 }
 
