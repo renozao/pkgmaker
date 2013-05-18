@@ -75,10 +75,18 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	
 	project_path <- getwd()
 	project_name <- basename(project_path)
-	if( is.null(package) ){
-		pdir <- file.path(c('pkg', '.'), 'DESCRIPTION')
-		if( !length(sd <- which(is.file(pdir))) )
+	subproject_path_part <- ''
+	if( is.null(package) || isString(package) ){
+		if( !nzchar(package) ) package <- NULL
+		lookup_dir <- c('pkg', '.')
+		if( !is.null(package) ){
+			lookup_dir <- c(lookup_dir, file.path('pkg', package))
+			subproject_path_part <- file.path(package, '')
+		}
+		pdir <- file.path(lookup_dir, 'DESCRIPTION')
+		if( !length(sd <- which(is.file(pdir))) ){
 			stop("Could not detect package source directory")
+		}
 		package <- pdir[sd[1L]]
 	}
 	package <- normalizePath(package)
@@ -102,6 +110,7 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	l <- defMakeVar('R_PACKAGE_PROJECT', project_name, l)
 	# R_PACKAGE_PROJECT_PATH
 	l <- defMakeVar('R_PACKAGE_PROJECT_PATH', project_path, l)
+	l <- defMakeVar('R_PACKAGE_SUBPROJECT_PATH_PART', subproject_path_part, l)
 	# R_BIN
 	l <- subMakeVar('R_BIN', R.home('bin'), l)
 	# R_PACKAGE_TAR_GZ

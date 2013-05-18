@@ -5,6 +5,7 @@
 #%R_PACKAGE%#
 #%R_PACKAGE_PROJECT_PATH%#
 #%R_PACKAGE_PROJECT%#
+#%R_PACKAGE_SUBPROJECT_PATH_PART%#
 #%R_PACKAGE_OS%#
 #%R_PACKAGE_PATH%#
 #%R_PACKAGE_TAR_GZ%#
@@ -26,6 +27,9 @@ ifdef devel
 RSCRIPT=Rdscript
 RCMD=Rdevel
 DEVEL_FLAG=-devel
+CHECK_DIR=checks/devel
+else
+CHECK_DIR=checks
 endif
 
 R_BIN=#%R_BIN%#
@@ -77,36 +81,41 @@ dist: all staticdoc
 init:
 
 build:
-	@cd checks && \
+	# Package '$(R_PACKAGE)' in project '$(R_PACKAGE_PROJECT)'
+	# Source directory: '$(R_PACKAGE_PATH)'
+	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
+	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
+	# Platform: $(R_PACKAGE_OS)
+	@mkdir -p $(CHECK_DIR) && \
+	cd $(CHECK_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
 	$(RCMD) CMD build $(R_PACKAGE_PATH) && \
 	echo "*** DONE: BUILD"
 	
 build-bin: build
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: BUILD-BINARIES\n" && \
 	`echo "$$CMD_BUILD_BINARIES" > build-bin.r` && \
 	$(RSCRIPT) --vanilla ./build-bin.r && \
-	echo "\n*** DONE: BUILD-BINARIES" && \
-	cd $(R_PACKAGE_PROJECT_PATH)
+	echo "\n*** DONE: BUILD-BINARIES"
 	
-check: build checks/$(R_PACKAGE_TAR_GZ)
-	@cd checks && \
+check: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
-	mkdir -p $(R_PACKAGE_OS)$(DEVEL_FLAG) && \
-	$(R_LIBS) $(RCMD) CMD check -o $(R_PACKAGE_OS)$(DEVEL_FLAG) --as-cran --timings $(R_PACKAGE_TAR_GZ) 
+	mkdir -p $(R_PACKAGE_OS) && \
+	$(R_LIBS) $(RCMD) CMD check -o $(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) 
 	echo "\n*** DONE: CHECK"
 
 roxygen: init
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: ROXYGEN\n" && \
-	roxy $(R_PACKAGE_PROJECT) && \
+	roxy $(R_PACKAGE) && \
 	echo "\n*** DONE: ROXYGEN"
 
 staticdocs: init
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: STATICDOCS\n" && \
-	Rstaticdoc $(R_PACKAGE_PROJECT) && \
+	Rstaticdocs $(R_PACKAGE) && \
 	echo "\n*** DONE: STATICDOCS\n"
 
 ifdef rebuild
@@ -114,7 +123,7 @@ vignettes: init rmvignettes
 else
 vignettes: init
 endif
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	cd $(R_PACKAGE_PATH)/vignettes && \
 	echo "\n*** STEP: BUILD VIGNETTES\n" && \
 	make && \
@@ -123,25 +132,25 @@ endif
 	echo "\n*** DONE: BUILD VIGNETTES\n"
 
 rmvignettes:
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	cd $(R_PACKAGE_PATH)/vignettes && \
 	echo "\n*** STEP: REMOVE VIGNETTES\n" && \
 	make clean-all && \
 	echo "\n*** DONE: REMOVE VIGNETTES\n"
 	
 r-forge: build
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: R-FORGE" && \
 	echo -n "  - package source ... " && \
-	tar xzf $(R_PACKAGE_TAR_GZ) -C ../r-forge/pkg --strip 1 $(R_PACKAGE) && \
+	tar xzf $(R_PACKAGE_TAR_GZ) -C ../r-forge/pkg$(R_PACKAGE_SUBPROJECT_PATH_PART)/ --strip 1 $(R_PACKAGE) && \
 	echo "OK" && \
 	echo -n "  - static doc ... " && \
-	rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PATH)/../www/ ../r-forge/www/ && \
+	rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PROJECT_PATH)/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ ../r-forge/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ && \
 	echo "OK" && \
 	echo "*** DONE: R-FORGE\n"
 	
 myCRAN: build
-	@cd checks && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: myCRAN" && \
 	echo -n "  - package source ... " && \
 	cp $(R_PACKAGE_TAR_GZ) ~/projects/myCRAN/src/contrib && \
@@ -149,6 +158,6 @@ myCRAN: build
 	echo "  - update index ... " && \
 	cd ~/projects/myCRAN/ && ./update && cd - && \
 	echo "  - update staticdocs ... " && \
-	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PATH)/../www/ web/$(R_PACKAGE) && \
+	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PROJECT_PATH)/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ web/$(R_PACKAGE)/ && \
 	echo "DONE: index" && \
 	echo "*** DONE: myCRAN\n"
