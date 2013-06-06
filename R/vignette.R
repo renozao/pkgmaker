@@ -4,6 +4,9 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
+#' @include packages.R
+NULL
+
 rnw_message <- function(...) message("# ", ...)
 
 #' Identifying Sweave Run
@@ -50,6 +53,10 @@ makeFakeVignette <- function(src, out, PACKAGE=NULL){
 	if( !is.null(PACKAGE) ){
 		src <- str_c(, src)
 	}
+    if( identical(normalizePath(dirname(src)), normalizePath(dirname(out))) ){
+        cat("# NOTE: skipped fake vignette [source in root directory]\n")
+        return(invisible())
+    }
 	# read in template file
 	l <- readLines(src)
 	# extract %\Vignette commands
@@ -565,6 +572,9 @@ quick_install <- function(path, ..., lib.loc){
 	
 }
 
+
+vignetteCheckMode <- checkMode_function('_R_CHECK_BUILDING_VIGNETTES_')
+
 #' \code{vignetteMakefile} returns the path to a generic makefile used to make 
 #' vignettes.
 #' 
@@ -594,7 +604,7 @@ quick_install <- function(path, ..., lib.loc){
 #' @rdname vignette
 #' @export
 vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL, temp=FALSE
-                             , checkMode = isCRANcheck()
+                             , checkMode = isCHECK() || vignetteCheckMode()
                              , user = NULL, tests=TRUE){
 	
 	library(methods)
@@ -608,6 +618,10 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	l <- subMakeVar('R_BIN', R.home('bin'), l)
   #
   
+    if( checkMode ){
+        oldCM <- vignetteCheckMode(TRUE)
+        on.exit( vignetteCheckMode(oldCM) )
+    }
   # Check user: LOCAL_MODE if in declared user
 	localMode <- !checkMode
 	cuser <- Sys.info()["user"]
@@ -627,25 +641,20 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
   }
   
 	# Package name
-	if( is.null(package) ){
-		df <- file.path(getwd(), '..', 'DESCRIPTION')
-		d <- try(read.dcf(df), silent=TRUE)
-		if( is(d, 'try-error') ){
-			stop("Could not infer package name: file '", df, "' not found.")
-		}
-		d <- as.list(as.data.frame(d, stringsAsFactors=FALSE))
-		package <- d$Package
-	}else if( length(find.package(package, quiet=TRUE)) ){
+    pkg_dir <-  dirname(getwd())
+    loc_package <- if( is.file(df <- file.path(pkg_dir, 'DESCRIPTION')) ){
+        d <- try(read.dcf(df), silent=TRUE)
+        d <- as.list(as.data.frame(d, stringsAsFactors=FALSE))
+        d$Package
+    }
+    if( !is.null(loc_package) && (is.null(package) || identical(loc_package, package)) ) package <- loc_package
+    else if( !identical(loc_package, package) && length(pkg_dir <- find.package(package, quiet=TRUE)) ){
 		d <- packageDescription(package)
 	}else{
-		df <- file.path(getwd(), '..', 'DESCRIPTION')
-		d <- try(read.dcf(df), silent=TRUE)
-		if( is(d, 'try-error') ){
-			stop("Could not load DESCRIPTION file '", df, "'.")
-		}
-		d <- as.list(as.data.frame(d, stringsAsFactors=FALSE))
+		stop("Could not load DESCRIPTION file for package '", package, "'.")		
 	}
 	l <- defMakeVar('MAKE_R_PACKAGE', package, l)
+    l <- subMakeVar('R_PACKAGE_DESCRIPTION', pkg_dir, l)
   # R_LIBS: add package's dev lib if necessary 
   Rlibs <- NULL
   if( localMode && is.dir(devlib <- file.path(getwd(), '..', '..', 'lib')) ){
@@ -675,8 +684,8 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	# reset pdf objects in local mode to point to ../inst/doc
 	noBuildVignettes <- if( !is.null(d$BuildVignettes) ) tolower(d$BuildVignettes)=='no' else FALSE
 	if( localMode && noBuildVignettes ){
-		l <- defMakeVar('INST_TARGET', 1, l)
-		l <- defMakeVar('PDF_OBJS'
+        l <- defMakeVar('INST_TARGET', 1, l)
+    	l <- defMakeVar('PDF_OBJS'
 						, paste(file.path('../inst/doc', sub("\\.Rnw$", ".pdf", rnwFiles)), collapse=' ')
 						, l)
 	}

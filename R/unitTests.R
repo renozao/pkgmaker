@@ -369,14 +369,14 @@ writeUnitVignette <- function(pkg, file, results=NULL, check=FALSE){
 	Rnw.template <- 
 "
 \\documentclass[10pt]{article}
+%\\VignetteDepends{knitr}
 %\\VignetteIndexEntry{@pkg@-unitTests}
+%\\VignetteCompiler{knitr}
+%\\VignetteEngine{knitr::knitr}
 \\usepackage{vmargin}
 \\setmargrb{0.75in}{0.75in}{0.75in}{0.75in}
 
-\\RequirePackage{ae,mathpple}    % ae as a default font pkg works with Sweave
-\\RequirePackage[T1]{fontenc}
-
-<<echo=FALSE,print=FALSE>>=
+<<setup, include=FALSE>>=
 pkg <- '@pkg@'
 require( pkg, character.only=TRUE )
 prettyVersion <- packageDescription(pkg)$Version
@@ -686,7 +686,7 @@ setMethod('utest', 'character',
 			cat("#########################\n")
 			
 			# define environment variable that identifies a test run (if not already defined) 
-			if( is.na(utestCheckMode()) ){
+			if( is.na(utestCheckMode(raw = TRUE)) ){
 				oldUM <- utestCheckMode(TRUE)
 				on.exit( utestCheckMode(oldUM), add=TRUE)
 			}

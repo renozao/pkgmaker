@@ -77,7 +77,7 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	project_name <- basename(project_path)
 	subproject_path_part <- ''
 	if( is.null(package) || isString(package) ){
-		if( !nzchar(package) ) package <- NULL
+		if( isString(package) && !nzchar(package) ) package <- NULL
 		lookup_dir <- c('pkg', '.')
 		if( !is.null(package) ){
 			lookup_dir <- c(lookup_dir, file.path('pkg', package))

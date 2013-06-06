@@ -84,7 +84,10 @@ quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., l
 	# build
 	message("# Building package `", pkg$package, "` in '", getwd(), "'")
 	opts <- '--no-manual --no-resave-data '
-	if( !vignettes ) opts <- str_c(opts, '--no-vignettes ')
+	if( !vignettes ){
+        vflag <- if( testRversion('>= 3.0') ) '--no-build-vignettes ' else '--no-vignettes ' 
+        opts <- str_c(opts, vflag)
+    }
 	R.CMD('build', opts, path.protect(npath), ...)
 	spkg <- paste(pkg$package, '_', pkg$version, '.tar.gz', sep='')
 	if( !file.exists(spkg) ) stop('Error in building package `', pkg$package,'`')
@@ -387,8 +390,6 @@ isCRANcheck <- function(...){
 #' @rdname isCRANcheck
 isCRAN_timing <- function() isCRANcheck('timing')
 
-.utestCheckEnvarname <- '_R_CHECK_RUNNING_UTESTS_'
-
 #' \code{isCHECK} tries harder to test if running under \code{R CMD check}, at least  
 #' for unit tests that use the unified unit test framework defined by \pkg{pkgmaker} 
 #' (see \code{\link{utest}}).
@@ -410,23 +411,29 @@ isCRAN_timing <- function() isCRANcheck('timing')
 #' isCHECK()
 #' 
 isCHECK <- function(){
-	isCRANcheck() || !isFALSE(utestCheckMode(raw=FALSE))
+	isCRANcheck() || !isFALSE(utestCheckMode())
 }
 
-utestCheckMode <- function(value, raw=TRUE){
-	if( missing(value) ){
-		val <- Sys.getenv()[.utestCheckEnvarname]
-		# convert false values to FALSE if required
-		if( !raw && (is.na(val) || !nchar(val) || tolower(val) == 'false' || val == '0') ){
-			val <- FALSE
-		}
-		val
-	}else{
-		old <- utestCheckMode()
-		if( is_NA(value) ) Sys.unsetenv(.utestCheckEnvarname) # unset
-		else do.call(Sys.setenv, setNames(list(value), .utestCheckEnvarname)) # set value
-		# return old value
-		old	
-	}	
+checkMode_function <- function(varname){
+    
+    .varname <- varname
+    function(value, raw = FALSE){
+        if( missing(value) ){
+            val <- Sys.getenv()[.varname]
+            # convert false values to FALSE if required
+            if( !raw && (is.na(val) || !nchar(val) || tolower(val) == 'false' || val == '0') ){
+                val <- FALSE
+            }
+            val
+        }else{
+            old <- utestCheckMode(raw = TRUE)
+            if( is_NA(value) ) Sys.unsetenv(.varname) # unset
+            else do.call(Sys.setenv, setNames(list(value), .varname)) # set value
+            # return old value
+            old	
+        }	
+    }
 }
 
+
+utestCheckMode <- checkMode_function('_R_CHECK_RUNNING_UTESTS_')
