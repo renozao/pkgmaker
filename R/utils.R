@@ -43,7 +43,7 @@ require.quiet <- function(package, character.only = FALSE, ...){
 #' Compares current R version with a given target version, which may be useful  
 #' for implementing version dependent code. 
 #' 
-#' @param x target version to compare with. 
+#' @param x target version to compare with.
 #' @param test numeric value that indicates the comparison to be carried out.
 #' The comparison is based on the result from 
 #' \code{utils::compareVersion(R.version, x)}:
@@ -59,14 +59,25 @@ require.quiet <- function(package, character.only = FALSE, ...){
 #' 
 #' testRversion("2.14")
 #' testRversion("2.15")
-#' testRversion("2.30")
-#' testRversion("2.30", -1)
-#' testRversion("2")
+#' testRversion("10")
+#' testRversion("10", test = -1)
+#' testRversion("< 10")
 #' testRversion(Rversion())
+#' testRversion(paste0('=', Rversion()))
 #' 
 testRversion <- function(x, test=1L){
 	rv <- Rversion()
-	utils::compareVersion(rv, x) == test
+    op <- '=='
+    if( grepl("^[=<>]", str_trim(x)) ){
+        m <- str_match(x, "^([<>=]=?)(.*)")
+        if( is.na(m[, 1]) ) stop('Invalid version specification: ', x)
+        op <- m[, 2]
+        if( op == '=' ) op <- '=='
+        x <- str_trim(m[, 3L])
+        if( !missing(test) ) warning("Ignoring argument `test`: comparison operator was passed in argument `x`")
+        test <- 0L
+    }
+	do.call(op, list(utils::compareVersion(rv, x), test))
 }
 
 #' Complete R version
@@ -94,6 +105,8 @@ Rversion <- function(){
 #' @param use.names a logical indicating whether names should be added to the 
 #' list as \code{NAME=VAL, ...} or not (default).
 #' @param sep separator character
+#' @param total logical that indicates if the total number of elements should be 
+#' appended to the formatted string as \code{"'a', ..., 'z' (<N> total)"}.  
 #' 
 #' @return a single character string
 #' 
@@ -104,11 +117,13 @@ Rversion <- function(){
 #' str_out(x, 8)
 #' str_out(x, Inf)
 #' str_out(x, quote=FALSE)
+#' str_out(x, total = TRUE)
 #' 
 #' @export
-str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", "){
+str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ", total = FALSE){
 	if( is_NA(max) ) max <- Inf
 	suffix <- NULL
+    nTotal <- length(x)
 	if( max > 2 && length(x) > max ){
 		suffix <- "..."
 		x <- c(head(x, max-1), tail(x, 1))
@@ -130,7 +145,12 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ")
 	if( !is.null(suffix) ){
 		x <- c(head(x, length(x)-1L), suffix, tail(x, 1L))
 	}
-	paste(paste(x, collapse=sep), sep='')
+	s <- paste(paste(x, collapse=sep), sep='')
+	
+	if( total ) s <- paste0(s, ' (', nTotal, ' total)')
+	
+	# return formatted string 
+	s
 }
 
 #' \code{str_desc} builds formatted string from a list of complex values.
