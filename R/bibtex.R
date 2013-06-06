@@ -168,8 +168,9 @@ write.bib <- function(...){
 packageReference <- function(key, short=FALSE){
 	bibs <- bibtex::read.bib(file=packageReferenceFile())
 	k <- sapply(bibs, function(x) x$key)
-	sel <- k %in% key
-	if( sum(sel) == 0L ) return("")
+    mk <- match(key, k)
+	sel <- mk[!is.na(mk)]
+	if( !length(sel) ) return("")
 	if( !short ){
 		paste(format(bibs[sel]), collapse="\n\n")
 	}else{
