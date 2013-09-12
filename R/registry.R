@@ -137,7 +137,7 @@ testreg <- function(){
 #' @keywords internal
 .packageMetaRegistry <- function(package, quiet=FALSE, create=FALSE){
 	
-	library(registry)
+#	library(registry)
 	metaregname <- '.packageRegistry'
 	# get package environment
 	e <- packageEnv(package)	
@@ -227,11 +227,12 @@ testreg <- function(){
 #' @return a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument 
 #' \code{quiet}).
 #' 
+#' @import registry
 #' @rdname registry
 #' @export
 packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entry, package=topenv(parent.frame())){
 	
-	library(registry)
+#	library(registry)
 	metaregname <- '.packageRegistry'
 	name <- regname
 
@@ -406,7 +407,7 @@ format.package_metaregistry <- function(x, ...){
 
 #' @S3method print package_metaregistry
 print.package_metaregistry <- function(x, ...){	
-	registry:::print.registry(x)
+	NextMethod('print') #registry:::print.registry(x)
 	print(format(x, ...))
 }
 
@@ -448,7 +449,7 @@ setPackageRegistry <- function(regname, regobj
 								, package=topenv(parent.frame())
 								, overwrite=FALSE){
 	
-	library(registry)
+#	library(registry)
 	
 	# force overwrite in dev mode
 	if( missing(overwrite) && isDevNamespace(package) ){
@@ -567,7 +568,7 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 						, verbose=FALSE, entry=FALSE, msg=NULL){
 	
 	# load the registry package
-	library(registry)
+#	library(registry)
 	# list -- all -- keys if no key is specified
 	keylist <- allkeys <- regobj$get_entry_names()
 	if( !all ) keylist <- grep("^[^.]", keylist, value=TRUE)
