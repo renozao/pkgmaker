@@ -67,11 +67,11 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	
 	capture.output(suppressMessages({
 		library(pkgmaker)
-		library(methods)
+#		library(methods)
 		library(devtools)					
 	}))
-	defMakeVar <- pkgmaker:::defMakeVar
-	subMakeVar <- pkgmaker:::subMakeVar
+#	defMakeVar <- pkgmaker::defMakeVar
+#	subMakeVar <- pkgmaker::subMakeVar
 	
 	project_path <- getwd()
 	project_name <- basename(project_path)
@@ -119,6 +119,14 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	# R_PACKAGE_TYPE	
 	l <- defMakeVar('R_PACKAGE_OS', R_OS(), l)
 	#
+
+    init_var <- NULL
+    if( is.dir(file.path(package_dir, 'vignettes')) ) 
+        init_var <- c(init_var, '_has_vignettes')
+    if( length(init_var) ){
+        init_var <- paste0(sprintf("%s=true", init_var), collapse='\n')
+        l <- defMakeVar('INIT_CHECKS', init_var, l)
+    }
 	
 	# R_CMD_CHECK
 	rlibs <- NULL
