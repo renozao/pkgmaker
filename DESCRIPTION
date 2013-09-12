@@ -1,7 +1,7 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.16.1
+Version: 0.16.4
 Date: 2012-11-03
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
@@ -23,10 +23,10 @@ Depends:
     stats,
     registry
 Imports:
+	tools,
     codetools,
     digest,
     stringr,
-    methods,
     xtable,
     grDevices
 Suggests:
@@ -34,7 +34,8 @@ Suggests:
     bibtex,
     RUnit,
     testthat,
-    knitr
+    knitr,
+    argparse
 Collate:
     'utils.R'
     'logging.R'
@@ -47,11 +48,12 @@ Collate:
     'is.R'
     'registry.R'
     'bibtex.R'
+    'packages.R'
     'vignette.R'
     'files.R'
-    'packages.R'
     'package-extra.R'
     'colors.R'
     'graphics.R'
     'rd.R'
     'project.R'
+    'CLI.R'
