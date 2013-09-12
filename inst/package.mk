@@ -10,7 +10,9 @@
 #%R_PACKAGE_PATH%#
 #%R_PACKAGE_TAR_GZ%#
 
-#%INIT_CHECK%#
+# auto-conf variables
+#%INIT_CHECKS%#
+#
 
 ifndef R_PACKAGE
 #$(error Required make variable 'R_PACKAGE' is not defined.)
@@ -40,6 +42,18 @@ endif
 ifndef RCMD
 RCMD:=$(R_BIN)/R
 endif
+
+
+ifdef quick
+quick_build=true
+R_CHECK_ARGS=--no-tests --no-vignettes
+endif
+
+ifdef quick_build
+R_BUILD_ARGS=--no-build-vignettes
+endif
+
+
 
 # VIGNETTES COMMAND
 define CMD_VIGNETTES
@@ -78,18 +92,28 @@ all: roxygen build check
 
 dist: all staticdoc
 
-init:
+init: | $(CHECK_DIR)
 
-build:
+$(CHECK_DIR):
+	mkdir -p $(CHECK_DIR)
+
+ifdef _has_vignettes
+ifndef quick
+build: vignettes
+else
+build: init
+endif
+else
+build: init
+endif 
 	# Package '$(R_PACKAGE)' in project '$(R_PACKAGE_PROJECT)'
 	# Source directory: '$(R_PACKAGE_PATH)'
 	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
 	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
 	# Platform: $(R_PACKAGE_OS)
-	@mkdir -p $(CHECK_DIR) && \
-	cd $(CHECK_DIR) && \
+	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
-	$(RCMD) CMD build $(R_PACKAGE_PATH) && \
+	$(RCMD) CMD build $(R_BUILD_ARGS) $(R_PACKAGE_PATH) && \
 	echo "*** DONE: BUILD"
 	
 build-bin: build
@@ -103,21 +127,22 @@ check: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
 	mkdir -p $(R_PACKAGE_OS) && \
-	$(R_LIBS) $(RCMD) CMD check -o $(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) 
-	echo "\n*** DONE: CHECK"
+	$(R_LIBS) $(RCMD) CMD check $(R_CHECK_ARGS) -o $(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) && \
+	echo "*** DONE: CHECK"
 
 roxygen: init
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: ROXYGEN\n" && \
-	roxy $(R_PACKAGE) && \
+	roxy $(R_PACKAGE_PATH) && \
 	echo "\n*** DONE: ROXYGEN"
 
 staticdocs: init
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: STATICDOCS\n" && \
-	Rstaticdocs $(R_PACKAGE) && \
+	Rstaticdocs $(R_PACKAGE) $(target) && \
 	echo "\n*** DONE: STATICDOCS\n"
 
+ifdef _has_vignettes
 ifdef rebuild
 vignettes: init rmvignettes
 else
@@ -126,18 +151,31 @@ endif
 	@cd $(CHECK_DIR) && \
 	cd $(R_PACKAGE_PATH)/vignettes && \
 	echo "\n*** STEP: BUILD VIGNETTES\n" && \
-	make && \
+	$(eval VIGNETTE_MK := $(shell cd "$(R_PACKAGE_PATH)/vignettes"; $(RSCRIPT) --vanilla -e "pkgmaker::vignetteMakefile('$(R_PACKAGE)', checkMode = FALSE)")) \
+	cd "$(R_PACKAGE_PATH)/vignettes" && \
+	make -f $(VIGNETTE_MK) && \
 	echo "Cleaning up ..." && \
-	make clean && \
+	make -f $(VIGNETTE_MK) clean && \
 	echo "\n*** DONE: BUILD VIGNETTES\n"
 
-rmvignettes:
+rmvignettes: init
 	@cd $(CHECK_DIR) && \
 	cd $(R_PACKAGE_PATH)/vignettes && \
 	echo "\n*** STEP: REMOVE VIGNETTES\n" && \
-	make clean-all && \
+	$(eval VIGNETTE_MK := $(shell cd "$(R_PACKAGE_PATH)/vignettes"; $(RSCRIPT) --vanilla -e "pkgmaker::vignetteMakefile('$(R_PACKAGE)', checkMode = FALSE)")) \
+	cd "$(R_PACKAGE_PATH)/vignettes" && \
+	make -f $(VIGNETTE_MK) clean-all && \
 	echo "\n*** DONE: REMOVE VIGNETTES\n"
 	
+cp-vignettes: init
+	@cd $(CHECK_DIR) && \
+	cd $(R_PACKAGE_PATH)/vignettes && \
+	echo "\n*** STEP: COPYING VIGNETTE FILES TO inst/doc\n" && \
+	mkdir -p ../inst/doc && \
+	cp -f *.Rnw ../inst/doc && \
+	echo "\n*** DONE: COPYING VIGNETTES FILES\n"
+endif
+
 r-forge: build
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: R-FORGE" && \
