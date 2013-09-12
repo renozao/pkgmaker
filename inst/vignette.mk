@@ -33,7 +33,7 @@ endif
 ## produce the file <package>-unitTests.pdf  
 ##---------------------------------------------------------------------
 
-SRC_DIR=src
+SRC_DIR=.
 RNW_SRCS = #%RNW_SRCS%#
 PDF_OBJS=$(RNW_SRCS:.Rnw=.pdf)
 # allow redfining pdf targets in local mode
@@ -122,21 +122,27 @@ define showInfo
 endef
 
 #%INST_TARGET%#
-ifdef INST_TARGET
+#ifdef INST_TARGET
 define update_inst_doc
-	# Moving PDF files to ../inst/doc
-	mv -f $1.pdf ../inst/doc
+	# Copying vignette source and output files to ../inst/doc
+	mkdir -p ../inst/doc
+	#cp -f $1 ../inst/doc
+	mv -f $2 ../inst/doc
 endef
-else
-define update_inst_doc
-endef	
-endif
+#else
+#define update_inst_doc
+#	# Copying vignette output files to ../inst/doc
+#	mkdir -p ../inst/doc
+#	cp -f $2 ../inst/doc
+#endef	
+#endif
 
 all: init $(PDF_OBJS) do_clean
 	@echo "# All vignettes in 'vignettes' are up to date"
 
 init:
 	# Generating vignettes for package '$(MAKE_R_PACKAGE)'
+	# DESCRIPTION file in: #%R_PACKAGE_DESCRIPTION%# 
 	# User: #%VIGNETTE_USER%#
 	# Maintainer(s): #%VIGNETTE_MAINTAINERS%#
 	$(showInfo)
@@ -167,7 +173,7 @@ ifndef LOCAL_MODE
 endif
 
 clean-all: clean
-	rm -fr $(TEX_OBJS) $(PDF_OBJS) $(RNW_SRCS)
+	rm -fr $(TEX_OBJS) $(PDF_OBJS) $(MAKE_R_PACKAGE)-unitTests.Rnw
 
 setvars:
 ifeq (${R_BIN},)
@@ -185,11 +191,11 @@ ifndef QUICK
 endif
 
 # Generate .pdf from .Rnw
-ifdef INST_TARGET
+#ifdef INST_TARGET
 ../inst/doc/%.pdf: ${SRC_DIR}/%.Rnw
-else
-%.pdf: ${SRC_DIR}/%.Rnw
-endif
+#else
+#%.pdf: ${SRC_DIR}/%.Rnw
+#endif
 	# Generating vignette $@ from ${SRC_DIR}/$*.Rnw
 	$(do_install)
 	# Compiling ${SRC_DIR}/$*.Rnw into $*.tex
@@ -223,14 +229,14 @@ endif
 endif	
 	# Update fake vignette file ./$*.Rnw
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeFakeVignette('${SRC_DIR}/$*.Rnw', '$*.Rnw')"
-	$(call update_inst_doc, $*)
+	$(call update_inst_doc, $*.Rnw, $*.pdf)
 
 # only run tests if not checking: CRAN check run the tests separately
-ifdef INST_TARGET
+#ifdef INST_TARGET
 ../inst/doc/%-unitTests.pdf:
-else
-%-unitTests.pdf:
-endif
+#else
+#%-unitTests.pdf:
+#endif
 	# Generating vignette for unit tests: $@
 	$(do_install)
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
@@ -239,8 +245,4 @@ ifdef LOCAL_MODE
 	# Compact vignette file
 	$(RSCRIPT) --vanilla -e "pkgmaker::compactVignettes('$(VIGNETTE_BASENAME).pdf')"
 endif
-	$(call update_inst_doc, $*-unitTests)
-	
-update_doc:
-	$(call update_inst_doc, *)
-
+	$(call update_inst_doc, $*-unitTests.Rnw, $*-unitTests.pdf)
