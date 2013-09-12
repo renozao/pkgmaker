@@ -299,7 +299,7 @@ runVignette.rnw_sweave <- function(x, file=NULL, ...){
 #' @export
 rnw <- function(x, file=NULL, ..., raw=FALSE){
 	
-	library(methods)
+#	library(methods)
 	# load rnw file
 	x <- as.rnw(x, ...)	
 	
@@ -607,7 +607,7 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
                              , checkMode = isCHECK() || vignetteCheckMode()
                              , user = NULL, tests=TRUE){
 	
-	library(methods)
+#	library(methods)
 	## create makefile from template
 	# load template makefile
 	if( is.null(template) )
@@ -689,6 +689,10 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 						, paste(file.path('../inst/doc', sub("\\.Rnw$", ".pdf", rnwFiles)), collapse=' ')
 						, l)
 	}
+    l <- defMakeVar('PDF_OBJS'
+            , paste(file.path('../inst/doc', sub("\\.Rnw$", ".pdf", rnwFiles)), collapse=' ')
+            , l)
+    
 	# create makefile
 	mk <- if( temp ) tempfile('vignette_', tmpdir='.', fileext='.mk') else 'vignette.mk'
 	cat(l, file=mk)
