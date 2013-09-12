@@ -47,6 +47,12 @@ requireRUnit <- local({
 	
 })
 
+
+# Borrowed from RUnit::.existsTestLogger
+.existsTestLogger <- function(envir = .GlobalEnv){
+    exists(".testLogger", envir = envir) && inherits(.testLogger, "TestLogger")
+}
+
 #' Enhancing RUnit Logger
 #' 
 #' Adds a function or a local variable to RUnit global logger.
@@ -70,7 +76,7 @@ addToLogger <- function(name, value, logger=NULL){
 	logobj <- 
 		if( !is.null(logger) ) logger
 		else{
-			if( !RUnit:::.existsTestLogger() )
+			if( !.existsTestLogger() )
 				stop("No global logger exists")
 			
 			get('.testLogger', envir=.GlobalEnv)
@@ -115,7 +121,7 @@ checkPlot <- function(expr, msg=NULL, width=1000, height=NULL){
 	# get stuff from RUnit
 	uf <- requireRUnit()
 	if( is.null(uf) || uf != 'RUnit' ) return(TRUE)
-	.existsTestLogger <- RUnit:::.existsTestLogger	
+	#.existsTestLogger <- RUnit:::.existsTestLogger	
 	.testLogger <- if( .existsTestLogger() ) .GlobalEnv$.testLogger
 	
 	if (missing(expr)) {
@@ -239,7 +245,7 @@ checkWarning <- function(expr, expected=NULL, msg=NULL){
 	
 	# get stuff from RUnit
 	uf <- requireRUnit()
-	.existsTestLogger <- RUnit:::.existsTestLogger	
+	#.existsTestLogger <- RUnit:::.existsTestLogger	
 	.testLogger <- if( .existsTestLogger() ) .GlobalEnv$.testLogger
 	
 	if (missing(expr)) {
