@@ -125,7 +125,7 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
         init_var <- c(init_var, '_has_vignettes')
     if( length(init_var) ){
         init_var <- paste0(sprintf("%s=true", init_var), collapse='\n')
-        l <- defMakeVar('INIT_CHECKS', init_var, l)
+        l <- subMakeVar('INIT_CHECKS', init_var, l)
     }
 	
 	# R_CMD_CHECK
