@@ -5,7 +5,7 @@
 \title{Formatting Utilities}
 \usage{
   str_out(x, max = 3L, quote = is.character(x),
-    use.names = FALSE, sep = ", ")
+    use.names = FALSE, sep = ", ", total = FALSE)
 
   str_desc(object, exdent = 0L)
 
@@ -26,6 +26,10 @@
   not (default).}
 
   \item{sep}{separator character}
+
+  \item{total}{logical that indicates if the total number
+  of elements should be appended to the formatted string as
+  \code{"'a', ..., 'z' (<N> total)"}.}
 
   \item{object}{an R object}
 
@@ -53,6 +57,7 @@ str_out(x)
 str_out(x, 8)
 str_out(x, Inf)
 str_out(x, quote=FALSE)
+str_out(x, total = TRUE)
 str_fun(install.packages)
 }
 

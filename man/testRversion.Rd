@@ -25,9 +25,10 @@
 \examples{
 testRversion("2.14")
 testRversion("2.15")
-testRversion("2.30")
-testRversion("2.30", -1)
-testRversion("2")
+testRversion("10")
+testRversion("10", test = -1)
+testRversion("< 10")
 testRversion(Rversion())
+testRversion(paste0('=', Rversion()))
 }
 

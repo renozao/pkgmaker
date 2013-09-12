@@ -26,7 +26,8 @@
 
   vignetteMakefile(package = NULL, skip = NULL,
     print = TRUE, template = NULL, temp = FALSE,
-    checkMode = isCRANcheck(), user = NULL, tests = TRUE)
+    checkMode = isCHECK() || vignetteCheckMode(),
+    user = NULL, tests = TRUE)
 
   compactVignettes(paths, ...)
 }
