@@ -422,7 +422,7 @@ as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
 		pkg <- sub("_[0-9.]+\\.tar\\.gz$", '', x)
 		desc <- file.path(pkg, 'DESCRIPTION')
 		untar(x, desc, exdir=tmp)
-		return(devtools:::load_pkg_description(file.path(tmp, pkg)))
+		return(devtools::as.package(file.path(tmp, pkg)))
 	} else { # check for 'package:*'
 		if( grepl('^package:', x) ){
 			libs <- .libPaths()
