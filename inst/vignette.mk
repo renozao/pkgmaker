@@ -190,6 +190,24 @@ ifndef QUICK
 	@-rm -rf $(TMP_INSTALL_DIR);
 endif
 
+
+# only run tests if not checking: CRAN check run the tests separately
+#ifdef INST_TARGET
+../inst/doc/%-unitTests.pdf:
+#else
+#%-unitTests.pdf:
+#endif
+	# Generating vignette for unit tests: $@
+	$(do_install)
+	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
+ifdef LOCAL_MODE
+	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))
+	# Compact vignette file
+	$(RSCRIPT) --vanilla -e "pkgmaker::compactVignettes('$(VIGNETTE_BASENAME).pdf')"
+endif
+	$(call update_inst_doc, $*-unitTests.Rnw, $*-unitTests.pdf)
+
+
 # Generate .pdf from .Rnw
 #ifdef INST_TARGET
 ../inst/doc/%.pdf: ${SRC_DIR}/%.Rnw
@@ -230,19 +248,3 @@ endif
 	# Update fake vignette file ./$*.Rnw
 	$(RSCRIPT) --vanilla -e "pkgmaker::makeFakeVignette('${SRC_DIR}/$*.Rnw', '$*.Rnw')"
 	$(call update_inst_doc, $*.Rnw, $*.pdf)
-
-# only run tests if not checking: CRAN check run the tests separately
-#ifdef INST_TARGET
-../inst/doc/%-unitTests.pdf:
-#else
-#%-unitTests.pdf:
-#endif
-	# Generating vignette for unit tests: $@
-	$(do_install)
-	$(RSCRIPT) --vanilla -e "pkgmaker::makeUnitVignette('package:$(MAKE_R_PACKAGE)', check=$(R_CHECK))" >> unitTests.log
-ifdef LOCAL_MODE
-	$(eval VIGNETTE_BASENAME := $(shell basename $@ .pdf))
-	# Compact vignette file
-	$(RSCRIPT) --vanilla -e "pkgmaker::compactVignettes('$(VIGNETTE_BASENAME).pdf')"
-endif
-	$(call update_inst_doc, $*-unitTests.Rnw, $*-unitTests.pdf)
