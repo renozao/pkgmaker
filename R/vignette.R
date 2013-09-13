@@ -202,13 +202,29 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 #' 
 latex_bibliography <- function(PACKAGE, file=''){
 	
+    rpkg.bib <- "%\\bibliography{Rpackages}\n"
+    cmd <- rpkg.bib
 	# get REFERENCES.bib file
 	reffile <- packageReferenceFile(PACKAGE=PACKAGE)
-	if( !is.file(reffile) ) return(invisible())
+    if( is.file(reffile) ){
+        cmd <- paste0(cmd, "\\bibliography{", gsub("\\.bib$", "", reffile), "}\n")
+    }
 	
-	cmd <- paste("\\bibliography{", gsub("\\.bib$", "", reffile), "}\n", sep='')
-	if( !is.null(file) ) cat(cmd, file=file)
-	else cmd
+    # add post-processing knit hook
+    library(knitr)
+    knit_hooks$set(document = function(x){
+        # write bibfile if necessary
+        if( length(pkgs <- parsePackageCitation(x)) ){
+            # write bibfile
+            write.pkgbib(gsub("^Rpackage:", '', pkgs), file='Rpackages.bib', prefix='Rpackage:')
+            # uncomment inclusion line
+            x <- gsub("%\\bibliography{Rpackages}", "\\bibliography{Rpackages}", x, fixed = TRUE)
+        }
+        x
+    })
+
+    if( !is.null(file) ) cat(cmd, file=file)
+    else cmd
 }
 
 #' @importFrom methods is
@@ -514,6 +530,69 @@ rnwChildren <- function(x){
 	
 }  
 
+#' Formatting Package Citations in Sweave/knitr Documents
+#' 
+#' @param x output document, as a single string.
+#' @export
+parsePackageCitation <- function(x){
+    
+    if( length(x) > 1L ) x <- paste(x, collapse = "\n")
+    
+    .parse <- function(x, pattern, idx){
+		dr <- str_match_all(x, pattern)
+		dr <- dr[sapply(dr, length)>0L]
+		unlist(lapply(dr, '[', , idx))
+	}
+	
+	# extract package citations: \citeCRANpkg - like
+    x <- gsub(".*[^%]* *\\\\begin\\{document\\}(.*)", "\\1", x)
+    cite <- .parse(x, "\\\\cite((CRAN)|(BioC)|(BioCAnn))?pkg[*]?\\{([^}]*)\\}", 6L)
+    # \cite{Rpackage:pkgname, ...} - like
+	cite2 <- .parse(x, "\\\\cite[^{ ]*\\{([^}]*)\\}", 2L)
+    if( length(cite2) ){
+ 		cite2 <- .parse(cite2, '.*Rpackage:([^,}]+).*', 2L)
+		cite <- c(cite, cite2)
+	}
+	# remove Rpackage prefix
+	if( length(cite) ){
+        cite <- unlist(strsplit(cite, ","))
+        cite <- gsub('^Rpackage:', '', cite)
+	}
+	
+    inc <- character()
+	if( length(cite) > 0L ){
+		inc <- unique(str_trim(unlist(strsplit(cite, ","))))
+    }
+	inc  
+}
+
+#' \code{bibcite} provides an inline package citation functionnality. 
+#' Technically it adds a given Bibtex key to a cache that is used at the end of the 
+#' document processing to generate a .bib file with all citation keys.  
+#' 
+#' @param key citation Bibtex key(s) as a character vector
+#' @param cache specifies what to do with the previsouly chached keys.
+#' If \code{TRUE}, then \code{key} is added to the cache. 
+#' If \code{NULL}, then all previously cached keys are deleted, before .
+#' If a character string, then it specifies the path to a Bibtex file that is loaded 
+#' to initialise the cache.
+#' @param ... extra arguments passed to \code{\link[bibtex]{read.bib}}.
+#' @internal
+cite_pkg <- local({
+    .keys <- character()
+    function(key, cache = NA, ...){
+        # return whole cache
+        if( !nargs() ) return(.keys)
+        # reset cache
+        if( is.null(cache) ) .keys <- character()
+        else if( isString(cache) ) .keys <- read.bib(file = cache, ...)
+        if( !missing(key) ){
+            cat(key)
+            .keys <<- c(.keys, key)
+        }
+    }
+})
+
 rnwCite <- function(x){
 	
 	x <- rnwObject(x)
@@ -522,7 +601,7 @@ rnwCite <- function(x){
 	l <- readLines(x$file)
 
 	.parse <- function(x, pattern, idx){
-		dr <- str_match_all(l, pattern)
+		dr <- str_match_all(x, pattern)
 		dr <- dr[sapply(dr, length)>0L]
 		unlist(lapply(dr, '[', , idx))
 	}
