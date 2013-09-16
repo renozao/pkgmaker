@@ -414,19 +414,50 @@ isCHECK <- function(){
 	isCRANcheck() || !isFALSE(utestCheckMode())
 }
 
+#' System Environment Variables
+#' 
+#' @param name variable name as a character string.
+#' @param raw logical that indicates if one should return the raw value or
+#' the convertion of any false value to \code{FALSE}.
+#' 
+#' @return the value of the environment variable as a character string or 
+#' \code{NA} is the variable is not defined \strong{at all}.
+#' 
+#' @export
+#' @examples
+#' 
+#' # undefined returns FALSE
+#' Sys.getenv_value('TOTO')
+#' # raw undefined returns NA
+#' Sys.getenv_value('TOTO', raw = TRUE)
+#' 
+#' Sys.setenv(TOTO='bla')
+#' Sys.getenv_value('TOTO')
+#' 
+#' # anything false-like returns FALSE
+#' Sys.setenv(TOTO='false'); Sys.getenv_value('TOTO')
+#' Sys.setenv(TOTO='0'); Sys.getenv_value('TOTO')
+#' 
+#' # cleanup
+#' Sys.unsetenv('TOTO')
+#' 
+Sys.getenv_value <- function(name, raw = FALSE){
+    val <- Sys.getenv()[name]
+    if( raw ) return(val)
+    # convert false values to FALSE if required
+    if( is.na(val) || !nchar(val) || identical(tolower(val), 'false') || val == '0' ){
+        val <- FALSE
+    }
+    val
+}
+
 checkMode_function <- function(varname){
     
     .varname <- varname
     function(value, raw = FALSE){
-        if( missing(value) ){
-            val <- Sys.getenv()[.varname]
-            # convert false values to FALSE if required
-            if( !raw && (is.na(val) || !nchar(val) || tolower(val) == 'false' || val == '0') ){
-                val <- FALSE
-            }
-            val
-        }else{
-            old <- utestCheckMode(raw = TRUE)
+        if( missing(value) ) Sys.getenv_value(.varname, raw = raw)
+        else{
+            old <- Sys.getenv_value(.varname, raw = TRUE)
             if( is_NA(value) ) Sys.unsetenv(.varname) # unset
             else do.call(Sys.setenv, setNames(list(value), .varname)) # set value
             # return old value
