@@ -577,7 +577,7 @@ parsePackageCitation <- function(x){
 #' If a character string, then it specifies the path to a Bibtex file that is loaded 
 #' to initialise the cache.
 #' @param ... extra arguments passed to \code{\link[bibtex]{read.bib}}.
-#' @internal
+#' @keywords internal
 cite_pkg <- local({
     .keys <- character()
     function(key, cache = NA, ...){
