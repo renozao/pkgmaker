@@ -23,7 +23,7 @@ Depends:
     stats,
     registry
 Imports:
-	tools,
+    tools,
     codetools,
     digest,
     stringr,

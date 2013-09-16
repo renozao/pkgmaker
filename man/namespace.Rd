@@ -4,6 +4,7 @@
 \alias{isDevNamespace}
 \alias{isLoadingNamespace}
 \alias{isNamespaceLoaded}
+\alias{ns_get}
 \title{Namespace Development Functions}
 \usage{
   getLoadingNamespace(env = FALSE, info = FALSE,
@@ -16,6 +17,8 @@
   isDevNamespace(ns)
 
   addNamespaceExport(x)
+
+  ns_get(x, ns)
 }
 \arguments{
   \item{env}{logical that indicates that the namespace's
@@ -59,5 +62,7 @@
 
   Dynamically adds exported objects into the loading
   namespace.
+
+  \code{ns_get} gets an object from a given namespace.
 }
 

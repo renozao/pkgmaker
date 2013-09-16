@@ -43,7 +43,6 @@ ifndef RCMD
 RCMD:=$(R_BIN)/R
 endif
 
-
 ifdef quick
 quick_build=true
 R_CHECK_ARGS=--no-tests --no-vignettes
@@ -96,6 +95,14 @@ init: | $(CHECK_DIR)
 
 $(CHECK_DIR):
 	mkdir -p $(CHECK_DIR)
+
+info: 
+	@echo `$(RCMD) --version | head -n 1`
+	# Package '$(R_PACKAGE)' in project '$(R_PACKAGE_PROJECT)'
+	# Source directory: '$(R_PACKAGE_PATH)'
+	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
+	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
+	# Platform: $(R_PACKAGE_OS)
 
 ifdef _has_vignettes
 ifndef quick

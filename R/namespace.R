@@ -153,3 +153,11 @@ addNamespaceExport <- function(x){
 		namespaceExport(ns, x)
 	}
 }
+
+#' \code{ns_get} gets an object from a given namespace.
+#' @rdname namespace
+#' @export
+ns_get <- function(x, ns){
+    if( !isNamespace(ns) ) ns <- asNamespace(ns)
+    get(x, ns)
+}
