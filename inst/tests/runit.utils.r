@@ -95,3 +95,26 @@ test.ExposeAttribute <- function(){
 	
 	
 }
+
+
+test.Sys.getenv_value <- function(){
+    
+    on.exit( Sys.unsetenv('TOTO') )
+    
+    # undefined returns FALSE
+    checkIdentical(Sys.getenv_value('TOTO'), FALSE, 'undefined returns FALSE')
+    # raw undefined returns NA
+    checkIdentical(Sys.getenv_value('TOTO', raw = TRUE), NA, 'raw undefined returns NA')
+    
+    Sys.setenv(TOTO='bla')
+    checkIdentical(Sys.getenv_value('TOTO'), 'bla', 'defined returns value')
+    
+    # anything false-like returns FALSE
+    Sys.setenv(TOTO='false');
+    checkIdentical(Sys.getenv_value('TOTO'), FALSE, '"false" returns FALSE')
+    Sys.setenv(TOTO='FALSE');
+    checkIdentical(Sys.getenv_value('TOTO'), FALSE, '"FALSE" returns FALSE')
+    Sys.setenv(TOTO='0');
+    checkIdentical(Sys.getenv_value('TOTO'), FALSE, '"0" returns FALSE')
+    
+}
