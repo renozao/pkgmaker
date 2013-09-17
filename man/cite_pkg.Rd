@@ -26,4 +26,5 @@ document processing to generate a .bib file with all citation keys.}
   processing to generate a .bib file with all citation
   keys.
 }
+\keyword{internal}
 
