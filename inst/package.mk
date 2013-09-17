@@ -25,8 +25,10 @@ endif
 R_LIBS=#%R_LIBS%#
 #endif
 
+RSCRIPT_DEVEL=Rdscript
+
 ifdef devel
-RSCRIPT=Rdscript
+RSCRIPT=$(RSCRIPT_DEVEL)
 RCMD=Rdevel
 DEVEL_FLAG=-devel
 CHECK_DIR=checks/devel
@@ -52,59 +54,48 @@ ifdef quick_build
 R_BUILD_ARGS=--no-build-vignettes
 endif
 
+## BUILD-BINARIES COMMAND
+#define CMD_BUILD_BINARIES
+#library(devtools);
+#library(methods);
+#p <- as.package('$(R_PACKAGE_PATH)');
+#pdir <- p[['path']];
+#src <- paste0(p[['package']], '_', p[['version']], '.tar.gz')
+#run <- function(){
+#tmp <- tempfile()
+#on.exit( unlink(tmp, recursive=TRUE) )
+#cmd <- paste0("wine R CMD INSTALL -l ", tmp, ' --build ', src)
+#message("R CMD check command:\n", cmd)
+#system(cmd, intern=FALSE, ignore.stderr=FALSE)
+#}
+#run()
+#endef
 
-
-# VIGNETTES COMMAND
-define CMD_VIGNETTES
-library(devtools);
-library(methods);
-p <- as.package('$(R_PACKAGE_PATH)');
-pdir <- p[['path']]
-message("Package directory: ", pdir)
-dev_mode(path=file.path(dirname(pdir), 'lib'))
-library(pkgmaker);
-tmp <- quickinstall(pdir, tempfile());
-library(p[['package']], lib=tmp, character.only=TRUE) 
-library(tools); 
-buildVignettes(p[['package']])
+define package_info
+	@echo -n "# R version: "
+	@echo -n `$(RSCRIPT) --version`
+	# R Platform: $(R_PACKAGE_OS)
+	# Project: $(R_PACKAGE_PROJECT)
+	# Package: $(R_PACKAGE) version $(R_PACKAGE_VERSION)
+	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
+	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
+	# Package directory: '$(R_PACKAGE_PATH)'
 endef
-
-# BUILD-BINARIES COMMAND
-define CMD_BUILD_BINARIES
-library(devtools);
-library(methods);
-p <- as.package('$(R_PACKAGE_PATH)');
-pdir <- p[['path']];
-src <- paste0(p[['package']], '_', p[['version']], '.tar.gz')
-run <- function(){
-tmp <- tempfile()
-on.exit( unlink(tmp, recursive=TRUE) )
-cmd <- paste0("wine R CMD INSTALL -l ", tmp, ' --build ', src)
-message("R CMD check command:\n", cmd)
-system(cmd, intern=FALSE, ignore.stderr=FALSE)
-}
-run()
-endef
-
 
 all: roxygen build check 
 
 dist: all staticdoc
 
 init: | $(CHECK_DIR)
+	$(package_info)
 
 $(CHECK_DIR):
 	mkdir -p $(CHECK_DIR)
 
-info: 
-	@echo `$(RCMD) --version | head -n 1`
-	# Package '$(R_PACKAGE)' in project '$(R_PACKAGE_PROJECT)'
-	# Source directory: '$(R_PACKAGE_PATH)'
-	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
-	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
-	# Platform: $(R_PACKAGE_OS)
+info: | $(R_PACKAGE_PATH)
+	$(package_info)
 
-ifdef _has_vignettes
+ifdef R_PACKAGE_HAS_VIGNETTES
 ifndef quick
 build: vignettes
 else
@@ -112,23 +103,29 @@ build: init
 endif
 else
 build: init
-endif 
-	# Package '$(R_PACKAGE)' in project '$(R_PACKAGE_PROJECT)'
-	# Source directory: '$(R_PACKAGE_PATH)'
-	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
-	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
-	# Platform: $(R_PACKAGE_OS)
+endif
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
-	$(RCMD) CMD build $(R_BUILD_ARGS) $(R_PACKAGE_PATH) && \
+	$(RCMD) CMD build $(R_BUILD_ARGS) "$(R_PACKAGE_PATH)" && \
 	echo "*** DONE: BUILD"
+
+deploy: info
+	@echo "\n*** STEP: DEPLOY (R-CURRENT)\n" && \
+	$(RSCRIPT) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	echo "\n*** DONE: DEPLOY (R-CURRENT)"
 	
-build-bin: build
-	@cd $(CHECK_DIR) && \
-	echo "\n*** STEP: BUILD-BINARIES\n" && \
-	`echo "$$CMD_BUILD_BINARIES" > build-bin.r` && \
-	$(RSCRIPT) --vanilla ./build-bin.r && \
-	echo "\n*** DONE: BUILD-BINARIES"
+deploy-all: deploy
+	@echo "\n*** STEP: DEPLOY (R-DEVEL)" && \
+	echo `$(RSCRIPT_DEVEL) --version` && \
+	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	echo "\n*** DONE: DEPLOY (R-DEVEL)"
+	
+#build-bin: build
+#	@cd $(CHECK_DIR) && \
+#	echo "\n*** STEP: BUILD-BINARIES\n" && \
+#	`echo "$$CMD_BUILD_BINARIES" > build-bin.r` && \
+#	$(RSCRIPT) --vanilla ./build-bin.r && \
+#	echo "\n*** DONE: BUILD-BINARIES"
 	
 check: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
@@ -149,7 +146,7 @@ staticdocs: init
 	Rstaticdocs $(R_PACKAGE) $(target) && \
 	echo "\n*** DONE: STATICDOCS\n"
 
-ifdef _has_vignettes
+ifdef R_PACKAGE_HAS_VIGNETTES
 ifdef rebuild
 vignettes: init rmvignettes
 else

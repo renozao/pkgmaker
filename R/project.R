@@ -120,12 +120,15 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	l <- defMakeVar('R_PACKAGE_OS', R_OS(), l)
 	#
 
-    init_var <- NULL
+    # auto-conf variables
+    init_var <- list(version = pkg$version)
     if( is.dir(file.path(package_dir, 'vignettes')) ) 
-        init_var <- c(init_var, '_has_vignettes')
+        init_var <- c(init_var, has_vignettes=TRUE)
+    # dump variables
     if( length(init_var) ){
-        init_var <- paste0(sprintf("%s=true", init_var), collapse='\n')
-        l <- subMakeVar('INIT_CHECKS', init_var, l)
+        init_var <- setNames(init_var, paste0('R_PACKAGE_', toupper(names(init_var))))
+        init_var_str <- str_out(init_var, Inf, use.names = TRUE, sep = "\n")
+        l <- subMakeVar('INIT_CHECKS', init_var_str, l)
     }
 	
 	# R_CMD_CHECK
