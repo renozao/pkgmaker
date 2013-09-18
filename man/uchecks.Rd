@@ -2,13 +2,17 @@
 \alias{checkWarning}
 \title{Extra Check Functions for RUnit}
 \usage{
-  checkWarning(expr, expected = NULL, msg = NULL)
+  checkWarning(expr, expected = TRUE, msg = NULL)
 }
 \arguments{
   \item{expr}{an R expression}
 
-  \item{expected}{expected value or regular expression
-  pattern}
+  \item{expected}{expected value as regular expression
+  pattern. If a logical, then it specifies if a warning is
+  expected or not.
+
+  For backward compatibility, a \code{NULL} value is
+  equivalent to \code{TRUE}.}
 
   \item{msg}{informative message to add to the error in
   case of failure}
