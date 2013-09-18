@@ -2,7 +2,7 @@ Package: pkgmaker
 Type: Package
 Title: Package development utilities
 Version: 0.17
-Date: 2012-11-03
+Date: 2013-09-17
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
 Description: This package provides some low-level utilities to use for package
