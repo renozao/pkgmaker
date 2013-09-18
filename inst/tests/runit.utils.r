@@ -104,7 +104,7 @@ test.Sys.getenv_value <- function(){
     # undefined returns FALSE
     checkIdentical(Sys.getenv_value('TOTO'), FALSE, 'undefined returns FALSE')
     # raw undefined returns NA
-    checkIdentical(Sys.getenv_value('TOTO', raw = TRUE), NA, 'raw undefined returns NA')
+    checkIdentical(Sys.getenv_value('TOTO', raw = TRUE), as.character(NA), 'raw undefined returns NA')
     
     Sys.setenv(TOTO='bla')
     checkIdentical(Sys.getenv_value('TOTO'), 'bla', 'defined returns value')
