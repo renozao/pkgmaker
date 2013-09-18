@@ -279,7 +279,14 @@ checkWarning <- function(expr, expected=TRUE, msg=NULL){
 		}
 		stop("Warning not generated as expected\n", msg)
 	}
-	
+	if( isFALSE(expected) ){
+        if (.existsTestLogger()) {
+			.testLogger$setFailure()
+		}
+		stop("Warning generated while none was expected:\n"
+            , "  - Warning(s): ", if(length(warns)>1)"\n    * ",  str_out(warns, Inf, sep="\n    * ") ,"\n"
+            , msg)
+    }
 	# check warnings
 	if( is.null(expected) || isTRUE(expected) ) return(TRUE)
 	if( any(grepl(expected, warns)) ) return(TRUE)
@@ -289,7 +296,7 @@ checkWarning <- function(expr, expected=TRUE, msg=NULL){
 		.testLogger$setFailure()
 	}
 	stop("Warning does not match expected pattern:\n"
-		, "  - Warning(s): ", if(length(warns)>1)"\n    * ",  str_out(warns, sep="\n    * ") ,"\n"
+		, "  - Warning(s): ", if(length(warns)>1)"\n    * ",  str_out(warns, Inf, sep="\n    * ") ,"\n"
 		, "  - Pattern: '", expected,"'\n"
 		, msg)
 	
