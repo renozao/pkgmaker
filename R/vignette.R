@@ -227,7 +227,6 @@ latex_bibliography <- function(PACKAGE, file=''){
     else cmd
 }
 
-#' @importFrom methods is
 is.rnw <- function(x){
 	is(x, 'rnw')
 }

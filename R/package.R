@@ -7,6 +7,7 @@
 #' @include utils.R
 #' @include devutils.R
 #' @import stats
+#' @import methods
 NULL
 
 #' Default Load/Unload Functions

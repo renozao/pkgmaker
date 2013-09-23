@@ -25,13 +25,17 @@ endif
 R_LIBS=#%R_LIBS%#
 #endif
 
-RSCRIPT_DEVEL=Rdscript
+RSCRIPT_DEVEL=Rscript-devel
 
 ifdef devel
+flavour=devel
 RSCRIPT=$(RSCRIPT_DEVEL)
-RCMD=Rdevel
-DEVEL_FLAG=-devel
-CHECK_DIR=checks/devel
+endif
+
+ifdef flavour
+RCMD=R$(flavour)
+RSCRIPT=Rscript-$(flavour)
+CHECK_DIR=checks/$(flavour)
 else
 CHECK_DIR=checks
 endif
