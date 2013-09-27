@@ -1,0 +1,10 @@
+\.project
+\.settings
+^dev$
+vignettes/Rpackages\.bib
+vignettes/.*\.tex
+vignettes/vignette.mk$
+^README.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+_old.mk$
