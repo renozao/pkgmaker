@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>postponeAction. pkgmaker 0.16</title>
+<title>postponeAction. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,17 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>This function implement a mechanism to postpone actions,
+  which can be executed at a later stage. This is useful
+  when developing packages, where actions that need to be
+  run in the <code>link{.onLoad}</code> function but can be
+  defined close to their context.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>postponeAction(expr, key = digest(tempfile()), group = NULL, envir = topns(strict = FALSE), 
   verbose = getOption("verbose"))
@@ -74,42 +88,62 @@ runPostponedAction(group = NULL, verbose = getOption("verbose"))</pre>
       <dt>verbose</dt>
       <dd>logical that toggles verbose messages.</dd>
     </dl>
-    
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p>This function implement a mechanism to postpone actions,
-  which can be executed at a later stage. This is useful
-  when developing packages, where actions that need to be
-  run in the <code>link{.onLoad}</code> function but can be
-  defined close to their context.</p>
-  
-    </div>
-    
+        
     <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'>opt <- options(verbose=2)
-</div><div class='input'></div><div class='input'># define actions</div><div class='input'>postponeAction(function(){print(10)}, "print")
-</div>
-<strong class='message'># Postponing action 'print'</strong><div class='input'>postponeAction(function(){print(1:10)}, "more")
-</div>
-<strong class='message'># Postponing action 'more'</strong><div class='input'>postponeAction()
-</div>
-<div class='output'>[1] "print" "more" 
-</div><div class='input'># execute actions</div><div class='input'>runPostponedAction()
-</div>
-<strong class='message'># Executing postponed action(s) in package 'R_GlobalEnv' ... </strong>
-<strong class='message'></strong>
-<strong class='message'>** Action 'print' [R_GlobalEnv]</strong>
-<div class='output'>[1] 10
-</div>
-<strong class='message'>** Action 'more' [R_GlobalEnv]</strong>
-<div class='output'> [1]  1  2  3  4  5  6  7  8  9 10
-</div>
-<strong class='message'>OK [2]</strong><div class='input'>runPostponedAction()
-</div>
-<strong class='message'># Executing postponed action(s) in package 'R_GlobalEnv' ... </strong>
-<strong class='message'>OK [0]</strong><div class='input'></div><div class='input'># restore options</div><div class='input'>options(opt)
-</div></pre>
+    <pre><code class="r">
+opt &lt;- options(verbose=2)
+
+# define actions
+postponeAction(function(){print(10)}, &quot;print&quot;)
+</code></pre>
+
+<pre><code>## # Postponing action &#39;print&#39;
+</code></pre>
+
+<pre><code class="r">postponeAction(function(){print(1:10)}, &quot;more&quot;)
+</code></pre>
+
+<pre><code>## # Postponing action &#39;more&#39;
+</code></pre>
+
+<pre><code class="r">postponeAction()
+</code></pre>
+
+<pre><code>## [1] &quot;print&quot; &quot;more&quot;
+</code></pre>
+
+<pre><code class="r"># execute actions
+runPostponedAction()
+</code></pre>
+
+<pre><code>## # Executing postponed action(s) in package &#39;R_GlobalEnv&#39; ...  ** Action
+## &#39;print&#39; [R_GlobalEnv]
+</code></pre>
+
+<pre><code>## [1] 10
+</code></pre>
+
+<pre><code>## ** Action &#39;more&#39; [R_GlobalEnv]
+</code></pre>
+
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+</code></pre>
+
+<pre><code>## OK [2]
+</code></pre>
+
+<pre><code class="r">runPostponedAction()
+</code></pre>
+
+<pre><code>## # Executing postponed action(s) in package &#39;R_GlobalEnv&#39; ... OK [0]
+</code></pre>
+
+<pre><code class="r">
+# restore options
+options(opt)
+
+</code></pre>
+
   </div>
   <div class="span4">
     <!-- <ul>
@@ -125,7 +159,7 @@ runPostponedAction(group = NULL, verbose = getOption("verbose"))</pre>
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

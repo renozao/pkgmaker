@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>alphacol. pkgmaker 0.16</title>
+<title>alphacol. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,14 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>alphacol</code> adds an alpha value to a colour
+  specification and convert to a hexadecimal colour string.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>alphacol(col, alpha = FALSE)</pre>
     
@@ -66,29 +77,37 @@
       <dd>logical value indicating whether the alpha
   channel (opacity) values should be returned.</dd>
     </dl>
-    
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p><code>alphacol</code> adds an alpha value to a colour
-  specification and convert to a hexadecimal colour string.</p>
-  
-    </div>
-    
+        
     <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'># Alphas</div><div class='input'>alphacol('red') # do nothing
-</div>
-<div class='output'>[1] "#ff0000"
-</div><div class='input'>alphacol('red', 10)
-</div>
-<div class='output'>[1] "#ff0000ff"
-</div><div class='input'>alphacol('#aabbcc', 5)
-</div>
-<div class='output'>[1] "#aabbccff"
-</div><div class='input'>alphacol(4, 5)
-</div>
-<div class='output'>[1] "#0000ffff"
-</div></pre>
+    <pre><code class="r">
+# Alphas
+alphacol(&#39;red&#39;) # do nothing
+</code></pre>
+
+<pre><code>## [1] &quot;#ff0000&quot;
+</code></pre>
+
+<pre><code class="r">alphacol(&#39;red&#39;, 10)
+</code></pre>
+
+<pre><code>## [1] &quot;#ff0000ff&quot;
+</code></pre>
+
+<pre><code class="r">alphacol(&#39;#aabbcc&#39;, 5)
+</code></pre>
+
+<pre><code>## [1] &quot;#aabbccff&quot;
+</code></pre>
+
+<pre><code class="r">alphacol(4, 5)
+</code></pre>
+
+<pre><code>## [1] &quot;#0000ffff&quot;
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
   </div>
   <div class="span4">
     <!-- <ul>
@@ -104,7 +123,7 @@
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

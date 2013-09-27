@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>rnw. pkgmaker 0.16</title>
+<title>rnw. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,37 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>rnw</code> provides a unified interface to run vignettes
+  that detects the type of vignette (Sweave or
+  <code><a href='http://www.inside-r.org/r-doc/knitr/knitr-package'>knitr</a></code>), and which Sweave driver to
+  use (either automatically or from an embedded command
+  <code>\VignetteDriver</code> command).</p>
+<p><code>as.rnw</code> creates a S3 <code>rnw</code> object that
+  contains information about a vignette, e.g., source
+  filename, driver, fixed included files, etc..</p>
+<p><code>rnwCompiler</code> tries to detect the vignette compiler
+  to use on a vignette source file, e.g.,
+  <code><a href='http://www.inside-r.org/r-doc/utils/Sweave'>Sweave</a></code> or <code><a href='http://www.inside-r.org/r-doc/knitr/knitr-package'>knitr</a></code>.</p>
+<p><code>rnwWrapper</code> tries to detect the type of vignette
+  and if it is meant to be wrapped into another main file.</p>
+<p><code>rnwDriver</code> tries to detect Sweave driver to use on
+  a vignette source file, e.g., <code>SweaveCache</code>,
+  <code>highlight</code>, etc..</p>
+<p><code>rnwIncludes</code> detects fixed includes, e.g., image or
+  pdf files, that are required to build the final document.</p>
+<p><code>rnwChildren</code> detects included vignette documents
+  and return them as a list of vignette objects.</p>
+<p><code>vignetteMakefile</code> returns the path to a generic
+  makefile used to make vignettes.</p>
+<p>Compact PDFs using either <code>gs_quality='none'</code> or
+  <code>'ebook'</code>, depending on which compacts best (as per
+  CRAN check criteria).</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>rnw(x, file = NULL, ..., raw = FALSE)
 
@@ -65,7 +99,7 @@ rnwIncludes(x)
 rnwChildren(x)
 
 vignetteMakefile(package = NULL, skip = NULL, print = TRUE, template = NULL, temp = FALSE, 
-  checkMode = isCRANcheck(), user = NULL, tests = TRUE)
+  checkMode = isCHECK() || vignetteCheckMode(), user = NULL, tests = TRUE)
 
 compactVignettes(paths, ...)</pre>
     
@@ -130,46 +164,7 @@ compactVignettes(paths, ...)</pre>
   a length-one character vector naming a directory, when
   all &#145;<span class = "file">.pdf</span>&#146; files in that directory will be used.</dd>
     </dl>
-    
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p><code>rnw</code> provides a unified interface to run vignettes
-  that detects the type of vignette (Sweave or
-  <code><a href='http://www.inside-r.org/r-doc/knitr/knitr-package'>knitr</a></code>), and which Sweave driver to
-  use (either automatically or from an embedded command
-  <code>\VignetteDriver</code> command).</p>
-  
-      <p><code>as.rnw</code> creates a S3 <code>rnw</code> object that
-  contains information about a vignette, e.g., source
-  filename, driver, fixed included files, etc..</p>
-  
-      <p><code>rnwCompiler</code> tries to detect the vignette compiler
-  to use on a vignette source file, e.g.,
-  <code><a href='http://www.inside-r.org/r-doc/utils/Sweave'>Sweave</a></code> or <code><a href='http://www.inside-r.org/r-doc/knitr/knitr-package'>knitr</a></code>.</p>
-  
-      <p><code>rnwWrapper</code> tries to detect the type of vignette
-  and if it is meant to be wrapped into another main file.</p>
-  
-      <p><code>rnwDriver</code> tries to detect Sweave driver to use on
-  a vignette source file, e.g., <code>SweaveCache</code>,
-  <code>highlight</code>, etc..</p>
-  
-      <p><code>rnwIncludes</code> detects fixed includes, e.g., image or
-  pdf files, that are required to build the final document.</p>
-  
-      <p><code>rnwChildren</code> detects included vignette documents
-  and return them as a list of vignette objects.</p>
-  
-      <p><code>vignetteMakefile</code> returns the path to a generic
-  makefile used to make vignettes.</p>
-  
-      <p>Compact PDFs using either <code>gs_quality='none'</code> or
-  <code>'ebook'</code>, depending on which compacts best (as per
-  CRAN check criteria).</p>
-  
-    </div>
-      </div>
+          </div>
   <div class="span4">
     <!-- <ul>
       <li>as.rnw</li><li>compactVignettes</li><li>rnw</li><li>rnwChildren</li><li>rnwCompiler</li><li>rnwDriver</li><li>rnwIncludes</li><li>rnwWrapper</li><li>vignetteMakefile</li>
@@ -184,7 +179,7 @@ compactVignettes(paths, ...)</pre>
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

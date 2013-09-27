@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>. pkgmaker 0.16</title>
+<title>. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Renaud Gaujoux">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,14 +30,14 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
         <li><a href=""><i class="icon-home icon-white"></i> Index</a></li>
-       <li><a href="_MAN.html">Documentation</a></li>
+       <li><a href="PAGE-MAN.html">Documentation</a></li>
        </ul>
    	  </div>
     </div>
@@ -75,6 +78,9 @@
     <code><a href="citecmd.html">citecmd</a></code><br />Citing Package References</li>
 
   <li>
+    <code><a href="CLIArgumentParser.html">CLIArgumentParser</a></code>(parseCMD)<br />Enhanced Command Line Argument Parser</li>
+
+  <li>
     <code><a href="compile_src.html">compile_src</a></code><br />Compile Source Files from a Development Package</li>
 
   <li>
@@ -93,7 +99,7 @@
     <code><a href="file_extension.html">file_extension</a></code><br />Extract File Extension</li>
 
   <li>
-    <code><a href="namespace.html">getLoadingNamespace</a></code>(addNamespaceExport, isDevNamespace, isLoadingNamespace, isNamespaceLoaded)<br />Namespace Development Functions</li>
+    <code><a href="namespace.html">getLoadingNamespace</a></code>(addNamespaceExport, isDevNamespace, isLoadingNamespace, isNamespaceLoaded, ns_get)<br />Namespace Development Functions</li>
 
   <li>
     <code><a href="graphics-utils.html">graphics-utils</a></code>(mfrow)<br />Utility Functions for Graphics</li>
@@ -115,6 +121,9 @@
 
   <li>
     <code><a href="is_something.html">is_something</a></code>(hasNames, is.dir, isFALSE, is.file, isInteger, is_NA, isNumber, isReal, isString)<br />Testing Object Type</li>
+
+  <li>
+    <code><a href="knit_ex.html">knit_ex</a></code>(hook_try)<br />Knitr Extensions</li>
 
   <li>
     <code><a href="latex.html">latex_preamble</a></code>(latex_bibliography)<br />LaTeX Utilities for Vignettes</li>
@@ -147,6 +156,9 @@
     <code><a href="orderVersion.html">orderVersion</a></code>(sortVersion)<br />Ordering Version Numbers</li>
 
   <li>
+    <code><a href="packageCLI.html">packageCLI</a></code><br />Package Specific Command Line Interface</li>
+
+  <li>
     <code><a href="packageData.html">packageData</a></code>(ldata)<br />Loading Package Data</li>
 
   <li>
@@ -165,10 +177,19 @@
     <code><a href="packageTestEnv.html">packageTestEnv</a></code><br />Returns the package internal environment where unit tests are stored.</li>
 
   <li>
+    <code><a href="parsePackageCitation.html">parsePackageCitation</a></code><br />Formatting Package Citations in Sweave/knitr Documents</li>
+
+  <li>
+    <code><a href="pkgmaker-defunct.html">pkgmaker-defunct</a></code>(write.bib)<br />Defunct Functions in pkgmaker</li>
+
+  <li>
     <code><a href="postponeAction.html">postponeAction</a></code>(runPostponedAction)<br />Postponing Actions</li>
 
   <li>
     <code><a href="quickinstall.html">quickinstall</a></code><br />Quick Installation of a Source Package</li>
+
+  <li>
+    <code><a href="RdSection2latex.html">RdSection2latex</a></code><br />Format Rd Sections into LatTeX</li>
 
   <li>
     <code><a href="regfetch.html">regfetch</a></code>(pkgreg_fetch, pkgreg_remove)<br />Finds an entry in a registry.</li>
@@ -219,6 +240,9 @@
     <code><a href="sVariable.html">sVariable</a></code><br />Global Static Variable</li>
 
   <li>
+    <code><a href="Sys.getenv_value.html">Sys.getenv_value</a></code><br />System Environment Variables</li>
+
+  <li>
     <code><a href="testRversion.html">testRversion</a></code><br />Testing R Version</li>
 
   <li>
@@ -237,7 +261,7 @@
     <code><a href="utestPath.html">utestPath</a></code><br />Unit Tests Result Directory</li>
 
   <li>
-    <code><a href="write.bib.html">write.bib</a></code><br />Generate a Bibtex File from Package Citations</li>
+    <code><a href="write.pkgbib.html">write.pkgbib</a></code><br />Generate a Bibtex File from Package Citations</li>
 
   <li>
     <code><a href="writeUnitVignette.html">writeUnitVignette</a></code><br />Writes Unit Tests Vignette</li>
@@ -247,7 +271,7 @@
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>
