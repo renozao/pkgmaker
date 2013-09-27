@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>str_diff. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Finding Differences Between Strings</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>str_diff(x, y)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>x</dt>
+      <dd>a single string</dd>
+      <dt>y</dt>
+      <dd>a single string</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>an integer vector containing the index of all mis-matched
+  characters in the first string.</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Computes which characters differ between two strings.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'># strings to compare</div><div class='input'>x <- "once upon a time"
+</div><div class='input'>y <- "once upon a time there was"
+</div><div class='input'>z <- "once upon two times"
+</div><div class='input'></div><div class='input'># diff: x - y</div><div class='input'>d <- str_diff(x, y)
+</div><div class='input'>d
+</div>
+<div class='output'>once upon a time 
+................---------- 
+once upon a time there was 
+</div><div class='input'>str(d)
+</div>
+<div class='output'>Class 'str_diff'  atomic (0) 
+  ..- attr(*, "str")=List of 2
+  .. ..$ x: chr "once upon a time"
+  .. ..$ y: chr "once upon a time there was"
+</div><div class='input'></div><div class='input'># other comparisons</div><div class='input'>str_diff(y, x)
+</div>
+<div class='output'>once upon a time there was 
+................++++++++++ 
+once upon a time 
+</div><div class='input'>str_diff(x, x)
+</div>
+<div class='output'>once upon a time 
+................ 
+once upon a time 
+</div><div class='input'>str_diff(x, z)
+</div>
+<div class='output'>once upon a time 
+..........******--- 
+once upon two times 
+</div><div class='input'>str_diff(y, z)
+</div>
+<div class='output'>once upon a time there was 
+..........*********+++++++ 
+once upon two times 
+</div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>str_diff</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

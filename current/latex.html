@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>latex_preamble. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>LaTeX Utilities for Vignettes</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>latex_preamble(PACKAGE, R = TRUE, CRAN = TRUE, Bioconductor = TRUE, GEO = TRUE, ArrayExpress = TRUE, 
+  biblatex = FALSE, only = FALSE, file = "")
+
+latex_bibliography(PACKAGE, file = "")</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>R</dt>
+      <dd>logical that indicate if general R commands
+  should be added (e.g. package names, inline R code format
+  commands)</dd>
+      <dt>CRAN</dt>
+      <dd>logical that indicate if general CRAN
+  commands should be added (e.g. CRAN package citations)</dd>
+      <dt>Bioconductor</dt>
+      <dd>logical that indicate if general
+  Bioconductor commands should be added (e.g. Bioc package
+  citations)</dd>
+      <dt>GEO</dt>
+      <dd>logical that indicate if general GEOmnibus
+  commands should be added (e.g. urls to GEO datasets)</dd>
+      <dt>ArrayExpress</dt>
+      <dd>logical that indicate if general
+  ArrayExpress commands should be added (e.g. urls to
+  ArrayExpress datasets)</dd>
+      <dt>biblatex</dt>
+      <dd>logical that indicates if a
+  <code>\bibliography</code> command should be added to include
+  references from the package's REFERENCES.bib file.</dd>
+      <dt>only</dt>
+      <dd>a logical that indicates if the only the
+  commands whose dedicated argument is not missing should
+  be considered.</dd>
+      <dt>file</dt>
+      <dd>connection where to print. If <code>NULL</code> the
+  result is returned silently.</dd>
+      <dt>PACKAGE</dt>
+      <dd>package name</dd>
+    </dl>
+    
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p><code>latex_preamble</code> outputs/returns command definition
+  LaTeX commands to be put in the preamble of vignettes.</p>
+  
+      <p><code>latex_bibliography</code> prints or return a LaTeX
+  command that includes a package bibliography file if it
+  exists.</p>
+  
+    </div>
+
+    <div class="Details">
+      <h2>Details</h2>
+      
+      <p>Argument <code>PACKAGE</code> is not required for
+  <code>latex_preamble</code>, but must be correctly specified to
+  ensure <code>biblatex=TRUE</code> generates the correct
+  bibliography command.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>latex_preamble()
+</div>
+<div class='output'>%%%% PKGMAKER COMMANDS %%%%%%
+\usepackage{xspace}
+
+% R
+\let\proglang=\textit
+\let\code=\texttt 
+\newcommand{\Rcode}{\code}
+\newcommand{\pkgname}[1]{\textit{#1}\xspace}
+\newcommand{\Rpkg}[1]{\pkgname{#1} package\xspace}
+\newcommand{\citepkg}[1]{\cite{#1}}
+
+% CRAN
+\newcommand{\CRANurl}[1]{\url{http://cran.r-project.org/package=#1}}
+%% CRANpkg
+\makeatletter
+\def\CRANpkg{\@ifstar\@CRANpkg\@@CRANpkg}
+\def\@CRANpkg#1{\href{http://cran.r-project.org/package=#1}{\pkgname{#1}}\footnote{\CRANurl{#1}}}
+\def\@@CRANpkg#1{\href{http://cran.r-project.org/package=#1}{\pkgname{#1}} package\footnote{\CRANurl{#1}}}
+\makeatother
+%% citeCRANpkg
+\makeatletter
+\def\citeCRANpkg{\@ifstar\@citeCRANpkg\@@citeCRANpkg}
+\def\@citeCRANpkg#1{\CRANpkg{#1}\cite*{Rpackage:#1}}
+\def\@@citeCRANpkg#1{\CRANpkg{#1}~\cite{Rpackage:#1}}
+\makeatother
+\newcommand{\CRANnmf}{\href{http://cran.r-project.org/package=NMF}{CRAN}}
+\newcommand{\CRANnmfURL}{\url{http://cran.r-project.org/package=NMF}}
+
+% Bioconductor
+\newcommand{\BioCurl}[1]{\url{http://www.bioconductor.org/packages/release/bioc/html/#1.html}}
+\newcommand{\BioCpkg}[1]{\href{http://www.bioconductor.org/packages/release/bioc/html/#1.html}{\pkgname{#1}} package\footnote{\BioCurl{#1}}}
+\newcommand{\citeBioCpkg}[1]{\BioCpkg{#1}~\cite{Rpackage:#1}}
+% Bioconductor annotation
+\newcommand{\BioCAnnurl}[1]{\url{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}}
+\newcommand{\BioCAnnpkg}[1]{\href{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}{\Rcode{#1}} annotation package\footnote{\BioCAnnurl{#1}}}
+\newcommand{\citeBioCAnnpkg}[1]{\BioCAnnpkg{#1}~\cite{Rpackage:#1}}
+
+% GEO
+\newcommand{\GEOurl}[1]{\href{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}{#1}\xspace}
+\newcommand{\GEOhref}[1]{\GEOurl{#1}\footnote{\url{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}}}
+
+% ArrayExpress
+\newcommand{\ArrayExpressurl}[1]{\href{http://www.ebi.ac.uk/arrayexpress/experiments/#1}{#1}\xspace}
+\newcommand{\ArrayExpresshref}[1]{\ArrayExpressurl{#1}\footnote{\url{http://www.ebi.ac.uk/arrayexpress/experiments/#1}}}
+
+%%%% END: PKGMAKER COMMANDS %%%%%%
+</div><div class='input'>latex_preamble(R=TRUE, only=TRUE)
+</div>
+<div class='output'>%%%% PKGMAKER COMMANDS %%%%%%
+\usepackage{xspace}
+
+% R
+\let\proglang=\textit
+\let\code=\texttt 
+\newcommand{\Rcode}{\code}
+\newcommand{\pkgname}[1]{\textit{#1}\xspace}
+\newcommand{\Rpkg}[1]{\pkgname{#1} package\xspace}
+\newcommand{\citepkg}[1]{\cite{#1}}
+
+%%%% END: PKGMAKER COMMANDS %%%%%%
+</div><div class='input'>latex_preamble(R=FALSE, CRAN=FALSE, GEO=FALSE)
+</div>
+<div class='output'>%%%% PKGMAKER COMMANDS %%%%%%
+\usepackage{xspace}
+
+% Bioconductor
+\newcommand{\BioCurl}[1]{\url{http://www.bioconductor.org/packages/release/bioc/html/#1.html}}
+\newcommand{\BioCpkg}[1]{\href{http://www.bioconductor.org/packages/release/bioc/html/#1.html}{\pkgname{#1}} package\footnote{\BioCurl{#1}}}
+\newcommand{\citeBioCpkg}[1]{\BioCpkg{#1}~\cite{Rpackage:#1}}
+% Bioconductor annotation
+\newcommand{\BioCAnnurl}[1]{\url{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}}
+\newcommand{\BioCAnnpkg}[1]{\href{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}{\Rcode{#1}} annotation package\footnote{\BioCAnnurl{#1}}}
+\newcommand{\citeBioCAnnpkg}[1]{\BioCAnnpkg{#1}~\cite{Rpackage:#1}}
+
+% ArrayExpress
+\newcommand{\ArrayExpressurl}[1]{\href{http://www.ebi.ac.uk/arrayexpress/experiments/#1}{#1}\xspace}
+\newcommand{\ArrayExpresshref}[1]{\ArrayExpressurl{#1}\footnote{\url{http://www.ebi.ac.uk/arrayexpress/experiments/#1}}}
+
+%%%% END: PKGMAKER COMMANDS %%%%%%
+</div><div class='input'>latex_preamble(GEO=TRUE, only=TRUE)
+</div>
+<div class='output'>%%%% PKGMAKER COMMANDS %%%%%%
+\usepackage{xspace}
+
+% GEO
+\newcommand{\GEOurl}[1]{\href{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}{#1}\xspace}
+\newcommand{\GEOhref}[1]{\GEOurl{#1}\footnote{\url{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}}}
+
+%%%% END: PKGMAKER COMMANDS %%%%%%
+</div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>latex_bibliography</li><li>latex_preamble</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

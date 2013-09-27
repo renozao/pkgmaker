@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>write.bib. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="
+  Renaud Gaujoux, based on the function
+  &lt;code&gt;Rpackages.bib&lt;/code&gt; from Achim Zeileis (see
+  &lt;em&gt;References&lt;/em&gt;).
+">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Generate a Bibtex File from Package Citations</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>write.bib(entry = NULL, file = "Rpackages.bib", prefix = "", append = FALSE, verbose = TRUE)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>entry</dt>
+      <dd>a <code><a href='http://www.inside-r.org/r-doc/utils/bibentry'>bibentry</a></code> object or a
+  character vector of package names. If <code>NULL</code>, then
+  the list of all installed packages is used.</dd>
+      <dt>file</dt>
+      <dd>output Bibtex file. It can be specified as a
+  filename (as a single character string), NULL for
+  <code>stdout</code>, or a <code>link{connection}</code> object. If
+  <code>file</code> is a character string, an extension '.bib' is
+  appended if not already present.</dd>
+      <dt>prefix</dt>
+      <dd>character string to prepend to the
+  generated packages' Bibtex key.</dd>
+      <dt>append</dt>
+      <dd>a logical that indicates that the Bibtex
+  entries should be added to the file. If <code>FALSE</code>
+  (default), the file is overwritten.</dd>
+      <dt>verbose</dt>
+      <dd>a logical to toggle verbosity. If
+  <code>file=NULL</code>, verbosity is forced off.</dd>
+    </dl>
+    
+    <div class="Generate a Bibtex File from Package Citations">
+      <h2>Generate a Bibtex File from Package Citations</h2>
+      
+    </div>
+
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>the list of Bibtex objects -- invisibly.</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Generates a Bibtex file from a list of packages or all
+  the installed packages. It is useful for adding relevant
+  citations in Sweave documents.</p>
+  
+    </div>
+
+    <div class="Details">
+      <h2>Details</h2>
+      
+      <p>Multiple citations are handled by adding a numeric suffix
+  to the Bibtex key (other than the first/main citation) as
+  <code>"<pkgname>%i"</code> (e.g. pkg, pkg2, pkg3).</p>
+  
+      <p>This function has now been integrated by Romain François
+  in the bibtex package.</p>
+  
+    </div>
+
+    <div class="References">
+      <h2>References</h2>
+      
+      <p><em>[R] Creating bibtex file of all installed
+  packages?</em> Achim Zeileis. R-help mailing list.
+  <a href = 'https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html'>https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html</a></p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>#library(bibtex)</div><div class='input'>pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file='references')
+</div>
+<strong class='message'>Converted 3 of 3 package citations to BibTeX</strong>
+<strong class='message'>Writing 3 Bibtex entries ... </strong>
+<strong class='message'>OK
+Results written to file 'references.bib'</strong><div class='input'>bibs <- bibtex::read.bib('references.bib')
+</div><div class='input'>pkgmaker::write.bib(bibs, 'references2.bib')
+</div>
+<strong class='message'>Writing 3 Bibtex entries ... </strong>
+<strong class='message'>OK
+Results written to file 'references2.bib'</strong><div class='input'>md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
+</div><div class='input'>md5[1] == md5[2]
+</div>
+<div class='output'>references.bib 
+          TRUE 
+</div><div class='input'></div><div class='input'></div><div class='input'># write to stdout()</div><div class='input'>pkgmaker::write.bib(c('bibtex', 'utils', 'tools'), file=NULL)
+</div>
+<div class='output'>@Manual{bibtex,
+  title = {bibtex: bibtex parser},
+  author = {Romain Francois},
+  year = {2013},
+  note = {R package version 0.3-5},
+  url = {http://CRAN.R-project.org/package=bibtex},
+}
+
+@Manual{utils,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2013},
+  url = {http://www.R-project.org/},
+}
+
+@Manual{tools,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2013},
+  url = {http://www.R-project.org/},
+}
+</div><div class='input'></div><div class='input'></div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>write.bib</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+    <h2>See also</h2>
+    
+  <code>link{connection}</code>, <code>link{bibentry}</code>
+
+    
+    <h2>Author</h2>
+    
+  Renaud Gaujoux, based on the function
+  <code>Rpackages.bib</code> from Achim Zeileis (see
+  <em>References</em>).
+
+    
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

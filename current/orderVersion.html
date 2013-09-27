@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>orderVersion. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Ordering Version Numbers</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>orderVersion(x, decreasing = FALSE)
+
+sortVersion(x, ...)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>x</dt>
+      <dd>a character vector of version numbers</dd>
+      <dt>decreasing</dt>
+      <dd>a logical that indicates if the
+  ordering should be decreasing</dd>
+      <dt>...</dt>
+      <dd>extra parameters passed to
+  <code>orderVersion</code></dd>
+    </dl>
+    
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Orders a vector of version numbers, in natural order.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>v <- c('1.0', '1.03', '1.2')
+</div><div class='input'>order(v)
+</div>
+<div class='output'>[1] 1 2 3
+</div><div class='input'>orderVersion(v)
+</div>
+<div class='output'>[1] 1 3 2
+</div><div class='input'>sort(v)
+</div>
+<div class='output'>[1] "1.0"  "1.03" "1.2" 
+</div><div class='input'>sortVersion(v)
+</div>
+<div class='output'>[1] "1.0"  "1.2"  "1.03"
+</div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>orderVersion</li><li>sortVersion</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

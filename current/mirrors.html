@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>setBiocMirror. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Setting Mirrors and Repositories</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>setBiocMirror(url = "http://www.bioconductor.org", version = NULL, unique = TRUE)
+
+getBiocMirror()
+
+getBiocRepos(url = "http://www.bioconductor.org", version = NULL)
+
+setCRANMirror(url = CRAN, unique = TRUE)
+
+CRAN</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>url</dt>
+      <dd>or Bioconductor mirror url</dd>
+      <dt>version</dt>
+      <dd>version number</dd>
+      <dt>unique</dt>
+      <dd>logical that indicate if duplicated urls or
+  names should be removed.</dd>
+    </dl>
+    
+    <div class="Format">
+      <h2>Format</h2>
+      
+      <p>chr "http://cran.r-project.org"</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p><code>setBiocMirror</code> sets all Bioconductor repositories
+  (software, data, annotation, etc.). so that they are
+  directly available to <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>. It
+  differs from <code><a href='http://www.inside-r.org/r-doc/utils/chooseBioCmirror'>chooseBioCmirror</a></code> in that it
+  effectively enables the repositories.</p>
+  
+      <p><code>getBiocMirror</code> is a shortcut for
+  <code>getOption('BioC_mirror')</code>, which returns the
+  current Bioconductor mirror as used by <code>biocLite</code>.</p>
+  
+      <p><code>getBiocRepos</code> returns urls to all Bioconductor
+  repositories on a given mirror.</p>
+  
+      <p><code>setCRANMirror</code> sets the preferred CRAN mirror.</p>
+  
+      <p><code>CRAN</code> simply contains the url of CRAN main mirror
+  (<a href = 'http://cran.r-project.org'>http://cran.r-project.org</a>), and aims at
+  simplifying its use, e.g., in calls to
+  <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>## <strong>Not run</strong>: </div><div class='input'># install.packages('pkgmaker', repos=CRAN)</div><div class='input'># ## <strong>End(Not run)</strong></div><div class='input'></div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>CRAN</li><li>getBiocMirror</li><li>getBiocRepos</li><li>setBiocMirror</li><li>setCRANMirror</li>
+    </ul>
+    <ul>
+      <li>datasets</li>
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
