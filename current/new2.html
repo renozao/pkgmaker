@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>new2. pkgmaker 0.16</title>
+<title>new2. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,14 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>An alternative version of <code><a href='http://www.inside-r.org/r-doc/methods/new'>new</a></code> to create
+  objects based on a list of values.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>new2(class, ...)</pre>
     
@@ -60,59 +71,86 @@
       <dd>extra arguments from which slot values are
   extracted by exact matching of names.</dd>
     </dl>
-    
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p>An alternative version of <code><a href='http://www.inside-r.org/r-doc/methods/new'>new</a></code> to create
-  objects based on a list of values.</p>
-  
-    </div>
-    
+        
     <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'>setClass('A', contain='character', representation(x='numeric', y='character'))
-</div><div class='input'></div><div class='input'># identical behaviour with standard calls</div><div class='input'>identical(new('A'), new2('A'))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'>identical(new('A', x=1), new2('A', x=1))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'></div><div class='input'># but if passing that are names not slots</div><div class='input'>identical(new('A'), new2('A', b=1))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'>identical(new('A', x=1), new2('A', x=1, b=3))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'>identical(new('A', x=1), new2('A', x=1, b=3))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'></div><div class='input'># standard `new` would coerce first unnamed argument into parent of 'A' (i.e. 'character')</div><div class='input'>new('A', list(x=1))
-</div>
-<div class='output'>An object of class "A"
-[1] "1"
-Slot "x":
-numeric(0)
+    <pre><code class="r">
+setClass(&#39;A&#39;, contain=&#39;character&#39;, representation(x=&#39;numeric&#39;, y=&#39;character&#39;))
 
-Slot "y":
-character(0)
+# identical behaviour with standard calls
+identical(new(&#39;A&#39;), new2(&#39;A&#39;))
+</code></pre>
 
-</div><div class='input'>new('A', list(x=1, y='other'))
-</div>
-<div class='output'>An object of class "A"
-[1] "1"     "other"
-Slot "x":
-numeric(0)
+<pre><code>## [1] TRUE
+</code></pre>
 
-Slot "y":
-character(0)
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1))
+</code></pre>
 
-</div><div class='input'># `new2` rather use it to initialise the slots it can find in the list</div><div class='input'>identical(new('A', x=1), new2('A', list(x=1)))
-</div>
-<div class='output'>[1] TRUE
-</div><div class='input'>identical(new('A', x=1, y='other'), new2('A', list(x=1, y='other')))
-</div>
-<div class='output'>[1] TRUE
-</div></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+# but if passing that are names not slots
+identical(new(&#39;A&#39;), new2(&#39;A&#39;, b=1))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1, b=3))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1, b=3))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+# standard `new` would coerce first unnamed argument into parent of &#39;A&#39; (i.e. &#39;character&#39;)
+new(&#39;A&#39;, list(x=1))
+</code></pre>
+
+<pre><code>## An object of class &quot;A&quot;
+## [1] &quot;1&quot;
+## Slot &quot;x&quot;:
+## numeric(0)
+## 
+## Slot &quot;y&quot;:
+## character(0)
+</code></pre>
+
+<pre><code class="r">new(&#39;A&#39;, list(x=1, y=&#39;other&#39;))
+</code></pre>
+
+<pre><code>## An object of class &quot;A&quot;
+## [1] &quot;1&quot;     &quot;other&quot;
+## Slot &quot;x&quot;:
+## numeric(0)
+## 
+## Slot &quot;y&quot;:
+## character(0)
+</code></pre>
+
+<pre><code class="r"># `new2` rather use it to initialise the slots it can find in the list
+identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, list(x=1)))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1, y=&#39;other&#39;), new2(&#39;A&#39;, list(x=1, y=&#39;other&#39;)))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
   </div>
   <div class="span4">
     <!-- <ul>
@@ -128,7 +166,7 @@ character(0)
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>oneoffVariable. pkgmaker 0.16</title>
+<title>oneoffVariable. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,15 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>Defines a function that allow to get/assign a global
+  variable whose value is ensured to be reset after each
+  access.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>oneoffVariable(default = NULL)</pre>
     
@@ -70,29 +82,36 @@
   as defined at its creation.</p>
   
     </div>
-
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p>Defines a function that allow to get/assign a global
-  variable whose value is ensured to be reset after each
-  access.</p>
-  
-    </div>
     
     <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'>x <- oneoffVariable(0)
-</div><div class='input'># returns default value</div><div class='input'>x()
-</div>
-<div class='output'>[1] 0
-</div><div class='input'># assign a value</div><div class='input'>x(3)
-</div><div class='input'># get the value</div><div class='input'>x()
-</div>
-<div class='output'>[1] 3
-</div><div class='input'># second call returns default value again</div><div class='input'>x()
-</div>
-<div class='output'>[1] 0
-</div></pre>
+    <pre><code class="r">
+x &lt;- oneoffVariable(0)
+# returns default value
+x()
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<pre><code class="r"># assign a value
+x(3)
+# get the value
+x()
+</code></pre>
+
+<pre><code>## [1] 3
+</code></pre>
+
+<pre><code class="r"># second call returns default value again
+x()
+</code></pre>
+
+<pre><code>## [1] 0
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
   </div>
   <div class="span4">
     <!-- <ul>
@@ -108,7 +127,7 @@
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

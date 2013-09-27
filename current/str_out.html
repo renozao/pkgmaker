@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>str_out. pkgmaker 0.16</title>
+<title>str_out. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,8 +52,21 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>str_out</code> formats character vectors for use in show
+  methods or error/warning messages.</p>
+<p><code>str_desc</code> builds formatted string from a list of
+  complex values.</p>
+<p><code>str_fun</code> extracts and formats a function signature.
+  It typically formats the output
+  <code>capture.output(args(object))</code>.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
-    <pre>str_out(x, max = 3L, quote = is.character(x), use.names = FALSE, sep = ", ")
+    <pre>str_out(x, max = 3L, quote = is.character(x), use.names = FALSE, sep = ", ", total = FALSE)
 
 str_desc(object, exdent = 0L)
 
@@ -73,6 +89,10 @@ str_fun(object)</pre>
   not (default).</dd>
       <dt>sep</dt>
       <dd>separator character</dd>
+      <dt>total</dt>
+      <dd>logical that indicates if the total number
+  of elements should be appended to the formatted string as
+  <code>"'a', ..., 'z' (<N> total)"</code>.</dd>
       <dt>object</dt>
       <dd>an R object</dd>
       <dt>exdent</dt>
@@ -87,40 +107,49 @@ str_fun(object)</pre>
       <p>a single character string</p>
   
     </div>
-
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p><code>str_out</code> formats character vectors for use in show
-  methods or error/warning messages.</p>
-  
-      <p><code>str_desc</code> builds formatted string from a list of
-  complex values.</p>
-  
-      <p><code>str_fun</code> extracts and formats a function signature.
-  It typically formats the output
-  <code>capture.output(args(object))</code>.</p>
-  
-    </div>
     
     <h2 id="examples">Examples</h2>
-    <pre class="examples"><div class='input'>x <- letters[1:10]
-</div><div class='input'>str_out(x)
-</div>
-<div class='output'>[1] "'a', 'b', ..., 'j'"
-</div><div class='input'>str_out(x, 8)
-</div>
-<div class='output'>[1] "'a', 'b', 'c', 'd', 'e', 'f', 'g', ..., 'j'"
-</div><div class='input'>str_out(x, Inf)
-</div>
-<div class='output'>[1] "'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'"
-</div><div class='input'>str_out(x, quote=FALSE)
-</div>
-<div class='output'>[1] "a, b, ..., j"
-</div><div class='input'>str_fun(install.packages)
-</div>
-<div class='output'>[1] "function (pkgs, lib, repos = getOption(\"repos\"), contriburl = contrib.url(repos, \n    type), method, available = NULL, destdir = NULL, dependencies = NA, \n    type = getOption(\"pkgType\"), configure.args = getOption(\"configure.args\"), \n    configure.vars = getOption(\"configure.vars\"), clean = FALSE, \n    Ncpus = getOption(\"Ncpus\", 1L), verbose = getOption(\"verbose\"), \n    libs_only = FALSE, INSTALL_opts, quiet = FALSE, keep_outputs = FALSE, \n    ...) "
-</div></pre>
+    <pre><code class="r">
+x &lt;- letters[1:10]
+str_out(x)
+</code></pre>
+
+<pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, ..., &#39;j&#39;&quot;
+</code></pre>
+
+<pre><code class="r">str_out(x, 8)
+</code></pre>
+
+<pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, ..., &#39;j&#39;&quot;
+</code></pre>
+
+<pre><code class="r">str_out(x, Inf)
+</code></pre>
+
+<pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#39;e&#39;, &#39;f&#39;, &#39;g&#39;, &#39;h&#39;, &#39;i&#39;, &#39;j&#39;&quot;
+</code></pre>
+
+<pre><code class="r">str_out(x, quote=FALSE)
+</code></pre>
+
+<pre><code>## [1] &quot;a, b, ..., j&quot;
+</code></pre>
+
+<pre><code class="r">str_out(x, total = TRUE)
+</code></pre>
+
+<pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, ..., &#39;j&#39; (10 total)&quot;
+</code></pre>
+
+<pre><code class="r">str_fun(install.packages)
+</code></pre>
+
+<pre><code>## [1] &quot;function (pkgs, lib, repos = getOption(\&quot;repos\&quot;), contriburl = contrib.url(repos, \n    type), method, available = NULL, destdir = NULL, dependencies = NA, \n    type = getOption(\&quot;pkgType\&quot;), configure.args = getOption(\&quot;configure.args\&quot;), \n    configure.vars = getOption(\&quot;configure.vars\&quot;), clean = FALSE, \n    Ncpus = getOption(\&quot;Ncpus\&quot;, 1L), verbose = getOption(\&quot;verbose\&quot;), \n    libs_only = FALSE, INSTALL_opts, quiet = FALSE, keep_outputs = FALSE, \n    ...) &quot;
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
   </div>
   <div class="span4">
     <!-- <ul>
@@ -136,7 +165,7 @@ str_fun(object)</pre>
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>

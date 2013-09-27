@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>getLoadingNamespace. pkgmaker 0.16</title>
+<title>getLoadingNamespace. pkgmaker 0.17.4</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -13,6 +13,9 @@
 <link href="css/highlight.css" rel="stylesheet">
 <!-- custom css -->
 <link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 <!-- bootstrap javascript -->
 <script src="js/jquery.min.js"></script>
@@ -27,13 +30,13 @@
   </head>
 
   <body>
-    <div class="navbar">
+    <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
       <div class="nav">
         <ul class="nav">
-        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+        <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
        </ul>
    	  </div>
     </div>
@@ -49,6 +52,25 @@
 
 <div class="row">
   <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>getLoadingNamespace</code> returns information about the
+  loading namespace. It is a wrapper to
+  <code><a href='http://www.inside-r.org/r-doc/base/ns-internal'>loadingNamespaceInfo</a></code>, that does not throw
+  an error.</p>
+<p>Tests if a namespace is being loaded.</p>
+<p><code>isNamespaceLoaded</code> tests if a given namespace is
+  loaded, without loading it, contrary to
+  <code><a href='http://www.inside-r.org/r-doc/base/ns-internal'>isNamespace</a></code>.</p>
+<p><code>isDevNamespace</code> tests the -- current -- namespace
+  is a devtools namespace.</p>
+<p>Dynamically adds exported objects into the loading
+  namespace.</p>
+<p><code>ns_get</code> gets an object from a given namespace.</p></p>
+  
+    </div>
+    
     <h2>Usage</h2>
     <pre>getLoadingNamespace(env = FALSE, info = FALSE, nodev = FALSE)
 
@@ -58,7 +80,9 @@ isNamespaceLoaded(ns)
 
 isDevNamespace(ns)
 
-addNamespaceExport(x)</pre>
+addNamespaceExport(x)
+
+ns_get(x, ns)</pre>
     
     <h2>Arguments</h2>
     <dl>
@@ -91,32 +115,10 @@ addNamespaceExport(x)</pre>
   <code>libname</code> if <code>info=TRUE</code>.</p>
   
     </div>
-
-    <div class="Description">
-      <h2>Description</h2>
-      
-      <p><code>getLoadingNamespace</code> returns information about the
-  loading namespace. It is a wrapper to
-  <code><a href='http://www.inside-r.org/r-doc/base/ns-internal'>loadingNamespaceInfo</a></code>, that does not throw
-  an error.</p>
-  
-      <p>Tests if a namespace is being loaded.</p>
-  
-      <p><code>isNamespaceLoaded</code> tests if a given namespace is
-  loaded, without loading it, contrary to
-  <code><a href='http://www.inside-r.org/r-doc/base/ns-internal'>isNamespace</a></code>.</p>
-  
-      <p><code>isDevNamespace</code> tests the -- current -- namespace
-  is a devtools namespace.</p>
-  
-      <p>Dynamically adds exported objects into the loading
-  namespace.</p>
-  
-    </div>
       </div>
   <div class="span4">
     <!-- <ul>
-      <li>addNamespaceExport</li><li>getLoadingNamespace</li><li>isDevNamespace</li><li>isLoadingNamespace</li><li>isNamespaceLoaded</li>
+      <li>addNamespaceExport</li><li>getLoadingNamespace</li><li>isDevNamespace</li><li>isLoadingNamespace</li><li>isNamespaceLoaded</li><li>ns_get</li>
     </ul>
     <ul>
       
@@ -128,7 +130,7 @@ addNamespaceExport(x)</pre>
       
       <footer>
       <p class="pull-right"><a href="#">Back to top</a></p>
-<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
       </footer>
     </div>
   </body>
