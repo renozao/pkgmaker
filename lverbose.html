@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>lverbose. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Internal verbosity option</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>lverbose(val)
+
+lsilent()
+
+is.verbose()
+
+vmessage(...)
+
+lmessage(..., level = 1L, appendLF = TRUE)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>val</dt>
+      <dd>logical that sets the verbosity level.</dd>
+      <dt>...</dt>
+      <dd>arguments passed to <code>...</code>
+  <code><a href='http://www.inside-r.org/r-doc/base/cat'>cat</a></code></dd>
+      <dt>appendLF</dt>
+      <dd>logical indicating if an endline
+  character should be appended at the end of the message.
+  Passed to <code><a href='http://www.inside-r.org/r-doc/base/cat'>cat</a></code>.</dd>
+      <dt>level</dt>
+      <dd>verbosity level threshold (numeric value)
+  above which the message should be printed out. This
+  threshold is compared with the current verbosity level as
+  returned by <code>lverbose</code>.</dd>
+      <dt>...</dt>
+      <dd>arguments passed to <code>...</code>
+  <code><a href='lverbose.html'>lmessage</a></code> or <code><a href='http://www.inside-r.org/r-doc/base/cat'>cat</a></code></dd>
+      <dt>appendLF</dt>
+      <dd>logical indicating if an endline
+  character should be appended at the end of the message.
+  Passed to <code><a href='http://www.inside-r.org/r-doc/base/cat'>cat</a></code>.</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>the old verbose level</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>Internal verbosity option</p>
+  
+      <p>Tells if all verbose messages should be</p>
+  
+      <p>Tells if verbosity is on.</p>
+  
+      <p>Prints out a message (on sdtout) if verbose mode is on.</p>
+  
+      <p>Prints out a message (on sdtout) if the verbosity level
+  is greater than a given value.</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>is.verbose</li><li>lmessage</li><li>lsilent</li><li>lverbose</li><li>vmessage</li>
+    </ul>
+    <ul>
+      <li>internal</li>
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

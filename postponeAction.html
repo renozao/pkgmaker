@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>postponeAction. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Postponing Actions</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>postponeAction(expr, key = digest(tempfile()), group = NULL, envir = topns(strict = FALSE), 
+  verbose = getOption("verbose"))
+
+runPostponedAction(group = NULL, verbose = getOption("verbose"))</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>expr</dt>
+      <dd>expression that define the action to
+  postpone. Currently only functions are supported.</dd>
+      <dt>key</dt>
+      <dd>identifier for this specific action. It should
+  be unique across the postponed actions from the same
+  group.</dd>
+      <dt>group</dt>
+      <dd>optional parent action group. This enables
+  to define meaningful sets of actions that can be run all
+  at once.</dd>
+      <dt>envir</dt>
+      <dd>environment in which the action should be
+  executed. Currently not used.</dd>
+      <dt>verbose</dt>
+      <dd>logical that toggles verbose messages.</dd>
+    </dl>
+    
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p>This function implement a mechanism to postpone actions,
+  which can be executed at a later stage. This is useful
+  when developing packages, where actions that need to be
+  run in the <code>link{.onLoad}</code> function but can be
+  defined close to their context.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>opt <- options(verbose=2)
+</div><div class='input'></div><div class='input'># define actions</div><div class='input'>postponeAction(function(){print(10)}, "print")
+</div>
+<strong class='message'># Postponing action 'print'</strong><div class='input'>postponeAction(function(){print(1:10)}, "more")
+</div>
+<strong class='message'># Postponing action 'more'</strong><div class='input'>postponeAction()
+</div>
+<div class='output'>[1] "print" "more" 
+</div><div class='input'># execute actions</div><div class='input'>runPostponedAction()
+</div>
+<strong class='message'># Executing postponed action(s) in package 'R_GlobalEnv' ... </strong>
+<strong class='message'></strong>
+<strong class='message'>** Action 'print' [R_GlobalEnv]</strong>
+<div class='output'>[1] 10
+</div>
+<strong class='message'>** Action 'more' [R_GlobalEnv]</strong>
+<div class='output'> [1]  1  2  3  4  5  6  7  8  9 10
+</div>
+<strong class='message'>OK [2]</strong><div class='input'>runPostponedAction()
+</div>
+<strong class='message'># Executing postponed action(s) in package 'R_GlobalEnv' ... </strong>
+<strong class='message'>OK [0]</strong><div class='input'></div><div class='input'># restore options</div><div class='input'>options(opt)
+</div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>postponeAction</li><li>runPostponedAction</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

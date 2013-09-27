@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>option_symlink. pkgmaker 0.16</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v2.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+
+<!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  </head>
+
+  <body>
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class = "container">
+      <a class="brand" href="index.html">pkgmaker 0.16</a>
+      <div class="nav">
+        <ul class="nav">
+        <li><a href="_MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
+       </ul>
+   	  </div>
+    </div>
+  </div>
+</div>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1><code>option_symlink</code> creates a symbolic link to option <code>x</code>.</h1>
+
+<div class="row">
+  <div class="span8">
+    <h2>Usage</h2>
+    <pre>option_symlink(x)
+
+is_option_symlink(x, opts)
+
+option_symlink_target(x, opts)
+
+as.package_options(..., defaults = NULL)
+
+<span class="label label-success">S3</span> (package_options)
+`[[`(x, ...)
+
+packageOptions(..., PACKAGE = packageName())
+
+listPackageOptions()</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>opts</dt>
+      <dd>a list of options</dd>
+      <dt>x</dt>
+      <dd>a character string, a list or an object of class
+  <code>package_options</code>.</dd>
+      <dt>defaults</dt>
+      <dd><code>NULL</code> or a list of default options
+  with their values.</dd>
+      <dt>...</dt>
+      <dd>arguments passed to <code>getOption</code> (only
+  first one is used).</dd>
+      <dt>PACKAGE</dt>
+      <dd>a package name</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>a character vector (possibly empty).</p>
+  
+    </div>
+
+    <div class="Description">
+      <h2>Description</h2>
+      
+      <p><code>option_symlink</code> creates a symbolic link to option
+  <code>x</code>.</p>
+  
+      <p><code>is_option_symlink</code> tests if <code>x</code> is a symbolic
+  link option.</p>
+  
+      <p><code>option_symlink_target</code> returns the end target
+  option of a symbolic link option <code>x</code>.</p>
+  
+      <p><code>as.package_options</code> creates an object such as the
+  ones used to stores package specific options.</p>
+  
+      <p>The method <code>[[</code> is equivalent to <code>options()</code> or
+  <code>getOption(...)</code>: e.g. <code>obj[[]]</code> returns the
+  list of options defined in <code>obj</code>, and
+  <code>obj[['abc']]</code> returns the value of option
+  <code>'abc'</code>.</p>
+  
+      <p><code>packageOptions</code> provides access to package specific
+  options from a given package that were defined with
+  <code>setupPackageOptions</code>, and behaves as the base
+  function <code><a href='http://www.inside-r.org/r-doc/base/options'>options</a></code>.</p>
+  
+      <p><code>listPackageOptions</code> returns the names of all option
+  currently defined with <code>setupPackageOptions</code>.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre class="examples"><div class='input'>listPackageOptions()
+</div>
+<div class='output'>character(0)
+</div></pre>
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>as.package_options</li><li>is_option_symlink</li><li>listPackageOptions</li><li>option_symlink</li><li>option_symlink_target</li><li>[[.package_options</li><li>packageOptions</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      <p class="pull-right"><a href="#">Back to top</a></p>
+<p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
