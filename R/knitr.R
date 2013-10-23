@@ -100,3 +100,114 @@ hook_try <- local({
         }
     }
 })
+
+
+#' Knitr Hook for Handling Backspace Character
+#' 
+#' \code{hook_backspace} is a chunk hook that enables the use of backspace
+#' characters in the output (e.g., as used in progress bars), and still 
+#' obtain a final output as in the console.
+#' 
+#' @rdname knitr_ex
+#' @export 
+hook_backspace <- local({
+    .output_fun <- NULL
+    function(before, options, envir){
+        # do nothing if the option is not ON
+        if( !isTRUE(options$backspace) ) return()
+        
+        # set/unset hook
+        if( before ){
+            # store current output function
+            if( is.null(.output_fun) ).output_fun <<- knit_hooks$get('output')
+            
+            # define extra output hook layer
+            ohook <- function(x, options){
+                        res <- .output_fun(x, options)
+                        str_bs(res)
+            }
+            
+            knit_hooks$set(output = ohook)
+        }else{
+            knit_hooks$set(output = .output_fun)
+            .output_fun <<- NULL
+        }
+    }
+})
+
+str_bs <- function(x){
+    s <- strsplit(x, "\b", fixed = TRUE)[[1]]
+    if( !length(s) || !nzchar(s) ) return('')
+    .nb <- 0L
+    .s <- NULL
+    fn <- function(s){
+        if( !nzchar(s) ){
+            if( !is.null(.s) ) .nb <<- .nb + 1L
+        }else if( is.null(.s) ) .s <<- s
+        else if( .nb ){
+            .s <<- paste0(substr(.s, 1, nchar(.s) - .nb-1), s)
+            .nb <<- 0L
+        }
+        NULL
+    }
+    sapply(s, fn)
+    last <- tail(s, 1L)
+    if( isTRUE(grepl("\b$", x)) ){
+        .s <- substr(.s, 1, nchar(.s) - .nb-1)   
+    } else if( length(s) == 1L ) return( .s )
+    else if( .nb && nzchar(last) ) .s <- paste0(substr(.s, 1, nchar(.s) - .nb-1), last)
+    .s
+}
+
+#' Code Toggle Feature for Markdown Documents
+#' 
+#' \code{md_toggleCode} outputs javascript code into .md documents so that R code chunks
+#' are hidden and can be toggled in a click.
+#' 
+#' @rdname knit_ex
+#' @export
+md_toggleCode <- function(){
+    cat(
+"
+<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js\"></script>
+<script type=\"text/javascript\">
+// toggle visibility of R source blocks in R Markdown output
+function toggle_R(what) {
+  var x = document.getElementsByClassName('r');
+  if (x.length == 0) return;
+  function toggle_vis(o) {
+    var d = o.style.display;
+    o.style.display = (d == 'block' || d == '') ? 'none':'block';
+  }
+
+  for (i = 0; i < x.length; i++) {
+    var y = x[i];
+    switch (y.tagName.toLowerCase()) {
+      case 'pre':
+        toggle_vis(y);
+        if( what == 'setup' ){
+            y.id = \"Rcode_\" + i;
+        }
+        break;
+      case 'code':
+        var z = y.parentNode;
+        // pandoc uses the class 'sourceCode r' on both pre and code
+        if (z.tagName.toLowerCase() == 'pre' && z.className != 'sourceCode r') {
+          toggle_vis(z);
+          if( what == 'setup' ){
+              z.id = \"Rcode_\" + i;
+              var newContent = $(\"<a href=\\\"\\\" onclick=\\\"$('#\" + z.id + \"').toggle(); return false;\\\">Show/Hide R code</a>\");
+              newContent.insertBefore(z);
+          }
+        }
+        break;
+    }
+  }
+}
+
+$( document ).ready(function(){
+    toggle_R('setup');
+});
+</script>"
+    )
+}

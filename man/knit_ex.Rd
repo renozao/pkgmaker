@@ -1,11 +1,14 @@
 \name{knit_ex}
 \alias{hook_try}
 \alias{knit_ex}
+\alias{md_toggleCode}
 \title{Knitr Extensions}
 \usage{
   knit_ex(x, ..., quiet = TRUE)
 
   hook_try(before, options, envir)
+
+  md_toggleCode()
 }
 \arguments{
   \item{x}{text to knit as a character vector}
@@ -32,6 +35,10 @@
   \code{hook_try} simply defines a function \code{try} in
   \code{envir} that prints the error message if any, and is
   called instead of base \code{\link{try}}.
+
+  \code{md_toggleCode} outputs javascript code into .md
+  documents so that R code chunks are hidden and can be
+  toggled in a click.
 }
 \examples{
 library(knitr)
