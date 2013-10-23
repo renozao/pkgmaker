@@ -108,7 +108,7 @@ hook_try <- local({
 #' characters in the output (e.g., as used in progress bars), and still 
 #' obtain a final output as in the console.
 #' 
-#' @rdname knitr_ex
+#' @rdname knit_ex
 #' @export 
 hook_backspace <- local({
     .output_fun <- NULL

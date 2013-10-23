@@ -1,4 +1,5 @@
 \name{knit_ex}
+\alias{hook_backspace}
 \alias{hook_try}
 \alias{knit_ex}
 \alias{md_toggleCode}
@@ -7,6 +8,8 @@
   knit_ex(x, ..., quiet = TRUE)
 
   hook_try(before, options, envir)
+
+  hook_backspace(before, options, envir)
 
   md_toggleCode()
 }
@@ -35,6 +38,11 @@
   \code{hook_try} simply defines a function \code{try} in
   \code{envir} that prints the error message if any, and is
   called instead of base \code{\link{try}}.
+
+  \code{hook_backspace} is a chunk hook that enables the
+  use of backspace characters in the output (e.g., as used
+  in progress bars), and still obtain a final output as in
+  the console.
 
   \code{md_toggleCode} outputs javascript code into .md
   documents so that R code chunks are hidden and can be
