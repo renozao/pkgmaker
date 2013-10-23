@@ -132,11 +132,11 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
     }
 	
 	# R_CMD_CHECK
-	rlibs <- NULL
-	if( is.dir(devlib <- file.path(dirname(pdir), 'lib')) ){
+	rlibs <- ''
+    if( is.dir(devlib <- file.path(dirname(pdir), 'lib')) ){
 		rlibs <- paste0("R_LIBS=", devlib, ' ')
 	}
-	l <- subMakeVar('R_LIBS', rlibs, l)
+    l <- subMakeVar('R_LIBS', rlibs, l)
 	#
 
 	# create makefile
