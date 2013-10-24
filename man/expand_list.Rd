@@ -40,6 +40,9 @@
   from inside a function.
 }
 \examples{
+#----------
+# expand_list
+#----------
 expand_list(list(a=1, b=2), c=3)
 expand_list(list(a=1, b=2, c=4), c=3)
 # with a list
@@ -60,6 +63,10 @@ f()
 f(c=1)
 f(a=2)
 f(c=1, a=2)
+
+#----------
+# expand_dots
+#----------
 # expanding dot arguments
 
 f <- function(...){

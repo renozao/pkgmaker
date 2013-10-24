@@ -118,3 +118,15 @@ test.Sys.getenv_value <- function(){
     checkIdentical(Sys.getenv_value('TOTO'), FALSE, '"0" returns FALSE')
     
 }
+
+
+test.str_bs <- function(){
+    
+    checkIdentical(str_bs("abcd"), "abcd", "No backspace returns string unchanged")
+    checkIdentical(str_bs("abcd\b"), "abc", "One backspace at the end is OK")
+    checkIdentical(str_bs("\babcd"), "abcd", "One leading backspace is OK")
+    checkIdentical(str_bs("abcd\b\b"), "ab", "Two backspaces at the end is OK")
+    checkIdentical(str_bs("abcd\b\b\b"), "a", "Three backspaces at the end is OK")
+    checkIdentical(str_bs("abcd\b\b\b\b"), "", "As many backspaces as characters at the end is OK")
+    checkIdentical(str_bs("abcd\b\be"), "abe", "Backspace in the middle is OK")
+}

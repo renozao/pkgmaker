@@ -1,4 +1,5 @@
 \name{str_out}
+\alias{str_bs}
 \alias{str_desc}
 \alias{str_fun}
 \alias{str_out}
@@ -10,6 +11,8 @@
   str_desc(object, exdent = 0L)
 
   str_fun(object)
+
+  str_bs(x)
 }
 \arguments{
   \item{x}{character vector}
@@ -50,14 +53,35 @@
   \code{str_fun} extracts and formats a function signature.
   It typically formats the output
   \code{capture.output(args(object))}.
+
+  \code{str_bs} substitutes backspace characters (\\b) to
+  produce a character string as it would be displayed in
+  the console.
 }
 \examples{
+#----------
+# str_out
+#----------
 x <- letters[1:10]
 str_out(x)
 str_out(x, 8)
 str_out(x, Inf)
 str_out(x, quote=FALSE)
 str_out(x, total = TRUE)
+
+#----------
+# str_fun
+#----------
 str_fun(install.packages)
+
+#----------
+# str_bs
+#----------
+# Backspace substitution
+str_bs("abc")
+str_bs("abc\\b")
+str_bs("abc\\b\\b")
+str_bs("abc\\bd")
+str_bs("abc\\b\\bde\\b")
 }
 

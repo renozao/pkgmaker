@@ -25,12 +25,19 @@
   Default Load/Unload Functions
 }
 \examples{
+#----------
+# onLoad
+#----------
 # in a package namespace:
 .onLoad <- function(libname=NULL, pkgname){
 
 	pkgmaker::onLoad(libname, pkgname)
 
 }
+
+#----------
+# onUnload
+#----------
 # in a package namespace:
 .onUnload <- function(libpath){
 

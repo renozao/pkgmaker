@@ -20,9 +20,16 @@
   Orders a vector of version numbers, in natural order.
 }
 \examples{
+#----------
+# orderVersion
+#----------
 v <- c('1.0', '1.03', '1.2')
 order(v)
 orderVersion(v)
+
+#----------
+# sortVersion
+#----------
 sort(v)
 sortVersion(v)
 }
