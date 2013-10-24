@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>orderVersion. pkgmaker 0.17.4</title>
+<title>orderVersion. pkgmaker 0.18.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -33,7 +33,7 @@
     <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
+      <a class="brand" href="index.html">pkgmaker 0.18.2</a>
       <div class="nav">
         <ul class="nav">
         <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
@@ -78,6 +78,9 @@ sortVersion(x, ...)</pre>
         
     <h2 id="examples">Examples</h2>
     <pre><code class="r">
+#----------
+# orderVersion
+#----------
 v &lt;- c(&#39;1.0&#39;, &#39;1.03&#39;, &#39;1.2&#39;)
 order(v)
 </code></pre>
@@ -91,7 +94,11 @@ order(v)
 <pre><code>## [1] 1 3 2
 </code></pre>
 
-<pre><code class="r">sort(v)
+<pre><code class="r">
+#----------
+# sortVersion
+#----------
+sort(v)
 </code></pre>
 
 <pre><code>## [1] &quot;1.0&quot;  &quot;1.03&quot; &quot;1.2&quot;

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>write.pkgbib. pkgmaker 0.17.4</title>
+<title>write.pkgbib. pkgmaker 0.18.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="
   Renaud Gaujoux, based on the function
@@ -37,7 +37,7 @@
     <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
+      <a class="brand" href="index.html">pkgmaker 0.18.2</a>
       <div class="nav">
         <ul class="nav">
         <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
@@ -130,15 +130,17 @@
 write.pkgbib(c(&#39;bibtex&#39;, &#39;utils&#39;, &#39;tools&#39;), file=&#39;references&#39;)
 </code></pre>
 
-<pre><code>## Converted 3 of 3 package citations to BibTeX Writing 3 Bibtex entries ...
-## OK Results written to file &#39;references.bib&#39;
+<pre><code>## Converted 3 of 3 package citations to BibTeX
+## Writing 3 Bibtex entries ... OK
+## Results written to file &#39;references.bib&#39;
 </code></pre>
 
 <pre><code class="r">bibs &lt;- bibtex::read.bib(&#39;references.bib&#39;)
 write.pkgbib(bibs, &#39;references2.bib&#39;)
 </code></pre>
 
-<pre><code>## Writing 3 Bibtex entries ... OK Results written to file &#39;references2.bib&#39;
+<pre><code>## Writing 3 Bibtex entries ... OK
+## Results written to file &#39;references2.bib&#39;
 </code></pre>
 
 <pre><code class="r">md5 &lt;- tools::md5sum(c(&#39;references.bib&#39;, &#39;references2.bib&#39;))

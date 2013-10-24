@@ -2,9 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>str_out. pkgmaker 0.17.4</title>
+<title>str_out. pkgmaker 0.18.2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="author" content="">
+<meta name="author" content="
+  Renaud Gaujoux
+
+  &lt;code&gt;str_bs&lt;/code&gt; was adapted from a proposal from Yihui Xie.
+">
 
 <!-- bootstrap css -->
 <link href="css/bootstrap.css" rel="stylesheet">
@@ -33,7 +37,7 @@
     <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class = "container">
-      <a class="brand" href="index.html">pkgmaker 0.17.4</a>
+      <a class="brand" href="index.html">pkgmaker 0.18.2</a>
       <div class="nav">
         <ul class="nav">
         <li><a href="PAGE-MAN.html"><i class="icon-home icon-white"></i> Index</a></li>
@@ -61,7 +65,10 @@
   complex values.</p>
 <p><code>str_fun</code> extracts and formats a function signature.
   It typically formats the output
-  <code>capture.output(args(object))</code>.</p></p>
+  <code>capture.output(args(object))</code>.</p>
+<p><code>str_bs</code> substitutes backspace characters (\b) to
+  produce a character string as it would be displayed in
+  the console.</p></p>
   
     </div>
     
@@ -70,7 +77,9 @@
 
 str_desc(object, exdent = 0L)
 
-str_fun(object)</pre>
+str_fun(object)
+
+str_bs(x)</pre>
     
     <h2>Arguments</h2>
     <dl>
@@ -110,6 +119,9 @@ str_fun(object)</pre>
     
     <h2 id="examples">Examples</h2>
     <pre><code class="r">
+#----------
+# str_out
+#----------
 x &lt;- letters[1:10]
 str_out(x)
 </code></pre>
@@ -141,10 +153,49 @@ str_out(x)
 <pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, ..., &#39;j&#39; (10 total)&quot;
 </code></pre>
 
-<pre><code class="r">str_fun(install.packages)
+<pre><code class="r">
+#----------
+# str_fun
+#----------
+str_fun(install.packages)
 </code></pre>
 
 <pre><code>## [1] &quot;function (pkgs, lib, repos = getOption(\&quot;repos\&quot;), contriburl = contrib.url(repos, \n    type), method, available = NULL, destdir = NULL, dependencies = NA, \n    type = getOption(\&quot;pkgType\&quot;), configure.args = getOption(\&quot;configure.args\&quot;), \n    configure.vars = getOption(\&quot;configure.vars\&quot;), clean = FALSE, \n    Ncpus = getOption(\&quot;Ncpus\&quot;, 1L), verbose = getOption(\&quot;verbose\&quot;), \n    libs_only = FALSE, INSTALL_opts, quiet = FALSE, keep_outputs = FALSE, \n    ...) &quot;
+</code></pre>
+
+<pre><code class="r">
+#----------
+# str_bs
+#----------
+# Backspace substitution
+str_bs(&quot;abc&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;abc&quot;
+</code></pre>
+
+<pre><code class="r">str_bs(&quot;abc\b&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;ab&quot;
+</code></pre>
+
+<pre><code class="r">str_bs(&quot;abc\b\b&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;a&quot;
+</code></pre>
+
+<pre><code class="r">str_bs(&quot;abc\bd&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;abd&quot;
+</code></pre>
+
+<pre><code class="r">str_bs(&quot;abc\b\bde\b&quot;)
+</code></pre>
+
+<pre><code>## [1] &quot;ad&quot;
 </code></pre>
 
 <pre><code class="r">
@@ -153,13 +204,20 @@ str_out(x)
   </div>
   <div class="span4">
     <!-- <ul>
-      <li>str_desc</li><li>str_fun</li><li>str_out</li>
+      <li>str_bs</li><li>str_desc</li><li>str_fun</li><li>str_out</li>
     </ul>
     <ul>
       
     </ul> -->
       
-        
+    
+    <h2>Author</h2>
+    
+  Renaud Gaujoux
+
+  <code>str_bs</code> was adapted from a proposal from Yihui Xie.
+
+    
   </div>
 </div>
       
