@@ -1,7 +1,7 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.17.4
+Version: 0.18
 Date: 2013-09-17
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
@@ -57,4 +57,5 @@ Collate:
     'rd.R'
     'project.R'
     'CLI.R'
+    'knitr.R'
 VignetteBuilder: knitr

@@ -32,7 +32,14 @@
   envir=parent.frame())}.
 }
 \examples{
+#----------
+# packageData
+#----------
 \dontrun{ mydata <- packageData('mydata') }
+
+#----------
+# ldata
+#----------
 \dontrun{
 # in a package' source => won't issue a NOTE
 myfunction function(){
