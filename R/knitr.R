@@ -234,7 +234,7 @@ str_bs <- function(x){
     if( isTRUE(grepl("\b$", x)) ){
         .s <- substr(.s, 1, nchar(.s) - .nb)   
     } else if( length(s) == 1L ) return( .s )
-    else if( .nb && nzchar(last) ) .s <- paste0(substr(.s, 1, nchar(.s) - .nb), last)
+    else if( (.nb-1) && nzchar(last) ) .s <- paste0(substr(.s, 1, nchar(.s) - .nb), last)
     .s
 }
 
