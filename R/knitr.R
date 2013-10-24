@@ -197,6 +197,11 @@ hook_backspace <- chunkOutputHook('backspace',
 #' \code{str_bs} substitutes backspace characters (\\b) to produce
 #' a character string as it would be displayed in the console.
 #'
+#' @author
+#' Renaud Gaujoux
+#'  
+#' \code{str_bs} was adapted from a proposal from Yihui Xie.
+#'  
 #' @rdname str_out 
 #' @export
 #' @examples 
@@ -208,34 +213,22 @@ hook_backspace <- chunkOutputHook('backspace',
 #' str_bs("abc\bd")
 #' str_bs("abc\b\bde\b")
 #' 
+#' # more complex example
+#' x <- "\bab\nc\bd\n\babc\b\bd"
+#' cat(x, "\n")
+#' y <- str_bs(x)
+#' y
+#' cat(y, "\n")
+#' 
 str_bs <- function(x){
+    # remove leading backspaces
+    x <- gsub("^\b+", "", x)
+    # remove backspaces at beginning of line
+    x <- gsub("\n\b+", '\n', x)
+    while( length(grep('\b', x, fixed = TRUE)) ) 
+        x <- gsub('[^\n\b][\b]', '', x)
     
-    # early exit if empty vector
-    if( !length(x) ) return(x)
-    # remove leading \b characters
-    x <- gsub("^[\b]+", '', x)
-    # split
-    s <- strsplit(x, "\b", fixed = TRUE)[[1]]
-    if( !length(s) || (length(s) == 1L && !nzchar(s)) ) return('')
-    .nb <- 1L
-    .s <- NULL
-    fn <- function(s){
-        if( !nzchar(s) ){
-            if( !is.null(.s) ) .nb <<- .nb + 1L
-        }else if( is.null(.s) ) .s <<- s
-        else if( .nb ){
-            .s <<- paste0(substr(.s, 1, nchar(.s) - .nb), s)
-            .nb <<- 1L
-        }
-        NULL
-    }
-    sapply(s, fn)
-    last <- tail(s, 1L)
-    if( isTRUE(grepl("\b$", x)) ){
-        .s <- substr(.s, 1, nchar(.s) - .nb)   
-    } else if( length(s) == 1L ) return( .s )
-    else if( .nb && nzchar(last) ) .s <- paste0(substr(.s, 1, nchar(.s) - .nb), last)
-    .s
+    x
 }
 
 md_toggleCode <- function(){
