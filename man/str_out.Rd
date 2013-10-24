@@ -83,5 +83,17 @@ str_bs("abc\\b")
 str_bs("abc\\b\\b")
 str_bs("abc\\bd")
 str_bs("abc\\b\\bde\\b")
+
+# more complex example
+x <- "\\bab\\nc\\bd\\n\\babc\\b\\bd"
+cat(x, "\\n")
+y <- str_bs(x)
+y
+cat(y, "\\n")
+}
+\author{
+  Renaud Gaujoux
+
+  \code{str_bs} was adapted from a proposal from Yihui Xie.
 }
 
