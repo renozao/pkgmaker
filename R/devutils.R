@@ -347,7 +347,7 @@ packagePath <- function(..., package=NULL, lib.loc=NULL){
 	}
 	# somehow this fails when loading an installed package but is works 
 	# when loading a package during the post-install check
-	if( is.null(path) || path == '' ){
+	if( !length(path) || path == '' ){
 		# get the info from the loadingNamespace
 		if( !is.null(info <- getLoadingNamespace(info=TRUE)) ){
 			path <- info$path
