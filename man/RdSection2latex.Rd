@@ -24,6 +24,10 @@
   \item tata \item toto }
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 RdSection2latex('RdSection2latex', package = 'pkgmaker')
 }
 

@@ -44,6 +44,10 @@
   in the bibtex package.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 write.pkgbib(c('bibtex', 'utils', 'tools'), file='references')
 bibs <- bibtex::read.bib('references.bib')
 write.pkgbib(bibs, 'references2.bib')

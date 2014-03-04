@@ -14,6 +14,10 @@
   Extract File Extension
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 file_extension('alpha.txt')
 file_extension(paste('aa.tt', 1:5, sep=''))
 # change extension

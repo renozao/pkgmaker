@@ -56,6 +56,10 @@
   bibliography command.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 latex_preamble()
 latex_preamble(R=TRUE, only=TRUE)
 latex_preamble(R=FALSE, CRAN=FALSE, GEO=FALSE)

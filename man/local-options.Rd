@@ -28,6 +28,10 @@
   \code{\link{setupPackageOptions}})
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 f <- mkoptions(a=3, b=list(1,2,3))
 str(f())
 f('a')

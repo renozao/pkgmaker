@@ -60,6 +60,10 @@
   documents generated from .Rmd files.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # knit_ex
 #----------

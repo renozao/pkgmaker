@@ -22,6 +22,10 @@
   standard user library in the search path. }
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 ol <- .libPaths()
 # called sequentially, .libPaths only add the last library
 show( .libPaths('.') )

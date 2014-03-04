@@ -40,6 +40,10 @@
   from inside a function.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # expand_list
 #----------

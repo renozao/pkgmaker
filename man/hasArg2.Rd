@@ -15,6 +15,10 @@
   binding variable.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 f <- function(...){ hasArg2('abc') }
 f(a=1)
 f(abc=1)

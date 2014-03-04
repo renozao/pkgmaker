@@ -32,6 +32,10 @@
   envir=parent.frame())}.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # packageData
 #----------

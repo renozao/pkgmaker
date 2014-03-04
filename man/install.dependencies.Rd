@@ -22,6 +22,10 @@
   or package source file.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 try( install.dependencies('Matrix', dryrun=TRUE) )
 \dontrun{
 install.dependencies("mypackage_1.0.tar.gz", dryrun=TRUE)
