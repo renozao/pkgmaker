@@ -6,8 +6,17 @@
 
 .PACKAGES_fields <- c('Package', 'Version')
 
+#' Generate CRAN-like Repository Index
+#' 
+#' @param path path to the repository's root directory
+#' @param output output filename -- relative to the repository root \code{path}.
+#' @param pattern regular expression used to filter the names of the packages that will appear in  
+#' the index.
+#' @param title title of the index page
+#' @param robots.file logical that indicates if a file \code{robots.txt} that hides the repository from 
+#' search engine robots should be created. 
 #' @export
-make_repo_index <- function(path = '.', output = 'index.html', pattern = NULL, title = 'Packages', robots = TRUE){
+makePACKAGEindex <- function(path = '.', output = 'index.html', pattern = NULL, title = 'Packages', robots.file = TRUE){
     
     # parameters
     dir <- path
@@ -26,19 +35,18 @@ make_repo_index <- function(path = '.', output = 'index.html', pattern = NULL, t
     
     # write PACKAGES files
     makePACKAGES <- function(dir = '.'){
-        library(tools)
         od <- setwd(dir)
         on.exit( setwd(od) )
         
         smessage('Generating PACKAGES file for ', dir, ' ... ')
-        n <- write_PACKAGES('.', fields = sel)
+        n <- tools::write_PACKAGES('.', fields = sel)
         message('OK [', n, ']')
         n
     }
     makePACKAGES(contrib_path)
     
     smessage('Generating HTML page in ', repo_dir, appendLF = TRUE)
-    if( robots ){
+    if( robots.file ){
         write("User-agent: *\nDisallow: /\n\n", file = file.path(repo_dir, 'robots.txt'))
     }
     smessage('Reading PACKAGES file in ', contrib_path, ' ... ')
@@ -54,8 +62,8 @@ make_repo_index <- function(path = '.', output = 'index.html', pattern = NULL, t
     
     # write index page
     smessage('Loading required packages ... ')
-    qlibrary(ReportingTools)
-    qlibrary(hwriter)
+    qlibrary('ReportingTools')
+    qlibrary('hwriter')
     message('OK')
     smessage('Generating ', output, ' ... ')
     index <- HTMLReport(shortName = tools::file_path_sans_ext(output), title = title)
