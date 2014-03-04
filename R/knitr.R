@@ -54,8 +54,14 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     cat(res)
 }
 
-try_message <- function(expr){
-    tryCatch(expr, error = function(e){ message(e); invisible()})
+try_message <- function(signal = FALSE){
+    function(expr){
+        tryCatch(expr, error = function(e){
+                if( signal ) message(e)
+                else message('Error: ', conditionMessage(e))
+                invisible()
+            })
+    }
 }
 
 #' \code{hook_try} is a knitr hook to enable showing error 
@@ -105,12 +111,18 @@ hook_try <- local({
             .try_defined <<- FALSE
             return(invisible())
         }
-        if( isTRUE(options$try) ){
-        # define hacked version of try()
-                .try <- try_message
-                environment(.try) <- envir
-                envir$try <- .try
-                .try_defined <<- TRUE
+        
+        if( !is.null(options$try) ){
+            
+            # signal
+            do.signal <- isFALSE(options$try)
+            if( isLocalVignette() && is_NA(options$try) ){
+                do.signal <- TRUE
+            } 
+            # define hacked version of try()
+            .try <- try_message(do.signal)
+            assign('try', .try, envir)
+            .try_defined <<- TRUE
         }
     }
 })

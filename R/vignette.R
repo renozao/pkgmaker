@@ -233,7 +233,16 @@ is.rnw <- function(x){
 
 
 runVignette <- function(x, ...){
+    # flag the vignette as being locally made
+    opts <- options(MAKING_LOCAL_VIGNETTE=TRUE)
+    on.exit( options(opts) )
+    # run
 	UseMethod('runVignette')
+}
+
+# tells if a vignette is locally made
+isLocalVignette <- function(){
+    isTRUE(getOption('MAKING_LOCAL_VIGNETTE'))
 }
 
 runVignette.default <- function(x, file=NULL, ...){
