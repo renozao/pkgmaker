@@ -42,7 +42,7 @@ try( stop('this error will not appear in the document'))
 
 Using chunk option \code{try = TRUE}, the error message is shown in the
 document:
-<<with_try, try = TRUE>>=
+<<with_try, try = NA>>=
 txt <- 'this error will be shown'
 try( stop(txt) )
 @
@@ -54,7 +54,7 @@ condition being raised, which in turn makes the package building process \code{R
 However, it is still possible to hightlight the error when generating a document
 outside a package, by using the chunk option \code{try = FALSE}:
 
-<<with_try_highlight, try = NA>>=
+<<with_try_highlight, try = TRUE>>=
 txt <- 'this error will be shown'
 try( stop(txt) )
 @
