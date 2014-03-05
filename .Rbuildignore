@@ -1,5 +1,6 @@
 \.project
 \.settings
+staticdocs
 ^dev$
 vignettes/Rpackages\.bib
 vignettes/.*\.tex

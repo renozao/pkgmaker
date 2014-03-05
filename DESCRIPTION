@@ -14,8 +14,8 @@ Description: This package provides some low-level utilities to use for package
     It is still under heavy development and changes in the interface(s) are
     more than likely to happen.
 License: GPL (>=2)
-URL: http://pkgmaker.r-forge.r-project.org/pkgmaker,
-    http://r-forge.r-project.org/projects/pkgmaker
+URL: https://renozao.github.io/pkgmaker
+BugReports: http://github.com/renozao/pkgmaker/issues
 LazyLoad: yes
 Depends:
     R (>= 3.0.0),
