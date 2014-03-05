@@ -234,15 +234,23 @@ is.rnw <- function(x){
 
 runVignette <- function(x, ...){
     # flag the vignette as being locally made
-    opts <- options(MAKING_LOCAL_VIGNETTE=TRUE)
+    opts <- options(R_RUNNING_MANUAL_VIGNETTE=TRUE)
     on.exit( options(opts) )
     # run
 	UseMethod('runVignette')
 }
 
 # tells if a vignette is locally made
-isLocalVignette <- function(){
-    isTRUE(getOption('MAKING_LOCAL_VIGNETTE'))
+#' Identifies Manually Run Vignettes
+#' 
+#' \code{isManualVignette} tells if a vignette is being run through the function \code{runVignette} 
+#' of \pkg{pkgmker}, allowing disabling behaviours not allowed in package vignettes that are
+#' checked vi \code{R CMD check}. 
+#' 
+#' @rdname vignette
+#' @export
+isManualVignette <- function(){
+    isTRUE(getOption('R_RUNNING_MANUAL_VIGNETTE'))
 }
 
 runVignette.default <- function(x, file=NULL, ...){

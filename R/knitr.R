@@ -31,8 +31,9 @@
 knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     
     library(knitr)
-    hk <- knit_hooks$get()
-    saveRDS(hk, 'knit_hooks.rds')
+    # substitute special markup for Rmd markup (necessary for knit_ex examples)
+    x <- gsub("^^^", "```", x, fixed = TRUE)
+    
     if( !(html_chunks <- any(grepl("```{", x, fixed = TRUE))) ){
         if( all(!grepl(">>=", x, fixed = TRUE)) ){
             x <- c("```{r}", x, "```")
@@ -41,7 +42,11 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     }
     x <- paste0(x, collapse = "\n")
     if( any(html_chunks) ){
-        res <- knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
+        fx <- tempfile()
+        on.exit( unlink(fx), add = TRUE)
+        cat(x, file = fx)
+        res <- knit2html(fx, ..., fragment.only = TRUE, quiet = quiet)
+        res <- paste0(readLines(res), collapse = "\n")
         if( open ){
             tmp <- tempfile("knit_ex", fileext = '.html')
             cat(res, file = tmp, sep = "\n") 
@@ -91,13 +96,13 @@ try_message <- function(signal = FALSE){
 #' 
 #' # no message caught
 #' knit_ex("
-#' ```{r, include = FALSE}
+#' ^^^{r, include = FALSE}
 #' knit_hooks$set(try = pkgmaker::hook_try)
-#' ```
+#' ^^^
 #' 
-#' ```{r, try=TRUE}
+#' ^^^{r, try=TRUE}
 #' try( stop('ah ah') )
-#' ```")
+#' ^^^")
 #' 
 hook_try <- local({
     .try_defined <- FALSE
@@ -116,7 +121,7 @@ hook_try <- local({
             
             # signal
             do.signal <- isFALSE(options$try)
-            if( isLocalVignette() && isTRUE(options$try) ){
+            if( isManualVignette() && isTRUE(options$try) ){
                 do.signal <- TRUE
             }
             # define hacked version of try()
@@ -173,19 +178,19 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' # Correctly formatting backspaces in chunk outputs
 #' tmp <- tempfile(fileext = '.Rmd')
 #' cat(file = tmp, "
-#' ```{r, include = FALSE}
+#' ^^^{r, include = FALSE}
 #' library(knitr)
 #' knit_hooks$set(backspace = pkgmaker::hook_backspace())
-#' ```
+#' ^^^
 #' Default knitr does not handle backspace and adds a special character:
-#' ```{r}
+#' ^^^{r}
 #' cat('abc\bd')
-#' ```
+#' ^^^
 #' 
 #' Using the hook backspace solves the issue:
-#' ```{r, backspace=TRUE}
+#' ^^^{r, backspace=TRUE}
 #' cat('abc\bd')
-#' ```
+#' ^^^
 #' ")
 #' 
 #' # knit
@@ -357,38 +362,38 @@ $( document ).ready(function(){
 #' knit_ex("
 #' 
 #' Declare chunk hook:
-#' ```{r, setup}
+#' ^^^{r, setup}
 #' library(knitr)
 #' knit_hooks$set(toggle = hook_toggle())
-#' ```
+#' ^^^
 #' 
 #' The R code of this chunk can be toggled on/off, and starts visible:
-#' ```{r, toggle=TRUE}
+#' ^^^{r, toggle=TRUE}
 #' print(1:10)
-#' ```
+#' ^^^
 #' The R code of this chunk can be toggled on/off, and starts hidden:
-#' ```{r, toggle=FALSE}
+#' ^^^{r, toggle=FALSE}
 #' print(1:10)
-#' ```
+#' ^^^
 #' 
 #' This is a plain chunk that cannot be toggled on/off:
-#' ```{r}
+#' ^^^{r}
 #' print(1:10)
-#' ```
+#' ^^^
 #' 
 #' Now all chunks can be toggled and start visible:
-#' ```{r, toggle_all}
+#' ^^^{r, toggle_all}
 #' opts_chunk$set(toggle = TRUE)
-#' ```
+#' ^^^
 #' 
-#' ```{r}
+#' ^^^{r}
 #' sample(5)
-#' ```
+#' ^^^
 #' 
 #' To diable the toggle link, one can pass anything except TRUE/FALSE:
-#' ```{r, toggle = NA}
+#' ^^^{r, toggle = NA}
 #' sample(5)
-#' ```
+#' ^^^
 #' 
 #' ", open = TRUE)
 #' 

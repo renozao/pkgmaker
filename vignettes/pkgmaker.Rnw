@@ -15,7 +15,8 @@ library(pkgmaker)
 pkgmaker::latex_preamble()
 @
 
-\title{Overview of Utilities in the pkgmaker Package}
+\title{Overview of Utilities in the pkgmaker Package\\
+\small Version \Sexpr{utils::packageVersion('pkgmaker')}}
 \author{Renaud Gaujoux}
 
 \begin{document}
@@ -59,6 +60,10 @@ txt <- 'this error will be shown'
 try( stop(txt) )
 @
 
-
+\pagebreak 
+\section{Session Info}
+<<sessionInfo, echo=FALSE, results='asis'>>=
+toLatex(sessionInfo())
+@
 
 \end{document}
