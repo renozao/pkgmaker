@@ -59,6 +59,10 @@
   the console.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # str_out
 #----------

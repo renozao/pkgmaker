@@ -16,6 +16,10 @@
   only if all normal exit are wrapped into a call to it.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # define some function
 f <- function(err){
 

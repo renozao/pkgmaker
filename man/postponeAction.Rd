@@ -35,6 +35,10 @@
   defined close to their context.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 opt <- options(verbose=2)
 
 # define actions

@@ -50,6 +50,10 @@
   \code{\link{install.packages}}.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 \dontrun{
 install.packages('pkgmaker', repos=CRAN)
 }

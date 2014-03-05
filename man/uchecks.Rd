@@ -23,6 +23,10 @@
   expression pattern.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # check warnings
 checkWarning({ warning('ah ah'); 3})
 checkWarning({ warning('ah oh ah'); 3}, 'oh')

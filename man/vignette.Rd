@@ -1,6 +1,7 @@
-\name{rnw}
+\name{isManualVignette}
 \alias{as.rnw}
 \alias{compactVignettes}
+\alias{isManualVignette}
 \alias{rnw}
 \alias{rnwChildren}
 \alias{rnwCompiler}
@@ -8,8 +9,10 @@
 \alias{rnwIncludes}
 \alias{rnwWrapper}
 \alias{vignetteMakefile}
-\title{Utilities for Vignettes}
+\title{Identifies Manually Run Vignettes}
 \usage{
+  isManualVignette()
+
   rnw(x, file = NULL, ..., raw = FALSE)
 
   as.rnw(x, ..., load = TRUE)
@@ -91,6 +94,11 @@
   all \file{.pdf} files in that directory will be used.}
 }
 \description{
+  \code{isManualVignette} tells if a vignette is being run
+  through the function \code{runVignette} of \pkg{pkgmker},
+  allowing disabling behaviours not allowed in package
+  vignettes that are checked vi \code{R CMD check}.
+
   \code{rnw} provides a unified interface to run vignettes
   that detects the type of vignette (Sweave or
   \code{\link[knitr]{knitr}}), and which Sweave driver to

@@ -60,6 +60,10 @@
   documents generated from .Rmd files.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # knit_ex
 #----------
@@ -79,13 +83,13 @@ knit_ex("try( stop('ah ah') )")
 
 # no message caught
 knit_ex("
-```{r, include = FALSE}
+^^^{r, include = FALSE}
 knit_hooks$set(try = pkgmaker::hook_try)
-```
+^^^
 
-```{r, try=TRUE}
+^^^{r, try=TRUE}
 try( stop('ah ah') )
-```")
+^^^")
 
 #----------
 # hook_backspace
@@ -93,19 +97,19 @@ try( stop('ah ah') )
 # Correctly formatting backspaces in chunk outputs
 tmp <- tempfile(fileext = '.Rmd')
 cat(file = tmp, "
-```{r, include = FALSE}
+^^^{r, include = FALSE}
 library(knitr)
 knit_hooks$set(backspace = pkgmaker::hook_backspace())
-```
+^^^
 Default knitr does not handle backspace and adds a special character:
-```{r}
+^^^{r}
 cat('abc\\bd')
-```
+^^^
 
 Using the hook backspace solves the issue:
-```{r, backspace=TRUE}
+^^^{r, backspace=TRUE}
 cat('abc\\bd')
-```
+^^^
 ")
 
 # knit
@@ -124,38 +128,38 @@ unlink(c(tmp, out))
 knit_ex("
 
 Declare chunk hook:
-```{r, setup}
+^^^{r, setup}
 library(knitr)
 knit_hooks$set(toggle = hook_toggle())
-```
+^^^
 
 The R code of this chunk can be toggled on/off, and starts visible:
-```{r, toggle=TRUE}
+^^^{r, toggle=TRUE}
 print(1:10)
-```
+^^^
 The R code of this chunk can be toggled on/off, and starts hidden:
-```{r, toggle=FALSE}
+^^^{r, toggle=FALSE}
 print(1:10)
-```
+^^^
 
 This is a plain chunk that cannot be toggled on/off:
-```{r}
+^^^{r}
 print(1:10)
-```
+^^^
 
 Now all chunks can be toggled and start visible:
-```{r, toggle_all}
+^^^{r, toggle_all}
 opts_chunk$set(toggle = TRUE)
-```
+^^^
 
-```{r}
+^^^{r}
 sample(5)
-```
+^^^
 
 To diable the toggle link, one can pass anything except TRUE/FALSE:
-```{r, toggle = NA}
+^^^{r, toggle = NA}
 sample(5)
-```
+^^^
 
 ", open = TRUE)
 }

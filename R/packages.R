@@ -411,7 +411,9 @@ isCRAN_timing <- function() isCRANcheck('timing')
 #' isCHECK()
 #' 
 isCHECK <- function(){
-	isCRANcheck() || !isFALSE(utestCheckMode())
+	isCRANcheck() ||  # known CRAN check flags
+            !isFALSE(utestCheckMode()) ||  # unit test-specific flag
+            isTRUE(getOption('R_CHECK_RUNNING_EXAMPLES_')) # roxygen generated example flag
 }
 
 #' System Environment Variables

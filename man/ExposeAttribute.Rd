@@ -9,7 +9,7 @@
 
   attr_mode(x)
 
-  attr_mode(x) <- value
+  attr_mode(x)<-value
 }
 \arguments{
   \item{object}{any R object whose attributes need to be

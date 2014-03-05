@@ -20,6 +20,10 @@
   specification and convert to a hexadecimal colour string.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # Alphas
 alphacol('red') # do nothing
 alphacol('red', 10)

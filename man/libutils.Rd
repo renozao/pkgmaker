@@ -30,6 +30,10 @@
   platform specific library extension.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 libname('mylib.so')
 libname('/some/path/somewhere/mylib.dll')
 }

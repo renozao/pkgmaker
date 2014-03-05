@@ -74,7 +74,7 @@ CLIArgumentParser <- function(prog = CLIfile(), description = '', ..., epilog = 
     # add add_command function
     p$command_loc <- .special
     p$prog <- prog
-    p$exec <- normalizePath(CLIfile(full = TRUE)) 
+    p$exec <- if( nchar(exec_path <- CLIfile(full = TRUE)) ) normalizePath(CLIfile(full = TRUE)) else '' 
     p$command <- list()
     p$command_idefault <- 0L
     p$command_default <- function(.){

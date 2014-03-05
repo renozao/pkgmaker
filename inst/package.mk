@@ -123,6 +123,12 @@ deploy-all: deploy
 	echo `$(RSCRIPT_DEVEL) --version` && \
 	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
 	echo "\n*** DONE: DEPLOY (R-DEVEL)"
+
+deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+	@cd $(CHECK_DIR) && \
+	echo "\n*** STEP: DEPLOY-REPO\n" && \
+	cp $(R_PACKAGE_TAR_GZ) ~/projects/CRANx/src/contrib && \
+	echo "*** DONE: DEPLOY-REPO"
 	
 #build-bin: build
 #	@cd $(CHECK_DIR) && \
@@ -145,7 +151,6 @@ roxygen: init
 	echo "\n*** DONE: ROXYGEN"
 
 staticdocs: init
-	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: STATICDOCS\n" && \
 	Rstaticdocs $(R_PACKAGE) $(target) && \
 	echo "\n*** DONE: STATICDOCS\n"
@@ -207,3 +212,16 @@ myCRAN: build
 	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PROJECT_PATH)/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ web/$(R_PACKAGE)/ && \
 	echo "DONE: index" && \
 	echo "*** DONE: myCRAN\n"
+
+newdoc:
+	
+	@echo "Generating new document: $(title)"
+	if [ ! -d "$(R_PACKAGE_PATH)/inst/examples/_src" ]; then \
+		mkdir -p "$(R_PACKAGE_PATH)/inst/examples/_src" \
+	fi \
+	if [ -e "$(title)" ]; then \
+		echo "Missing title" \
+		exit 1 \
+	fi \
+	echo "---\nlayout: post\ntags: [$(R_PACKAGE) $(tags)]\ncategories: $(categories)\ntitle: $(title)\n---" \
+	> "$(R_PACKAGE_PATH)/inst/examples/_src/`date +%F`-$(title).Rmd"

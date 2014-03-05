@@ -17,6 +17,10 @@
   Computes which characters differ between two strings.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # strings to compare
 x <- "once upon a time"
 y <- "once upon a time there was"

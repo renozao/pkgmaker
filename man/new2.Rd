@@ -15,6 +15,10 @@
   objects based on a list of values.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 setClass('A', contain='character', representation(x='numeric', y='character'))
 
 # identical behaviour with standard calls

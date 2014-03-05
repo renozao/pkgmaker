@@ -20,6 +20,10 @@
   System Environment Variables
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # undefined returns FALSE
 Sys.getenv_value('TOTO')
 # raw undefined returns NA

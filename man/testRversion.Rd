@@ -23,6 +23,10 @@
   code.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 testRversion("2.14")
 testRversion("2.15")
 testRversion("10")

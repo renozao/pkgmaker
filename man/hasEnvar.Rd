@@ -12,6 +12,10 @@
   Tells if some environment variable(s) are defined.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 hasEnvar('_R_CHECK_TIMINGS_')
 hasEnvar('ABCD')
 }

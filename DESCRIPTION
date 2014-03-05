@@ -1,10 +1,10 @@
 Package: pkgmaker
 Type: Package
 Title: Package development utilities
-Version: 0.18.2
+Version: 0.20
 Date: 2013-09-17
 Author: Renaud Gaujoux
-Maintainer: Renaud Gaujoux <renaud@mancala.cbio.uct.ac.za>
+Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
 Description: This package provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
     options and registries, vignette, unit test and bibtex related utilities.
@@ -35,6 +35,8 @@ Suggests:
     RUnit,
     testthat,
     knitr,
+    ReportingTools,
+    hwriter,
     argparse
 Collate:
     'utils.R'
@@ -58,4 +60,5 @@ Collate:
     'project.R'
     'CLI.R'
     'knitr.R'
+    'repositories.R'
 VignetteBuilder: knitr

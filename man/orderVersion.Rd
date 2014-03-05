@@ -20,6 +20,10 @@
   Orders a vector of version numbers, in natural order.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 #----------
 # orderVersion
 #----------

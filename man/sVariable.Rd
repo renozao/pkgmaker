@@ -12,6 +12,10 @@
   static variable.
 }
 \examples{
+\dontshow{# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+}
+
 # define variable
 x <- sVariable(1)
 # get value (default)
