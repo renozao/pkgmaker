@@ -116,7 +116,7 @@ hook_try <- local({
             
             # signal
             do.signal <- isFALSE(options$try)
-            if( isLocalVignette() && isTRUE(options$try) ){
+            if( isManualVignette() && isTRUE(options$try) ){
                 do.signal <- TRUE
             }
             # define hacked version of try()
