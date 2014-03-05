@@ -1,8 +1,8 @@
-\name{makePACKAGEindex}
-\alias{makePACKAGEindex}
+\name{write_PACKAGES_index}
+\alias{write_PACKAGES_index}
 \title{Generate CRAN-like Repository Index}
 \usage{
-  makePACKAGEindex(path = ".", output = "index.html",
+  write_PACKAGES_index(path = ".", output = "index.html",
     pattern = NULL, title = "Packages", robots.file = TRUE)
 }
 \arguments{

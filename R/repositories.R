@@ -16,7 +16,7 @@
 #' @param robots.file logical that indicates if a file \code{robots.txt} that hides the repository from 
 #' search engine robots should be created. 
 #' @export
-makePACKAGEindex <- function(path = '.', output = 'index.html', pattern = NULL, title = 'Packages', robots.file = TRUE){
+write_PACKAGES_index <- function(path = '.', output = 'index.html', pattern = NULL, title = 'Packages', robots.file = TRUE){
     
     # parameters
     dir <- path
