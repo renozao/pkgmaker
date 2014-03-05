@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>ExposeAttribute. pkgmaker 0.20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Exposing Object Attributes</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>The function <code>ExposeAttribute</code> creates an S3 object
+  that exposes all attributes of any R object, by making
+  them accessible via methods <code><a href='http://www.inside-r.org/r-doc/base/Extract'>$</a></code> and/or
+  <code><a href='http://www.inside-r.org/r-doc/base/Extract'>$<-</a></code>.</p>
+<p><code>attr_mode</code> and <code>attr_mode<-</code> get and sets the
+  access mode of <code>ExposeAttribute</code> objects.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>ExposeAttribute(object, ..., .MODE = "rw", .VALUE = FALSE)
+
+attr_mode(x)
+
+attr_mode(x) <- value</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>object</dt>
+      <dd>any R object whose attributes need to be
+  exposed</dd>
+      <dt>...</dt>
+      <dd>attributes, and optionally their respective
+  values or access permissions. See argument <code>value</code>
+  of <code>attr_mode</code> for details on the way of specifying
+  these.</dd>
+      <dt>.MODE</dt>
+      <dd>access mode: <ol>
+<li>&#147;r&#148;:
+  (read-only) only method <code>$</code> is defined
+  </li>
+<li>&#147;w&#148;: (write-only) only method <code>$<-</code>
+  is defined </li>
+<li>&#147;rw&#148;: (read-write) both
+  methods <code>$</code> and <code>$<-</code> are defined </li>
+</ol>
+</dd>
+      <dt>.VALUE</dt>
+      <dd>logical that indicates if the values of
+  named arguments in <code>...</code> should be considered as
+  attribute assignments, i.e. that the result object has
+  these attributes set with the specified values. In this
+  case all these attributes will have the access permission
+  as defined by argument <code>.MODE</code>.</dd>
+      <dt>x</dt>
+      <dd>an <code>ExposeAttribute</code> object</dd>
+      <dt>value</dt>
+      <dd>replacement value for mode. It can be
+  <code>NULL</code> to remove the ExposeAttribute wrapper, a
+  single character string to define a permission for all
+  atributes (e.g., <code>'rw'</code> or <code>'r'</code>), or a list
+  specifying access permission for specific attributes or
+  classes of attributes defined by regular expressions. For
+  example, <code>list(a='r', b='w', `blabla.*`='rw')</code> set
+  attribute <code>'a'</code> as read-only, attribute <code>'b'</code>
+  as write-only, all attributes that start with
+  <code>'blabla'</code> in read-write access.</dd>
+    </dl>
+          </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>attr_mode</li><li>attr_mode&lt;-</li><li>ExposeAttribute</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

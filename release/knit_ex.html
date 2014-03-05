@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>knit_ex. pkgmaker 0.20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Knitr Extensions</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>knit_ex</code> is a utility function for running small
+  knitr examples, e.g., to illustrate functionalities or
+  issues.</p>
+<p><code>hook_try</code> simply defines a function <code>try</code> in
+  <code>envir</code> that prints the error message if any, and is
+  called instead of base <code><a href='http://www.inside-r.org/r-doc/base/try'>try</a></code>.</p>
+<p><code>hook_backspace</code> is a chunk hook that enables the
+  use of backspace characters in the output (e.g., as used
+  in progress bars), and still obtain a final output as in
+  the console.</p>
+<p><code>hook_toggle</code> is a chunk hook that adds clickable
+  elements to toggle <em>indvidual</em> code chunks in HTML
+  documents generated from .Rmd files.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>knit_ex(x, ..., quiet = TRUE, open = FALSE)
+
+hook_try(before, options, envir)
+
+hook_backspace()
+
+hook_toggle()</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>x</dt>
+      <dd>text to knit as a character vector</dd>
+      <dt>...</dt>
+      <dd>arguments passed to
+  <code><a href='http://www.inside-r.org/r-doc/knitr/knit2html'>knit2html</a></code> or
+  <code><a href='http://www.inside-r.org/r-doc/knitr/knit'>knit</a></code></dd>
+      <dt>quiet</dt>
+      <dd>logical that indicates if knitting should be
+  quiet (no progress bars etc..).</dd>
+      <dt>open</dt>
+      <dd>logical, only used when <code>x</code> is in .Rmd
+  format, that indicates if the generated document result
+  should be open in a browse, instead of being printed on
+  screen. Not that a browser will not open in
+  non-interactive sessions, and the result will be returned
+  invisibly.</dd>
+      <dt>before</dt>
+      <dd>logical that indicates when the hook is
+  being called: before or after the chunk is processed.</dd>
+      <dt>options</dt>
+      <dd>list of current knitr chunk options</dd>
+      <dt>envir</dt>
+      <dd>environment where the chunk is evaluated</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p><code>knit_ex</code> returns the generated code, although
+  invisibly when <code>open=TRUE</code>.</p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre><code class="r">
+## Don&#39;t show: 
+# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+## End Don&#39;t show
+
+#----------
+# knit_ex
+#----------
+library(knitr)
+knit_ex(&quot;1 + 1&quot;)
+</code></pre>
+
+<pre><code>## &lt;pre&gt;&lt;code class=&quot;r&quot;&gt;1 + 1
+## &lt;/code&gt;&lt;/pre&gt;
+## 
+## &lt;pre&gt;&lt;code&gt;## [1] 2
+## &lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+
+<pre><code class="r">
+#----------
+# hook_try
+#----------
+library(knitr)
+
+# standard error message is caught
+knit_ex(&quot;stop(&#39;ah ah&#39;)&quot;)
+</code></pre>
+
+<pre><code>## &lt;pre&gt;&lt;code class=&quot;r&quot;&gt;stop(&amp;#39;ah ah&amp;#39;)
+## &lt;/code&gt;&lt;/pre&gt;
+## 
+## &lt;pre&gt;&lt;code&gt;## Error: ah ah
+## &lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+
+<pre><code class="r">
+# with try the error is output on stderr but not caughted by knitr
+knit_ex(&quot;try( stop(&#39;ah ah&#39;) )&quot;)
+</code></pre>
+
+<pre><code>## &lt;pre&gt;&lt;code class=&quot;r&quot;&gt;try( stop(&amp;#39;ah ah&amp;#39;) )
+## &lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+
+<pre><code class="r">
+# no message caught
+knit_ex(&quot;
+^^^{r, include = FALSE}
+knit_hooks$set(try = pkgmaker::hook_try)
+^^^
+
+^^^{r, try=TRUE}
+try( stop(&#39;ah ah&#39;) )
+^^^&quot;)
+</code></pre>
+
+<pre><code>## &lt;pre&gt;&lt;code class=&quot;r&quot;&gt;try( stop(&amp;#39;ah ah&amp;#39;) )
+## &lt;/code&gt;&lt;/pre&gt;
+## 
+## &lt;pre&gt;&lt;code&gt;## Error: ah ah
+## &lt;/code&gt;&lt;/pre&gt;
+</code></pre>
+
+<pre><code class="r">
+#----------
+# hook_backspace
+#----------
+# Correctly formatting backspaces in chunk outputs
+tmp &lt;- tempfile(fileext = &#39;.Rmd&#39;)
+cat(file = tmp, &quot;
+^^^{r, include = FALSE}
+library(knitr)
+knit_hooks$set(backspace = pkgmaker::hook_backspace())
+^^^
+Default knitr does not handle backspace and adds a special character:
+^^^{r}
+cat(&#39;abc\bd&#39;)
+^^^
+
+Using the hook backspace solves the issue:
+^^^{r, backspace=TRUE}
+cat(&#39;abc\bd&#39;)
+^^^
+&quot;)
+
+# knit
+out &lt;- knitr::knit2html(tmp, fragment.only = TRUE)
+</code></pre>
+
+<pre><code>## processing file: /tmp/RtmpJ2hjtO/file1501a921840.Rmd
+## output file: file1501a921840.md
+</code></pre>
+
+<pre><code class="r"># look at output
+## Not run: 
+##D   browseURL(out)
+##D   edit( file = out)
+## End(Not run)
+# cleanup
+unlink(c(tmp, out))
+
+#----------
+# hook_toggle
+#----------
+knit_ex(&quot;
+
+Declare chunk hook:
+^^^{r, setup}
+library(knitr)
+knit_hooks$set(toggle = hook_toggle())
+^^^
+
+The R code of this chunk can be toggled on/off, and starts visible:
+^^^{r, toggle=TRUE}
+print(1:10)
+^^^
+The R code of this chunk can be toggled on/off, and starts hidden:
+^^^{r, toggle=FALSE}
+print(1:10)
+^^^
+
+This is a plain chunk that cannot be toggled on/off:
+^^^{r}
+print(1:10)
+^^^
+
+Now all chunks can be toggled and start visible:
+^^^{r, toggle_all}
+opts_chunk$set(toggle = TRUE)
+^^^
+
+^^^{r}
+sample(5)
+^^^
+
+To diable the toggle link, one can pass anything except TRUE/FALSE:
+^^^{r, toggle = NA}
+sample(5)
+^^^
+
+&quot;, open = TRUE)
+
+</code></pre>
+
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>hook_backspace</li><li>hook_toggle</li><li>hook_try</li><li>knit_ex</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

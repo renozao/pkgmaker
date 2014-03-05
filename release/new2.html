@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>new2. pkgmaker 0.20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Alternative S4 Constructor</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>An alternative version of <code><a href='http://www.inside-r.org/r-doc/methods/new'>new</a></code> to create
+  objects based on a list of values.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>new2(class, ...)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>class</dt>
+      <dd>Class name to instanciate</dd>
+      <dt>...</dt>
+      <dd>extra arguments from which slot values are
+  extracted by exact matching of names.</dd>
+    </dl>
+        
+    <h2 id="examples">Examples</h2>
+    <pre><code class="r">
+## Don&#39;t show: 
+# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+## End Don&#39;t show
+
+setClass(&#39;A&#39;, contain=&#39;character&#39;, representation(x=&#39;numeric&#39;, y=&#39;character&#39;))
+
+# identical behaviour with standard calls
+identical(new(&#39;A&#39;), new2(&#39;A&#39;))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+# but if passing that are names not slots
+identical(new(&#39;A&#39;), new2(&#39;A&#39;, b=1))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1, b=3))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, x=1, b=3))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+# standard `new` would coerce first unnamed argument into parent of &#39;A&#39; (i.e. &#39;character&#39;)
+new(&#39;A&#39;, list(x=1))
+</code></pre>
+
+<pre><code>## An object of class &quot;A&quot;
+## [1] &quot;1&quot;
+## Slot &quot;x&quot;:
+## numeric(0)
+## 
+## Slot &quot;y&quot;:
+## character(0)
+</code></pre>
+
+<pre><code class="r">new(&#39;A&#39;, list(x=1, y=&#39;other&#39;))
+</code></pre>
+
+<pre><code>## An object of class &quot;A&quot;
+## [1] &quot;1&quot;     &quot;other&quot;
+## Slot &quot;x&quot;:
+## numeric(0)
+## 
+## Slot &quot;y&quot;:
+## character(0)
+</code></pre>
+
+<pre><code class="r"># `new2` rather use it to initialise the slots it can find in the list
+identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, list(x=1)))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">identical(new(&#39;A&#39;, x=1, y=&#39;other&#39;), new2(&#39;A&#39;, list(x=1, y=&#39;other&#39;)))
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+<pre><code class="r">
+</code></pre>
+
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>new2</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>latex_preamble. pkgmaker 0.20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>LaTeX Utilities for Vignettes</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>latex_preamble</code> outputs/returns command definition
+  LaTeX commands to be put in the preamble of vignettes.</p>
+<p><code>latex_bibliography</code> prints or return a LaTeX
+  command that includes a package bibliography file if it
+  exists.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>latex_preamble(PACKAGE, R = TRUE, CRAN = TRUE, Bioconductor = TRUE, GEO = TRUE, ArrayExpress = TRUE, 
+  biblatex = FALSE, only = FALSE, file = "")
+
+latex_bibliography(PACKAGE, file = "")</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>R</dt>
+      <dd>logical that indicate if general R commands
+  should be added (e.g. package names, inline R code format
+  commands)</dd>
+      <dt>CRAN</dt>
+      <dd>logical that indicate if general CRAN
+  commands should be added (e.g. CRAN package citations)</dd>
+      <dt>Bioconductor</dt>
+      <dd>logical that indicate if general
+  Bioconductor commands should be added (e.g. Bioc package
+  citations)</dd>
+      <dt>GEO</dt>
+      <dd>logical that indicate if general GEOmnibus
+  commands should be added (e.g. urls to GEO datasets)</dd>
+      <dt>ArrayExpress</dt>
+      <dd>logical that indicate if general
+  ArrayExpress commands should be added (e.g. urls to
+  ArrayExpress datasets)</dd>
+      <dt>biblatex</dt>
+      <dd>logical that indicates if a
+  <code>\bibliography</code> command should be added to include
+  references from the package's REFERENCES.bib file.</dd>
+      <dt>only</dt>
+      <dd>a logical that indicates if the only the
+  commands whose dedicated argument is not missing should
+  be considered.</dd>
+      <dt>file</dt>
+      <dd>connection where to print. If <code>NULL</code> the
+  result is returned silently.</dd>
+      <dt>PACKAGE</dt>
+      <dd>package name</dd>
+    </dl>
+    
+    <div class="Details">
+      <h2>Details</h2>
+      
+      <p>Argument <code>PACKAGE</code> is not required for
+  <code>latex_preamble</code>, but must be correctly specified to
+  ensure <code>biblatex=TRUE</code> generates the correct
+  bibliography command.</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>latex_bibliography</li><li>latex_preamble</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

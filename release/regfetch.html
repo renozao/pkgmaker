@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>regfetch. pkgmaker 0.20</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Finds an entry in a registry.</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>This function provides extra control on how entries are
+  queried from a <code><a href='http://www.inside-r.org/r-doc/registry/regobj'>registry</a></code>
+  object.</p>
+<p><code>pkgreg_fetch</code> loads the requested package registry
+  and uses <code>regfetch</code> to retrieve data from it.</p>
+<p><code>pkgreg_remove</code> removes an entry from a package
+  registry.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>regfetch(regobj, ..., all = FALSE, error = TRUE, exact = FALSE, KEYS = NULL, verbose = FALSE, 
+  entry = FALSE, msg = NULL)
+
+pkgreg_fetch(regname, ..., msg = NULL, where = topenv(parent.frame()))
+
+pkgreg_remove(regname, ..., msg = NULL, where = topenv(parent.frame()), quiet = FALSE)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>regobj</dt>
+      <dd>a registry object</dd>
+      <dt>...</dt>
+      <dd>key value(s) to look up. If multiple indexes
+  are used, then the primary key should come first.</dd>
+      <dt>all</dt>
+      <dd>logical to indicate if hidden keys (starting
+  with a '.') should be returned and output in message.</dd>
+      <dt>error</dt>
+      <dd>a logical that indicates if an error should
+  be thrown if the key has no match or multiple matches</dd>
+      <dt>exact</dt>
+      <dd>a logical that indicates if matching should
+  be exact or partial. Note that if exact matches exist
+  then they are returned, independently of the value of
+  <code>exact</code>.</dd>
+      <dt>KEYS</dt>
+      <dd>alternative way of passing the key value(s).
+  If not missing, then arguments in <code>...</code> are
+  discarded.</dd>
+      <dt>verbose</dt>
+      <dd>a logical that indicates if verbosity
+  should be toggle on</dd>
+      <dt>entry</dt>
+      <dd>a logical that indicates if the</dd>
+      <dt>msg</dt>
+      <dd>a header to use in case of error.</dd>
+      <dt>quiet</dt>
+      <dd>a logical that indicates if the operation
+  should be performed quietly, without throwing errors or
+  warnings.</dd>
+      <dt>regname</dt>
+      <dd>Name of a sub-registry, used as its
+  identifier.</dd>
+      <dt>where</dt>
+      <dd>package name or namespace that owns the
+  registry.</dd>
+    </dl>
+          </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>pkgreg_fetch</li><li>pkgreg_remove</li><li>regfetch</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
