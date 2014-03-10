@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=develop)](https://travis-ci.org/renozao/pkgmaker)
+
 ## Introduction
 
 The package `pkgmaker` provides implementeations of features commonly used when developing R packages:
