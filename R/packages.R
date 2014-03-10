@@ -401,13 +401,14 @@ isCRAN_timing <- function() isCRANcheck('timing')
 #' For example, the function \code{\link{utest}} sets it to the name of the package  
 #' being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}), 
 #' but unit tests run as part of unit tests vignettes are run with 
-#' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers cann run all tests.
+#' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers can run all tests.
 #' 
 #' @rdname isCRANcheck
 #' @export
 #' 
 #' @examples
 #' 
+#' stop("Edit documentation for isCHECK: warn against mis-usage")
 #' isCHECK()
 #' 
 isCHECK <- function(){

@@ -9,3 +9,4 @@ vignettes/vignette.mk$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 _old.mk$
+^\.travis\.yml$
