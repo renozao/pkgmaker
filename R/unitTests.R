@@ -758,7 +758,7 @@ setMethod('utest', 'character',
 			# remove/create output directory
 			opath <- utestPath(package=x)
 			if( file.exists( opath ) ){
-				file.remove(opath, recursive=TRUE) 
+				unlink(opath, recursive=TRUE) 
 			}
 			dir.create(opath, recursive=TRUE)
 			# copy results in working directory on exit
@@ -841,15 +841,59 @@ setMethod('utest', 'RUnitTestSuite',
 		## Return stop() to cause R CMD check stop in case of
 		##  - failures i.e. FALSE to unit tests or
 		##  - errors i.e. R errors
-		tmp <- getErrors(tests)
-		if(tmp$nFail > 0 | tmp$nErr > 0) {
-			stop(paste("\n\nunit testing failed (#test failures: ", tmp$nFail,
-							", #R errors: ",  tmp$nErr, ")\n\n", sep=""))
+        tmp <- getErrors(tests)
+        if(tmp$nFail > 0 | tmp$nErr > 0) {
+            # filter failures and errors
+            test_summary <- capture.output(.summaryRUnit(tests, c('error', 'failure'), print = TRUE))
+            stop(paste0(test_summary, collapse = "\n"))
+#			stop(paste("\n\nunit testing failed (#test failures: ", tmp$nFail,
+#							", #R errors: ",  tmp$nErr, ")\n\n", sep=""))
 		}
 		
 		tests
 	}
 )
+
+.summaryRUnit <- function(testData, type = c('error', 'failure', 'deactivated'), print = FALSE){
+    
+    # taken from printTextProtocol
+    res <- testData
+    for (tsName in names(testData)) {
+        
+        if( print ){
+            cat("Functions:", testData[[tsName]]$nTestFunc, "|"
+                , "Errors:", testData[[tsName]]$nErr, "|"
+                , "Failures:", testData[[tsName]]$nFail, "\n")
+        }
+    
+        srcFileRes <- testData[[tsName]][["sourceFileResults"]]
+        
+        for (i in seq_along(srcFileRes)) {
+            testFuncNames <- names(srcFileRes[[i]])
+            keep <- integer()
+            for (j in seq_along(testFuncNames)) {
+                  funcList <- srcFileRes[[i]][[testFuncNames[j]]]
+                  if (funcList$kind %in% type){
+                      keep <- c(keep, j)
+                      if( print ){
+                          if (funcList$kind == "error") {
+                                cat("ERROR in ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                          }
+                          else if (funcList$kind == "failure") {
+                                cat("FAILURE in ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                          }
+                          else if (funcList$kind == "deactivated") {
+                                cat("DEACTIVATED ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                          }
+                      }
+                }
+            }
+            if( length(keep) ) res[[tsName]][["sourceFileResults"]][[i]] <- srcFileRes[[i]][keep]
+            else res[[tsName]][["sourceFileResults"]] <- res[[tsName]][["sourceFileResults"]][-i]
+        }
+    }
+    invisible(res)
+}
 
 #' Unit Tests Result Directory
 #' 
