@@ -49,13 +49,19 @@ ifndef RCMD
 RCMD:=$(R_BIN)/R
 endif
 
+QUICK_FLAG=FALSE
 ifdef quick
-quick_build=true
+QUICK_FLAG=TRUE
+quick_build=TRUE
 R_CHECK_ARGS=--no-tests --no-vignettes
 endif
 
 ifdef quick_build
 R_BUILD_ARGS=--no-build-vignettes
+endif
+
+ifdef full
+_R_LOCAL_CHECK_=true
 endif
 
 ## BUILD-BINARIES COMMAND
@@ -115,13 +121,13 @@ endif
 
 deploy: info
 	@echo "\n*** STEP: DEPLOY (R-CURRENT)\n" && \
-	$(RSCRIPT) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	$(RSCRIPT) -e "devtools::install('$(R_PACKAGE_PATH)', quick = $(QUICK_FLAG))" && \
 	echo "\n*** DONE: DEPLOY (R-CURRENT)"
 	
 deploy-all: deploy
 	@echo "\n*** STEP: DEPLOY (R-DEVEL)" && \
 	echo `$(RSCRIPT_DEVEL) --version` && \
-	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)', quick = $(QUICK_FLAG))" && \
 	echo "\n*** DONE: DEPLOY (R-DEVEL)"
 
 deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
