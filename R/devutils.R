@@ -419,7 +419,7 @@ as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
 		# extract in tempdir
 		tmp <- tempfile(x)
 		on.exit( unlink(tmp, recursive=TRUE) )
-		pkg <- sub("_[0-9.]+\\.tar\\.gz$", '', x)
+		pkg <- basename(sub("_[0-9.]+\\.tar\\.gz$", '', x))
 		desc <- file.path(pkg, 'DESCRIPTION')
 		untar(x, desc, exdir=tmp)
 		return(devtools::as.package(file.path(tmp, pkg)))
