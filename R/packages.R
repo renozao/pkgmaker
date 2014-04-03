@@ -132,10 +132,39 @@ parse_deps <- function (string)
 	pieces[pieces != "R"]
 }
 
-packageDependencies <- function(x, recursive=FALSE){
-	x <- as.package(x)
+#' List Package Dependencies
+#' 
+#' @param x path to package source directory or file.
+#' @param all logical that indicates if all dependencies should be returned,
+#' or only the required ones.
+#' @param as.list logical that indicates if the result should be a list with one element
+#' per type of dependency.
+#' @param available a matrix of available packages (as returned by \code{\link{available.packages}}), 
+#' from which the dependencies are retrieved.
+#' This means that there must be a row for the package \code{x}.
+#'  
+#' @export
+#' 
+packageDependencies <- function(x, all = TRUE, as.list = FALSE, available = NULL){
+    
+    if( is.null(available) ) x <- as.package(x, extract = TRUE)
+    else{
+        p <- available[, 'Package']
+        if( !x %in% p ) return(NA)
+        x <- available[p == x, , drop = FALSE][1L, ]
+        names(x) <- tolower(names(x))
+    }
+    
 	d <- lapply(x[c('depends', 'imports', 'linkingto', 'suggests')], parse_deps)
-	unlist(d)
+	d <- unlist(d)
+    d <- d[!is.na(d)]
+    if( !length(d) ) return()
+    names(d) <- gsub("[0-9]+$", "", names(d))
+    
+    # remove non-required
+    if( !all ) d <- d[!names(d) %in% c('suggests')]    
+    if( as.list ) d <- split(unname(d), names(d))
+    d
 }
 
 .biocLite <- function(...){
