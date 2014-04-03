@@ -37,7 +37,7 @@
   (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}), but unit
   tests run as part of unit tests vignettes are run with
   \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers
-  cann run all tests.
+  can run all tests.
 }
 \details{
   Currently \code{isCRANcheck} returns \code{TRUE} if the
@@ -57,6 +57,7 @@
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 }
 
+stop("Edit documentation for isCHECK: warn against mis-usage")
 isCHECK()
 }
 \references{
