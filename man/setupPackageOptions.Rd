@@ -3,7 +3,8 @@
 \title{Package Specific Options}
 \usage{
   setupPackageOptions(..., NAME = NULL,
-    ENVIR = topenv(parent.frame()), RESET = FALSE)
+    ENVIR = topenv(parent.frame()),
+    RESET = isLoadingNamespace())
 }
 \arguments{
   \item{...}{a single named list or named arguments that
