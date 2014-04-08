@@ -244,9 +244,12 @@ as.package_options <- function(..., defaults=NULL){
 			name <- names(defs)[i]
 			value <- defs[[i]]
 			# check defaults
-			if( name %in% names(.OPTOBJ$.defaults) && !identical(.OPTOBJ$.defaults[[name]], value) )
-				message("Options ", .OPTOBJ$name, "::`", name, "` not added: already defined with another default value")
-			else{
+            in_opts <- name %in% names(.OPTOBJ$.defaults) && !identical(.OPTOBJ$.defaults[[name]], value)
+			if( in_opts && !isLoadingNamespace() ){
+				message("Skipping option ", .OPTOBJ$name, "::`", name, "`: already defined with another default value")
+		    }else{
+                if( in_opts )
+                    message("Overwriting option ", .OPTOBJ$name, "::`", name, "` : already defined with another default value")
 				.OPTOBJ$.defaults[[name]] <- value
 				.OPTOBJ$.options[[name]] <- value
 			}
