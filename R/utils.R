@@ -939,6 +939,5 @@ expand_dots <- function(..., .exclude=NULL){
 #' hasEnvar('ABCD')
 #' 
 hasEnvar <- function(x){
-	ev <- Sys.getenv()[x]
-	is.na(ev)
+	is.na(Sys.getenv(x, unset = NA, names = FALSE))
 }

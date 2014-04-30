@@ -474,7 +474,7 @@ isCHECK <- function(){
 #' Sys.unsetenv('TOTO')
 #' 
 Sys.getenv_value <- function(name, raw = FALSE){
-    val <- setNames(Sys.getenv()[name], NULL)
+    val <- Sys.getenv(name, unset = NA, names = FALSE)
     if( raw ) return(val)
     # convert false values to FALSE if required
     if( is.na(val) || !nchar(val) || identical(tolower(val), 'false') || val == '0' ){
