@@ -865,10 +865,10 @@ setMethod('utest', 'RUnitTestSuite',
                 , "Errors:", testData[[tsName]]$nErr, "|"
                 , "Failures:", testData[[tsName]]$nFail, "\n")
         }
-    
         srcFileRes <- testData[[tsName]][["sourceFileResults"]]
         
         for (i in seq_along(srcFileRes)) {
+            fname <- basename(names(srcFileRes)[i])
             testFuncNames <- names(srcFileRes[[i]])
             keep <- integer()
             for (j in seq_along(testFuncNames)) {
@@ -877,13 +877,13 @@ setMethod('utest', 'RUnitTestSuite',
                       keep <- c(keep, j)
                       if( print ){
                           if (funcList$kind == "error") {
-                                cat("ERROR in ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                                cat("ERROR in ", fname, "::", testFuncNames[j], ": ", funcList$msg, sep = "")
                           }
                           else if (funcList$kind == "failure") {
-                                cat("FAILURE in ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                                cat("FAILURE in ", fname, "::", testFuncNames[j], ": ", funcList$msg, sep = "")
                           }
                           else if (funcList$kind == "deactivated") {
-                                cat("DEACTIVATED ", srcFileRes[[i]], "::", testFuncNames[j], ": ", funcList$msg, sep = "")
+                                cat("DEACTIVATED ", fname, "::", testFuncNames[j], ": ", funcList$msg, sep = "")
                           }
                       }
                 }
