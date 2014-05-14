@@ -21,23 +21,25 @@
   is set, as with the flag \code{'--as-cran'} was set.} }}
 }
 \description{
-  \code{isCRANcheck} tries to identify if one is running
-  CRAN checks.
+  \code{isCRANcheck} \strong{tries} to identify if one is
+  running CRAN-like checks.
 
   \code{isCRAN_timing} tells if one is running CRAN check
   with flag \code{'--timing'}.
 
-  \code{isCHECK} checks both CRAN expected flags and the
-  value of environment variable
-  \code{_R_CHECK_RUNNING_UTESTS_}. It will return
-  \code{TRUE} if such variable is set to anything not
-  equivalent to \code{FALSE}. For example, the function
+  Currently, \code{isCHECK} checks both CRAN expected
+  flags, the value of environment variable
+  \code{_R_CHECK_RUNNING_UTESTS_}, and the value of option
+  \code{R_CHECK_RUNNING_EXAMPLES_}. It will return
+  \code{TRUE} if any of these environment variables is set
+  to anything not equivalent to \code{FALSE}, or if the
+  option is \code{TRUE}. For example, the function
   \code{\link{utest}} sets it to the name of the package
   being checked
   (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}), but unit
   tests run as part of unit tests vignettes are run with
-  \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers
-  can run all tests.
+  \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests
+  are run and reported when generating them.
 }
 \details{
   Currently \code{isCRANcheck} returns \code{TRUE} if the
@@ -46,22 +48,24 @@
   \code{'--timings'}) or \code{_R_CHECK_CRAN_INCOMINGS_}
   (as set by flag \code{'--as-cran'}).
 
-  Note that the checks performed on CRAN farms are not
-  always run with such flags, so there is no guarantee this
-  function identifies such runs, and one should rely custom
-  environment variables to enable specific tests or
-  examples.
+  \strong{Important:} the checks performed on CRAN check
+  machines are -- on purpose -- not always run with such
+  flags, so there is no guarantee this function effectively
+  identifies such runs. CRAN recommends users rely on
+  custom dedicated environment variables to enable specific
+  tests or examples.
 }
 \examples{
 \dontshow{# roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 }
 
-stop("Edit documentation for isCHECK: warn against mis-usage")
 isCHECK()
 }
 \references{
   Adapted from the function \code{CRAN} in the \pkg{fda}
   package.
+
+  \url{https://github.com/renozao/roxygen2}
 }
 

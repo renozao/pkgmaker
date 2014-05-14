@@ -21,8 +21,10 @@
   \item{RESET}{a logical that indicates whether the option
   set should overwrite one that already exists if
   necessary. The default is \code{FALSE} (i.e. no reset),
-  because one generally wants to keep options possibly
-  saved in a reloaded workspace.}
+  except when loading a namespace, either from an installed
+  package or a development package -- with devtools. If
+  \code{FALSE}, an error is thrown if trying to setup
+  options with the same name.}
 }
 \description{
   The following functions to access/set the options from
