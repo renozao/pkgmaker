@@ -48,12 +48,14 @@
   \code{'--timings'}) or \code{_R_CHECK_CRAN_INCOMINGS_}
   (as set by flag \code{'--as-cran'}).
 
-  \strong{Important:} the checks performed on CRAN check
-  machines are -- on purpose -- not always run with such
-  flags, so there is no guarantee this function effectively
-  identifies such runs. CRAN recommends users rely on
-  custom dedicated environment variables to enable specific
-  tests or examples.
+  \strong{Warning:} the checks performed on CRAN check
+  machines are on purpose not always run with such flags,
+  so that users cannot effectively "trick" the checks. As a
+  result, there is no guarantee this function effectively
+  identifies such checks. If really needed for honest
+  reasons, CRAN recommends users rely on custom dedicated
+  environment variables to enable specific tests or
+  examples.
 }
 \examples{
 \dontshow{# roxygen generated flag
