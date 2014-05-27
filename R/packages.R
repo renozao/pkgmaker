@@ -537,12 +537,33 @@ package_buildname <- function(path, type = c('source', 'win.binary', 'mac.binary
 #' @param verbose logical or numeric that indicates the verbosity level
 #' 
 #' @return Invisibly returns the full path to the generated zip file.
-#'  
-winbuild <- function(path, outdir, verbose = TRUE){
+#' @export
+#' @examples 
+#' \dontrun{
+#' 
+#' # from source directory
+#' winbuild('path/to/package/source/dir/')
+#' # from tar ball
+#' winbuild('PKG_1.0.tar.gz')
+#' 
+#' }
+winbuild <- function(path, outdir = '.', verbose = TRUE){
     
     # create output directory if necessary
     if( !file.exists(outdir) ) dir.create(outdir, recursive = TRUE)
     outdir <- normalizePath(outdir, mustWork = TRUE)
+    
+    # install package if necessary
+    if( grepl("\\.tar\\.gz$", path) ){
+        pkgpath <- tempfile()
+        on.exit( unlink(pkgpath, recursive = TRUE), add = TRUE)
+        dir.create(pkgpath)
+        if( verbose ) message("* Installing tar ball ", basename(path), " in temporary library ", pkgpath, " ... ")
+        p <- as.package(path, extract = TRUE)
+        R.CMD('INSTALL', '-l ', pkgpath, ' ', path)
+        if( verbose ) message('OK')
+        path <- file.path(pkgpath, p$package)
+    }
     
     # make sure it is a pure R package
     if( file.exists(file.path(path, 'src')) ){
@@ -554,16 +575,18 @@ winbuild <- function(path, outdir, verbose = TRUE){
     pkgpath <- p$path
     if( !is_packagedir(path, 'install') ){
         pkgpath <- tempfile()
-        on.exit( unlink(pkgpath, recursive = TRUE) )
+        on.exit( unlink(pkgpath, recursive = TRUE), add = TRUE)
         dir.create(pkgpath)
-        if( verbose ) message("* Making temporary install of ", p$package, " in ", pkgpath, " ... ", appendLF = verbose > 1)
+        if( verbose ) message("* Building ", p$package, " and installing in temporary library ", pkgpath, " ... ", appendLF = verbose > 1)
         olib <- .libPaths()
         on.exit( .libPaths(olib), add = TRUE)
         add_lib(pkgpath)
         devtools::install(path, quiet = verbose <= 1, reload = FALSE)
         if( verbose ) message('OK')
         pkgpath <- file.path(pkgpath, p$package)
+        
     }
+    if( verbose ) message('* Using package installation directory ', pkgpath)
     
     # build package filename
     outfile <- file.path(outdir, package_buildname(pkgpath, 'win.binary'))

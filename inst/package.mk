@@ -9,6 +9,10 @@
 #%R_PACKAGE_OS%#
 #%R_PACKAGE_PATH%#
 #%R_PACKAGE_TAR_GZ%#
+#%R_PACKAGE_ZIP%#
+#%R_PACKAGE_TGZ%#
+#%REPO_DIRS%#
+#%BUILD_DIR%#
 
 # auto-conf variables
 #%INIT_CHECKS%#
@@ -92,6 +96,8 @@ define package_info
 	# Package directory: '$(R_PACKAGE_PATH)'
 endef
 
+.PHONY: $(CHECK_DIR)
+
 all: roxygen build check 
 
 dist: all staticdoc
@@ -100,7 +106,8 @@ init: | $(CHECK_DIR)
 	$(package_info)
 
 $(CHECK_DIR):
-	mkdir -p $(CHECK_DIR)
+	@mkdir -p $(CHECK_DIR)
+	@cd $(CHECK_DIR) && mkdir -p $(REPO_DIRS) && cd -;
 
 info: | $(R_PACKAGE_PATH)
 	$(package_info)
@@ -114,7 +121,7 @@ endif
 else
 build: init
 endif
-	@cd $(CHECK_DIR) && \
+	@cd $(CHECK_DIR)/$(BUILD_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
 	$(RCMD) CMD build $(R_BUILD_ARGS) "$(R_PACKAGE_PATH)" && \
 	echo "*** DONE: BUILD"
@@ -206,7 +213,7 @@ r-forge: build
 	echo "OK" && \
 	echo "*** DONE: R-FORGE\n"
 	
-myCRAN: build
+myCRAN: build-all
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: myCRAN" && \
 	echo -n "  - package source ... " && \
@@ -218,6 +225,15 @@ myCRAN: build
 	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PROJECT_PATH)/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ web/$(R_PACKAGE)/ && \
 	echo "DONE: index" && \
 	echo "*** DONE: myCRAN\n"
+
+winbuild: build
+	@cd $(CHECK_DIR) && \
+	echo "\n*** STEP: Windows binary\n" && \
+	$(RSCRIPT) --vanilla -e "pkgmaker::winbuild('$(R_PACKAGE_TAR_GZ)', dirname('$(R_PACKAGE_ZIP)'))" && \
+	echo "*** DONE: Windows binary\n"
+
+build-all: build winbuild
+	
 
 newdoc:
 	
