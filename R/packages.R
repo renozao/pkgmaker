@@ -507,3 +507,81 @@ checkMode_function <- function(varname){
 
 
 utestCheckMode <- checkMode_function('_R_CHECK_RUNNING_UTESTS_')
+
+is_packagedir <- function(path, type = c('both', 'install', 'dev')){
+    
+    type <- match.arg(type)
+    switch(type,
+        both = is.file(file.path(path, 'DESCRIPTION')),
+        install = is.dir(file.path(path, 'Meta')),
+        dev = is.file(file.path(path, 'DESCRIPTION')) && !is.dir(file.path(path, 'Meta'))
+    )
+}
+
+package_buildname <- function(path, type = c('source', 'win.binary', 'mac.binary')){
+    p <- as.package(path)
+    type <- match.arg(type)
+    
+    ext <- switch(type,
+            source = 'tar.gz',
+            win.binary = 'zip',
+            mac.binary = 'tgz')
+    sprintf("%s_%s.%s", p$package, p$version, ext)
+}
+
+
+#' Build a Windows Binary Package
+#' 
+#' @param path path to a source or already installed package
+#' @param outdir output directory
+#' @param verbose logical or numeric that indicates the verbosity level
+#' 
+#' @return Invisibly returns the full path to the generated zip file.
+#'  
+winbuild <- function(path, outdir, verbose = TRUE){
+    
+    # create output directory if necessary
+    if( !file.exists(outdir) ) dir.create(outdir, recursive = TRUE)
+    outdir <- normalizePath(outdir, mustWork = TRUE)
+    
+    # make sure it is a pure R package
+    if( file.exists(file.path(path, 'src')) ){
+        stop("Cannot build windows binary for non-pure R packages (detected src/ sub-directory)")
+    }
+    p <- as.package(path)
+    
+    # install package in temporary directory if necessary
+    pkgpath <- p$path
+    if( !is_packagedir(path, 'install') ){
+        pkgpath <- tempfile()
+        on.exit( unlink(pkgpath, recursive = TRUE) )
+        dir.create(pkgpath)
+        if( verbose ) message("* Making temporary install of ", p$package, " in ", pkgpath, " ... ", appendLF = verbose > 1)
+        olib <- .libPaths()
+        on.exit( .libPaths(olib), add = TRUE)
+        add_lib(pkgpath)
+        devtools::install(path, quiet = verbose <= 1, reload = FALSE)
+        if( verbose ) message('OK')
+        pkgpath <- file.path(pkgpath, p$package)
+    }
+    
+    # build package filename
+    outfile <- file.path(outdir, package_buildname(pkgpath, 'win.binary'))
+    
+    ## borrowed from package roxyPackage
+    owd <- getwd()
+    on.exit( setwd(owd), add = TRUE)
+    setwd(dirname(pkgpath))
+    pkgname <- p$package
+    # make a list of backup files to exclude
+    win.exclude.files <- list.files(pkgname, pattern=".*~$", recursive=TRUE, full.names = TRUE)
+    if(length(win.exclude.files) > 0){
+        win.exclude.files <- paste0("-x \"", paste(win.exclude.files, collapse="\" \""), "\"")
+    }
+    if( verbose ) message('* Creating windows binary package ', basename(outfile), ' ... ', appendLF = TRUE)
+    zip(outfile, pkgname, extras = win.exclude.files)
+    if( verbose ) message('OK')
+    
+    # return path to generated zip file
+    invisible(outfile)
+}
