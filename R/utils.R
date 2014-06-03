@@ -554,6 +554,7 @@ exitCheck <- function(){
 #' Orders a vector of version numbers, in natural order.
 #' 
 #' @param x a character vector of version numbers
+#' @param ... other ordering criterium passed to \code{\link{order}}
 #' @param decreasing a logical that indicates if the ordering should be decreasing
 #' 
 #' @export
@@ -563,14 +564,21 @@ exitCheck <- function(){
 #' order(v)
 #' orderVersion(v)
 #' 
-orderVersion <- function(x, decreasing=FALSE){
+orderVersion <- function(x, ..., decreasing=FALSE){
+    
+    NAs <- which(is.na(x))
 	tx <- gsub("[^0-9]+",".", paste('_', x, sep=''))
 	stx <- strsplit(tx, ".", fixed=TRUE)
 	mtx <- max(sapply(stx, length))
 	tx <- sapply(stx, 
 			function(v) paste(sprintf("%06i", c(as.integer(v[-1]),rep(0, mtx-length(v)+1))), collapse='.')
 	)	
-	order(tx, decreasing=decreasing)
+	res <- order(tx, ..., decreasing = decreasing)
+    # put NAs at the end
+    if( length(NAs) ){
+        res <- c(setdiff(res, NAs), NAs)
+    }
+    res
 }
 
 #' @param ... extra parameters passed to \code{orderVersion}
