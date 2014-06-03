@@ -39,9 +39,9 @@ endif
 ifdef flavour
 RCMD=R$(flavour)
 RSCRIPT=Rscript-$(flavour)
-CHECK_DIR=checks/$(flavour)
+CHECK_DIR=checks/$(flavour)/
 else
-CHECK_DIR=checks
+CHECK_DIR=checks/
 endif
 
 R_BIN=#%R_BIN%#
@@ -94,6 +94,7 @@ define package_info
 	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
 	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
 	# Package directory: '$(R_PACKAGE_PATH)'
+	# Build directory: '$(CHECK_DIR)$(BUILD_DIR)'
 endef
 
 .PHONY: $(CHECK_DIR)
@@ -121,7 +122,7 @@ endif
 else
 build: init
 endif
-	@cd $(CHECK_DIR)/$(BUILD_DIR) && \
+	@cd $(CHECK_DIR)$(BUILD_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
 	$(RCMD) CMD build $(R_BUILD_ARGS) "$(R_PACKAGE_PATH)" && \
 	echo "*** DONE: BUILD"
@@ -137,7 +138,7 @@ deploy-all: deploy
 	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)', quick = $(QUICK_FLAG))" && \
 	echo "\n*** DONE: DEPLOY (R-DEVEL)"
 
-deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+deploy-repo: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: DEPLOY-REPO\n" && \
 	cp $(R_PACKAGE_TAR_GZ) ~/projects/CRANx/src/contrib && \
@@ -150,7 +151,7 @@ deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
 #	$(RSCRIPT) --vanilla ./build-bin.r && \
 #	echo "\n*** DONE: BUILD-BINARIES"
 	
-check: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+check: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
 	mkdir -p $(R_PACKAGE_OS) && \

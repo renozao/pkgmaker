@@ -114,10 +114,10 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	# R_BIN
 	l <- subMakeVar('R_BIN', R.home('bin'), l)
     # REPO_DIRS
-    repo_dirs <- sapply(c('source', 'win.binary', 'mac.binary'), contrib.url, repos = '.')
+    repo_dirs <- gsub("^\\./", "", sapply(c('source', 'win.binary', 'mac.binary'), contrib.url, repos = '.'))
     l <- defMakeVar('REPO_DIRS', paste0(repo_dirs, collapse = ' '), l)
     # BUILD_DIR
-    l <- defMakeVar('BUILD_DIR', repo_dirs['source'], l)
+    l <- defMakeVar('BUILD_DIR', file.path(repo_dirs['source'], ''), l)
 	# R_PACKAGE_TAR_GZ
 	pkg_targz <- file.path(repo_dirs['source'], package_buildname(p, 'source'))
 	l <- defMakeVar('R_PACKAGE_TAR_GZ', pkg_targz, l)
