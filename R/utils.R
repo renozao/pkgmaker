@@ -554,7 +554,6 @@ exitCheck <- function(){
 #' Orders a vector of version numbers, in natural order.
 #' 
 #' @param x a character vector of version numbers
-#' @param ... other ordering criterium passed to \code{\link{order}}
 #' @param decreasing a logical that indicates if the ordering should be decreasing
 #' 
 #' @export
@@ -581,7 +580,7 @@ orderVersion <- function(x, ..., decreasing=FALSE){
     res
 }
 
-#' @param ... extra parameters passed to \code{orderVersion}
+#' @param ... extra parameters passed to \code{orderVersion} and \code{\link{order}}
 #' 
 #' @export
 #' @rdname orderVersion

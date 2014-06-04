@@ -10,14 +10,11 @@
 \arguments{
   \item{x}{a character vector of version numbers}
 
-  \item{...}{other ordering criterium passed to
-  \code{\link{order}}}
-
   \item{decreasing}{a logical that indicates if the
   ordering should be decreasing}
 
-  \item{...}{extra parameters passed to
-  \code{orderVersion}}
+  \item{...}{extra parameters passed to \code{orderVersion}
+  and \code{\link{order}}}
 }
 \description{
   Orders a vector of version numbers, in natural order.
