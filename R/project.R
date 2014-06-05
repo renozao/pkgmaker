@@ -113,9 +113,20 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	l <- defMakeVar('R_PACKAGE_SUBPROJECT_PATH_PART', subproject_path_part, l)
 	# R_BIN
 	l <- subMakeVar('R_BIN', R.home('bin'), l)
+    # REPO_DIRS
+    repo_dirs <- gsub("^\\./", "", sapply(c('source', 'win.binary', 'mac.binary'), contrib.url, repos = '.'))
+    l <- defMakeVar('REPO_DIRS', paste0(repo_dirs, collapse = ' '), l)
+    # BUILD_DIR
+    l <- defMakeVar('BUILD_DIR', file.path(repo_dirs['source'], ''), l)
 	# R_PACKAGE_TAR_GZ
-	pkg_targz <- paste0(p[['package']], '_', p[['version']], '.tar.gz')
+	pkg_targz <- file.path(repo_dirs['source'], package_buildname(p, 'source'))
 	l <- defMakeVar('R_PACKAGE_TAR_GZ', pkg_targz, l)
+    # R_PACKAGE_ZIP
+	pkg_zip <- file.path(repo_dirs['win.binary'], package_buildname(p, 'win.binary'))
+	l <- defMakeVar('R_PACKAGE_ZIP', pkg_zip, l)
+    # R_PACKAGE_TGZ
+	pkg_mac <- file.path(repo_dirs['mac.binary'], package_buildname(p, 'mac.binary'))
+	l <- defMakeVar('R_PACKAGE_TGZ', pkg_mac, l)
 	# R_PACKAGE_TYPE	
 	l <- defMakeVar('R_PACKAGE_OS', R_OS(), l)
 	#

@@ -9,6 +9,10 @@
 #%R_PACKAGE_OS%#
 #%R_PACKAGE_PATH%#
 #%R_PACKAGE_TAR_GZ%#
+#%R_PACKAGE_ZIP%#
+#%R_PACKAGE_TGZ%#
+#%REPO_DIRS%#
+#%BUILD_DIR%#
 
 # auto-conf variables
 #%INIT_CHECKS%#
@@ -35,9 +39,9 @@ endif
 ifdef flavour
 RCMD=R$(flavour)
 RSCRIPT=Rscript-$(flavour)
-CHECK_DIR=checks/$(flavour)
+CHECK_DIR=checks/$(flavour)/
 else
-CHECK_DIR=checks
+CHECK_DIR=checks/
 endif
 
 R_BIN=#%R_BIN%#
@@ -49,13 +53,19 @@ ifndef RCMD
 RCMD:=$(R_BIN)/R
 endif
 
+QUICK_FLAG=FALSE
 ifdef quick
-quick_build=true
+QUICK_FLAG=TRUE
+quick_build=TRUE
 R_CHECK_ARGS=--no-tests --no-vignettes
 endif
 
 ifdef quick_build
 R_BUILD_ARGS=--no-build-vignettes
+endif
+
+ifdef full
+_R_LOCAL_CHECK_=true
 endif
 
 ## BUILD-BINARIES COMMAND
@@ -84,7 +94,10 @@ define package_info
 	# Project directory: '$(R_PACKAGE_PROJECT_PATH)'
 	# Project sub-directory: '$(R_PACKAGE_SUBPROJECT_PATH_PART)'
 	# Package directory: '$(R_PACKAGE_PATH)'
+	# Build directory: '$(CHECK_DIR)$(BUILD_DIR)'
 endef
+
+.PHONY: $(CHECK_DIR)
 
 all: roxygen build check 
 
@@ -94,7 +107,8 @@ init: | $(CHECK_DIR)
 	$(package_info)
 
 $(CHECK_DIR):
-	mkdir -p $(CHECK_DIR)
+	@mkdir -p $(CHECK_DIR)
+	@cd $(CHECK_DIR) && mkdir -p $(REPO_DIRS) && cd -;
 
 info: | $(R_PACKAGE_PATH)
 	$(package_info)
@@ -108,23 +122,23 @@ endif
 else
 build: init
 endif
-	@cd $(CHECK_DIR) && \
+	@cd $(CHECK_DIR)$(BUILD_DIR) && \
 	echo "\n*** STEP: BUILD\n" && \
 	$(RCMD) CMD build $(R_BUILD_ARGS) "$(R_PACKAGE_PATH)" && \
 	echo "*** DONE: BUILD"
 
 deploy: info
 	@echo "\n*** STEP: DEPLOY (R-CURRENT)\n" && \
-	$(RSCRIPT) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	$(RSCRIPT) -e "devtools::install('$(R_PACKAGE_PATH)', quick = $(QUICK_FLAG))" && \
 	echo "\n*** DONE: DEPLOY (R-CURRENT)"
 	
 deploy-all: deploy
 	@echo "\n*** STEP: DEPLOY (R-DEVEL)" && \
 	echo `$(RSCRIPT_DEVEL) --version` && \
-	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)')" && \
+	$(RSCRIPT_DEVEL) -e "devtools::install('$(R_PACKAGE_PATH)', quick = $(QUICK_FLAG))" && \
 	echo "\n*** DONE: DEPLOY (R-DEVEL)"
 
-deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+deploy-repo: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: DEPLOY-REPO\n" && \
 	cp $(R_PACKAGE_TAR_GZ) ~/projects/CRANx/src/contrib && \
@@ -137,7 +151,7 @@ deploy-repo: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
 #	$(RSCRIPT) --vanilla ./build-bin.r && \
 #	echo "\n*** DONE: BUILD-BINARIES"
 	
-check: build $(CHECK_DIR)/$(R_PACKAGE_TAR_GZ)
+check: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
 	mkdir -p $(R_PACKAGE_OS) && \
@@ -200,7 +214,7 @@ r-forge: build
 	echo "OK" && \
 	echo "*** DONE: R-FORGE\n"
 	
-myCRAN: build
+myCRAN: build-all
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: myCRAN" && \
 	echo -n "  - package source ... " && \
@@ -212,6 +226,15 @@ myCRAN: build
 	cd ~/projects/myCRAN/ && rsync --delete --recursive --cvs-exclude $(R_PACKAGE_PROJECT_PATH)/www$(R_PACKAGE_SUBPROJECT_PATH_PART)/ web/$(R_PACKAGE)/ && \
 	echo "DONE: index" && \
 	echo "*** DONE: myCRAN\n"
+
+winbuild: build
+	@cd $(CHECK_DIR) && \
+	echo "\n*** STEP: Windows binary\n" && \
+	$(RSCRIPT) --vanilla -e "pkgmaker::winbuild('$(R_PACKAGE_TAR_GZ)', dirname('$(R_PACKAGE_ZIP)'))" && \
+	echo "*** DONE: Windows binary\n"
+
+build-all: build winbuild
+	
 
 newdoc:
 	

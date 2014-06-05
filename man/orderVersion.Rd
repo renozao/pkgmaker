@@ -3,7 +3,7 @@
 \alias{sortVersion}
 \title{Ordering Version Numbers}
 \usage{
-  orderVersion(x, decreasing = FALSE)
+  orderVersion(x, ..., decreasing = FALSE)
 
   sortVersion(x, ...)
 }
@@ -13,8 +13,8 @@
   \item{decreasing}{a logical that indicates if the
   ordering should be decreasing}
 
-  \item{...}{extra parameters passed to
-  \code{orderVersion}}
+  \item{...}{extra parameters passed to \code{orderVersion}
+  and \code{\link{order}}}
 }
 \description{
   Orders a vector of version numbers, in natural order.

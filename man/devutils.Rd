@@ -1,5 +1,5 @@
 \name{packageEnv}
-\alias{as.package}
+\alias{as_package}
 \alias{isPackageInstalled}
 \alias{packageEnv}
 \alias{packageName}
@@ -24,7 +24,7 @@
 
   isPackageInstalled(..., lib.loc = NULL)
 
-  as.package(x, ..., quiet = FALSE, extract = FALSE)
+  as_package(x, ..., quiet = FALSE, extract = FALSE)
 }
 \arguments{
   \item{pkg}{package name. If missing the environment of
@@ -122,7 +122,7 @@
   \code{isPackageInstalled} checks if a package is
   installed.
 
-  \code{as.package} is enhanced version of
+  \code{as_package} is enhanced version of
   \code{\link[devtools]{as.package}}, that is not exported
   not to mask the original function. It could eventually be
   incorporated into \code{devtools} itself. Extra arguments

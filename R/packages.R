@@ -122,6 +122,7 @@ requirePackage <- function(pkg, ...){
 	}
 }
 
+# adapted from devtools::parse_deps
 parse_deps <- function (string) 
 {
 	if (is.null(string)) 
@@ -130,12 +131,6 @@ parse_deps <- function (string)
 	pieces <- strsplit(string, ",")[[1]]
 	pieces <- gsub("^\\s+|\\s+$", "", pieces)
 	pieces[pieces != "R"]
-}
-
-packageDependencies <- function(x, recursive=FALSE){
-	x <- as.package(x)
-	d <- lapply(x[c('depends', 'imports', 'linkingto', 'suggests')], parse_deps)
-	unlist(d)
 }
 
 .biocLite <- function(...){
@@ -339,15 +334,17 @@ add_lib <- function(..., append=FALSE){
 
 #' Package Check Utils
 #' 
-#' \code{isCRANcheck} tries to identify if one is running CRAN checks.
+#' \code{isCRANcheck} \strong{tries} to identify if one is running CRAN-like checks.
 #' 
 #' Currently \code{isCRANcheck} returns \code{TRUE} if the check is run with 
 #' either environment variable \code{_R_CHECK_TIMINGS_} (as set by flag \code{'--timings'})
 #' or \code{_R_CHECK_CRAN_INCOMINGS_} (as set by flag \code{'--as-cran'}).
 #' 
-#' Note that the checks performed on CRAN farms are not always run with such flags, 
-#' so there is no guarantee this function identifies such runs, and one should 
-#' rely custom environment variables to enable specific tests or examples.
+#' \strong{Warning:} the checks performed on CRAN check machines are on purpose not always 
+#' run with such flags, so that users cannot effectively "trick" the checks.
+#' As a result, there is no guarantee this function effectively identifies such checks.
+#' If really needed for honest reasons, CRAN recommends users rely on custom dedicated environment 
+#' variables to enable specific tests or examples.
 #' 
 #' @param ... each argument specifies a set of tests to do using an AND operator.
 #' The final result tests if any of the test set is true.
@@ -390,19 +387,25 @@ isCRANcheck <- function(...){
 #' @rdname isCRANcheck
 isCRAN_timing <- function() isCRANcheck('timing')
 
-#' \code{isCHECK} tries harder to test if running under \code{R CMD check}, at least  
-#' for unit tests that use the unified unit test framework defined by \pkg{pkgmaker} 
-#' (see \code{\link{utest}}).
+#' \code{isCHECK} tries harder to test if running under \code{R CMD check}.
+#' It will definitely identifies check runs for: 
+#' \itemize{
+#' \item unit tests that use the unified unit test framework defined by \pkg{pkgmaker} (see \code{\link{utest}});
+#' \item examples that are run with option \code{R_CHECK_RUNNING_EXAMPLES_ = TRUE}, 
+#' which is automatically set for man pages generated with a fork of \pkg{roxygen2} (see \emph{References}).
+#' }
 #' 
-#' \code{isCHECK} checks both CRAN expected flags and the value of environment variable
-#' \code{_R_CHECK_RUNNING_UTESTS_}.
-#' It will return \code{TRUE} if such variable is set to anything not equivalent 
-#' to \code{FALSE}.
+#' Currently, \code{isCHECK} checks both CRAN expected flags, the value of environment variable
+#' \code{_R_CHECK_RUNNING_UTESTS_}, and the value of option \code{R_CHECK_RUNNING_EXAMPLES_}.
+#' It will return \code{TRUE} if any of these environment variables is set to 
+#' anything not equivalent to \code{FALSE}, or if the option is \code{TRUE}.
 #' For example, the function \code{\link{utest}} sets it to the name of the package  
 #' being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}), 
 #' but unit tests run as part of unit tests vignettes are run with 
-#' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that developers cann run all tests.
+#' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests are run and reported when 
+#' generating them.
 #' 
+#' @references \url{https://github.com/renozao/roxygen2}
 #' @rdname isCRANcheck
 #' @export
 #' 
@@ -444,7 +447,7 @@ isCHECK <- function(){
 #' Sys.unsetenv('TOTO')
 #' 
 Sys.getenv_value <- function(name, raw = FALSE){
-    val <- setNames(Sys.getenv()[name], NULL)
+    val <- Sys.getenv(name, unset = NA, names = FALSE)
     if( raw ) return(val)
     # convert false values to FALSE if required
     if( is.na(val) || !nchar(val) || identical(tolower(val), 'false') || val == '0' ){
@@ -470,3 +473,104 @@ checkMode_function <- function(varname){
 
 
 utestCheckMode <- checkMode_function('_R_CHECK_RUNNING_UTESTS_')
+
+is_packagedir <- function(path, type = c('both', 'install', 'dev')){
+    
+    type <- match.arg(type)
+    switch(type,
+        both = is.file(file.path(path, 'DESCRIPTION')),
+        install = is.dir(file.path(path, 'Meta')),
+        dev = is.file(file.path(path, 'DESCRIPTION')) && !is.dir(file.path(path, 'Meta'))
+    )
+}
+
+package_buildname <- function(path, type = c('source', 'win.binary', 'mac.binary')){
+    p <- as.package(path)
+    type <- match.arg(type)
+    
+    ext <- switch(type,
+            source = 'tar.gz',
+            win.binary = 'zip',
+            mac.binary = 'tgz')
+    sprintf("%s_%s.%s", p$package, p$version, ext)
+}
+
+
+#' Build a Windows Binary Package
+#' 
+#' @param path path to a source or already installed package
+#' @param outdir output directory
+#' @param verbose logical or numeric that indicates the verbosity level
+#' 
+#' @return Invisibly returns the full path to the generated zip file.
+#' @export
+#' @examples 
+#' \dontrun{
+#' 
+#' # from source directory
+#' winbuild('path/to/package/source/dir/')
+#' # from tar ball
+#' winbuild('PKG_1.0.tar.gz')
+#' 
+#' }
+winbuild <- function(path, outdir = '.', verbose = TRUE){
+    
+    # create output directory if necessary
+    if( !file.exists(outdir) ) dir.create(outdir, recursive = TRUE)
+    outdir <- normalizePath(outdir, mustWork = TRUE)
+    
+    # install package if necessary
+    if( grepl("\\.tar\\.gz$", path) ){
+        pkgpath <- tempfile()
+        on.exit( unlink(pkgpath, recursive = TRUE), add = TRUE)
+        dir.create(pkgpath)
+        if( verbose ) message("* Installing tar ball ", basename(path), " in temporary library ", pkgpath, " ... ")
+        p <- as.package(path, extract = TRUE)
+        R.CMD('INSTALL', '-l ', pkgpath, ' ', path)
+        if( verbose ) message('OK')
+        path <- file.path(pkgpath, p$package)
+    }
+    
+    # make sure it is a pure R package
+    if( file.exists(file.path(path, 'src')) ){
+        stop("Cannot build windows binary for non-pure R packages (detected src/ sub-directory)")
+    }
+    p <- as.package(path)
+    
+    # install package in temporary directory if necessary
+    pkgpath <- p$path
+    if( !is_packagedir(path, 'install') ){
+        pkgpath <- tempfile()
+        on.exit( unlink(pkgpath, recursive = TRUE), add = TRUE)
+        dir.create(pkgpath)
+        if( verbose ) message("* Building ", p$package, " and installing in temporary library ", pkgpath, " ... ", appendLF = verbose > 1)
+        olib <- .libPaths()
+        on.exit( .libPaths(olib), add = TRUE)
+        add_lib(pkgpath)
+        devtools::install(path, quiet = verbose <= 1, reload = FALSE)
+        if( verbose ) message('OK')
+        pkgpath <- file.path(pkgpath, p$package)
+        
+    }
+    if( verbose ) message('* Using package installation directory ', pkgpath)
+    
+    # build package filename
+    outfile <- file.path(outdir, package_buildname(pkgpath, 'win.binary'))
+    
+    ## borrowed from package roxyPackage
+    owd <- getwd()
+    on.exit( setwd(owd), add = TRUE)
+    setwd(dirname(pkgpath))
+    pkgname <- p$package
+    # make a list of backup files to exclude
+    win.exclude.files <- list.files(pkgname, pattern=".*~$", recursive=TRUE, full.names = TRUE)
+    if(length(win.exclude.files) > 0){
+        win.exclude.files <- paste0("-x \"", paste(win.exclude.files, collapse="\" \""), "\"")
+    }
+    if( verbose ) message('* Creating windows binary package ', basename(outfile), ' ... ', appendLF = TRUE)
+    zip(outfile, pkgname, extras = win.exclude.files)
+    if( verbose ) message('OK')
+    
+    # return path to generated zip file
+    invisible(outfile)
+}

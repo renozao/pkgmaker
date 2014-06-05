@@ -395,7 +395,7 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #	gsub("\\\\.\\{(.)\\}", "\\1", x)
 #}
 
-#' \code{as.package} is enhanced version of \code{\link[devtools]{as.package}}, 
+#' \code{as_package} is enhanced version of \code{\link[devtools]{as.package}}, 
 #' that is not exported not to mask the original function.
 #' It could eventually be incorporated into \code{devtools} itself.
 #' Extra arguments in \code{...} are passed to \code{\link{find.package}}. 
@@ -409,7 +409,8 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' In this case there will be no valid path. 
 #' 
 #' @rdname devutils
-as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
+#' @export
+as_package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	
 	
 	if( is.null(x) ) return( devtools::as.package() )
@@ -419,7 +420,7 @@ as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
 		# extract in tempdir
 		tmp <- tempfile(x)
 		on.exit( unlink(tmp, recursive=TRUE) )
-		pkg <- sub("_[0-9.]+\\.tar\\.gz$", '', x)
+		pkg <- basename(sub("_[0-9.]+\\.tar\\.gz$", '', x))
 		desc <- file.path(pkg, 'DESCRIPTION')
 		untar(x, desc, exdir=tmp)
 		return(devtools::as.package(file.path(tmp, pkg)))
@@ -448,6 +449,9 @@ as.package <- function(x, ..., quiet=FALSE, extract=FALSE){
 		stop("Could not find package ", x)
 	NULL
 }
+
+# internal overload of as.package
+as.package <- as_package
 
 NotImplemented <- function(msg){
 	stop("Not implemented - ", msg)

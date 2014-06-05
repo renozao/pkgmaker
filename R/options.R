@@ -26,11 +26,12 @@ NULL
 #' No function is defined if \code{ENVIR=NULL} 
 #' @param RESET a logical that indicates whether the option set should overwrite
 #' one that already exists if necessary. 
-#' The default is \code{FALSE} (i.e. no reset), because one generally wants to 
-#' keep options possibly saved in a reloaded workspace.
+#' The default is \code{FALSE} (i.e. no reset), except when loading a namespace, 
+#' either from an installed package or a development package -- with devtools. 
+#' If \code{FALSE}, an error is thrown if trying to setup options with the same name.
 #'
 #' @export
-setupPackageOptions <- function(..., NAME=NULL, ENVIR=topenv(parent.frame()), RESET=FALSE){
+setupPackageOptions <- function(..., NAME=NULL, ENVIR=topenv(parent.frame()), RESET = isLoadingNamespace()){
 	
 	defaults <- .list_or_named_dots(...)
 	
@@ -244,9 +245,12 @@ as.package_options <- function(..., defaults=NULL){
 			name <- names(defs)[i]
 			value <- defs[[i]]
 			# check defaults
-			if( name %in% names(.OPTOBJ$.defaults) && !identical(.OPTOBJ$.defaults[[name]], value) )
-				message("Options ", .OPTOBJ$name, "::`", name, "` not added: already defined with another default value")
-			else{
+            in_opts <- name %in% names(.OPTOBJ$.defaults) && !identical(.OPTOBJ$.defaults[[name]], value)
+			if( in_opts && !isLoadingNamespace() ){
+				message("Skipping option ", .OPTOBJ$name, "::`", name, "`: already defined with another default value")
+		    }else{
+                if( in_opts )
+                    message("Overwriting option ", .OPTOBJ$name, "::`", name, "` : already defined with another default value")
 				.OPTOBJ$.defaults[[name]] <- value
 				.OPTOBJ$.options[[name]] <- value
 			}
