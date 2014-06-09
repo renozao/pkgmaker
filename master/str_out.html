@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>str_out. pkgmaker 0.20</title>
+<title>str_out. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="
   Renaud Gaujoux
@@ -55,7 +55,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -132,8 +132,7 @@ str_bs(x)</pre>
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -172,8 +171,7 @@ str_out(x)
 <pre><code>## [1] &quot;&#39;a&#39;, &#39;b&#39;, ..., &#39;j&#39; (10 total)&quot;
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # str_fun
 #----------
 str_fun(install.packages)
@@ -182,8 +180,7 @@ str_fun(install.packages)
 <pre><code>## [1] &quot;function (pkgs, lib, repos = getOption(\&quot;repos\&quot;), contriburl = contrib.url(repos, \n    type), method, available = NULL, destdir = NULL, dependencies = NA, \n    type = getOption(\&quot;pkgType\&quot;), configure.args = getOption(\&quot;configure.args\&quot;), \n    configure.vars = getOption(\&quot;configure.vars\&quot;), clean = FALSE, \n    Ncpus = getOption(\&quot;Ncpus\&quot;, 1L), verbose = getOption(\&quot;verbose\&quot;), \n    libs_only = FALSE, INSTALL_opts, quiet = FALSE, keep_outputs = FALSE, \n    ...) &quot;
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # str_bs
 #----------
 # Backspace substitution
@@ -217,8 +214,7 @@ str_bs(&quot;abc&quot;)
 <pre><code>## [1] &quot;ad&quot;
 </code></pre>
 
-<pre><code class="r">
-# more complex example
+<pre><code class="r"># more complex example
 x &lt;- &quot;\bab\nc\bd\n\babc\b\bd&quot;
 cat(x, &quot;\n&quot;)
 </code></pre>
@@ -241,9 +237,6 @@ y
 <pre><code>## ab
 ## d
 ## ad
-</code></pre>
-
-<pre><code class="r">
 </code></pre>
 
   </div>

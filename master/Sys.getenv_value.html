@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>Sys.getenv_value. pkgmaker 0.20</title>
+<title>Sys.getenv_value. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -96,8 +96,7 @@
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -116,16 +115,14 @@ Sys.getenv_value(&#39;TOTO&#39;, raw = TRUE)
 <pre><code>## [1] NA
 </code></pre>
 
-<pre><code class="r">
-Sys.setenv(TOTO=&#39;bla&#39;)
+<pre><code class="r">Sys.setenv(TOTO=&#39;bla&#39;)
 Sys.getenv_value(&#39;TOTO&#39;)
 </code></pre>
 
 <pre><code>## [1] &quot;bla&quot;
 </code></pre>
 
-<pre><code class="r">
-# anything false-like returns FALSE
+<pre><code class="r"># anything false-like returns FALSE
 Sys.setenv(TOTO=&#39;false&#39;); Sys.getenv_value(&#39;TOTO&#39;)
 </code></pre>
 
@@ -138,10 +135,8 @@ Sys.setenv(TOTO=&#39;false&#39;); Sys.getenv_value(&#39;TOTO&#39;)
 <pre><code>## [1] FALSE
 </code></pre>
 
-<pre><code class="r">
-# cleanup
+<pre><code class="r"># cleanup
 Sys.unsetenv(&#39;TOTO&#39;)
-
 </code></pre>
 
   </div>

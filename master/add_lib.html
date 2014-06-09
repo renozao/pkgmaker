@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>add_lib. pkgmaker 0.20</title>
+<title>add_lib. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -104,8 +104,7 @@
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -124,7 +123,7 @@ show( .libPaths(&#39;.&#39;) )
 <pre><code class="r">show( .libPaths(tempdir()) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/RtmpAvgSOz&quot;               &quot;/usr/local/lib/R/site-library&quot;
+<pre><code>## [1] &quot;/tmp/Rtmp0gEjvl&quot;               &quot;/usr/local/lib/R/site-library&quot;
 ## [3] &quot;/usr/lib/R/site-library&quot;       &quot;/usr/lib/R/library&quot;
 </code></pre>
 
@@ -135,8 +134,8 @@ show( .libPaths(&#39;.&#39;) )
 show( .libPaths() )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/RtmpAvgSOz/file2db848f7a781&quot;              
-## [2] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.0&quot;
+<pre><code>## [1] &quot;/tmp/Rtmp0gEjvl/file2b945e240df7&quot;              
+## [2] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [3] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [4] &quot;/usr/lib/R/site-library&quot;                       
 ## [5] &quot;/usr/lib/R/library&quot;
@@ -159,8 +158,8 @@ show( add_lib(&#39;.&#39;) )
 </code></pre>
 
 <pre><code>## [1] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [2] &quot;/tmp/RtmpAvgSOz/file2db848f7a781&quot;              
-## [3] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.0&quot;
+## [2] &quot;/tmp/Rtmp0gEjvl/file2b945e240df7&quot;              
+## [3] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [4] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [5] &quot;/usr/lib/R/site-library&quot;                       
 ## [6] &quot;/usr/lib/R/library&quot;
@@ -169,10 +168,10 @@ show( add_lib(&#39;.&#39;) )
 <pre><code class="r">show( add_lib(tempdir()) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/RtmpAvgSOz&quot;                               
+<pre><code>## [1] &quot;/tmp/Rtmp0gEjvl&quot;                               
 ## [2] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [3] &quot;/tmp/RtmpAvgSOz/file2db848f7a781&quot;              
-## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.0&quot;
+## [3] &quot;/tmp/Rtmp0gEjvl/file2b945e240df7&quot;              
+## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [5] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [6] &quot;/usr/lib/R/site-library&quot;                       
 ## [7] &quot;/usr/lib/R/library&quot;
@@ -181,20 +180,18 @@ show( add_lib(&#39;.&#39;) )
 <pre><code class="r">show( add_lib(&#39;..&#39;, append=TRUE) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/RtmpAvgSOz&quot;                               
+<pre><code>## [1] &quot;/tmp/Rtmp0gEjvl&quot;                               
 ## [2] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [3] &quot;/tmp/RtmpAvgSOz/file2db848f7a781&quot;              
-## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.0&quot;
+## [3] &quot;/tmp/Rtmp0gEjvl/file2b945e240df7&quot;              
+## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [5] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [6] &quot;/usr/lib/R/site-library&quot;                       
 ## [7] &quot;/usr/lib/R/library&quot;                            
 ## [8] &quot;/home/renaud/Documents/projects&quot;
 </code></pre>
 
-<pre><code class="r">
-# restore
+<pre><code class="r"># restore
 .libPaths(ol)
-
 </code></pre>
 
   </div>

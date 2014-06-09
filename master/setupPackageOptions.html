@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>setupPackageOptions. pkgmaker 0.20</title>
+<title>setupPackageOptions. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -79,7 +79,7 @@
     </div>
     
     <h2>Usage</h2>
-    <pre>setupPackageOptions(..., NAME = NULL, ENVIR = topenv(parent.frame()), RESET = FALSE)</pre>
+    <pre>setupPackageOptions(..., NAME = NULL, ENVIR = topenv(parent.frame()), RESET = isLoadingNamespace())</pre>
     
     <h2>Arguments</h2>
     <dl>
@@ -98,8 +98,10 @@
       <dd>a logical that indicates whether the option
   set should overwrite one that already exists if
   necessary. The default is <code>FALSE</code> (i.e. no reset),
-  because one generally wants to keep options possibly
-  saved in a reloaded workspace.</dd>
+  except when loading a namespace, either from an installed
+  package or a development package -- with devtools. If
+  <code>FALSE</code>, an error is thrown if trying to setup
+  options with the same name.</dd>
     </dl>
           </div>
   <div class="span4">

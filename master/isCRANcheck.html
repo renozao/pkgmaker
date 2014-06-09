@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>isCRANcheck. pkgmaker 0.20</title>
+<title>isCRANcheck. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -69,21 +69,23 @@
     <div class="description">
       <h2>Description</h2>
       
-      <p><p><code>isCRANcheck</code> tries to identify if one is running
-  CRAN checks.</p>
+      <p><p><code>isCRANcheck</code> <strong>tries</strong> to identify if one is
+  running CRAN-like checks.</p>
 <p><code>isCRAN_timing</code> tells if one is running CRAN check
   with flag <code>'--timing'</code>.</p>
-<p><code>isCHECK</code> checks both CRAN expected flags and the
-  value of environment variable
-  <code>_R_CHECK_RUNNING_UTESTS_</code>. It will return
-  <code>TRUE</code> if such variable is set to anything not
-  equivalent to <code>FALSE</code>. For example, the function
+<p>Currently, <code>isCHECK</code> checks both CRAN expected
+  flags, the value of environment variable
+  <code>_R_CHECK_RUNNING_UTESTS_</code>, and the value of option
+  <code>R_CHECK_RUNNING_EXAMPLES_</code>. It will return
+  <code>TRUE</code> if any of these environment variables is set
+  to anything not equivalent to <code>FALSE</code>, or if the
+  option is <code>TRUE</code>. For example, the function
   <code><a href='utest.html'>utest</a></code> sets it to the name of the package
   being checked
   (<code>_R_CHECK_RUNNING_UTESTS_=<pkgname></code>), but unit
   tests run as part of unit tests vignettes are run with
-  <code>_R_CHECK_RUNNING_UTESTS_=FALSE</code>, so that developers
-  cann run all tests.</p></p>
+  <code>_R_CHECK_RUNNING_UTESTS_=FALSE</code>, so that all tests
+  are run and reported when generating them.</p></p>
   
     </div>
     
@@ -119,9 +121,12 @@ isCHECK()</pre>
   <code>'--timings'</code>) or <code>_R_CHECK_CRAN_INCOMINGS_</code>
   (as set by flag <code>'--as-cran'</code>).</p>
   
-      <p>Note that the checks performed on CRAN farms are not
-  always run with such flags, so there is no guarantee this
-  function identifies such runs, and one should rely custom
+      <p><strong>Warning:</strong> the checks performed on CRAN check
+  machines are on purpose not always run with such flags,
+  so that users cannot effectively "trick" the checks. As a
+  result, there is no guarantee this function effectively
+  identifies such checks. If really needed for honest
+  reasons, CRAN recommends users rely on custom dedicated
   environment variables to enable specific tests or
   examples.</p>
   
@@ -133,11 +138,12 @@ isCHECK()</pre>
       <p>Adapted from the function <code>CRAN</code> in the <span class = "pkg">fda</span>
   package.</p>
   
+      <p><a href = 'https://github.com/renozao/roxygen2'>https://github.com/renozao/roxygen2</a></p>
+  
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -146,9 +152,6 @@ isCHECK()
 </code></pre>
 
 <pre><code>## [1] TRUE
-</code></pre>
-
-<pre><code class="r">
 </code></pre>
 
   </div>

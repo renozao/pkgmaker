@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>expand_list. pkgmaker 0.20</title>
+<title>expand_list. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -114,8 +114,7 @@ expand_dots(..., .exclude = NULL)</pre>
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -211,8 +210,7 @@ expand_list(list(a=1, b=2, c=5), cd=3, .exact=FALSE, .names=FALSE)
 ## [1] 5
 </code></pre>
 
-<pre><code class="r">
-# works also inside a function to expand a call with default arguments
+<pre><code class="r"># works also inside a function to expand a call with default arguments
 f &lt;- function(...){
     cl  &lt;- match.call()
     expand_list(cl, list(a=3, b=4), .exact=FALSE)
@@ -241,8 +239,7 @@ f()
 <pre><code>## f(c = 1, a = 2, b = 4)
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # expand_dots
 #----------
 # expanding dot arguments
@@ -282,9 +279,6 @@ f(a=10, b=4)
 ## 
 ## $bcd
 ## [1] 4
-</code></pre>
-
-<pre><code class="r">
 </code></pre>
 
   </div>

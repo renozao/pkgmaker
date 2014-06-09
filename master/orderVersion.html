@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>orderVersion. pkgmaker 0.20</title>
+<title>orderVersion. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -74,7 +74,7 @@
     </div>
     
     <h2>Usage</h2>
-    <pre>orderVersion(x, decreasing = FALSE)
+    <pre>orderVersion(x, ..., decreasing = FALSE)
 
 sortVersion(x, ...)</pre>
     
@@ -86,13 +86,12 @@ sortVersion(x, ...)</pre>
       <dd>a logical that indicates if the
   ordering should be decreasing</dd>
       <dt>...</dt>
-      <dd>extra parameters passed to
-  <code>orderVersion</code></dd>
+      <dd>extra parameters passed to <code>orderVersion</code>
+  and <code><a href='http://www.inside-r.org/r-doc/base/order'>order</a></code></dd>
     </dl>
         
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -113,8 +112,7 @@ order(v)
 <pre><code>## [1] 1 3 2
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # sortVersion
 #----------
 sort(v)
@@ -127,9 +125,6 @@ sort(v)
 </code></pre>
 
 <pre><code>## [1] &quot;1.0&quot;  &quot;1.2&quot;  &quot;1.03&quot;
-</code></pre>
-
-<pre><code class="r">
 </code></pre>
 
   </div>

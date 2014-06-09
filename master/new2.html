@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>new2. pkgmaker 0.20</title>
+<title>new2. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -87,8 +87,7 @@
     </dl>
         
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -108,8 +107,7 @@ identical(new(&#39;A&#39;), new2(&#39;A&#39;))
 <pre><code>## [1] TRUE
 </code></pre>
 
-<pre><code class="r">
-# but if passing that are names not slots
+<pre><code class="r"># but if passing that are names not slots
 identical(new(&#39;A&#39;), new2(&#39;A&#39;, b=1))
 </code></pre>
 
@@ -128,8 +126,7 @@ identical(new(&#39;A&#39;), new2(&#39;A&#39;, b=1))
 <pre><code>## [1] TRUE
 </code></pre>
 
-<pre><code class="r">
-# standard `new` would coerce first unnamed argument into parent of &#39;A&#39; (i.e. &#39;character&#39;)
+<pre><code class="r"># standard `new` would coerce first unnamed argument into parent of &#39;A&#39; (i.e. &#39;character&#39;)
 new(&#39;A&#39;, list(x=1))
 </code></pre>
 
@@ -165,9 +162,6 @@ identical(new(&#39;A&#39;, x=1), new2(&#39;A&#39;, list(x=1)))
 </code></pre>
 
 <pre><code>## [1] TRUE
-</code></pre>
-
-<pre><code class="r">
 </code></pre>
 
   </div>

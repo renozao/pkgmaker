@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>Index. pkgmaker 0.20</title>
+<title>Index. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="Renaud Gaujoux">
 
@@ -43,6 +43,7 @@
     <ul class="nav navbar-nav">
 	  <li><a href=""><span class="glyphicon glyphicon-home"></span> Index</a></li>
        <li><a href="PAGE-MAN.html">Documentation</a></li>
+       <li><a href="PAGE-INSTALLATION.html">Installation</a></li>
     </ul>
     <!-- <form class="navbar-form navbar-left" role="search">
       <div class="form-group">
@@ -52,7 +53,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -73,14 +74,13 @@
 <p>The package <code>pkgmaker</code> provides implementeations of features commonly used when developing R packages:</p>
 
 <ul>
-<li><p>Package specific options, with the possibility of defining multiple subsets</p></li>
-<li><p>Multiple registries based on the <code>registry</code> package</p></li>
-<li><p>Unified environment/namespace access functions that work in both production mode (build/check/install) 
-and development mode, when loading code with the package <code>devtools</code>.   </p></li>
+<li>Package specific options, with the possibility of defining multiple subsets</li>
+<li>Multiple registries based on the <code>registry</code> package</li>
+<li>Unified environment/namespace access functions that work in both production mode (build/check/install)
+and development mode, when loading code with the package <code>devtools</code>.
+The package <code>pkgmaker</code> is available from CRAN at <a href="http://cran.r-project.org/web/packages/pkgmaker">http://cran.r-project.org/web/packages/pkgmaker</a>.
+The development project is hosted on <code>R-forge</code> at <a href="http://r-forge.r-project.org/projects/pkgmaker/">http://r-forge.r-project.org/projects/pkgmaker/</a></li>
 </ul>
-
-<p>The package <code>pkgmaker</code> is available from CRAN at <a href="http://cran.r-project.org/web/packages/pkgmaker">http://cran.r-project.org/web/packages/pkgmaker</a>.
-The development project is hosted on <code>R-forge</code> at <a href="http://r-forge.r-project.org/projects/pkgmaker/">http://r-forge.r-project.org/projects/pkgmaker/</a></p>
 
 
     <h2>Help topics</h2>
@@ -90,7 +90,7 @@ The development project is hosted on <code>R-forge</code> at <a href="http://r-f
 var fill = d3.scale.category20();
   wordScale=d3.scale.log().domain([1, 10]).range([10, 100]);
   var w = 600, h = 600;
- var datawords=["add_lib:1", "addnames:5", "addToLogger:1", "alphacol:1", "packageReferenceFile:1", "cgetAnywhere:1", "citecmd:1", "CLIArgumentParser:2", "compile_src:1", "packageEnv:8", "exitCheck:1", "expand_list:2", "ExposeAttribute:3", "file_extension:1", "extractLocalFun:2", "graphics-utils:2", "hasArg2:1", "hasEnvar:1", "install.dependencies:1", "inSweave:1", "isCRANcheck:3", "is_something:10", "knit_ex:4", "latex_preamble:2", "list.libs:2", "onLoad:2", "mkoptions:2", "makeFakeVignette:1", "makeUnitVignette:1", "setBiocMirror:5", "getLoadingNamespace:6", "new2:1", "oneoffVariable:1", "option_symlink:7", "orderVersion:2", "packageCLI:1", "packageData:2", "setPackageExtraHandler:7", "packageReference:1", "packageTestEnv:1", "parsePackageCitation:1", "pkgmaker-defunct:2", "postponeAction:2", "quickinstall:1", "RdSection2latex:1", "regfetch:3", "packageRegistry:5", "requirePackage:1", "require.quiet:1", "requireRUnit:1", "R.exec:3", "Rversion:1", "setClassRegistry:1", "setupPackageOptions:1", "simpleRegistry:1", "source_files:1", "str_diff:1", "str_out:4", "sVariable:1", "Sys.getenv_value:1", "testRversion:1", "checkWarning:1", "unit.test:1", "userIs:1", "utestFramework:1", "utestPath:1", "utest:5", "isManualVignette:10", "write_PACKAGES_index:1", "write.pkgbib:1", "writeUnitVignette:1"];
+ var datawords=["add_lib:1", "addnames:5", "addToLogger:1", "alphacol:1", "packageReferenceFile:1", "cgetAnywhere:1", "citecmd:1", "CLIArgumentParser:2", "compile_src:1", "packageEnv:8", "exitCheck:1", "expand_list:2", "ExposeAttribute:3", "file_extension:1", "extractLocalFun:2", "graphics-utils:2", "hasArg2:1", "hasEnvar:1", "install.dependencies:1", "inSweave:1", "isCRANcheck:3", "is_something:10", "knit_ex:4", "latex_preamble:2", "list.libs:2", "onLoad:2", "mkoptions:2", "makeFakeVignette:1", "makeUnitVignette:1", "setBiocMirror:5", "getLoadingNamespace:6", "new2:1", "oneoffVariable:1", "option_symlink:7", "orderVersion:2", "packageCLI:1", "packageData:2", "setPackageExtraHandler:7", "packageReference:1", "packageTestEnv:1", "parsePackageCitation:1", "pkgmaker-defunct:2", "postponeAction:2", "quickinstall:1", "RdSection2latex:1", "regfetch:3", "packageRegistry:5", "requirePackage:1", "require.quiet:1", "requireRUnit:1", "R.exec:3", "Rversion:1", "setClassRegistry:1", "setupPackageOptions:1", "simpleRegistry:1", "source_files:1", "str_diff:1", "str_out:4", "sVariable:1", "Sys.getenv_value:1", "testRversion:1", "checkWarning:1", "unit.test:1", "userIs:1", "utestFramework:1", "utestPath:1", "utest:5", "isManualVignette:10", "winbuild:1", "write_PACKAGES_index:1", "write.pkgbib:1", "writeUnitVignette:1"];
 
 d3.layout.cloud().size([w, h])
       .words(datawords.map(function(d) {

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>write.pkgbib. pkgmaker 0.20</title>
+<title>write.pkgbib. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="
   Renaud Gaujoux, based on the function
@@ -55,7 +55,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -140,8 +140,7 @@
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -191,7 +190,7 @@ write.pkgbib(c(&#39;bibtex&#39;, &#39;utils&#39;, &#39;tools&#39;), file=NULL)
 ##   author = {{R Core Team}},
 ##   organization = {R Foundation for Statistical Computing},
 ##   address = {Vienna, Austria},
-##   year = {2013},
+##   year = {2014},
 ##   url = {http://www.R-project.org/},
 ## }
 ## 
@@ -200,15 +199,13 @@ write.pkgbib(c(&#39;bibtex&#39;, &#39;utils&#39;, &#39;tools&#39;), file=NULL)
 ##   author = {{R Core Team}},
 ##   organization = {R Foundation for Statistical Computing},
 ##   address = {Vienna, Austria},
-##   year = {2013},
+##   year = {2014},
 ##   url = {http://www.R-project.org/},
 ## }
 </code></pre>
 
-<pre><code class="r">
-# clean up
+<pre><code class="r"># clean up
 unlink(c(&#39;references.bib&#39;, &#39;references2.bib&#39;))
-
 </code></pre>
 
   </div>

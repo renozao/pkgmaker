@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>knit_ex. pkgmaker 0.20</title>
+<title>knit_ex. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.20</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.24</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -130,8 +130,7 @@ hook_toggle()</pre>
     </div>
     
     <h2 id="examples">Examples</h2>
-    <pre><code class="r">
-## Don&#39;t show: 
+    <pre><code class="r">## Don&#39;t show: 
 # roxygen generated flag
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
 ## End Don&#39;t show
@@ -150,8 +149,7 @@ knit_ex(&quot;1 + 1&quot;)
 ## &lt;/code&gt;&lt;/pre&gt;
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # hook_try
 #----------
 library(knitr)
@@ -167,8 +165,7 @@ knit_ex(&quot;stop(&#39;ah ah&#39;)&quot;)
 ## &lt;/code&gt;&lt;/pre&gt;
 </code></pre>
 
-<pre><code class="r">
-# with try the error is output on stderr but not caughted by knitr
+<pre><code class="r"># with try the error is output on stderr but not caughted by knitr
 knit_ex(&quot;try( stop(&#39;ah ah&#39;) )&quot;)
 </code></pre>
 
@@ -176,8 +173,7 @@ knit_ex(&quot;try( stop(&#39;ah ah&#39;) )&quot;)
 ## &lt;/code&gt;&lt;/pre&gt;
 </code></pre>
 
-<pre><code class="r">
-# no message caught
+<pre><code class="r"># no message caught
 knit_ex(&quot;
 ^^^{r, include = FALSE}
 knit_hooks$set(try = pkgmaker::hook_try)
@@ -195,8 +191,7 @@ try( stop(&#39;ah ah&#39;) )
 ## &lt;/code&gt;&lt;/pre&gt;
 </code></pre>
 
-<pre><code class="r">
-#----------
+<pre><code class="r">#----------
 # hook_backspace
 #----------
 # Correctly formatting backspaces in chunk outputs
@@ -221,8 +216,8 @@ cat(&#39;abc\bd&#39;)
 out &lt;- knitr::knit2html(tmp, fragment.only = TRUE)
 </code></pre>
 
-<pre><code>## processing file: /tmp/RtmpAvgSOz/file2db879f8ff78.Rmd
-## output file: file2db879f8ff78.md
+<pre><code>## processing file: /tmp/Rtmp0gEjvl/file2b946c4627f2.Rmd
+## output file: file2b946c4627f2.md
 </code></pre>
 
 <pre><code class="r"># look at output
@@ -273,7 +268,6 @@ sample(5)
 ^^^
 
 &quot;, open = TRUE)
-
 </code></pre>
 
   </div>

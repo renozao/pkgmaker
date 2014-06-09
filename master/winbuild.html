@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>compile_src. pkgmaker 0.24</title>
+<title>winbuild. pkgmaker 0.24</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -62,40 +62,60 @@
         
       </header>
       
-      <h1>Compile Source Files from a Development Package</h1>
+      <h1>Build a Windows Binary Package</h1>
 
 <div class="row">
   <div class="span8">
     <div class="description">
       <h2>Description</h2>
       
-      <p><p>Compile Source Files from a Development Package</p></p>
+      <p><p>Build a Windows Binary Package</p></p>
   
     </div>
     
     <h2>Usage</h2>
-    <pre>compile_src(pkg = NULL, load = TRUE)</pre>
+    <pre>winbuild(path, outdir = ".", verbose = TRUE)</pre>
     
     <h2>Arguments</h2>
     <dl>
-      <dt>pkg</dt>
-      <dd>the name of the package to compile</dd>
-      <dt>load</dt>
-      <dd>a logical indicating whether the compiled
-  library should be loaded after the compilation (default)
-  or not.</dd>
+      <dt>path</dt>
+      <dd>path to a source or already installed
+  package</dd>
+      <dt>outdir</dt>
+      <dd>output directory</dd>
+      <dt>verbose</dt>
+      <dd>logical or numeric that indicates the
+  verbosity level</dd>
     </dl>
     
     <div class="Value">
       <h2>Value</h2>
       
-      <p>None</p>
+      <p>Invisibly returns the full path to the generated zip
+  file.</p>
   
     </div>
-      </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre><code class="r">## Don&#39;t show: 
+# roxygen generated flag
+options(R_CHECK_RUNNING_EXAMPLES_=TRUE)
+## End Don&#39;t show
+
+## Not run: 
+##D 
+##D # from source directory
+##D winbuild(&#39;path/to/package/source/dir/&#39;)
+##D # from tar ball
+##D winbuild(&#39;PKG_1.0.tar.gz&#39;)
+##D 
+## End(Not run)
+</code></pre>
+
+  </div>
   <div class="span4">
     <!-- <ul>
-      <li>compile_src</li>
+      <li>winbuild</li>
     </ul>
     <ul>
       
