@@ -122,69 +122,6 @@ requirePackage <- function(pkg, ...){
 	}
 }
 
-# adapted from devtools::parse_deps
-parse_deps <- function (string) 
-{
-	if (is.null(string)) 
-		return()
-	string <- gsub("\\s*\\(.*?\\)", "", string)
-	pieces <- strsplit(string, ",")[[1]]
-	pieces <- gsub("^\\s+|\\s+$", "", pieces)
-	pieces[pieces != "R"]
-}
-
-.biocLite <- function(...){
-	# install BiocInstaller if necessary
-	if( !require.quiet('BiocInstaller') ){
-		message("Installing biocLite")
-		source('http://www.bioconductor.org/biocLite.R')
-	}
-	f <- get('biocLite', 'package:BiocInstaller')
-	f(...)
-}
-
-#' Installing All Package Dependencies
-#' 
-#' Install all dependencies from a package source directory or 
-#' package source file. 
-#' 
-#' @param pkg package path or source file
-#' @param all logical that indicates if 'Suggests' packages
-#' should be installed.
-#' @param ... extra arguments passed to \code{\link{install.packages}}.
-#' @param dryrun logical that indicates if the packages should be 
-#' effectively installed or only shown. 
-#' 
-#' @export
-#' @examples 
-#' 
-#' try( install.dependencies('Matrix', dryrun=TRUE) )
-#' \dontrun{
-#' install.dependencies("mypackage_1.0.tar.gz", dryrun=TRUE)
-#' }
-#' 
-install.dependencies <- function (pkg = NULL, all=FALSE, ..., dryrun=FALSE) 
-{
-	pkg <- as.package(pkg, extract=TRUE)
-	deps <- c(parse_deps(pkg$depends)
-			, parse_deps(pkg$imports) 
-			, parse_deps(pkg$linkingto)
-			, if( isTRUE(all) ) parse_deps(pkg$suggests) )
-	not.installed <- function(x) length(find.package(x, quiet = TRUE)) == 0
-	message("Package dependencies for ", pkg$package, ": ", str_out(deps, Inf))
-	deps <- Filter(not.installed, deps)
-	if (length(deps) == 0){
-		message("Missing: none")
-		return(invisible())
-	}
-	message("Missing: ", str_out(deps, Inf))
-	message("Installing ", length(deps), " dependencies for ", pkg$package)
-	if( !dryrun ){
-		.biocLite(deps, ...)
-	}
-	invisible(deps)
-}
-
 #' Setting Mirrors and Repositories
 #' 
 #' \code{setBiocMirror} sets all Bioconductor repositories (software, data, 
