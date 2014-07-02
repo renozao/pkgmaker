@@ -499,12 +499,21 @@ winbuild <- function(path, outdir = '.', verbose = TRUE){
     on.exit( setwd(owd), add = TRUE)
     setwd(dirname(pkgpath))
     pkgname <- p$package
+    if( verbose ) message('* Removing platform information ... ', appendLF = FALSE)
+    pkgInfo <- readRDS(pkgInfo_file <- file.path(pkgpath, 'Meta/package.rds'))
+    pkgInfo$Built$Platform <- ''
+    saveRDS(pkgInfo, pkgInfo_file)
+    if( verbose ) message('OK')
+    if( verbose ) message('* Checking libs/ ... ', appendLF = FALSE)
+    if( has_libs <- file.exists(libs_dir <- file.path(pkgpath, 'libs')) ) unlink(libs_dir, recursive = TRUE)
+    if( verbose ) message(has_libs)
     # make a list of backup files to exclude
     win.exclude.files <- list.files(pkgname, pattern=".*~$", recursive=TRUE, full.names = TRUE)
     if(length(win.exclude.files) > 0){
         win.exclude.files <- paste0("-x \"", paste(win.exclude.files, collapse="\" \""), "\"")
     }
     if( verbose ) message('* Creating windows binary package ', basename(outfile), ' ... ', appendLF = TRUE)
+    if( file.exists(outfile) ) unlink(outfile)
     zip(outfile, pkgname, extras = win.exclude.files)
     if( verbose ) message('OK')
     
