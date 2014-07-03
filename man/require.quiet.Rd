@@ -1,23 +1,19 @@
 \name{require.quiet}
+\alias{qlibrary}
 \alias{require.quiet}
-\title{Silent Require}
+\title{Silently Loading Packages}
 \usage{
-  require.quiet(package, character.only = FALSE, ...)
+  require.quiet(...)
+
+  qlibrary(...)
 }
 \arguments{
   \item{...}{extra arguments passed to
-  \code{\link{require}}.}
-
-  \item{package}{the name of a package, given as a
-  \link{name} or literal character string, or a character
-  string, depending on whether \code{character.only} is
-  \code{FALSE} (default) or \code{TRUE}).}
-
-  \item{character.only}{a logical indicating whether
-  \code{package} or \code{help} can be assumed to be
-  character strings.}
+  \code{\link{library}} or \code{\link{require}}.}
 }
 \description{
-  Silently require a package.
+  \code{require.quiet} silently requires a package.
+
+  \code{qlibrary} silently loads a package.
 }
 

@@ -4,19 +4,6 @@
 # Created: May 9, 2013
 ###############################################################################
 
-.silenceF <- function(f, verbose=FALSE){
-    
-    if( verbose ) f
-    else{
-        function(...){
-            capture.output(suppressPackageStartupMessages(suppressMessages(res <- f(...)))); 
-            res
-        }
-    }
-}
-
-qlibrary <- .silenceF(library, verbose = FALSE)
-
 smessage <- function(..., indent = 0L, item = NULL, appendLF = FALSE){
     if( is.null(item) ){ # choose item from indent
         .item <- c('*', '*', '-', '-', '>', '>') 

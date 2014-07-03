@@ -1,5 +1,7 @@
 export(cgetAnywhere)
+export(.silenceF)
 export(require.quiet)
+export(qlibrary)
 export(testRversion)
 export(Rversion)
 export(str_out)

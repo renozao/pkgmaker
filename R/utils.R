@@ -18,24 +18,83 @@ cgetAnywhere <- function(x){
 	do.call("getAnywhere", list(x))
 }
 
-#' Silent Require
+
+#' Silencing Functions
 #' 
-#' Silently require a package.
+#' Generates a wrapper function that silences the output, messages, and/or warnings of a given function.
 #' 
-#' @inheritParams base::require
-#' @param ... extra arguments passed to \code{\link{require}}.
+#' @param f function to silence
+#' @param level silencing level, which specifies the type of output to silence.
+#' It is encoded using the following bits: 0 = nothing silenced, 1 = stdout only, 2 = stderr only, 4 = warnings only.
+#' Negative values means "silence everything except the corresponding type", e.g., -1L = silence all except stdout.
+#' See examples. 
+#' @return a function 
+#' @export 
+#' @examples 
+#' 
+#' f <- function(){
+#' 	cat("stdout\n")
+#'  message("stderr")
+#' 	warning("warning", immediate. = TRUE)
+#' }
+#' 
+#' # example of generated wrapper
+#' g <- .silenceF(f)
+#' g
+#' 
+#' # use of silencing level
+#' for(l in 7:-7){ message("\nLevel: ", l); .silenceF(f, l)() }
+#' 
+#' # inline functions
+#' f <- .silenceF(function() invisible(1))
+#' f()
+#' f <- .silenceF(function() 1)
+#' f()
+#' 
+#' 
+.silenceF <- function(f, level = 7L){
+     
+    # switch inverse level specification
+    if( level < 0 ) level <- 7L + level
+    # early exit if not silencing
+    if( !level ) return(f)
+                
+    silencer <- c('capture.output(', 'suppressPackageStartupMessages(suppressMessages(', 'suppressWarnings(')
+    wrapper <- character()
+    for( i in 1:3 ){
+        if( bitwAnd(level, 2^(i-1)) ) wrapper <- c(wrapper, silencer[i])
+    }
+    wrapper <- paste0(wrapper, collapse = "")
+    npar <- length(gregexpr("(", wrapper, fixed = TRUE)[[1]])
+    
+    # build source code of wrapper function 
+    f_str <- paste0(as.character(substitute(f)), collapse = "")
+    use_env <- grepl("(", f_str, fixed = TRUE)
+    if( use_env ) f_str <- 'f'
+    txt <- sprintf("function(...){ %s res <- withVisible(%s(...))%s; if( res$visible ) res$value else invisible(res$value) }", wrapper, f_str, paste0(rep(")", npar), collapse = ""))
+    
+    e <- parent.frame()
+    if( use_env ){
+        e <- new.env(parent = e)
+        e$f <- f
+    }
+    force(eval(parse(text = txt), e))
+}
+
+#' Silently Loading Packages
+#' 
+#' \code{require.quiet} silently requires a package.
+#' 
+#' @param ... extra arguments passed to \code{\link{library}} or \code{\link{require}}.
 #' 
 #' @export
-require.quiet <- function(package, character.only = FALSE, ...){
-	
-	if( !character.only )
-		package <- as.character(substitute(package))
-	utils::capture.output(suppressMessages(suppressWarnings(
-	 res <- do.call('require', 
-			 list(package=package, ..., character.only=TRUE, quietly=TRUE))
-	)))
-	res
-}
+require.quiet <- .silenceF(require)
+
+#' \code{qlibrary} silently loads a package.
+#' 
+#' @rdname require.quiet
+#' @export
+qlibrary <- .silenceF(library)
 
 
 #' Testing R Version
