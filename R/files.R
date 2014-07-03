@@ -57,7 +57,24 @@ libname <- function(x){
 source_files <- function(x, pattern=NULL, ...){
 	if( length(x) == 1L && is.dir(x) )
 		x <- list.files(x, pattern=pattern, full.names=TRUE)
-	invisible(sapply(x, source, ...))
+    
+    if( length(x) > 1L ) invisible(sapply(x, sourceURL, ...))
+    else sourceURL(x, ...)
+}
+
+# internal source function to play well with CNTLM proxies
+sourceURL <- function(url, ...){
+    
+    file <- url
+    if( grepl("^http", url) ){
+        dest <- tempfile(basename(url), fileext='.R')
+        download.file(url, dest, quiet = TRUE)
+        if( file.exists(dest) ){
+            file <- dest
+            on.exit( file.remove(file) )
+        }else stop("Failed to download file '", url, "'")
+    }
+    source(file, ...)
 }
 
 #' Extract File Extension

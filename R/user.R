@@ -200,7 +200,7 @@ uq_requirePackage <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet
     }else{ # Bioconductor 
         # use enhanced installer from repotools
         if( !reqpkg(repotools) ){
-            source("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
+            sourceURL("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
         }
         pkginstall <- install.pkgs
     }
