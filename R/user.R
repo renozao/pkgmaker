@@ -104,3 +104,111 @@ userData <- local({
         file.path(p, ...)
     }
 })
+
+#' Require a Package with User Interaction
+#'
+#' Try loading/finding a package and ask the user if it should be installed 
+#' if not found.
+#' 
+#' @param package name of the package
+#' @param lib path to the directory (library) where the package is to be
+#' looked for and installed if agreed by the user.
+#' @param ... extra arguments passed to \code{\link{install.packages}}.
+#' @param load a logical that indicates if the package should be loaded, 
+#' possibly after installation.
+#' @param msg message to display in case the package is not found when first 
+#' trying to load/find it.
+#' This message is appended to the string \dQuote{Package '<packagename>' is required}.
+#' @param quiet logical that indicates if loading a package should be done quietly 
+#' with \code{\link{require.quiet}} or normally with \code{\link{require}}.
+#' @param prependLF logical that indicates if the message should start at a new line.
+#' @param ptype type of package: from CRAN-like repositories, Bioconductor, Bioconductor software, Bioconductor annotation.
+#' Bioconductor packages are installed using \code{\link{biocLite}}
+#' 
+#' @return \code{TRUE} if the package was successfully loaded/found (installed), 
+#' \code{FALSE} otherwise.  
+#'  
+#' @export
+uq_requirePackage <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, prependLF=FALSE
+        , ptype=c('CRAN-like', 'BioC', 'BioCsoft', 'BioCann')
+        , autoinstall = FALSE ){
+    
+    .reqpkg <- if( quiet ) require.quiet else{
+                if( prependLF ) message()
+                require
+            }
+    reqpkg <- function(...){
+        .reqpkg(..., lib=lib, character.only=TRUE)
+    }
+    
+    # vectorized version
+    if( length(package) >1L ){
+        return( all(sapply(package, uq_requirePackage, lib = lib, ...
+                                , load = load, msg = msg, quiet = quiet
+                                , prependLF = prependLF)) )
+    }
+    # try loading it
+    if( load && reqpkg(package) ) return( TRUE )
+    # try finding it without loading
+    else if( length(find.package(package, lib.loc=lib, quiet=TRUE)) ) return( TRUE )
+    
+    # package was not found: ask to install
+    msg <- paste0("Package '", package, "' is required",
+            if( is.null(msg) ) '.' else msg)
+    
+    # stop if not interactive
+    if( !interactive() && !autoinstall ) stop(msg)
+    
+    # non-interactive mode: force CRAN mirror if not already set
+    if( !interactive() && length(iCRAN <- grep("@CRAN@", getOption('repos'))) ){
+        repos <- getOption('repos')
+        repos[iCRAN] <- 'http://cran.rstudio.com'
+        op <- options(repos = repos)
+        on.exit(options(op), add = TRUE)
+    }
+    
+    # detect annotation packages
+    if( missing(ptype) && is.annpkg(package) ) ptype <- 'BioCann'
+    ptype <- match.arg(ptype)
+    
+    if( !autoinstall ){
+        msg <- paste0(msg, "\nDo you want to install it from known repositories [", ptype, "]?\n"
+                , " Package(s) will be installed in '", if(is.null(lib) ) .libPaths()[1L] else lib, "'")
+        if( quiet && prependLF ) message()
+        repeat{
+            ans <- askUser(msg, allowed = c('y', 'n', r='(r)etry'), idefault='y', default = 'y')
+            if( ans == 'n' ) return( FALSE )
+            if( ans == 'y' ) break
+            if( ans == 'r' && reqpkg(package) ) return(TRUE)
+        }
+    }
+    
+    ## install
+    # check Bioconductor repositories
+    hasRepo <- function(p){ any(grepl(p, getOption('repos'))) }
+    install_type <- ptype
+    if( ptype == 'CRAN-like' 
+            || ( ptype == 'BioC' && hasRepo('/((bioc)|(data/annotation))/?$') )
+            || ( ptype == 'BioCsoft' && hasRepo('/bioc/?$') )
+            || ( ptype == 'BioCann' && hasRepo('/data/annotation/?$') )
+            ){
+        install_type <- 'CRAN'
+    }
+    
+    if( install_type == 'CRAN' ){
+        pkginstall <- install.packages
+    }else{ # Bioconductor 
+        # use enhanced installer from repotools
+        if( !require(repotools) ){
+            source("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
+        }
+        pkginstall <- install.pkgs
+    }
+    message()
+    pkginstall(package, lib=lib, ...)
+    #
+    
+    # try  reloading
+    if( load ) reqpkg(package)
+    else length(find.package(package, lib.loc=lib, quiet=TRUE))
+}
