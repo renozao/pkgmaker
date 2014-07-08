@@ -107,8 +107,8 @@ userData <- local({
 
 #' Require a Package with User Interaction
 #'
-#' Try loading/finding a package and ask the user if it should be installed 
-#' if not found.
+#' Like \code{\link{require}}\code{irequire} tries to,  find and load a package, 
+#' but ask the user if it should be installed if not found.
 #' 
 #' @param package name of the package
 #' @param lib path to the directory (library) where the package is to be
@@ -129,7 +129,7 @@ userData <- local({
 #' \code{FALSE} otherwise.  
 #'  
 #' @export
-uq_requirePackage <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, prependLF=FALSE
+irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, prependLF=FALSE
         , ptype=c('CRAN-like', 'BioC', 'BioCsoft', 'BioCann')
         , autoinstall = FALSE ){
     
@@ -143,9 +143,9 @@ uq_requirePackage <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet
     
     # vectorized version
     if( length(package) >1L ){
-        return( all(sapply(package, uq_requirePackage, lib = lib, ...
+        return( all(sapply(package, irequire, lib = lib, ...
                                 , load = load, msg = msg, quiet = quiet
-                                , prependLF = prependLF)) )
+                                , prependLF = prependLF, autoinstall = autoinstall)) )
     }
     # try loading it
     if( load && reqpkg(package) ) return( TRUE )

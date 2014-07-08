@@ -1,8 +1,8 @@
-\name{uq_requirePackage}
-\alias{uq_requirePackage}
+\name{irequire}
+\alias{irequire}
 \title{Require a Package with User Interaction}
 \usage{
-  uq_requirePackage(package, lib = NULL, ..., load = TRUE,
+  irequire(package, lib = NULL, ..., load = TRUE,
     msg = NULL, quiet = TRUE, prependLF = FALSE,
     ptype = c("CRAN-like", "BioC", "BioCsoft", "BioCann"),
     autoinstall = FALSE)
@@ -42,7 +42,8 @@
   (installed), \code{FALSE} otherwise.
 }
 \description{
-  Try loading/finding a package and ask the user if it
-  should be installed if not found.
+  Like \code{\link{require}}\code{irequire} tries to, find
+  and load a package, but ask the user if it should be
+  installed if not found.
 }
 
