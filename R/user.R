@@ -199,7 +199,7 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
         pkginstall <- install.packages
     }else{ # Bioconductor 
         # use enhanced installer from repotools
-        if( !reqpkg(repotools) ){
+        if( !reqpkg('repotools') ){
             sourceURL("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
         }
         pkginstall <- install.pkgs
