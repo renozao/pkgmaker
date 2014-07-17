@@ -162,11 +162,12 @@ write.bib <- function(...){
 #' @param key character vector of BibTex keys
 #' @param short logical that indicates if the reference should be shorten as 
 #' First Author et al. if it has more than one author.
+#' @param PACKAGE package in which the BiBTeX entry is defined.
 #' @return a character string containing the text formated BibTex entries
 #'  
 #' @export
-packageReference <- function(key, short=FALSE){
-	bibs <- bibtex::read.bib(file=packageReferenceFile())
+packageReference <- function(key, short=FALSE, PACKAGE = NULL){
+	bibs <- bibtex::read.bib(file=packageReferenceFile(PACKAGE))
 	k <- sapply(bibs, function(x) x$key)
     mk <- match(key, k)
 	sel <- mk[!is.na(mk)]
