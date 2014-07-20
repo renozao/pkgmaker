@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>setPackageExtraHandler. pkgmaker 0.25.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Install/Run Extra Things After Standard Package Installation</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>These functions define a framework to register actions
+  for which default sets of arguments can be defined when
+  (lazy-)loading a package, and run later on, e.g., after
+  the package is installed using dedicated commands.</p>
+<p><code>setPackageExtraHandler</code> defines main action handler
+  functions, for which actions are defined as a set of
+  arguments and registered using <code>setPackageExtra</code>.</p>
+<p><code>packageExtraHandler</code> retrieves a given handler from
+  the registry.</p>
+<p>For example, calling <code>setPackageExtra('install',
+  pkgs='non_CRAN_pkg', repos='http://non-standard-repo')</code>
+  in a source file of package 'myPkg' registers the call
+  <code>install.packages('non_CRAN_pkg',
+  repos='http://non-standard-repo', ...)</code> in a registry
+  internal to the package. All calls to
+  <code>setPackageExtra('install', ...)</code> can then be run by
+  the user, as a post installation step via
+  <code>install.extrapackages('myPkg', ..)</code>.</p>
+<p><code>packageExtra</code> retrieve a given extra action, either
+  as its registry entry, or as a function that would
+  perform the given action.</p>
+<p><code>packageExtraRunner</code> defines a function to run all
+  or some of the actions registered for a given handler in
+  a given package. For example, the function
+  <code>install.extrapackages</code> is the runner defined for
+  the extra handler <code>'install'</code> via
+  <code>packageExtraRunner('install')</code>.</p>
+<p><code>install.extrapackages</code> runs all extra actions
+  registered for a given package.</p>
+<p><code>install.extrapackages</code> is defined as the extra
+  handler for the extra action handler
+  <code>'install.packages'</code>. All arguments in <code>...</code>
+  are passed to <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>. By default,
+  packages that are already installed are not re-installed.
+  An extra argument <code>force</code> allows to force their
+  installation. The packages are loaded if their
+  installation is successful.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>setPackageExtraHandler(handler, fun, ...)
+
+packageExtraHandler(handler = NULL, ...)
+
+setPackageExtra(handler, extra, ...)
+
+packageExtra(handler = NULL, extra = NULL, package = NULL, .wrap = FALSE)
+
+packageExtraRunner(handler)
+
+install.extras(package, extra = NULL, handler = NULL, ..., .verbose = getOption("verbose"))
+
+install.extrapackages(package, extra = NULL, handler = NULL, ..., .verbose = getOption("verbose"))</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>handler</dt>
+      <dd>name of a handler, e.g, <code>'install'</code>.
+  It must be unique across all handlers registered by any
+  other packages.</dd>
+      <dt>fun</dt>
+      <dd>handler function that will be called with the
+  arguments registered with <code>packageExtra(name, ...)</code></dd>
+      <dt>package</dt>
+      <dd>package name where to store/look for the
+  internal registries. End users should not need to use
+  this argument.</dd>
+      <dt>...</dt>
+      <dd>extra arguments passed to internal function
+  calls. In <code>packageExtraHandler</code>, these are passed to
+  <code><a href='regfetch.html'>pkgreg_fetch</a></code>.
+
+  In <code>setPackageExtra</code>, these define default arguments
+  for the handler function. These are overwritten by
+  arguments in the call to runner function if any.</dd>
+      <dt>extra</dt>
+      <dd>name of the extra action.</dd>
+      <dt>.wrap</dt>
+      <dd>logical that indicates if a function that
+  runs the extra action should be returned or only the
+  default arguments</dd>
+      <dt>.verbose</dt>
+      <dd>logical that indicates if verbose
+  messages about the extra actions being run should be
+  displayed.</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>the runner function associated with the newly registered
+  handler, as built by <code>packageExtraRunner</code>.</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>install.extrapackages</li><li>install.extras</li><li>packageExtra</li><li>packageExtraHandler</li><li>packageExtraRunner</li><li>setPackageExtra</li><li>setPackageExtraHandler</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

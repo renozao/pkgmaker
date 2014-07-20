@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>Index. pkgmaker 0.25.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Renaud Gaujoux">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href=""><span class="glyphicon glyphicon-home"></span> Index</a></li>
+       <li><a href="PAGE-MAN.html">Documentation</a></li>
+       <li><a href="PAGE-INSTALLATION.html">Installation</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      &nbsp;<span style="background-color:red" class="badge label-danger">devel</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-8">
+  	<h1>Package development utilities</h1>
+  	
+	  
+    <p>This package provides some low-level utilities to use for package
+development. It currently provides managers for multiple package specific
+options and registries, vignette, unit test and bibtex related utilities.
+It serves as a base package for packages like NMF, RcppOctave, doRNG, and
+as an incubator package for other general purposes utilities, that will
+eventually be packaged separately.
+It is still under heavy development and changes in the interface(s) are
+more than likely to happen.</p>
+
+<p><a href="#" onclick="return $('#readme_pkgmaker').toggle();">+ Details ...</a></p>
+<div id="readme_pkgmaker" style="display:none;">
+<h2>Introduction</h2>
+
+<p>The package <code>pkgmaker</code> provides implementeations of features commonly used when developing R packages:</p>
+
+<ul>
+<li>Package specific options, with the possibility of defining multiple subsets</li>
+<li>Multiple registries based on the <code>registry</code> package</li>
+<li>Unified environment/namespace access functions that work in both production mode (build/check/install)
+and development mode, when loading code with the package <code>devtools</code>.
+The package <code>pkgmaker</code> is available from CRAN at <a href="http://cran.r-project.org/web/packages/pkgmaker">http://cran.r-project.org/web/packages/pkgmaker</a>.
+The development project is hosted on <code>R-forge</code> at <a href="http://r-forge.r-project.org/projects/pkgmaker/">http://r-forge.r-project.org/projects/pkgmaker/</a></li>
+</ul>
+
+</div>
+
+    <h2>Help topics</h2>
+
+	<div id="cloud"></div>
+	<script>
+var fill = d3.scale.category20();
+  wordScale=d3.scale.log().domain([1, 10]).range([10, 100]);
+  var w = 600, h = 600;
+ var datawords=["add_lib:1", "addnames:5", "addToLogger:1", "alphacol:1", "askUser:1", "packageReferenceFile:1", "cgetAnywhere:1", "citecmd:1", "CLIArgumentParser:2", "compile_src:1", "packageEnv:8", ".silenceF:1", "exitCheck:1", "expand_list:2", "ExposeAttribute:3", "file_extension:1", "extractLocalFun:2", "graphics-utils:2", "hasArg2:1", "hasEnvar:1", "inSweave:1", "irequire:1", "isCRANcheck:3", "is_something:10", "knit_ex:4", "latex_preamble:2", "list.libs:2", "onLoad:2", "mkoptions:2", "makeFakeVignette:1", "makeUnitVignette:1", "setBiocMirror:5", "getLoadingNamespace:6", "new2:1", "oneoffVariable:1", "option_symlink:7", "orderVersion:2", "packageCLI:1", "packageData:2", "setPackageExtraHandler:7", "packageReference:1", "require.quiet:4", "packageTestEnv:1", "parsePackageCitation:1", "pkgmaker-defunct:2", "pkgmaker-deprecated:2", "postponeAction:2", "quickinstall:1", "RdSection2latex:1", "regfetch:3", "packageRegistry:5", "requireRUnit:1", "R.exec:3", "Rversion:1", "setClassRegistry:1", "setupPackageOptions:1", "simpleRegistry:1", "source_files:1", "str_diff:1", "str_out:4", "sVariable:1", "Sys.getenv_value:1", "testRversion:1", "checkWarning:1", "unit.test:1", "userData:1", "userIs:1", "utestFramework:1", "utestPath:1", "utest:5", "isManualVignette:10", "winbuild:1", "write.pkgbib:1", "writeUnitVignette:1"];
+
+d3.layout.cloud().size([w, h])
+      .words(datawords.map(function(d) {
+		d = d.split(":");
+        return {key: d[0], value: d[1] * 1};
+      }))
+      .spiral("rectangular")
+      .padding(2)
+      //.rotate(function() { return  ~~(Math.random() * 2) * 90; })
+      .text(function(d) { return d.key; })
+      .fontSize(function(d) { return wordScale(d.value); })
+      .on("end", draw)
+      .start();
+
+  function draw(words) {
+    d3.select("#cloud").append("svg")
+        .attr("width", w)
+        .attr("height", h)
+      .append("g")
+        .attr("transform", "translate(" + [w >> 1, h >> 1] + ")")
+      .selectAll("text")
+        .data(words)
+      .enter().append("text")
+        .style("font-size", function(d) { return d.size + "px"; })
+        .style("font-family", "Impact")
+        .style("fill", function(d, i) { return fill(i); })
+        .attr("text-anchor", "middle")
+        .attr("class", "cloud-txt")
+        .attr("transform", function(d) {
+          return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+        })
+        .text(function(d) { return d.text; });
+  }
+</script>
+	
+  </div>
+  
+  <div class="col-xs-6 col-sm-6 col-md-4">
+    <h2>Vignettes</h2>
+    <ul>
+      <li><a href="vignettes/pkgmaker.pdf">Overview of Utilities in the pkgmaker Package</a></li>
+      <li><a href="vignettes/pkgmaker-unitTests.pdf">pkgmaker-unitTests</a></li>
+    </ul>
+        
+    <h2>Dependencies</h2>
+    <ul>
+      <li><strong>R version</strong>: R &gt;= 3.0.0</li>
+      <li><strong>Depends</strong>: stats, registry</li>
+      <li><strong>Imports</strong>: methods, tools, codetools, digest, stringr, xtable, grDevices</li>
+      <li><strong>Suggests</strong>: devtools, bibtex, RUnit, testthat, knitr, argparse, repotools</li>
+      
+    </ul>
+     
+	    
+	  	<h2>Authors</h2>
+	  	<ul>
+	  		<li>Renaud Gaujoux</li>
+	  	</ul>
+	  	
+	  	
+	  	<h2>Maintainer</h2>
+	  	<ul>
+	  		<li>Renaud Gaujoux (renaud at tx.technion.ac.il)</li>
+	  	</ul>
+	
+	
+  	<h2>Resources</h2>
+  	<ul>
+  		<li><a href="https://renozao.github.io/pkgmaker" target="_new">https://renozao.github.io/pkgmaker</a></li>
+  		
+  		<li><a href="http://github.com/renozao/pkgmaker/issues" title="http://github.com/renozao/pkgmaker/issues" target="_new">Bug report</a></li>
+  		
+  			<li>Code repositories:
+		  	<p><table><tr>
+				<td style="padding-right:10px"><a href="" title="" target="_new"><img src="img/" title="" alt=""/></a></td>
+				<td style="padding-right:10px"><a href="http://r-forge.r-project.org/projects/pkgmaker" title="http://r-forge.r-project.org/projects/pkgmaker" target="_new"><img src="img/r-forge-icon.png" title="http://r-forge.r-project.org/projects/pkgmaker" alt="http://r-forge.r-project.org/projects/pkgmaker"/></a></td>
+				<td style="padding-right:10px"><a href="https://github.com/renozao/pkgmaker" title="https://github.com/renozao/pkgmaker" target="_new"><img src="img/github.png" title="https://github.com/renozao/pkgmaker" alt="https://github.com/renozao/pkgmaker"/></a></td>
+		  	</tr></table></p>
+  	</ul>
+    
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

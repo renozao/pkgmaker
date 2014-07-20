@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>.silenceF. pkgmaker 0.25.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Silencing Functions</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>Generates a wrapper function that silences the output,
+  messages, and/or warnings of a given function.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>.silenceF(f, level = 7L)</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>f</dt>
+      <dd>function to silence</dd>
+      <dt>level</dt>
+      <dd>a single numeric (integer) that indicates
+  the silencing level, which encodes the set of output to
+  be silenced.
+
+  It is interpreted like unix permission bit system, where
+  each bit of the binary expression of the silencing level
+  corresponds to a given type of output: <ul>
+<li> 0:
+  nothing silenced; </li>
+<li> 1: <em>stdout</em>; </li>
+<li> 2:
+  <em>stderr</em> messages; </li>
+<li> 4: <em>stderr</em> warnings.
+  </li>
+</ul>
+
+
+  For example, level <code>3 = 2 + 1</code> means silencing
+  <em>stdout</em> and <em>stderr</em>, while <code>5 = 3 + 2</code>
+  means silencing <em>stderr</em> messages and warnings, but
+  not outputs to <em>stdout</em>. The default value is
+  <code>7 = 4 + 2 + 1</code>, which silences all output.
+
+  Negative values are supported and mean <em>"silence
+  everything except the corresponding type"</em>, e.g.,
+  <code>level = -1</code> silences all except <em>stdout</em>
+  (computed as the binary complementary of 7, i.e. <code>7
+  - 1 = 5 = 3 + 2</code>). See examples.</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p>a function</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>.silenceF</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

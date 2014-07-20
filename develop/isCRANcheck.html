@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>isCRANcheck. pkgmaker 0.25.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Package Check Utils</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p><code>isCRANcheck</code> <strong>tries</strong> to identify if one is
+  running CRAN-like checks.</p>
+<p><code>isCRAN_timing</code> tells if one is running CRAN check
+  with flag <code>'--timing'</code>.</p>
+<p>Currently, <code>isCHECK</code> checks both CRAN expected
+  flags, the value of environment variable
+  <code>_R_CHECK_RUNNING_UTESTS_</code>, and the value of option
+  <code>R_CHECK_RUNNING_EXAMPLES_</code>. It will return
+  <code>TRUE</code> if any of these environment variables is set
+  to anything not equivalent to <code>FALSE</code>, or if the
+  option is <code>TRUE</code>. For example, the function
+  <code><a href='utest.html'>utest</a></code> sets it to the name of the package
+  being checked
+  (<code>_R_CHECK_RUNNING_UTESTS_=<pkgname></code>), but unit
+  tests run as part of unit tests vignettes are run with
+  <code>_R_CHECK_RUNNING_UTESTS_=FALSE</code>, so that all tests
+  are run and reported when generating them.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>isCRANcheck(...)
+
+isCRAN_timing()
+
+isCHECK()</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>...</dt>
+      <dd>each argument specifies a set of tests to do
+  using an AND operator. The final result tests if any of
+  the test set is true. Possible values are: <ol>
+<li><code>'timing'</code>Check if the environment variable
+  <code>_R_CHECK_TIMINGS_</code> is set, as with the flag
+  <code>'--timing'</code> was set. </li>
+<li><code>'cran'</code>Check if
+  the environment variable <code>_R_CHECK_CRAN_INCOMING_</code>
+  is set, as with the flag <code>'--as-cran'</code> was set. </li>
+</ol>
+</dd>
+    </dl>
+    
+    <div class="Details">
+      <h2>Details</h2>
+      
+      <p>Currently <code>isCRANcheck</code> returns <code>TRUE</code> if the
+  check is run with either environment variable
+  <code>_R_CHECK_TIMINGS_</code> (as set by flag
+  <code>'--timings'</code>) or <code>_R_CHECK_CRAN_INCOMINGS_</code>
+  (as set by flag <code>'--as-cran'</code>).</p>
+  
+      <p><strong>Warning:</strong> the checks performed on CRAN check
+  machines are on purpose not always run with such flags,
+  so that users cannot effectively "trick" the checks. As a
+  result, there is no guarantee this function effectively
+  identifies such checks. If really needed for honest
+  reasons, CRAN recommends users rely on custom dedicated
+  environment variables to enable specific tests or
+  examples.</p>
+  
+    </div>
+
+    <div class="References">
+      <h2>References</h2>
+      
+      <p>Adapted from the function <code>CRAN</code> in the <span class = "pkg">fda</span>
+  package.</p>
+  
+      <p><a href = 'https://github.com/renozao/roxygen2'>https://github.com/renozao/roxygen2</a></p>
+  
+    </div>
+    
+    <h2 id="examples">Examples</h2>
+    <pre><code class="r">
+
+isCHECK()
+</code></pre>
+
+<pre><code>## [1] TRUE
+</code></pre>
+
+  </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>isCHECK</li><li>isCRANcheck</li><li>isCRAN_timing</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+<title>irequire. pkgmaker 0.25.6</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="">
+
+<!-- bootstrap css -->
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/bootstrap-responsive.css" rel="stylesheet">
+<!-- highlighting css -->
+<link href="css/highlight.css" rel="stylesheet">
+<!-- custom css -->
+<link href="css/staticdocs.css" rel="stylesheet">
+<!-- knitr files -->
+<script src="js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<!-- bootstrap javascript -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- d3 word cloud -->
+<script src="js/d3.v3.min.js"></script>
+<script src="js/d3.layout.cloud.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">pkgmaker</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+	  <li><a href="PAGE-MAN.html"><span class="glyphicon glyphicon-home"></span> Index</a></li>
+    </ul>
+    <!-- <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>--> 
+    <ul class="nav navbar-nav navbar-right">
+      <li><p class="navbar-text">
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      &nbsp;</p></li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+    <div class="container">
+      <header>
+        
+      </header>
+      
+      <h1>Require a Package with User Interaction</h1>
+
+<div class="row">
+  <div class="span8">
+    <div class="description">
+      <h2>Description</h2>
+      
+      <p><p>Like base <code><a href='http://www.inside-r.org/r-doc/base/library'>require</a></code>, <code>irequire</code> tries to
+  find and load a package, but in an interactive way, i.e.
+  offering the user to install it if not found.</p></p>
+  
+    </div>
+    
+    <h2>Usage</h2>
+    <pre>irequire(package, lib = NULL, ..., load = TRUE, msg = NULL, quiet = TRUE, prependLF = FALSE, 
+  ptype = c("CRAN-like", "BioC", "BioCsoft", "BioCann"), autoinstall = !interactive())</pre>
+    
+    <h2>Arguments</h2>
+    <dl>
+      <dt>package</dt>
+      <dd>name of the package</dd>
+      <dt>lib</dt>
+      <dd>path to the directory (library) where the
+  package is to be looked for and installed if agreed by
+  the user.</dd>
+      <dt>...</dt>
+      <dd>extra arguments passed to
+  <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>.</dd>
+      <dt>load</dt>
+      <dd>a logical that indicates if the package
+  should be loaded, possibly after installation.</dd>
+      <dt>msg</dt>
+      <dd>message to display in case the package is not
+  found when first trying to load/find it. This message is
+  appended to the string &#147;Package '<packagename>' is
+  required&#148;.</dd>
+      <dt>quiet</dt>
+      <dd>logical that indicates if loading a package
+  should be done quietly with <code><a href='packages.html'>require.quiet</a></code>
+  or normally with <code><a href='http://www.inside-r.org/r-doc/base/library'>require</a></code>.</dd>
+      <dt>prependLF</dt>
+      <dd>logical that indicates if the message
+  should start at a new line.</dd>
+      <dt>ptype</dt>
+      <dd>type of package: from CRAN-like
+  repositories, Bioconductor, Bioconductor software,
+  Bioconductor annotation. Bioconductor packages are
+  installed using <code><a href='http://www.inside-r.org/r-doc/repotools/api'>install.pkgs</a></code>
+  from the <span class = "pkg">repotools</span> package.</dd>
+      <dt>autoinstall</dt>
+      <dd>logical that indicates if missing
+  packages should just be installed without asking with the
+  user, which is the default in non-interactive sessions.</dd>
+    </dl>
+    
+    <div class="Value">
+      <h2>Value</h2>
+      
+      <p><code>TRUE</code> if the package was successfully loaded/found
+  (installed), <code>FALSE</code> otherwise.</p>
+  
+    </div>
+      </div>
+  <div class="span4">
+    <!-- <ul>
+      <li>irequire</li>
+    </ul>
+    <ul>
+      
+    </ul> -->
+      
+    <h2>See also</h2>
+    
+  Other require: <code><a href='packages.html'>mrequire</a></code>,
+  <code><a href='packages.html'>qlibrary</a></code>, <code><a href='packages.html'>qrequire</a></code>,
+  <code><a href='packages.html'>require.quiet</a></code>
+
+        
+  </div>
+</div>
+      
+      <footer>
+      
+<p>Built by <a href="https://github.com/renozao/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div>
+  </body>
+</html>
