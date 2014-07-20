@@ -98,22 +98,6 @@ cgetAnywhere <- function(x){
     force(eval(parse(text = txt), e))
 }
 
-#' Silently Loading Packages
-#' 
-#' \code{require.quiet} silently requires a package.
-#' 
-#' @param ... extra arguments passed to \code{\link{library}} or \code{\link{require}}.
-#' 
-#' @export
-require.quiet <- .silenceF(require)
-
-#' \code{qlibrary} silently loads a package.
-#' 
-#' @rdname require.quiet
-#' @export
-qlibrary <- .silenceF(library)
-
-
 #' Testing R Version
 #' 
 #' Compares current R version with a given target version, which may be useful  

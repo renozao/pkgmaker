@@ -5,7 +5,7 @@
   irequire(package, lib = NULL, ..., load = TRUE,
     msg = NULL, quiet = TRUE, prependLF = FALSE,
     ptype = c("CRAN-like", "BioC", "BioCsoft", "BioCann"),
-    autoinstall = FALSE)
+    autoinstall = !interactive())
 }
 \arguments{
   \item{package}{name of the package}
@@ -35,15 +35,25 @@
   \item{ptype}{type of package: from CRAN-like
   repositories, Bioconductor, Bioconductor software,
   Bioconductor annotation. Bioconductor packages are
-  installed using \code{\link{biocLite}}}
+  installed using \code{\link[repotools]{install.pkgs}}
+  from the \pkg{repotools} package.}
+
+  \item{autoinstall}{logical that indicates if missing
+  packages should just be installed without asking with the
+  user, which is the default in non-interactive sessions.}
 }
 \value{
   \code{TRUE} if the package was successfully loaded/found
   (installed), \code{FALSE} otherwise.
 }
 \description{
-  Like \code{\link{require}}\code{irequire} tries to, find
-  and load a package, but ask the user if it should be
-  installed if not found.
+  Like base \code{\link{require}}, \code{irequire} tries to
+  find and load a package, but in an interactive way, i.e.
+  offering the user to install it if not found.
+}
+\seealso{
+  Other require: \code{\link{mrequire}},
+  \code{\link{qlibrary}}, \code{\link{qrequire}},
+  \code{\link{require.quiet}}
 }
 

@@ -4,6 +4,9 @@
 # Creation: 29 Jun 2012
 ###############################################################################
 
+#' @include package.R
+NULL
+
 path.protect <- function(...){
   f <- file.path(...)
   if( .Platform$OS.type == 'windows' ){
@@ -105,21 +108,54 @@ quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., l
 	invisible(res)
 }
 
-#' Require a Package
+#' Loading Packages
 #' 
-#' Require a package with a custom error message
+#' \code{require.quiet} silently requires a package, and \code{qrequire} is an alias to \code{require.quiet}.
 #' 
-#' @param pkg package name as a character string
-#' @param ... extra arguments concatenated to for the header of the 
-#' error message 
+#' @param ... extra arguments passed to \code{\link{library}} or \code{\link{require}}.
 #' 
+#' @rdname packages
+#' @family require
+#' @export
+require.quiet <- .silenceF(require)
+#' @rdname packages
+#' @export
+qrequire <- require.quiet
+
+#' \code{qlibrary} silently loads a package.
+#' 
+#' @rdname packages
+#' @export
+qlibrary <- .silenceF(library)
+
+#' \code{mrequire} tries loading a package with base \code{\link{require}}  
+#' and stops with a -- custom -- error message if it fails to do so.
+#' 
+#' @param msg error message to use, to which is appended the string 
+#' \code{' requires package <pkg>'} to build the error message. 
+#' @param package name of the package to load.
+#' 
+#' @rdname packages
+#' @export
+#' @examples 
+#' 
+#' mrequire('Running this example', 'stringr')
+#' try( mrequire('Doing impossible things', 'notapackage') )
+#' 
+mrequire <- function(msg, package, ...){
+	
+	if( !require(package = package, character.only = TRUE, ...) ){
+		if( !is.null(msg) ) stop(msg, " requires package ", str_out(package))
+		else stop("Could not find required package ", str_out(package))
+	}
+}
+
+#' @param pkg package name to load.
+#' @rdname pkgmaker-deprecated
 #' @export
 requirePackage <- function(pkg, ...){
-	
-	if( !require(pkg, character.only=TRUE) ){
-		if( nargs() > 1L ) stop(..., " requires package(s) ", str_out(pkg))
-		else stop("Could not find required package(s) ", str_out(pkg))
-	}
+     .Deprecated('mrequire')
+     mrequire(msg = c(...), package = pkg)   
 }
 
 #' Setting Mirrors and Repositories

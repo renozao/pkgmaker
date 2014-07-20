@@ -5,8 +5,7 @@
   requireRUnit(...)
 }
 \arguments{
-  \item{...}{arguments passed to
-  \code{\link{requirePackage}}.}
+  \item{...}{arguments not used.}
 }
 \value{
   nothing

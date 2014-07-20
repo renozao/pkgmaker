@@ -4,6 +4,9 @@
 # Created: Jul 2, 2014
 ###############################################################################
 
+#' @include packages.R
+NULL
+
 #' User Queries
 #' 
 #' This function is an improved version of \code{\link[Biobase]{userQuery}} and ask 
@@ -107,8 +110,8 @@ userData <- local({
 
 #' Require a Package with User Interaction
 #'
-#' Like \code{\link{require}}\code{irequire} tries to,  find and load a package, 
-#' but ask the user if it should be installed if not found.
+#' Like base \code{\link{require}}, \code{irequire} tries to find and load a package, 
+#' but in an interactive way, i.e. offering the user to install it if not found.
 #' 
 #' @param package name of the package
 #' @param lib path to the directory (library) where the package is to be
@@ -123,17 +126,21 @@ userData <- local({
 #' with \code{\link{require.quiet}} or normally with \code{\link{require}}.
 #' @param prependLF logical that indicates if the message should start at a new line.
 #' @param ptype type of package: from CRAN-like repositories, Bioconductor, Bioconductor software, Bioconductor annotation.
-#' Bioconductor packages are installed using \code{\link{biocLite}}
+#' Bioconductor packages are installed using \code{\link[repotools]{install.pkgs}} from the 
+#' \pkg{repotools} package.
+#' @param autoinstall logical that indicates if missing packages should just be installed 
+#' without asking with the user, which is the default in non-interactive sessions.
 #' 
 #' @return \code{TRUE} if the package was successfully loaded/found (installed), 
 #' \code{FALSE} otherwise.  
 #'  
+#' @family require
 #' @export
 irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, prependLF=FALSE
         , ptype=c('CRAN-like', 'BioC', 'BioCsoft', 'BioCann')
-        , autoinstall = FALSE ){
+        , autoinstall = !interactive() ){
     
-    .reqpkg <- if( quiet ) require.quiet else{
+    .reqpkg <- if( quiet ) qrequire else{
                 if( prependLF ) message()
                 require
             }
@@ -156,7 +163,7 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
     msg <- paste0("Package '", package, "' is required",
             if( is.null(msg) ) '.' else msg)
     
-    # stop if not interactive
+    # stop if not auto-install and not interactive
     if( !interactive() && !autoinstall ) stop(msg)
     
     # non-interactive mode: force CRAN mirror if not already set
@@ -168,7 +175,7 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
     }
     
     # detect annotation packages
-    if( missing(ptype) && is.annpkg(package) ) ptype <- 'BioCann'
+    if( missing(ptype) && grepl("\\.db$", package) ) ptype <- 'BioCann'
     ptype <- match.arg(ptype)
     
     if( !autoinstall ){

@@ -13,7 +13,7 @@ NULL
 #' Loads the package responsible for the implementation of the RUnit framework,
 #' choosing amongst \sQuote{RUnitX}, \sQuote{svUnit} and \sQuote{RUnit}.
 #' 
-#' @param ... arguments passed to \code{\link{requirePackage}}.
+#' @param ... arguments not used.
 #' 
 #' @return nothing
 #' @export
@@ -781,7 +781,7 @@ setMethod('utest', 'character',
 					
 				}else if( framework == 'testthat' ){ # testthat
 					
-					requirePackage('testthat', "Running testthat unit test suites")
+					mrequire("Running testthat unit test suites", 'testthat')
 					test_dir(path, filter=filter, ...)
 					
 				}
@@ -793,7 +793,7 @@ setMethod('utest', 'character',
 					
 				}else if( framework == 'testthat' ){ # testthat
 					
-					requirePackage('testthat', "Running testthat unit test file")
+					mrequire("Running testthat unit test file", 'testthat')
 					test_file(path, ...)
 					
 				}
