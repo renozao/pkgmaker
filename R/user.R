@@ -209,7 +209,7 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
         if( !reqpkg('repotools') ){
             sourceURL("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
         }
-        pkginstall <- install.pkgs
+        pkginstall <- ns_get('install.pkgs', 'repotools')
     }
     message()
     pkginstall(package, lib=lib, ...)

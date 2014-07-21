@@ -36,8 +36,7 @@ Suggests:
     RUnit,
     testthat,
     knitr,
-    argparse,
-    repotools
+    argparse
 Collate:
     'utils.R'
     'logging.R'
