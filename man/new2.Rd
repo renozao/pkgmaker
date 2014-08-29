@@ -7,8 +7,8 @@
 \arguments{
   \item{class}{Class name to instanciate}
 
-  \item{...}{extra arguments from which slot values are
-  extracted by exact matching of names.}
+  \item{...}{extra arguments from which slot values are extracted by exact
+matching of names.}
 }
 \description{
   An alternative version of \code{\link{new}} to create

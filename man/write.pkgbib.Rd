@@ -7,25 +7,21 @@
     prefix = "", append = FALSE, verbose = TRUE)
 }
 \arguments{
-  \item{entry}{a \code{\link{bibentry}} object or a
-  character vector of package names. If \code{NULL}, then
-  the list of all installed packages is used.}
+  \item{entry}{a \code{\link{bibentry}} object or a character vector of package
+names. If \code{NULL}, then the list of all installed packages is used.}
 
-  \item{file}{output Bibtex file. It can be specified as a
-  filename (as a single character string), NULL for
-  \code{stdout}, or a \code{link{connection}} object. If
-  \code{file} is a character string, an extension '.bib' is
-  appended if not already present.}
+  \item{file}{output Bibtex file. It can be specified as a filename (as a single
+character string), NULL for \code{stdout}, or a \code{link{connection}} object.
+If \code{file} is a character string, an extension '.bib' is appended if not
+already present.}
 
-  \item{prefix}{character string to prepend to the
-  generated packages' Bibtex key.}
+  \item{prefix}{character string to prepend to the generated packages' Bibtex key.}
 
-  \item{append}{a logical that indicates that the Bibtex
-  entries should be added to the file. If \code{FALSE}
-  (default), the file is overwritten.}
+  \item{append}{a logical that indicates that the Bibtex entries should be added
+to the file. If \code{FALSE} (default), the file is overwritten.}
 
-  \item{verbose}{a logical to toggle verbosity. If
-  \code{file=NULL}, verbosity is forced off.}
+  \item{verbose}{a logical to toggle verbosity. If \code{file=NULL}, verbosity
+is forced off.}
 }
 \value{
   the list of Bibtex objects -- invisibly.
@@ -62,9 +58,8 @@ write.pkgbib(c('bibtex', 'utils', 'tools'), file=NULL)
 unlink(c('references.bib', 'references2.bib'))
 }
 \author{
-  Renaud Gaujoux, based on the function
-  \code{Rpackages.bib} from Achim Zeileis (see
-  \emph{References}).
+  Renaud Gaujoux, based on the function \code{Rpackages.bib}
+from Achim Zeileis (see \emph{References}).
 }
 \references{
   \emph{[R] Creating bibtex file of all installed

@@ -16,30 +16,25 @@
 \arguments{
   \item{x}{text to knit as a character vector}
 
-  \item{...}{arguments passed to
-  \code{\link[knitr]{knit2html}} or
-  \code{\link[knitr]{knit}}}
+  \item{...}{arguments passed to \code{\link[knitr]{knit2html}} or \code{\link[knitr]{knit}}}
 
-  \item{quiet}{logical that indicates if knitting should be
-  quiet (no progress bars etc..).}
+  \item{quiet}{logical that indicates if knitting should be quiet (no progress bars etc..).}
 
-  \item{open}{logical, only used when \code{x} is in .Rmd
-  format, that indicates if the generated document result
-  should be open in a browse, instead of being printed on
-  screen. Not that a browser will not open in
-  non-interactive sessions, and the result will be returned
-  invisibly.}
+  \item{open}{logical, only used when \code{x} is in .Rmd format, that indicates
+if the generated document result should be open in a browse, instead of
+being printed on screen.
+Not that a browser will not open in non-interactive sessions, and the result will
+be returned invisibly.}
 
-  \item{before}{logical that indicates when the hook is
-  being called: before or after the chunk is processed.}
+  \item{before}{logical that indicates when the hook is being called:
+before or after the chunk is processed.}
 
   \item{options}{list of current knitr chunk options}
 
   \item{envir}{environment where the chunk is evaluated}
 }
 \value{
-  \code{knit_ex} returns the generated code, although
-  invisibly when \code{open=TRUE}.
+  \code{knit_ex} returns the generated code, although invisibly when \code{open=TRUE}.
 }
 \description{
   \code{knit_ex} is a utility function for running small

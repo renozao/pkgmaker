@@ -17,28 +17,24 @@
 \arguments{
   \item{x}{character vector}
 
-  \item{max}{maximum number of values to appear in the
-  list. If \code{x} has more elements than \code{max}, a
-  \code{"..."} suffix is appended.}
+  \item{max}{maximum number of values to appear in the list. If \code{x} has
+more elements than \code{max}, a \code{"..."} suffix is appended.}
 
-  \item{quote}{a logical indicating whether the values
-  should be quoted with single quotes (defaults) or not.}
+  \item{quote}{a logical indicating whether the values should be quoted with
+single quotes (defaults) or not.}
 
-  \item{use.names}{a logical indicating whether names
-  should be added to the list as \code{NAME=VAL, ...} or
-  not (default).}
+  \item{use.names}{a logical indicating whether names should be added to the
+list as \code{NAME=VAL, ...} or not (default).}
 
   \item{sep}{separator character}
 
-  \item{total}{logical that indicates if the total number
-  of elements should be appended to the formatted string as
-  \code{"'a', ..., 'z' (<N> total)"}.}
+  \item{total}{logical that indicates if the total number of elements should be
+appended to the formatted string as \code{"'a', ..., 'z' (<N> total)"}.}
 
   \item{object}{an R object}
 
-  \item{exdent}{extra indentation passed to str_wrap, and
-  used if the output should spread over more than one
-  lines.}
+  \item{exdent}{extra indentation passed to str_wrap, and used if the output
+should spread over more than one lines.}
 }
 \value{
   a single character string
@@ -98,6 +94,6 @@ cat(y, "\\n")
 \author{
   Renaud Gaujoux
 
-  \code{str_bs} was adapted from a proposal from Yihui Xie.
+\code{str_bs} was adapted from a proposal from Yihui Xie.
 }
 

@@ -7,14 +7,12 @@
 \arguments{
   \item{name}{variable name as a character string.}
 
-  \item{raw}{logical that indicates if one should return
-  the raw value or the convertion of any false value to
-  \code{FALSE}.}
+  \item{raw}{logical that indicates if one should return the raw value or
+the convertion of any false value to \code{FALSE}.}
 }
 \value{
-  the value of the environment variable as a character
-  string or \code{NA} is the variable is not defined
-  \strong{at all}.
+  the value of the environment variable as a character string or
+\code{NA} is the variable is not defined \strong{at all}.
 }
 \description{
   System Environment Variables

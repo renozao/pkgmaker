@@ -13,8 +13,7 @@
 \value{
   a function
 
-  a paired list like the one returned by
-  \code{\link{formals}}.
+a paired list like the one returned by \code{\link{formals}}.
 }
 \description{
   \code{extractLocalFun} Extracts local function from

@@ -22,15 +22,13 @@
 \arguments{
   \item{x}{object whose names are generated.}
 
-  \item{prefix}{prefix string to use. A vector can be used
-  to specify a prefix for each dimension of \code{x}. Names
-  are build as \code{<prefix><sep><index>}.}
+  \item{prefix}{prefix string to use. A vector can be used to specify a prefix
+for each dimension of \code{x}.
+Names are build as \code{<prefix><sep><index>}.}
 
-  \item{sep}{separator used between the prefix and the
-  numeric index.}
+  \item{sep}{separator used between the prefix and the numeric index.}
 
-  \item{...}{extra arguments to allow extension and passed
-  to the next method.}
+  \item{...}{extra arguments to allow extension and passed to the next method.}
 }
 \description{
   Generates names or dimnames for objects.

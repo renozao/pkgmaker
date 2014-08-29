@@ -7,14 +7,12 @@
 \arguments{
   \item{key}{character vector of BibTex keys}
 
-  \item{...}{extra arguments passed to
-  \code{format.bibentry}.}
+  \item{...}{extra arguments passed to \code{format.bibentry}.}
 
   \item{REFERENCES}{package or bibentry specification}
 }
 \value{
-  a character string containing the text formated BibTex
-  entries
+  a character string containing the text formated BibTex entries
 }
 \description{
   Create a citation command from package specific BibTex

@@ -5,8 +5,7 @@
   hasArg2(name)
 }
 \arguments{
-  \item{name}{the name of an argument as a character
-  string.}
+  \item{name}{the name of an argument as a character string.}
 }
 \description{
   This function is identical to \code{\link{hasArg}},

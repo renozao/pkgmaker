@@ -8,14 +8,11 @@
   ldata(list, ...)
 }
 \arguments{
-  \item{list}{character vector containing the names of the
-  data to load.}
+  \item{list}{character vector containing the names of the data to load.}
 
-  \item{...}{other arguments eventually passed to
-  \code{\link[utils]{data}}.}
+  \item{...}{other arguments eventually passed to \code{\link[utils]{data}}.}
 
-  \item{envir}{the \link{environment} where the data should
-  be loaded.}
+  \item{envir}{the \link{environment} where the data should be loaded.}
 }
 \value{
   the loaded data.

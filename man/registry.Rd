@@ -24,66 +24,54 @@
     where = topenv(parent.frame()), msg = NULL)
 }
 \arguments{
-  \item{regname}{Name of a sub-registry, used as its
-  identifier.}
+  \item{regname}{Name of a sub-registry, used as its identifier.}
 
-  \item{quiet}{a logical that indicates that one should
-  return the (meta-)registry if it exists, or \code{NULL}
-  otherwise, without throwing any error.}
+  \item{quiet}{a logical that indicates that one should return the (meta-)registry if it exists,
+or \code{NULL} otherwise, without throwing any error.}
 
-  \item{entry}{logical that indicates if the corresponding
-  meta registry entry should be directly returned, without
-  any other processing.}
+  \item{entry}{logical that indicates if the corresponding meta registry entry should
+be directly returned, without any other processing.}
 
-  \item{update}{logical that indicates if the package
-  registry should be updated, by adding/removing entries
-  from other loaded/unloaded packages.}
+  \item{update}{logical that indicates if the package registry should be updated, by adding/removing
+entries from other loaded/unloaded packages.}
 
-  \item{package}{package where to store or look for the
-  registry.}
+  \item{package}{package where to store or look for the registry.}
 
-  \item{primary}{logical that indicates if only primary
-  registries should be listed.}
+  \item{primary}{logical that indicates if only primary registries
+should be listed.}
 
-  \item{regobj}{a \code{\link[registry:regobj]{registry}}
-  object or a single character string that indicates the
-  class of the objects that are stored in the sub-registry.
-  See details for the list of the sub-registry's fields in
-  this latter case.}
+  \item{regobj}{a \code{\link[registry:regobj]{registry}} object or a single character
+string that indicates the class of the objects that are stored in the
+sub-registry.
+See details for the list of the sub-registry's fields in this latter case.}
 
-  \item{description}{short description line about the
-  registry. It is recommended to provide such description
-  as it makes clearer the purpose of the registry. This
-  description is shown when the registry object is
-  printed/formated/listed.}
+  \item{description}{short description line about the registry.
+It is recommended to provide such description as it makes clearer the purpose of the
+registry.
+This description is shown when the registry object is printed/formated/listed.}
 
-  \item{entrydesc}{human readable description that is used
-  in log messages when registering/removing entries.}
+  \item{entrydesc}{human readable description that is used in log messages
+when registering/removing entries.}
 
-  \item{...}{named values used to set extra information
-  about the new registry, that are stored in the
-  corresponding fields of the meta-registry. Currently not
-  used, as no extra field other than \code{'description'}
-  is defined.}
+  \item{...}{named values used to set extra information about the new registry, that
+are stored in the corresponding fields of the meta-registry.
+Currently not used, as no extra field other than \code{'description'} is defined.}
 
-  \item{overwrite}{a logical that indicate if an existing
-  registry with the same should be overwritten if it
-  exists.}
+  \item{overwrite}{a logical that indicate if an existing registry with the same
+should be overwritten if it exists.}
 
   \item{key}{entry identifier.}
 
-  \item{where}{package name or namespace that owns the
-  registry.}
+  \item{where}{package name or namespace that owns the registry.}
 
-  \item{verbose}{a logical that indicates if verbosity
-  should be toggle on.}
+  \item{verbose}{a logical that indicates if verbosity should be toggle on.}
 
-  \item{msg}{addon message to print at the end of the
-  output log line, when \code{verbose=TRUE}.}
+  \item{msg}{addon message to print at the end of the output log line,
+when \code{verbose=TRUE}.}
 }
 \value{
-  a \code{\link[registry:regobj]{registry}} object or
-  \code{NULL} (see argument \code{quiet}).
+  a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument
+\code{quiet}).
 }
 \description{
   \code{packageRegistry} provides ways to create query

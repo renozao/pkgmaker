@@ -10,12 +10,10 @@
 \arguments{
   \item{dir}{directory}
 
-  \item{all.platforms}{a logical that indicates whether to
-  list library files for the current platform only
-  (default) or all platforms (Unix, Windows, Mac).}
+  \item{all.platforms}{a logical that indicates whether to list library files for
+the current platform only (default) or all platforms (Unix, Windows, Mac).}
 
-  \item{...}{extra arguments passed to
-  \code{\link{list.files}}.}
+  \item{...}{extra arguments passed to \code{\link{list.files}}.}
 
   \item{x}{a filename}
 }

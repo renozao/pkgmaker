@@ -27,60 +27,54 @@
   as_package(x, ..., quiet = FALSE, extract = FALSE)
 }
 \arguments{
-  \item{pkg}{package name. If missing the environment of
-  the runtime caller package is returned.}
+  \item{pkg}{package name. If missing the environment of the runtime caller
+package is returned.}
 
-  \item{skip}{a logical that indicates if the calling
-  namespace should be skipped.}
+  \item{skip}{a logical that indicates if the calling namespace should be
+skipped.}
 
   \item{verbose}{logical that toggles verbosity}
 
   \item{n}{number of namespaces to return}
 
-  \item{strict}{a logicical that indicates if the global
-  environment should be considered as a valid namespace.}
+  \item{strict}{a logicical that indicates if the global environment should
+be considered as a valid namespace.}
 
-  \item{unique}{logical that indicates if the result should
-  be reduced to contain only one occurence of each
-  namespace.}
+  \item{unique}{logical that indicates if the result should be reduced
+to contain only one occurence of each namespace.}
 
-  \item{envir}{environment where to start looking for a
-  package name. The default is to use the \strong{runtime}
-  calling package environment.}
+  \item{envir}{environment where to start looking for a package name.
+The default is to use the \strong{runtime} calling package environment.}
 
-  \item{.Global}{a logical that indicates if calls from the
-  global environment should throw an error (\code{FALSE}:
-  default) or the string \code{'R_GlobalEnv'}.}
+  \item{.Global}{a logical that indicates if calls from the global
+environment should throw an error (\code{FALSE}: default) or the string
+\code{'R_GlobalEnv'}.}
 
-  \item{rm.prefix}{logical that indicates if an eventual
-  prefix 'package:' should be removed from the returned
-  string.}
+  \item{rm.prefix}{logical that indicates if an eventual prefix 'package:'
+should be removed from the returned string.}
 
   \item{package}{optional name of an installed package}
 
-  \item{lib.loc}{path to a library of R packages where to
-  search the package}
+  \item{lib.loc}{path to a library of R packages where to search the package}
 
   \item{...}{arguments passed to \code{\link{file.path}}.}
 
-  \item{x}{package specified by its
-  installation/development path or its name as
-  \code{'package:*'}.}
+  \item{x}{package specified by its installation/development path or its name
+as \code{'package:*'}.}
 
-  \item{quiet}{a logical that indicate if an error should
-  be thrown if a package is not found. It is also passed to
-  \code{\link{find.package}}.}
+  \item{quiet}{a logical that indicate if an error should be thrown if a
+package is not found. It is also passed to \code{\link{find.package}}.}
 
-  \item{extract}{logical that indicates if DESCRIPTION of
-  package source files should be extracted. In this case
-  there will be no valid path.}
+  \item{extract}{logical that indicates if DESCRIPTION of package
+source files should be extracted.
+In this case there will be no valid path.}
 }
 \value{
   \code{packageEnv} returns an environment
 
-  a character string
+a character string
 
-  a character string
+a character string
 }
 \description{
   \code{packageEnv} is a slight modification from

@@ -21,29 +21,25 @@
   ns_get(x, ns)
 }
 \arguments{
-  \item{env}{logical that indicates that the namespace's
-  environment (i.e. the namespace itself) should be
-  returned.}
+  \item{env}{logical that indicates that the namespace's environment (i.e. the
+namespace itself) should be returned.}
 
-  \item{info}{logical that indicates that the complete
-  information list should be returned}
+  \item{info}{logical that indicates that the complete information list should
+be returned}
 
-  \item{ns}{the name of a namespace or a namespace whose
-  loading state is tested. If missing
-  \code{isLoadingNamespace} test if any namespace is being
-  loaded.}
+  \item{ns}{the name of a namespace or a namespace whose loading state is tested.
+If missing \code{isLoadingNamespace} test if any namespace is being loaded.}
 
-  \item{nodev}{logical that indicates if loading devtools
-  namespace should be discarded.}
+  \item{nodev}{logical that indicates if loading devtools namespace should
+be discarded.}
 
-  \item{x}{character vector containing the names of R
-  objects to export in the loading namespace.}
+  \item{x}{character vector containing the names of R objects to export in the
+loading namespace.}
 }
 \value{
-  the name of the loading namespace if \code{env} and
-  \code{info} are \code{FALSE}, an environment if
-  \code{env=TRUE}, a list with elements \code{pkgname} and
-  \code{libname} if \code{info=TRUE}.
+  the name of the loading namespace if \code{env} and \code{info} are
+\code{FALSE}, an environment if \code{env=TRUE}, a list with elements
+\code{pkgname} and \code{libname} if \code{info=TRUE}.
 }
 \description{
   \code{getLoadingNamespace} returns information about the

@@ -5,8 +5,7 @@
   utestPath(...)
 }
 \arguments{
-  \item{...}{extra arguments passed to
-  \code{\link{packagePath}}, e.g., \code{package}.}
+  \item{...}{extra arguments passed to \code{\link{packagePath}}, e.g., \code{package}.}
 }
 \description{
   Returns the path to the directory where the results of

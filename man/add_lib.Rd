@@ -7,8 +7,8 @@
 \arguments{
   \item{...}{paths to add to .libPath}
 
-  \item{append}{logical that indicates that the paths
-  should be appended rather than prepended.}
+  \item{append}{logical that indicates that the paths should be appended
+rather than prepended.}
 }
 \description{
   Prepend/append paths to the library path list, using

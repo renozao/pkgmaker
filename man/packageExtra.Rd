@@ -27,37 +27,31 @@
 }
 \arguments{
   \item{handler}{name of a handler, e.g, \code{'install'}.
-  It must be unique across all handlers registered by any
-  other packages.}
+It must be unique across all handlers registered by any other packages.}
 
-  \item{fun}{handler function that will be called with the
-  arguments registered with \code{packageExtra(name, ...)}}
+  \item{fun}{handler function that will be called with the arguments registered
+with \code{packageExtra(name, ...)}}
 
-  \item{package}{package name where to store/look for the
-  internal registries. End users should not need to use
-  this argument.}
+  \item{package}{package name where to store/look for the internal registries.
+End users should not need to use this argument.}
 
-  \item{...}{extra arguments passed to internal function
-  calls. In \code{packageExtraHandler}, these are passed to
-  \code{\link{pkgreg_fetch}}.
+  \item{...}{extra arguments passed to internal function calls.
+In \code{packageExtraHandler}, these are passed to \code{\link{pkgreg_fetch}}.
 
-  In \code{setPackageExtra}, these define default arguments
-  for the handler function. These are overwritten by
-  arguments in the call to runner function if any.}
+In \code{setPackageExtra}, these define default arguments for the handler function.
+These are overwritten by arguments in the call to runner function if any.}
 
   \item{extra}{name of the extra action.}
 
-  \item{.wrap}{logical that indicates if a function that
-  runs the extra action should be returned or only the
-  default arguments}
+  \item{.wrap}{logical that indicates if a function that runs the extra action should
+be returned or only the default arguments}
 
-  \item{.verbose}{logical that indicates if verbose
-  messages about the extra actions being run should be
-  displayed.}
+  \item{.verbose}{logical that indicates if verbose messages about the extra actions being
+run should be displayed.}
 }
 \value{
-  the runner function associated with the newly registered
-  handler, as built by \code{packageExtraRunner}.
+  the runner function associated with the newly registered handler,
+as built by \code{packageExtraRunner}.
 }
 \description{
   These functions define a framework to register actions

@@ -8,12 +8,10 @@
   .options(..., .DATA)
 }
 \arguments{
-  \item{...}{list of keys or key-value pairs. For
-  \code{mkoptions} these define inital/default key-value
-  pairs.}
+  \item{...}{list of keys or key-value pairs.
+For \code{mkoptions} these define inital/default key-value pairs.}
 
-  \item{.DATA}{a list or an environment with an element
-  \code{.options}.}
+  \item{.DATA}{a list or an environment with an element \code{.options}.}
 }
 \description{
   \code{mkoptions} is a function that returns a function

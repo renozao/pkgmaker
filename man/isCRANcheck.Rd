@@ -11,14 +11,15 @@
   isCHECK()
 }
 \arguments{
-  \item{...}{each argument specifies a set of tests to do
-  using an AND operator. The final result tests if any of
-  the test set is true. Possible values are: \describe{
-  \item{\code{'timing'}}{Check if the environment variable
-  \code{_R_CHECK_TIMINGS_} is set, as with the flag
-  \code{'--timing'} was set.} \item{\code{'cran'}}{Check if
-  the environment variable \code{_R_CHECK_CRAN_INCOMING_}
-  is set, as with the flag \code{'--as-cran'} was set.} }}
+  \item{...}{each argument specifies a set of tests to do using an AND operator.
+The final result tests if any of the test set is true.
+Possible values are:
+\describe{
+\item{\code{'timing'}}{Check if the environment variable \code{_R_CHECK_TIMINGS_} is set,
+as with the flag \code{'--timing'} was set.}
+\item{\code{'cran'}}{Check if the environment variable \code{_R_CHECK_CRAN_INCOMING_} is set,
+as with the flag \code{'--as-cran'} was set.}
+}}
 }
 \description{
   \code{isCRANcheck} \strong{tries} to identify if one is

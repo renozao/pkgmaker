@@ -23,28 +23,24 @@
 \arguments{
   \item{x}{object to which a unit test is attached}
 
-  \item{...}{extra arguments to allow extensions and are
-  passed to the unit framework running funcitons.}
+  \item{...}{extra arguments to allow extensions and are passed to
+the unit framework running funcitons.}
 
-  \item{run}{a logical that indicates if the unit test
-  should be run}
+  \item{run}{a logical that indicates if the unit test should be run}
 
-  \item{filter}{pattern to match files that contain the
-  definition of the unit tests functions to run.}
+  \item{filter}{pattern to match files that contain the definition of
+the unit tests functions to run.}
 
   \item{fun}{patter to match the test functions to run.}
 
-  \item{testdir}{directory where to look for the test
-  files}
+  \item{testdir}{directory where to look for the test files}
 
   \item{framework}{unit test framework}
 
-  \item{quiet}{a logical that indicates if the tests should
-  be run silently}
+  \item{quiet}{a logical that indicates if the tests should be run silently}
 
-  \item{lib.loc}{path to a library where installed packages
-  are searched for. Used is of the form
-  \code{x='package:*'}.}
+  \item{lib.loc}{path to a library where installed packages are searched for.
+Used is of the form \code{x='package:*'}.}
 
   \item{outdir}{output directory}
 }
@@ -53,18 +49,19 @@
   \strong{very} experimental.
 }
 \section{Methods}{
-  \describe{
+\describe{
 
-  \item{utest}{\code{signature(x = "function")}: Run the
-  unit test assoicated to a function. }
+\item{utest}{\code{signature(x = "function")}: Run the unit test assoicated to a function.
+}
 
-  \item{utest}{\code{signature(x = "character")}: Run a
-  package test suite }
+\item{utest}{\code{signature(x = "character")}: Run a package test suite
+}
 
-  \item{utest}{\code{signature(x = "RUnitTestSuite")}: Runs
-  a RUnit test suite }
+\item{utest}{\code{signature(x = "RUnitTestSuite")}: Runs a RUnit test suite
+}
 
-  }
+}
+
 }
 \keyword{methods}
 

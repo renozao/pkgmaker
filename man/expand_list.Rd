@@ -10,21 +10,18 @@
 \arguments{
   \item{x}{input list}
 
-  \item{...}{extra named arguments defining the default
-  items. A list of default values can also be passed as a a
-  single unnamed argument.}
+  \item{...}{extra named arguments defining the default items.
+A list of default values can also be passed as a a single unnamed argument.}
 
-  \item{.exact}{logical that indicates if the names in
-  \code{x} should be partially matched against the
-  defaults.}
+  \item{.exact}{logical that indicates if the names in \code{x} should be
+partially matched against the defaults.}
 
-  \item{.names}{logical that only used when
-  \code{.exact=FALSE} and indicates that the names of items
-  in \code{x} that partially match some defaults should be
-  expanded in the returned list.}
+  \item{.names}{logical that only used when \code{.exact=FALSE} and indicates
+that the names of items in \code{x} that partially match some defaults should
+be expanded in the returned list.}
 
-  \item{.exclude}{optional character vector of argument
-  names to exclude from expansion.}
+  \item{.exclude}{optional character vector of argument names to exclude
+from expansion.}
 }
 \value{
   a list

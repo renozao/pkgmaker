@@ -11,19 +11,17 @@
     verbose = getOption("verbose"))
 }
 \arguments{
-  \item{expr}{expression that define the action to
-  postpone. Currently only functions are supported.}
+  \item{expr}{expression that define the action to postpone.
+Currently only functions are supported.}
 
-  \item{key}{identifier for this specific action. It should
-  be unique across the postponed actions from the same
-  group.}
+  \item{key}{identifier for this specific action.
+It should be unique across the postponed actions from the same group.}
 
-  \item{group}{optional parent action group. This enables
-  to define meaningful sets of actions that can be run all
-  at once.}
+  \item{group}{optional parent action group.
+This enables to define meaningful sets of actions that can be run all at once.}
 
-  \item{envir}{environment in which the action should be
-  executed. Currently not used.}
+  \item{envir}{environment in which the action should be executed.
+Currently not used.}
 
   \item{verbose}{logical that toggles verbose messages.}
 }

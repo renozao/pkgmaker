@@ -34,11 +34,10 @@
 
   \item{y}{character string to compare with.}
 
-  \item{ignore.case}{logical that indicates if the
-  comparison should be case sensistive.}
+  \item{ignore.case}{logical that indicates if the comparison
+should be case sensistive.}
 
-  \item{all}{logical that indicates if the object needs all
-  names non empty}
+  \item{all}{logical that indicates if the object needs all names non empty}
 }
 \value{
   \code{TRUE} or \code{FALSE}

@@ -10,8 +10,8 @@
   \item{y}{a single string}
 }
 \value{
-  an integer vector containing the index of all mis-matched
-  characters in the first string.
+  an integer vector containing the index of all mis-matched characters
+in the first string.
 }
 \description{
   Computes which characters differ between two strings.

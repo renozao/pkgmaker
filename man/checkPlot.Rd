@@ -11,8 +11,7 @@
 
   \item{height}{plot height (not used)}
 
-  \item{msg}{plot msg explaining the plot . It will be used
-  as the caption}
+  \item{msg}{plot msg explaining the plot . It will be used as the caption}
 }
 \description{
   Saves a plot in a PNG file that will be included in unit

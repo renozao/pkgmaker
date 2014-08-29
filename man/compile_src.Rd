@@ -7,9 +7,8 @@
 \arguments{
   \item{pkg}{the name of the package to compile}
 
-  \item{load}{a logical indicating whether the compiled
-  library should be loaded after the compilation (default)
-  or not.}
+  \item{load}{a logical indicating whether the compiled library should be loaded
+after the compilation (default) or not.}
 }
 \value{
   None

@@ -14,26 +14,20 @@
 
   \item{description}{program description}
 
-  \item{...}{extra arguments passed to
-  \code{\link[argparse]{ArgumentParser}}.}
+  \item{...}{extra arguments passed to \code{\link[argparse]{ArgumentParser}}.}
 
-  \item{epilog}{epilog messages to display at the end of
-  the man pages}
+  \item{epilog}{epilog messages to display at the end of the man pages}
 
-  \item{show.defaults}{logical that indicates if default
-  arugment values should be displayed.}
+  \item{show.defaults}{logical that indicates if default arugment values should
+be displayed.}
 
-  \item{parser}{parser object as returned by
-  \code{CLIArgumentParser}.}
+  \item{parser}{parser object as returned by \code{CLIArgumentParser}.}
 
-  \item{ARGS}{command line argument to parse, as a named
-  list or a character string.}
+  \item{ARGS}{command line argument to parse, as a named list or a character string.}
 
-  \item{debug}{logical that indicate if debugging
-  information should be printed.}
+  \item{debug}{logical that indicate if debugging information should be printed.}
 
-  \item{envir}{environment that contains where the
-  sub-command functions are looked for.}
+  \item{envir}{environment that contains where the sub-command functions are looked for.}
 }
 \description{
   Extends the capabilities of package \pkg{argparse}, e.g.,

@@ -7,8 +7,7 @@
 \arguments{
   \item{x}{path as a character vector.}
 
-  \item{ext}{extension to append instead of the original
-  extension.}
+  \item{ext}{extension to append instead of the original extension.}
 }
 \description{
   Extract File Extension

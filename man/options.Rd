@@ -26,13 +26,12 @@
   \item{opts}{a list of options}
 
   \item{x}{a character string, a list or an object of class
-  \code{package_options}.}
+\code{package_options}.}
 
   \item{defaults}{\code{NULL} or a list of default options
-  with their values.}
+with their values.}
 
-  \item{...}{arguments passed to \code{getOption} (only
-  first one is used).}
+  \item{...}{arguments passed to \code{getOption} (only first one is used).}
 
   \item{PACKAGE}{a package name}
 }

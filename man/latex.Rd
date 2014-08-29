@@ -10,34 +10,29 @@
   latex_bibliography(PACKAGE, file = "")
 }
 \arguments{
-  \item{R}{logical that indicate if general R commands
-  should be added (e.g. package names, inline R code format
-  commands)}
+  \item{R}{logical that indicate if general R commands should be added
+(e.g. package names, inline R code format commands)}
 
-  \item{CRAN}{logical that indicate if general CRAN
-  commands should be added (e.g. CRAN package citations)}
+  \item{CRAN}{logical that indicate if general CRAN commands should be added
+(e.g. CRAN package citations)}
 
-  \item{Bioconductor}{logical that indicate if general
-  Bioconductor commands should be added (e.g. Bioc package
-  citations)}
+  \item{Bioconductor}{logical that indicate if general Bioconductor commands
+should be added (e.g. Bioc package citations)}
 
-  \item{GEO}{logical that indicate if general GEOmnibus
-  commands should be added (e.g. urls to GEO datasets)}
+  \item{GEO}{logical that indicate if general GEOmnibus commands should be added
+(e.g. urls to GEO datasets)}
 
-  \item{ArrayExpress}{logical that indicate if general
-  ArrayExpress commands should be added (e.g. urls to
-  ArrayExpress datasets)}
+  \item{ArrayExpress}{logical that indicate if general ArrayExpress commands
+should be added (e.g. urls to ArrayExpress datasets)}
 
-  \item{biblatex}{logical that indicates if a
-  \code{\\bibliography} command should be added to include
-  references from the package's REFERENCES.bib file.}
+  \item{biblatex}{logical that indicates if a \code{\\bibliography} command
+should be added to include references from the package's REFERENCES.bib file.}
 
-  \item{only}{a logical that indicates if the only the
-  commands whose dedicated argument is not missing should
-  be considered.}
+  \item{only}{a logical that indicates if the only the commands whose
+dedicated argument is not missing should be considered.}
 
-  \item{file}{connection where to print. If \code{NULL} the
-  result is returned silently.}
+  \item{file}{connection where to print. If \code{NULL} the result is returned
+silently.}
 
   \item{PACKAGE}{package name}
 }

@@ -11,8 +11,7 @@
 
   \item{i}{index of the section to format}
 
-  \item{notitle}{logical that indicates if the section's
-  title should be removed}
+  \item{notitle}{logical that indicates if the section's title should be removed}
 }
 \description{
   This function extract sections from Rd files and convert
@@ -20,8 +19,11 @@
   text into vignettes, hence keeping them up to date.
 }
 \section{Example section}{
-  This is a nice section, with a bullet list: \itemize{
-  \item tata \item toto }
+ This is a nice section, with a bullet list:
+\itemize{
+\item tata
+\item toto
+}
 }
 \examples{
 \dontshow{# roxygen generated flag

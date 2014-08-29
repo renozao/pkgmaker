@@ -5,8 +5,7 @@
   hasEnvar(x)
 }
 \arguments{
-  \item{x}{environment variable name, as a character
-  vector.}
+  \item{x}{environment variable name, as a character vector.}
 }
 \description{
   Tells if some environment variable(s) are defined.

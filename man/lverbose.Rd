@@ -19,24 +19,20 @@
 \arguments{
   \item{val}{logical that sets the verbosity level.}
 
-  \item{...}{arguments passed to \code{...}
-  \code{\link{cat}}}
+  \item{...}{arguments passed to \code{...} \code{\link{cat}}}
 
-  \item{appendLF}{logical indicating if an endline
-  character should be appended at the end of the message.
-  Passed to \code{\link{cat}}.}
+  \item{appendLF}{logical indicating if an endline character should be appended
+at the end of the message. Passed to \code{\link{cat}}.}
 
-  \item{level}{verbosity level threshold (numeric value)
-  above which the message should be printed out. This
-  threshold is compared with the current verbosity level as
-  returned by \code{lverbose}.}
+  \item{level}{verbosity level threshold (numeric value) above which the
+message should be printed out.
+This threshold is compared with the current verbosity level as returned by
+\code{lverbose}.}
 
-  \item{...}{arguments passed to \code{...}
-  \code{\link{lmessage}} or \code{\link{cat}}}
+  \item{...}{arguments passed to \code{...} \code{\link{lmessage}} or \code{\link{cat}}}
 
-  \item{appendLF}{logical indicating if an endline
-  character should be appended at the end of the message.
-  Passed to \code{\link{cat}}.}
+  \item{appendLF}{logical indicating if an endline character should be appended
+at the end of the message. Passed to \code{\link{cat}}.}
 }
 \value{
   the old verbose level

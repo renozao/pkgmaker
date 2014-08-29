@@ -6,21 +6,17 @@
     envir = parent.frame())
 }
 \arguments{
-  \item{x}{single character string used as test
-  identifier/label}
+  \item{x}{single character string used as test identifier/label}
 
-  \item{expr}{expression containing the actual test
-  commands. It is not evaluated, but only stored in the
-  package namespace.}
+  \item{expr}{expression containing the actual test commands.
+It is not evaluated, but only stored in the package namespace.}
 
   \item{framework}{Unit test framework}
 
-  \item{envir}{the definition environment of object
-  \code{x}.}
+  \item{envir}{the definition environment of object \code{x}.}
 }
 \value{
-  a test function with no arguments that wrapping around
-  \code{expr}
+  a test function with no arguments that wrapping around \code{expr}
 }
 \description{
   The function \code{unit.test} provides a way to write

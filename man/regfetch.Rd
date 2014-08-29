@@ -17,40 +17,34 @@
 \arguments{
   \item{regobj}{a registry object}
 
-  \item{...}{key value(s) to look up. If multiple indexes
-  are used, then the primary key should come first.}
+  \item{...}{key value(s) to look up.
+If multiple indexes are used, then the primary key should come first.}
 
-  \item{all}{logical to indicate if hidden keys (starting
-  with a '.') should be returned and output in message.}
+  \item{all}{logical to indicate if hidden keys (starting with a '.') should be
+returned and output in message.}
 
-  \item{error}{a logical that indicates if an error should
-  be thrown if the key has no match or multiple matches}
+  \item{error}{a logical that indicates if an error should be thrown if the key has no match
+or multiple matches}
 
-  \item{exact}{a logical that indicates if matching should
-  be exact or partial. Note that if exact matches exist
-  then they are returned, independently of the value of
-  \code{exact}.}
+  \item{exact}{a logical that indicates if matching should be exact or partial.
+Note that if exact matches exist then they are returned, independently of the
+value of \code{exact}.}
 
   \item{KEYS}{alternative way of passing the key value(s).
-  If not missing, then arguments in \code{...} are
-  discarded.}
+If not missing, then arguments in \code{...} are discarded.}
 
-  \item{verbose}{a logical that indicates if verbosity
-  should be toggle on}
+  \item{verbose}{a logical that indicates if verbosity should be toggle on}
 
   \item{entry}{a logical that indicates if the}
 
   \item{msg}{a header to use in case of error.}
 
-  \item{quiet}{a logical that indicates if the operation
-  should be performed quietly, without throwing errors or
-  warnings.}
+  \item{quiet}{a logical that indicates if the operation should be performed quietly,
+without throwing errors or warnings.}
 
-  \item{regname}{Name of a sub-registry, used as its
-  identifier.}
+  \item{regname}{Name of a sub-registry, used as its identifier.}
 
-  \item{where}{package name or namespace that owns the
-  registry.}
+  \item{where}{package name or namespace that owns the registry.}
 }
 \description{
   This function provides extra control on how entries are

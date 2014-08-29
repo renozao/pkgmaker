@@ -7,8 +7,8 @@
 }
 \arguments{
   \item{idefault}{default response in interactive mode.
-  This answer will be in upper case in the question and
-  will be the one returned if the user simply hits return.}
+This answer will be in upper case in the question and will be the one returned if the
+user simply hits return.}
 
   \item{msg}{The output message}
 
@@ -16,12 +16,12 @@
 
   \item{default}{Default response if called in batch mode}
 
-  \item{case.sensitive}{Is the response case sensitive?
-  Defaults to \code{FALSE}}
+  \item{case.sensitive}{Is the response case sensitive? Defaults to
+    \code{FALSE}}
 }
 \value{
-  the character string typed/agreed by the user or directly
-  the default answer in non-interactive mode.
+  the character string typed/agreed by the user or directly the default answer in
+non-interactive mode.
 }
 \description{
   This function is an improved version of

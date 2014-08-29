@@ -7,12 +7,14 @@
 \arguments{
   \item{x}{target version to compare with.}
 
-  \item{test}{numeric value that indicates the comparison
-  to be carried out. The comparison is based on the result
-  from \code{utils::compareVersion(R.version, x)}:
-  \itemize{ \item 1: is R.version > \code{x}? \item 0: is
-  R.version = \code{x}? \item -1: is R.version < \code{x}?
-  }}
+  \item{test}{numeric value that indicates the comparison to be carried out.
+The comparison is based on the result from
+\code{utils::compareVersion(R.version, x)}:
+\itemize{
+\item 1: is R.version > \code{x}?
+\item 0: is R.version = \code{x}?
+\item -1: is R.version < \code{x}?
+}}
 }
 \value{
   a logical

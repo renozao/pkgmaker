@@ -14,12 +14,10 @@
   mrequire(msg, package, ...)
 }
 \arguments{
-  \item{...}{extra arguments passed to
-  \code{\link{library}} or \code{\link{require}}.}
+  \item{...}{extra arguments passed to \code{\link{library}} or \code{\link{require}}.}
 
-  \item{msg}{error message to use, to which is appended the
-  string \code{' requires package <pkg>'} to build the
-  error message.}
+  \item{msg}{error message to use, to which is appended the string
+\code{' requires package <pkg>'} to build the error message.}
 
   \item{package}{name of the package to load.}
 }

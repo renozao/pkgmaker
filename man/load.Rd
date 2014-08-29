@@ -8,18 +8,15 @@
   onUnload(libpath)
 }
 \arguments{
-  \item{libname}{a character string giving the library
-  directory where the package defining the namespace was
-  found.}
+  \item{libname}{a character string giving the library directory where
+    the package defining the namespace was found.}
 
-  \item{pkgname}{a character string giving the name of the
-  package.}
+  \item{pkgname}{a character string giving the name of the package.}
 
-  \item{libpath}{a character string giving the complete
-  path to the package.}
+  \item{libpath}{a character string giving the complete path to the package.}
 
-  \item{chname}{a character string naming a DLL (also known
-  as a dynamic shared object or library) to load.}
+  \item{chname}{a character string naming a DLL (also known as a dynamic
+    shared object or library) to load.}
 }
 \description{
   Default Load/Unload Functions

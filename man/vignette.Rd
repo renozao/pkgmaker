@@ -35,63 +35,54 @@
   compactVignettes(paths, ...)
 }
 \arguments{
-  \item{x}{vignette source file specification as a path or
-  a \code{rnw} object.}
+  \item{x}{vignette source file specification as a path or a \code{rnw} object.}
 
   \item{file}{output file}
 
-  \item{...}{extra arguments passed to \code{as.rnw} that
-  can be used to force certain building parameters.}
+  \item{...}{extra arguments passed to \code{as.rnw} that can be used to force
+certain building parameters.}
 
-  \item{raw}{a logical that indicates if the raw result for
-  the compilation should be returned, instead of the result
-  file path.}
+  \item{raw}{a logical that indicates if the raw result for the compilation
+should be returned, instead of the result file path.}
 
-  \item{load}{logical to indicate if all the object's
-  properties should loaded, which is done by parsing the
-  file and look up for specific tags.}
+  \item{load}{logical to indicate if all the object's properties should loaded,
+which is done by parsing the file and look up for specific tags.}
 
   \item{verbose}{logical that toggles verbosity}
 
-  \item{package}{package name. If \code{NULL}, a DESRIPTION
-  file is looked for one directory up: this meant to work
-  when building a vignette directly from a package's
-  \code{'vignettes'} sub-directory.}
+  \item{package}{package name.
+If \code{NULL}, a DESRIPTION file is looked for one directory up: this
+meant to work when building a vignette directly from a package's
+\code{'vignettes'} sub-directory.}
 
   \item{skip}{Vignette files to skip (basename).}
 
-  \item{print}{logical that specifies if the path should be
-  printed or only returned.}
+  \item{print}{logical that specifies if the path should be printed or
+only returned.}
 
-  \item{template}{template Makefile to use. The default is
-  to use the file \dQuote{vignette.mk} shipped with the
-  package \pkg{pkgmaker} and can be found in its install
-  root directory.}
+  \item{template}{template Makefile to use.
+The default is to use the file \dQuote{vignette.mk} shipped with the package
+\pkg{pkgmaker} and can be found in its install root directory.}
 
-  \item{temp}{logical that indicates if the generated
-  makefile should using a temporary filename (\code{TRUE}),
-  or simply named \dQuote{vignette.mk}}
+  \item{temp}{logical that indicates if the generated makefile should using a
+temporary filename (\code{TRUE}), or simply named \dQuote{vignette.mk}}
 
-  \item{checkMode}{logical that indicates if the vignettes
-  should be generated as in a CRAN check (\code{TRUE}) or
-  in development mode, in which case \code{pdflatex},
-  \code{bibtex}, and, optionally, \code{qpdf} are
-  required.}
+  \item{checkMode}{logical that indicates if the vignettes should be generated as in a
+CRAN check (\code{TRUE}) or in development mode, in which case \code{pdflatex}, \code{bibtex},
+and, optionally, \code{qpdf} are required.}
 
-  \item{user}{character vector containing usernames that
-  enforce \code{checkMode=TRUE}, if the function is called
-  from within their session.}
+  \item{user}{character vector containing usernames that enforce \code{checkMode=TRUE},
+if the function is called from within their session.}
 
-  \item{tests}{logical that enables the compilation of a
-  vignette that gathers all unit test results. Note that
-  this means that all unit tests are run before generating
-  the vignette. However, unit tests are not (re)-run at
-  this stage when the vignettes are built when checking the
-  package with \code{R CMD check}.}
+  \item{tests}{logical that enables the compilation of a vignette that gathers all unit
+test results.
+Note that this means that all unit tests are run before generating the vignette.
+However, unit tests are not (re)-run at this stage when the vignettes are built
+when checking the package with \code{R CMD check}.}
 
-  \item{paths}{A character vector of paths to PDF files, or
-  a length-one character vector naming a directory, when
-  all \file{.pdf} files in that directory will be used.}
+  \item{paths}{A character vector of paths to PDF files, or a length-one
+    character vector naming a directory, when all \file{.pdf} files in
+    that directory will be used.}
 }
 \description{
   \code{isManualVignette} tells if a vignette is being run

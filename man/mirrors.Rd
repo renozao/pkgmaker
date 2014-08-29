@@ -25,8 +25,8 @@
 
   \item{version}{version number}
 
-  \item{unique}{logical that indicate if duplicated urls or
-  names should be removed.}
+  \item{unique}{logical that indicate if duplicated urls or names should be
+removed.}
 }
 \description{
   \code{setBiocMirror} sets all Bioconductor repositories
