@@ -75,7 +75,7 @@ cgetAnywhere <- function(x){
     # early exit if not silencing
     if( !level ) return(f)
                 
-    silencer <- c('capture.output(', 'suppressPackageStartupMessages(suppressMessages(', 'suppressWarnings(')
+    silencer <- c('utils::capture.output(', 'suppressPackageStartupMessages(suppressMessages(', 'suppressWarnings(')
     wrapper <- character()
     for( i in 1:3 ){
         if( bitwAnd(level, 2^(i-1)) ) wrapper <- c(wrapper, silencer[i])
