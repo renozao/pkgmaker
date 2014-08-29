@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>getLoadingNamespace. pkgmaker 0.25.6</title>
+<title>getLoadingNamespace. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -101,32 +101,28 @@ ns_get(x, ns)</pre>
     <h2>Arguments</h2>
     <dl>
       <dt>env</dt>
-      <dd>logical that indicates that the namespace's
-  environment (i.e. the namespace itself) should be
-  returned.</dd>
+      <dd>logical that indicates that the namespace's environment (i.e. the
+namespace itself) should be returned.</dd>
       <dt>info</dt>
-      <dd>logical that indicates that the complete
-  information list should be returned</dd>
+      <dd>logical that indicates that the complete information list should
+be returned</dd>
       <dt>ns</dt>
-      <dd>the name of a namespace or a namespace whose
-  loading state is tested. If missing
-  <code>isLoadingNamespace</code> test if any namespace is being
-  loaded.</dd>
+      <dd>the name of a namespace or a namespace whose loading state is tested.
+If missing <code>isLoadingNamespace</code> test if any namespace is being loaded.</dd>
       <dt>nodev</dt>
-      <dd>logical that indicates if loading devtools
-  namespace should be discarded.</dd>
+      <dd>logical that indicates if loading devtools namespace should
+be discarded.</dd>
       <dt>x</dt>
-      <dd>character vector containing the names of R
-  objects to export in the loading namespace.</dd>
+      <dd>character vector containing the names of R objects to export in the
+loading namespace.</dd>
     </dl>
     
     <div class="Value">
       <h2>Value</h2>
       
-      <p>the name of the loading namespace if <code>env</code> and
-  <code>info</code> are <code>FALSE</code>, an environment if
-  <code>env=TRUE</code>, a list with elements <code>pkgname</code> and
-  <code>libname</code> if <code>info=TRUE</code>.</p>
+      <p>the name of the loading namespace if <code>env</code> and <code>info</code> are
+<code>FALSE</code>, an environment if <code>env=TRUE</code>, a list with elements
+<code>pkgname</code> and <code>libname</code> if <code>info=TRUE</code>.</p>
   
     </div>
       </div>

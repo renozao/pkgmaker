@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>addToLogger. pkgmaker 0.25.6</title>
+<title>addToLogger. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -82,23 +82,22 @@
       <dt>name</dt>
       <dd>name of the function or variable to add</dd>
       <dt>value</dt>
-      <dd>object to append to the logger. If
-  <code>value</code> is a function it is added to the list and is
-  accessible via <code>.testLogger$name</code>. If <code>value</code>
-  is a variable it is added to the local environment and is
-  therefore accessible in all logging functions.</dd>
+      <dd>object to append to the logger.
+If <code>value</code> is a function it is added to the list and is accessible via
+<code>.testLogger$name</code>.
+If <code>value</code> is a variable it is added to the local environment and is
+therefore accessible in all logging functions.</dd>
       <dt>logger</dt>
-      <dd>an optional RUnit logger object. If missing
-  or <code>NULL</code>, the object <code>.testLogger</code> is searched
-  in <code>.GlobalEnv</code> -- and an error is thrown if it does
-  not exist.</dd>
+      <dd>an optional RUnit logger object.
+If missing or <code>NULL</code>, the object <code>.testLogger</code> is searched in
+<code>.GlobalEnv</code> -- and an error is thrown if it does not exist.</dd>
     </dl>
     
     <div class="Value">
       <h2>Value</h2>
       
-      <p>the modified logger object. Note that the global object
-  is also modified if <code>logger</code> is <code>NULL</code>.</p>
+      <p>the modified logger object. Note that the global object is also
+modified if <code>logger</code> is <code>NULL</code>.</p>
   
     </div>
       </div>

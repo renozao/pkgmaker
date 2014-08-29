@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>isManualVignette. pkgmaker 0.25.6</title>
+<title>isManualVignette. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -126,63 +126,54 @@ compactVignettes(paths, ...)</pre>
     <h2>Arguments</h2>
     <dl>
       <dt>x</dt>
-      <dd>vignette source file specification as a path or
-  a <code>rnw</code> object.</dd>
+      <dd>vignette source file specification as a path or a <code>rnw</code> object.</dd>
       <dt>file</dt>
       <dd>output file</dd>
       <dt>...</dt>
-      <dd>extra arguments passed to <code>as.rnw</code> that
-  can be used to force certain building parameters.</dd>
+      <dd>extra arguments passed to <code>as.rnw</code> that can be used to force
+certain building parameters.</dd>
       <dt>raw</dt>
-      <dd>a logical that indicates if the raw result for
-  the compilation should be returned, instead of the result
-  file path.</dd>
+      <dd>a logical that indicates if the raw result for the compilation
+should be returned, instead of the result file path.</dd>
       <dt>load</dt>
-      <dd>logical to indicate if all the object's
-  properties should loaded, which is done by parsing the
-  file and look up for specific tags.</dd>
+      <dd>logical to indicate if all the object's properties should loaded,
+which is done by parsing the file and look up for specific tags.</dd>
       <dt>verbose</dt>
       <dd>logical that toggles verbosity</dd>
       <dt>package</dt>
-      <dd>package name. If <code>NULL</code>, a DESRIPTION
-  file is looked for one directory up: this meant to work
-  when building a vignette directly from a package's
-  <code>'vignettes'</code> sub-directory.</dd>
+      <dd>package name.
+If <code>NULL</code>, a DESRIPTION file is looked for one directory up: this
+meant to work when building a vignette directly from a package's
+<code>'vignettes'</code> sub-directory.</dd>
       <dt>skip</dt>
       <dd>Vignette files to skip (basename).</dd>
       <dt>print</dt>
-      <dd>logical that specifies if the path should be
-  printed or only returned.</dd>
+      <dd>logical that specifies if the path should be printed or
+only returned.</dd>
       <dt>template</dt>
-      <dd>template Makefile to use. The default is
-  to use the file &#147;vignette.mk&#148; shipped with the
-  package <span class = "pkg">pkgmaker</span> and can be found in its install
-  root directory.</dd>
+      <dd>template Makefile to use.
+The default is to use the file &#147;vignette.mk&#148; shipped with the package
+<span class = "pkg">pkgmaker</span> and can be found in its install root directory.</dd>
       <dt>temp</dt>
-      <dd>logical that indicates if the generated
-  makefile should using a temporary filename (<code>TRUE</code>),
-  or simply named &#147;vignette.mk&#148;</dd>
+      <dd>logical that indicates if the generated makefile should using a
+temporary filename (<code>TRUE</code>), or simply named &#147;vignette.mk&#148;</dd>
       <dt>checkMode</dt>
-      <dd>logical that indicates if the vignettes
-  should be generated as in a CRAN check (<code>TRUE</code>) or
-  in development mode, in which case <code>pdflatex</code>,
-  <code>bibtex</code>, and, optionally, <code>qpdf</code> are
-  required.</dd>
+      <dd>logical that indicates if the vignettes should be generated as in a
+CRAN check (<code>TRUE</code>) or in development mode, in which case <code>pdflatex</code>, <code>bibtex</code>,
+and, optionally, <code>qpdf</code> are required.</dd>
       <dt>user</dt>
-      <dd>character vector containing usernames that
-  enforce <code>checkMode=TRUE</code>, if the function is called
-  from within their session.</dd>
+      <dd>character vector containing usernames that enforce <code>checkMode=TRUE</code>,
+if the function is called from within their session.</dd>
       <dt>tests</dt>
-      <dd>logical that enables the compilation of a
-  vignette that gathers all unit test results. Note that
-  this means that all unit tests are run before generating
-  the vignette. However, unit tests are not (re)-run at
-  this stage when the vignettes are built when checking the
-  package with <code>R CMD check</code>.</dd>
+      <dd>logical that enables the compilation of a vignette that gathers all unit
+test results.
+Note that this means that all unit tests are run before generating the vignette.
+However, unit tests are not (re)-run at this stage when the vignettes are built
+when checking the package with <code>R CMD check</code>.</dd>
       <dt>paths</dt>
-      <dd>A character vector of paths to PDF files, or
-  a length-one character vector naming a directory, when
-  all &#145;<span class = "file">.pdf</span>&#146; files in that directory will be used.</dd>
+      <dd>A character vector of paths to PDF files, or a length-one
+    character vector naming a directory, when all &#145;<span class = "file">.pdf</span>&#146; files in
+    that directory will be used.</dd>
     </dl>
           </div>
   <div class="span4">

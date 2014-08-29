@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>.silenceF. pkgmaker 0.25.6</title>
+<title>.silenceF. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -82,34 +82,30 @@
       <dt>f</dt>
       <dd>function to silence</dd>
       <dt>level</dt>
-      <dd>a single numeric (integer) that indicates
-  the silencing level, which encodes the set of output to
-  be silenced.
+      <dd>a single numeric (integer) that indicates the silencing level, which encodes the set of
+output to be silenced.
 
-  It is interpreted like unix permission bit system, where
-  each bit of the binary expression of the silencing level
-  corresponds to a given type of output: <ul>
-<li> 0:
-  nothing silenced; </li>
-<li> 1: <em>stdout</em>; </li>
-<li> 2:
-  <em>stderr</em> messages; </li>
+It is interpreted like unix permission bit system, where each bit of the binary expression of the silencing
+level corresponds to a given type of output:
+<ul>
+<li> 0: nothing silenced;
+</li>
+<li> 1: <em>stdout</em>;
+</li>
+<li> 2: <em>stderr</em> messages;
+</li>
 <li> 4: <em>stderr</em> warnings.
-  </li>
+</li>
 </ul>
 
 
-  For example, level <code>3 = 2 + 1</code> means silencing
-  <em>stdout</em> and <em>stderr</em>, while <code>5 = 3 + 2</code>
-  means silencing <em>stderr</em> messages and warnings, but
-  not outputs to <em>stdout</em>. The default value is
-  <code>7 = 4 + 2 + 1</code>, which silences all output.
+For example, level <code>3 = 2 + 1</code> means silencing <em>stdout</em> and <em>stderr</em>, while
+<code>5 = 3 + 2</code> means silencing <em>stderr</em> messages and warnings, but not outputs to <em>stdout</em>.
+The default value is <code>7 = 4 + 2 + 1</code>, which silences all output.
 
-  Negative values are supported and mean <em>"silence
-  everything except the corresponding type"</em>, e.g.,
-  <code>level = -1</code> silences all except <em>stdout</em>
-  (computed as the binary complementary of 7, i.e. <code>7
-  - 1 = 5 = 3 + 2</code>). See examples.</dd>
+Negative values are supported and mean <em>"silence everything except the corresponding type"</em>,
+e.g., <code>level = -1</code> silences all except <em>stdout</em> (computed as the binary complementary of 7, i.e. <code>7 - 1 = 5 = 3 + 2</code>).
+See examples.</dd>
     </dl>
     
     <div class="Value">

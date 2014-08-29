@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>ExposeAttribute. pkgmaker 0.25.6</title>
+<title>ExposeAttribute. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -88,44 +88,41 @@ attr_mode(x) <- value</pre>
     <h2>Arguments</h2>
     <dl>
       <dt>object</dt>
-      <dd>any R object whose attributes need to be
-  exposed</dd>
+      <dd>any R object whose attributes need to be exposed</dd>
       <dt>...</dt>
-      <dd>attributes, and optionally their respective
-  values or access permissions. See argument <code>value</code>
-  of <code>attr_mode</code> for details on the way of specifying
-  these.</dd>
+      <dd>attributes, and optionally their respective values or
+access permissions.
+See argument <code>value</code> of <code>attr_mode</code> for details on the
+way of specifying these.</dd>
       <dt>.MODE</dt>
-      <dd>access mode: <ol>
-<li>&#147;r&#148;:
-  (read-only) only method <code>$</code> is defined
-  </li>
-<li>&#147;w&#148;: (write-only) only method <code>$<-</code>
-  is defined </li>
-<li>&#147;rw&#148;: (read-write) both
-  methods <code>$</code> and <code>$<-</code> are defined </li>
+      <dd>access mode:
+<ol>
+<li>&#147;r&#148;: (read-only) only method <code>$</code> is defined
+</li>
+<li>&#147;w&#148;: (write-only) only method <code>$<-</code> is defined
+</li>
+<li>&#147;rw&#148;: (read-write) both methods <code>$</code> and <code>$<-</code>
+are defined
+</li>
 </ol>
 </dd>
       <dt>.VALUE</dt>
-      <dd>logical that indicates if the values of
-  named arguments in <code>...</code> should be considered as
-  attribute assignments, i.e. that the result object has
-  these attributes set with the specified values. In this
-  case all these attributes will have the access permission
-  as defined by argument <code>.MODE</code>.</dd>
+      <dd>logical that indicates if the values of named arguments
+in <code>...</code> should be considered as attribute assignments,
+i.e. that the result object has these attributes set with the specified values.
+In this case all these attributes will have the access permission
+as defined by argument <code>.MODE</code>.</dd>
       <dt>x</dt>
       <dd>an <code>ExposeAttribute</code> object</dd>
       <dt>value</dt>
-      <dd>replacement value for mode. It can be
-  <code>NULL</code> to remove the ExposeAttribute wrapper, a
-  single character string to define a permission for all
-  atributes (e.g., <code>'rw'</code> or <code>'r'</code>), or a list
-  specifying access permission for specific attributes or
-  classes of attributes defined by regular expressions. For
-  example, <code>list(a='r', b='w', `blabla.*`='rw')</code> set
-  attribute <code>'a'</code> as read-only, attribute <code>'b'</code>
-  as write-only, all attributes that start with
-  <code>'blabla'</code> in read-write access.</dd>
+      <dd>replacement value for mode.
+It can be <code>NULL</code> to remove the ExposeAttribute wrapper,
+a single character string to define a permission for all atributes
+(e.g., <code>'rw'</code> or <code>'r'</code>), or a list specifying access permission
+for specific attributes or classes of attributes defined by regular expressions.
+For example, <code>list(a='r', b='w', `blabla.*`='rw')</code> set attribute <code>'a'</code>
+as read-only, attribute <code>'b'</code> as write-only, all attributes that start with
+<code>'blabla'</code> in read-write access.</dd>
     </dl>
           </div>
   <div class="span4">

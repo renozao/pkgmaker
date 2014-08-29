@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>irequire. pkgmaker 0.25.6</title>
+<title>irequire. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -84,44 +84,36 @@
       <dt>package</dt>
       <dd>name of the package</dd>
       <dt>lib</dt>
-      <dd>path to the directory (library) where the
-  package is to be looked for and installed if agreed by
-  the user.</dd>
+      <dd>path to the directory (library) where the package is to be
+looked for and installed if agreed by the user.</dd>
       <dt>...</dt>
-      <dd>extra arguments passed to
-  <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>.</dd>
+      <dd>extra arguments passed to <code><a href='http://www.inside-r.org/r-doc/utils/install.packages'>install.packages</a></code>.</dd>
       <dt>load</dt>
-      <dd>a logical that indicates if the package
-  should be loaded, possibly after installation.</dd>
+      <dd>a logical that indicates if the package should be loaded,
+possibly after installation.</dd>
       <dt>msg</dt>
-      <dd>message to display in case the package is not
-  found when first trying to load/find it. This message is
-  appended to the string &#147;Package '<packagename>' is
-  required&#148;.</dd>
+      <dd>message to display in case the package is not found when first
+trying to load/find it.
+This message is appended to the string &#147;Package '<packagename>' is required&#148;.</dd>
       <dt>quiet</dt>
-      <dd>logical that indicates if loading a package
-  should be done quietly with <code><a href='packages.html'>require.quiet</a></code>
-  or normally with <code><a href='http://www.inside-r.org/r-doc/base/library'>require</a></code>.</dd>
+      <dd>logical that indicates if loading a package should be done quietly
+with <code><a href='packages.html'>require.quiet</a></code> or normally with <code><a href='http://www.inside-r.org/r-doc/base/library'>require</a></code>.</dd>
       <dt>prependLF</dt>
-      <dd>logical that indicates if the message
-  should start at a new line.</dd>
+      <dd>logical that indicates if the message should start at a new line.</dd>
       <dt>ptype</dt>
-      <dd>type of package: from CRAN-like
-  repositories, Bioconductor, Bioconductor software,
-  Bioconductor annotation. Bioconductor packages are
-  installed using <code><a href='http://www.inside-r.org/r-doc/repotools/api'>install.pkgs</a></code>
-  from the <span class = "pkg">repotools</span> package.</dd>
+      <dd>type of package: from CRAN-like repositories, Bioconductor, Bioconductor software, Bioconductor annotation.
+Bioconductor packages are installed using <code><a href='http://www.inside-r.org/r-doc/repotools/install.pkgs'>install.pkgs</a></code> from the
+<span class = "pkg">repotools</span> package.</dd>
       <dt>autoinstall</dt>
-      <dd>logical that indicates if missing
-  packages should just be installed without asking with the
-  user, which is the default in non-interactive sessions.</dd>
+      <dd>logical that indicates if missing packages should just be installed
+without asking with the user, which is the default in non-interactive sessions.</dd>
     </dl>
     
     <div class="Value">
       <h2>Value</h2>
       
-      <p><code>TRUE</code> if the package was successfully loaded/found
-  (installed), <code>FALSE</code> otherwise.</p>
+      <p><code>TRUE</code> if the package was successfully loaded/found (installed),
+<code>FALSE</code> otherwise.</p>
   
     </div>
       </div>
@@ -135,9 +127,7 @@
       
     <h2>See also</h2>
     
-  Other require: <code><a href='packages.html'>mrequire</a></code>,
-  <code><a href='packages.html'>qlibrary</a></code>, <code><a href='packages.html'>qrequire</a></code>,
-  <code><a href='packages.html'>require.quiet</a></code>
+  Other require: <code><a href='packages.html'>mrequire</a></code>, <code><a href='packages.html'>qlibrary</a></code>, <code><a href='packages.html'>qrequire</a></code>, <code><a href='packages.html'>require.quiet</a></code>
 
         
   </div>

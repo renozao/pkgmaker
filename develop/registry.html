@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>packageRegistry. pkgmaker 0.25.6</title>
+<title>packageRegistry. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -100,69 +100,57 @@ setPackageRegistryEntry(regname, key, ..., overwrite = FALSE, verbose = FALSE, w
     <h2>Arguments</h2>
     <dl>
       <dt>regname</dt>
-      <dd>Name of a sub-registry, used as its
-  identifier.</dd>
+      <dd>Name of a sub-registry, used as its identifier.</dd>
       <dt>quiet</dt>
-      <dd>a logical that indicates that one should
-  return the (meta-)registry if it exists, or <code>NULL</code>
-  otherwise, without throwing any error.</dd>
+      <dd>a logical that indicates that one should return the (meta-)registry if it exists,
+or <code>NULL</code> otherwise, without throwing any error.</dd>
       <dt>entry</dt>
-      <dd>logical that indicates if the corresponding
-  meta registry entry should be directly returned, without
-  any other processing.</dd>
+      <dd>logical that indicates if the corresponding meta registry entry should
+be directly returned, without any other processing.</dd>
       <dt>update</dt>
-      <dd>logical that indicates if the package
-  registry should be updated, by adding/removing entries
-  from other loaded/unloaded packages.</dd>
+      <dd>logical that indicates if the package registry should be updated, by adding/removing
+entries from other loaded/unloaded packages.</dd>
       <dt>package</dt>
-      <dd>package where to store or look for the
-  registry.</dd>
+      <dd>package where to store or look for the registry.</dd>
       <dt>primary</dt>
-      <dd>logical that indicates if only primary
-  registries should be listed.</dd>
+      <dd>logical that indicates if only primary registries
+should be listed.</dd>
       <dt>regobj</dt>
-      <dd>a <code><a href='http://www.inside-r.org/r-doc/registry/regobj'>registry</a></code>
-  object or a single character string that indicates the
-  class of the objects that are stored in the sub-registry.
-  See details for the list of the sub-registry's fields in
-  this latter case.</dd>
+      <dd>a <code><a href='http://www.inside-r.org/r-doc/registry/regobj'>registry</a></code> object or a single character
+string that indicates the class of the objects that are stored in the
+sub-registry.
+See details for the list of the sub-registry's fields in this latter case.</dd>
       <dt>description</dt>
-      <dd>short description line about the
-  registry. It is recommended to provide such description
-  as it makes clearer the purpose of the registry. This
-  description is shown when the registry object is
-  printed/formated/listed.</dd>
+      <dd>short description line about the registry.
+It is recommended to provide such description as it makes clearer the purpose of the
+registry.
+This description is shown when the registry object is printed/formated/listed.</dd>
       <dt>entrydesc</dt>
-      <dd>human readable description that is used
-  in log messages when registering/removing entries.</dd>
+      <dd>human readable description that is used in log messages
+when registering/removing entries.</dd>
       <dt>...</dt>
-      <dd>named values used to set extra information
-  about the new registry, that are stored in the
-  corresponding fields of the meta-registry. Currently not
-  used, as no extra field other than <code>'description'</code>
-  is defined.</dd>
+      <dd>named values used to set extra information about the new registry, that
+are stored in the corresponding fields of the meta-registry.
+Currently not used, as no extra field other than <code>'description'</code> is defined.</dd>
       <dt>overwrite</dt>
-      <dd>a logical that indicate if an existing
-  registry with the same should be overwritten if it
-  exists.</dd>
+      <dd>a logical that indicate if an existing registry with the same
+should be overwritten if it exists.</dd>
       <dt>key</dt>
       <dd>entry identifier.</dd>
       <dt>where</dt>
-      <dd>package name or namespace that owns the
-  registry.</dd>
+      <dd>package name or namespace that owns the registry.</dd>
       <dt>verbose</dt>
-      <dd>a logical that indicates if verbosity
-  should be toggle on.</dd>
+      <dd>a logical that indicates if verbosity should be toggle on.</dd>
       <dt>msg</dt>
-      <dd>addon message to print at the end of the
-  output log line, when <code>verbose=TRUE</code>.</dd>
+      <dd>addon message to print at the end of the output log line,
+when <code>verbose=TRUE</code>.</dd>
     </dl>
     
     <div class="Value">
       <h2>Value</h2>
       
-      <p>a <code><a href='http://www.inside-r.org/r-doc/registry/regobj'>registry</a></code> object or
-  <code>NULL</code> (see argument <code>quiet</code>).</p>
+      <p>a <code><a href='http://www.inside-r.org/r-doc/registry/regobj'>registry</a></code> object or <code>NULL</code> (see argument
+<code>quiet</code>).</p>
   
     </div>
 

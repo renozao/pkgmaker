@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>quickinstall. pkgmaker 0.25.6</title>
+<title>quickinstall. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -82,26 +82,24 @@
       <dt>path</dt>
       <dd>path to the package source directory</dd>
       <dt>destdir</dt>
-      <dd>installation directory. If <code>NULL</code>,
-  the package is installed in the default installation
-  library. If <code>NA</code>, the package is installed in a
-  temporary directory, whose path is returned as a value.</dd>
+      <dd>installation directory.
+If <code>NULL</code>, the package is installed in the default installation library.
+If <code>NA</code>, the package is installed in a temporary directory, whose path is returned
+as a value.</dd>
       <dt>vignettes</dt>
-      <dd>logical that indicates if the vignettes
-  should be rebuilt and installed.</dd>
+      <dd>logical that indicates if the vignettes should be
+rebuilt and installed.</dd>
       <dt>force</dt>
-      <dd>logical that indicates if the package should
-  be installed even if a previous installation exists in
-  the installation library.</dd>
+      <dd>logical that indicates if the package should be installed even if a previous
+installation exists in the installation library.</dd>
       <dt>...</dt>
       <dd>extra arguments passed to <code><a href='R.exec.html'>R.CMD</a></code></dd>
       <dt>lib.loc</dt>
-      <dd>library specification. If <code>TRUE</code> then
-  the installation directory <code>destdir</code> is added to the
-  default library paths. This can be usefull if
-  dependencies are installed in this directory. If
-  <code>NULL</code>, then the default library path is left
-  unchanged.</dd>
+      <dd>library specification.
+If <code>TRUE</code> then the installation directory <code>destdir</code> is added to the default
+library paths.
+This can be usefull if dependencies are installed in this directory.
+If <code>NULL</code>, then the default library path is left unchanged.</dd>
     </dl>
     
     <div class="Value">

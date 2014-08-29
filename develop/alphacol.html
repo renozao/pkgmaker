@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>alphacol. pkgmaker 0.25.6</title>
+<title>alphacol. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -80,15 +80,14 @@
     <h2>Arguments</h2>
     <dl>
       <dt>col</dt>
-      <dd>vector of any of the three kinds of <span style="R">R</span> color
-  specifications, i.e., either a color name (as listed by
-  <code><a href='http://www.inside-r.org/r-doc/grDevices/colors'>colors</a>()</code>), a hexadecimal string of the form
-  <code>"#rrggbb"</code> or <code>"#rrggbbaa"</code> (see
-  <code><a href='http://www.inside-r.org/r-doc/grDevices/rgb'>rgb</a></code>), or a positive integer <code>i</code>
-  meaning <code><a href='http://www.inside-r.org/r-doc/grDevices/palette'>palette</a>()[i]</code>.</dd>
+      <dd>vector of any of the three kinds of <span style="R">R</span> color specifications,
+    i.e., either a color name (as listed by <code><a href='http://www.inside-r.org/r-doc/grDevices/colors'>colors</a>()</code>), a
+    hexadecimal string of the form <code>"#rrggbb"</code> or
+    <code>"#rrggbbaa"</code> (see <code><a href='http://www.inside-r.org/r-doc/grDevices/rgb'>rgb</a></code>), or a positive integer
+    <code>i</code> meaning <code><a href='http://www.inside-r.org/r-doc/grDevices/palette'>palette</a>()[i]</code>.</dd>
       <dt>alpha</dt>
-      <dd>logical value indicating whether the alpha
-  channel (opacity) values should be returned.</dd>
+      <dd>logical value indicating whether the alpha channel (opacity)
+    values should be returned.</dd>
     </dl>
         
     <h2 id="examples">Examples</h2>
@@ -104,19 +103,19 @@ alphacol(&#39;red&#39;) # do nothing
 <pre><code class="r">alphacol(&#39;red&#39;, 10)
 </code></pre>
 
-<pre><code>## [1] &quot;#ff0000ff&quot;
+<pre><code>## [1] &quot;#ff0000a&quot;
 </code></pre>
 
 <pre><code class="r">alphacol(&#39;#aabbcc&#39;, 5)
 </code></pre>
 
-<pre><code>## [1] &quot;#aabbccff&quot;
+<pre><code>## [1] &quot;#aabbcc5&quot;
 </code></pre>
 
 <pre><code class="r">alphacol(4, 5)
 </code></pre>
 
-<pre><code>## [1] &quot;#0000ffff&quot;
+<pre><code>## [1] &quot;#0000ff5&quot;
 </code></pre>
 
   </div>

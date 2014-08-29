@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>setupPackageOptions. pkgmaker 0.25.6</title>
+<title>setupPackageOptions. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -84,24 +84,21 @@
     <h2>Arguments</h2>
     <dl>
       <dt>...</dt>
-      <dd>a single named list or named arguments that
-  provide the default options and their values.</dd>
+      <dd>a single named list or named arguments that provide the default
+options and their values.</dd>
       <dt>NAME</dt>
-      <dd>name of the set of options. This is used as a
-  prefix for the name of the associated global option:
-  <code>package:<name></code>.</dd>
+      <dd>name of the set of options.
+This is used as a prefix for the name of the associated global
+option: <code>package:<name></code>.</dd>
       <dt>ENVIR</dt>
-      <dd>environment where the option wrapper
-  functions will be defined. No function is defined if
-  <code>ENVIR=NULL</code></dd>
+      <dd>environment where the option wrapper functions will be defined.
+No function is defined if <code>ENVIR=NULL</code></dd>
       <dt>RESET</dt>
-      <dd>a logical that indicates whether the option
-  set should overwrite one that already exists if
-  necessary. The default is <code>FALSE</code> (i.e. no reset),
-  except when loading a namespace, either from an installed
-  package or a development package -- with devtools. If
-  <code>FALSE</code>, an error is thrown if trying to setup
-  options with the same name.</dd>
+      <dd>a logical that indicates whether the option set should overwrite
+one that already exists if necessary.
+The default is <code>FALSE</code> (i.e. no reset), except when loading a namespace,
+either from an installed package or a development package -- with devtools.
+If <code>FALSE</code>, an error is thrown if trying to setup options with the same name.</dd>
     </dl>
           </div>
   <div class="span4">

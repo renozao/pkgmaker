@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>postponeAction. pkgmaker 0.25.6</title>
+<title>postponeAction. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -86,19 +86,17 @@ runPostponedAction(group = NULL, verbose = getOption("verbose"))</pre>
     <h2>Arguments</h2>
     <dl>
       <dt>expr</dt>
-      <dd>expression that define the action to
-  postpone. Currently only functions are supported.</dd>
+      <dd>expression that define the action to postpone.
+Currently only functions are supported.</dd>
       <dt>key</dt>
-      <dd>identifier for this specific action. It should
-  be unique across the postponed actions from the same
-  group.</dd>
+      <dd>identifier for this specific action.
+It should be unique across the postponed actions from the same group.</dd>
       <dt>group</dt>
-      <dd>optional parent action group. This enables
-  to define meaningful sets of actions that can be run all
-  at once.</dd>
+      <dd>optional parent action group.
+This enables to define meaningful sets of actions that can be run all at once.</dd>
       <dt>envir</dt>
-      <dd>environment in which the action should be
-  executed. Currently not used.</dd>
+      <dd>environment in which the action should be executed.
+Currently not used.</dd>
       <dt>verbose</dt>
       <dd>logical that toggles verbose messages.</dd>
     </dl>

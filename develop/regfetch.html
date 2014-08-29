@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>regfetch. pkgmaker 0.25.6</title>
+<title>regfetch. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -92,40 +92,34 @@ pkgreg_remove(regname, ..., msg = NULL, where = topenv(parent.frame()), quiet = 
       <dt>regobj</dt>
       <dd>a registry object</dd>
       <dt>...</dt>
-      <dd>key value(s) to look up. If multiple indexes
-  are used, then the primary key should come first.</dd>
+      <dd>key value(s) to look up.
+If multiple indexes are used, then the primary key should come first.</dd>
       <dt>all</dt>
-      <dd>logical to indicate if hidden keys (starting
-  with a '.') should be returned and output in message.</dd>
+      <dd>logical to indicate if hidden keys (starting with a '.') should be
+returned and output in message.</dd>
       <dt>error</dt>
-      <dd>a logical that indicates if an error should
-  be thrown if the key has no match or multiple matches</dd>
+      <dd>a logical that indicates if an error should be thrown if the key has no match
+or multiple matches</dd>
       <dt>exact</dt>
-      <dd>a logical that indicates if matching should
-  be exact or partial. Note that if exact matches exist
-  then they are returned, independently of the value of
-  <code>exact</code>.</dd>
+      <dd>a logical that indicates if matching should be exact or partial.
+Note that if exact matches exist then they are returned, independently of the
+value of <code>exact</code>.</dd>
       <dt>KEYS</dt>
       <dd>alternative way of passing the key value(s).
-  If not missing, then arguments in <code>...</code> are
-  discarded.</dd>
+If not missing, then arguments in <code>...</code> are discarded.</dd>
       <dt>verbose</dt>
-      <dd>a logical that indicates if verbosity
-  should be toggle on</dd>
+      <dd>a logical that indicates if verbosity should be toggle on</dd>
       <dt>entry</dt>
       <dd>a logical that indicates if the</dd>
       <dt>msg</dt>
       <dd>a header to use in case of error.</dd>
       <dt>quiet</dt>
-      <dd>a logical that indicates if the operation
-  should be performed quietly, without throwing errors or
-  warnings.</dd>
+      <dd>a logical that indicates if the operation should be performed quietly,
+without throwing errors or warnings.</dd>
       <dt>regname</dt>
-      <dd>Name of a sub-registry, used as its
-  identifier.</dd>
+      <dd>Name of a sub-registry, used as its identifier.</dd>
       <dt>where</dt>
-      <dd>package name or namespace that owns the
-  registry.</dd>
+      <dd>package name or namespace that owns the registry.</dd>
     </dl>
           </div>
   <div class="span4">

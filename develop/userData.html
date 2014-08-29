@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>userData. pkgmaker 0.25.6</title>
+<title>userData. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -82,26 +82,22 @@
     <h2>Arguments</h2>
     <dl>
       <dt>...</dt>
-      <dd>path parts passed to <code><a href='http://www.inside-r.org/r-doc/base/file.path'>file.path</a></code>
-  to be appended to the main path.</dd>
+      <dd>path parts passed to <code><a href='http://www.inside-r.org/r-doc/base/file.path'>file.path</a></code> to be appended to
+the main path.</dd>
       <dt>create</dt>
-      <dd>logical that indicates if the <strong>base</strong>
-  directory should be created if it does not exists.
+      <dd>logical that indicates if the <strong>base</strong> directory should be
+created if it does not exists.
 
-  Note that directories -- and files -- under the base
-  directory are not automatically created. The user should
-  therefore care of it in the caller function if necessary.
+Note that directories -- and files -- under the base directory are not automatically
+created. The user should therefore care of it in the caller function if necessary.
 
-  If <code>create=TRUE</code>, then the base directory is forced
-  to be created in the user's home directory. If
-  <code>create=FALSE</code>, then the base directory is never
-  created.
+If <code>create=TRUE</code>, then the base directory is forced to be created in the user's home directory.
+If <code>create=FALSE</code>, then the base directory is never created.
 
-  See also section <em>Details</em>.</dd>
+See also section <em>Details</em>.</dd>
       <dt>package</dt>
-      <dd>name of the package associated with the
-  user data path. It is used to prefix the path, within the
-  user R data directory.</dd>
+      <dd>name of the package associated with the user data path.
+It is used to prefix the path, within the user R data directory.</dd>
     </dl>
     
     <div class="Details">

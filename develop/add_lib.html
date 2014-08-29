@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>add_lib. pkgmaker 0.25.6</title>
+<title>add_lib. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -82,8 +82,8 @@
       <dt>...</dt>
       <dd>paths to add to .libPath</dd>
       <dt>append</dt>
-      <dd>logical that indicates that the paths
-  should be appended rather than prepended.</dd>
+      <dd>logical that indicates that the paths should be appended
+rather than prepended.</dd>
     </dl>
     
     <div class="Details">
@@ -120,7 +120,7 @@ show( .libPaths(&#39;.&#39;) )
 <pre><code class="r">show( .libPaths(tempdir()) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/Rtmpc63Drg&quot;               &quot;/usr/local/lib/R/site-library&quot;
+<pre><code>## [1] &quot;/tmp/RtmpCtnMi3&quot;               &quot;/usr/local/lib/R/site-library&quot;
 ## [3] &quot;/usr/lib/R/site-library&quot;       &quot;/usr/lib/R/library&quot;
 </code></pre>
 
@@ -131,7 +131,7 @@ show( .libPaths(&#39;.&#39;) )
 show( .libPaths() )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/Rtmpc63Drg/file769f6222df83&quot;              
+<pre><code>## [1] &quot;/tmp/RtmpCtnMi3/file16a17ff672a2&quot;              
 ## [2] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [3] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [4] &quot;/usr/lib/R/site-library&quot;                       
@@ -155,7 +155,7 @@ show( add_lib(&#39;.&#39;) )
 </code></pre>
 
 <pre><code>## [1] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [2] &quot;/tmp/Rtmpc63Drg/file769f6222df83&quot;              
+## [2] &quot;/tmp/RtmpCtnMi3/file16a17ff672a2&quot;              
 ## [3] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [4] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [5] &quot;/usr/lib/R/site-library&quot;                       
@@ -165,9 +165,9 @@ show( add_lib(&#39;.&#39;) )
 <pre><code class="r">show( add_lib(tempdir()) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/Rtmpc63Drg&quot;                               
+<pre><code>## [1] &quot;/tmp/RtmpCtnMi3&quot;                               
 ## [2] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [3] &quot;/tmp/Rtmpc63Drg/file769f6222df83&quot;              
+## [3] &quot;/tmp/RtmpCtnMi3/file16a17ff672a2&quot;              
 ## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [5] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [6] &quot;/usr/lib/R/site-library&quot;                       
@@ -177,9 +177,9 @@ show( add_lib(&#39;.&#39;) )
 <pre><code class="r">show( add_lib(&#39;..&#39;, append=TRUE) )
 </code></pre>
 
-<pre><code>## [1] &quot;/tmp/Rtmpc63Drg&quot;                               
+<pre><code>## [1] &quot;/tmp/RtmpCtnMi3&quot;                               
 ## [2] &quot;/home/renaud/Documents/projects/pkgmaker&quot;      
-## [3] &quot;/tmp/Rtmpc63Drg/file769f6222df83&quot;              
+## [3] &quot;/tmp/RtmpCtnMi3/file16a17ff672a2&quot;              
 ## [4] &quot;/home/renaud/R/x86_64-pc-linux-gnu-library/3.1&quot;
 ## [5] &quot;/usr/local/lib/R/site-library&quot;                 
 ## [6] &quot;/usr/lib/R/site-library&quot;                       

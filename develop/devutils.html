@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-<title>packageEnv. pkgmaker 0.25.6</title>
+<title>packageEnv. pkgmaker 0.25.7</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="">
 
@@ -51,7 +51,7 @@
     </form>--> 
     <ul class="nav navbar-nav navbar-right">
       <li><p class="navbar-text">
-      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.6</span>
+      <span style="font-size:14px" class="label label-primary">Version&nbsp;0.25.7</span>
       &nbsp;</p></li>
     </ul>
   </div><!-- /.navbar-collapse -->
@@ -129,53 +129,47 @@ as_package(x, ..., quiet = FALSE, extract = FALSE)</pre>
     <h2>Arguments</h2>
     <dl>
       <dt>pkg</dt>
-      <dd>package name. If missing the environment of
-  the runtime caller package is returned.</dd>
+      <dd>package name. If missing the environment of the runtime caller
+package is returned.</dd>
       <dt>skip</dt>
-      <dd>a logical that indicates if the calling
-  namespace should be skipped.</dd>
+      <dd>a logical that indicates if the calling namespace should be
+skipped.</dd>
       <dt>verbose</dt>
       <dd>logical that toggles verbosity</dd>
       <dt>n</dt>
       <dd>number of namespaces to return</dd>
       <dt>strict</dt>
-      <dd>a logicical that indicates if the global
-  environment should be considered as a valid namespace.</dd>
+      <dd>a logicical that indicates if the global environment should
+be considered as a valid namespace.</dd>
       <dt>unique</dt>
-      <dd>logical that indicates if the result should
-  be reduced to contain only one occurence of each
-  namespace.</dd>
+      <dd>logical that indicates if the result should be reduced
+to contain only one occurence of each namespace.</dd>
       <dt>envir</dt>
-      <dd>environment where to start looking for a
-  package name. The default is to use the <strong>runtime</strong>
-  calling package environment.</dd>
+      <dd>environment where to start looking for a package name.
+The default is to use the <strong>runtime</strong> calling package environment.</dd>
       <dt>.Global</dt>
-      <dd>a logical that indicates if calls from the
-  global environment should throw an error (<code>FALSE</code>:
-  default) or the string <code>'R_GlobalEnv'</code>.</dd>
+      <dd>a logical that indicates if calls from the global
+environment should throw an error (<code>FALSE</code>: default) or the string
+<code>'R_GlobalEnv'</code>.</dd>
       <dt>rm.prefix</dt>
-      <dd>logical that indicates if an eventual
-  prefix 'package:' should be removed from the returned
-  string.</dd>
+      <dd>logical that indicates if an eventual prefix 'package:'
+should be removed from the returned string.</dd>
       <dt>package</dt>
       <dd>optional name of an installed package</dd>
       <dt>lib.loc</dt>
-      <dd>path to a library of R packages where to
-  search the package</dd>
+      <dd>path to a library of R packages where to search the package</dd>
       <dt>...</dt>
       <dd>arguments passed to <code><a href='http://www.inside-r.org/r-doc/base/file.path'>file.path</a></code>.</dd>
       <dt>x</dt>
-      <dd>package specified by its
-  installation/development path or its name as
-  <code>'package:*'</code>.</dd>
+      <dd>package specified by its installation/development path or its name
+as <code>'package:*'</code>.</dd>
       <dt>quiet</dt>
-      <dd>a logical that indicate if an error should
-  be thrown if a package is not found. It is also passed to
-  <code><a href='http://www.inside-r.org/r-doc/base/find.package'>find.package</a></code>.</dd>
+      <dd>a logical that indicate if an error should be thrown if a
+package is not found. It is also passed to <code><a href='http://www.inside-r.org/r-doc/base/find.package'>find.package</a></code>.</dd>
       <dt>extract</dt>
-      <dd>logical that indicates if DESCRIPTION of
-  package source files should be extracted. In this case
-  there will be no valid path.</dd>
+      <dd>logical that indicates if DESCRIPTION of package
+source files should be extracted.
+In this case there will be no valid path.</dd>
     </dl>
     
     <div class="Value">
