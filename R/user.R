@@ -82,31 +82,29 @@ askUser <- function (msg, allowed = c("y", "n"), idefault = "n", default = "n", 
 #' 
 #' @seealso \code{\link{tempdir}}
 #' @export
-userData <- local({
-    function(..., create=NULL, package = topenv(parent.frame())){
+userData <- function(..., create=NULL, package = topenv(parent.frame())){
         
-        if( is.environment(package) ) package <- utils::packageName(package)
-        
-        p <- file.path(Sys.getenv('HOME'), 'R-data', package)
-        
-        # ask the user about creating the directory
-        if( !file.exists(p) && (is.null(create) || isTRUE(create))  ){
-            if( is.null(create) ){
-                ans <- askUser(str_c("The ", package, " user data directory '", p, "' doen't exist. Do you want to create it?")
-                    	, idefault='y', default='n')
-                if( ans == 'n' ){
-                    p <- file.path(tempdir(), 'R-data', package)
-                }
-            }
-            
-            if( !file.exists(p) ){
-                message("Creating user data directory '", p, "'")
-                dir.create(p, recursive=TRUE)
+    if( is.environment(package) ) package <- utils::packageName(package)
+    
+    p <- file.path(Sys.getenv('HOME'), 'R-data', package)
+    
+    # ask the user about creating the directory
+    if( !file.exists(p) && (is.null(create) || isTRUE(create))  ){
+        if( is.null(create) ){
+            ans <- askUser(str_c("The ", package, " user data directory '", p, "' doen't exist. Do you want to create it?")
+                	, idefault='y', default='n')
+            if( ans == 'n' ){
+                p <- file.path(tempdir(), 'R-data', package)
             }
         }
-        file.path(p, ...)
+        
+        if( !file.exists(p) ){
+            message("Creating user data directory '", p, "'")
+            dir.create(p, recursive=TRUE)
+        }
     }
-})
+    file.path(p, ...)
+}
 
 #' Require a Package with User Interaction
 #'
