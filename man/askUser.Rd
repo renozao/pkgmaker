@@ -10,11 +10,14 @@
 This answer will be in upper case in the question and will be the one returned if the
 user simply hits return.}
 
+  \item{default}{default response in non-interactive mode.
+
+If \code{NA}, then the user is forced to provide an answer, even in non-interactive mode
+(e.g., when run through \code{Rscript}).}
+
   \item{msg}{The output message}
 
   \item{allowed}{Allowed input from the user}
-
-  \item{default}{Default response if called in batch mode}
 
   \item{case.sensitive}{Is the response case sensitive? Defaults to
     \code{FALSE}}

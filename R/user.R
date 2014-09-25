@@ -17,6 +17,10 @@ NULL
 #' @param idefault default response in interactive mode.
 #' This answer will be in upper case in the question and will be the one returned if the 
 #' user simply hits return.
+#' @param default default response in non-interactive mode.
+#' 
+#' If \code{NA}, then the user is forced to provide an answer, even in non-interactive mode 
+#' (e.g., when run through \code{Rscript}).  
 #' 
 #' @return the character string typed/agreed by the user or directly the default answer in 
 #' non-interactive mode.  
@@ -24,7 +28,12 @@ NULL
 #' @export
 askUser <- function (msg, allowed = c("y", "n"), idefault = "n", default = "n", case.sensitive = FALSE) 
 {
-    if ( !interactive() )  return(default)
+    ucon <- stdin()
+    if ( !interactive() ) {
+        if( is_NA(default) ) ucon <- 'stdin'
+        else return(default)
+    }
+    
     fallowed <- allowed
     # add extra info on answer options
     if( !is.null(nm <- names(allowed)) ){
@@ -38,8 +47,8 @@ askUser <- function (msg, allowed = c("y", "n"), idefault = "n", default = "n", 
         outMsg <- paste(msg, allowMsg)
         cat("\n", outMsg, sep='')
         if (case.sensitive) 
-            ans <- readLines(n = 1)
-        else ans <- tolower(readLines(n = 1))
+            ans <- readLines(ucon, n = 1)
+        else ans <- tolower(readLines(ucon, n = 1))
         if( !isFALSE(idefault) && !nchar(ans) ) 
             ans <- idefault
         if (ans %in% allowed) 
