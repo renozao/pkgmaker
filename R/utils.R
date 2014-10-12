@@ -240,6 +240,14 @@ str_fun <- function(object){
 	paste(s[-length(s)], collapse="\n")
 }
 
+#' \code{str_pkg} formats a package name and version
+#' 
+#' @export 
+#' @rdname str_out
+str_pkg <- function(pkg, ...){
+    sprintf("%s (version %s)", pkg, packageVersion(pkg, ...))
+}
+
 # From example in ?toupper
 capwords <- function(s, strict = FALSE) {
     cap <- function(s) paste(toupper(substring(s,1,1)),

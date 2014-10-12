@@ -3,6 +3,7 @@
 \alias{str_desc}
 \alias{str_fun}
 \alias{str_out}
+\alias{str_pkg}
 \title{Formatting Utilities}
 \usage{
   str_out(x, max = 3L, quote = is.character(x),
@@ -11,6 +12,8 @@
   str_desc(object, exdent = 0L)
 
   str_fun(object)
+
+  str_pkg(pkg, ...)
 
   str_bs(x)
 }
@@ -49,6 +52,8 @@ should spread over more than one lines.}
   \code{str_fun} extracts and formats a function signature.
   It typically formats the output
   \code{capture.output(args(object))}.
+
+  \code{str_pkg} formats a package name and version
 
   \code{str_bs} substitutes backspace characters (\\b) to
   produce a character string as it would be displayed in
