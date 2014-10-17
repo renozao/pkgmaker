@@ -35,9 +35,9 @@ CLIfile <- function(full = FALSE){
 #' @param show.defaults logical that indicates if default arugment values should 
 #' be displayed. 
 #' 
-#' @export
 CLIArgumentParser <- function(prog = CLIfile(), description = '', ..., epilog = '', show.defaults = TRUE){
     
+    .Deprecated('CLIR::CLIArgumentParser')
     # load argparse
     suppressMessages( library(argparse, quietly = TRUE) )
     
@@ -178,10 +178,10 @@ logMessage <- function(..., appendLF = TRUE, extfile = NULL){
 #' @param debug logical that indicate if debugging information should be printed.
 #' @param envir environment that contains where the sub-command functions are looked for. 
 #' 
-#' @export
 #' @rdname CLIArgumentParser
 parseCMD <- function(parser, ARGS = commandArgs(TRUE), debug = FALSE, envir = parent.frame()){
     
+    .Deprecated('CLIR::parseCMD')
     if( isString(ARGS) == 1L ){ # used in dev/debugging
         ARGS <- strsplit(ARGS, ' ')[[1]]
     }
