@@ -20,7 +20,7 @@ NULL
 #' @rdname is_something
 #' @export
 is_NA <- function(x){ 
-    !is.object(x) && length(x) == 1L && is.na(x)
+    is.atomic(x) && length(x) == 1L && is.na(x)
 #   x <- unname(x)
 #	identical(x, NA) || identical(x, as.character(NA)) || identical(x, as.numeric(NA)) || identical(x, as.integer(NA))
 }
