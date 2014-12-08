@@ -207,7 +207,7 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ",
 	}
 	s <- paste(paste(x, collapse=sep), sep='')
 	
-	if( total ) s <- paste0(s, ' (', nTotal, ' total)')
+	if( total ) s <- paste0(s, ' (', format(nTotal, big.mark=",", scientific=F), ' total)')
 	
 	# return formatted string 
 	s
