@@ -70,10 +70,14 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 		}else nsInfo$pkgname
 		
 	}else if( !nodev ){ # devtools namespaces are allowed
-		if( is_pkgcall('devtools') && (i <- is_funcall(devtools::load_all)) ){
+        if( (is_pkgcall('devtools') && (i <- is_funcall(devtools::load_all))) || 
+            is_pkgcall('roxygen24') && (i <- is_funcall(roxygen24::source_package)) ){
 			# find out the package that is currently being loaded by load_all
 			e <- sys.frame(i)
 			pkg <- e$pkg
+            
+            if( is.null(pkg) ) stop("Could not infer loading namespace")
+            
 			# extract namespace
 			if( env ) asNamespace(pkg$package)
 			else if( info ){

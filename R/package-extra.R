@@ -3,6 +3,7 @@
 # Author: renaud
 ###############################################################################
 
+#' @include registry.R
 #' @include devutils.R 
 NULL
 
