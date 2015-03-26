@@ -13,9 +13,7 @@
 #' Multiple citations are handled by adding a numeric suffix to the Bibtex key 
 #' (other than the first/main citation) as \code{"<pkgname>\%i"} (e.g. pkg, pkg2, pkg3).
 #' 
-#' This function has now been integrated by Romain François in the bibtex package.
-#'
-#' @encoding utf8
+#' This function has now been integrated by Romain Francois in the bibtex package.
 #'
 #' @param entry a \code{\link{bibentry}} object or a character vector of package 
 #' names. If \code{NULL}, then the list of all installed packages is used.
@@ -37,7 +35,7 @@
 #' @references 
 #' \emph{[R] Creating bibtex file of all installed packages?}
 #' Achim Zeileis. R-help mailing list. 
-#' \url{https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html}
+#' \url{https://stat.ethz.ch/pipermail/r-help/2009-December/415181.html}
 #' 
 #' @seealso \code{link{connection}}, \code{link{bibentry}}
 #'  
