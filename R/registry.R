@@ -846,7 +846,7 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 			locregobj$delete_entry(names(locentry)[1L])
 		}
 		# add entry into local registry
-		if( verbose ) message(action, " entry '", key, "' in registry '", fullregistry, "' ... ", appendLF=FALSE)
+		if( verbose ) message(action, " entry '", key, "' in registry '", packageName(lns), "::", fullregistry, "' ... ", appendLF=FALSE)
 		do.call(locregobj$set_entry, fields)
 		if( verbose ) message("OK")
 	}
