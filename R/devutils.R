@@ -83,7 +83,6 @@ R.SHLIB <- function(libname, ...){
 compile_src <- function(pkg=NULL, load=TRUE){
 	
 	if( !is.null(pkg) ){
-		library(devtools)
 		p <- as.package(pkg)
 		path <- p$path
 	}else{
@@ -143,8 +142,8 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 		# - as.environment('package:*') will return the correct environment
 		# in dev mode.
 		env <- if( is.environment(pkg) ) topenv(pkg)
+        else if( isLoadingNamespace(pkg) ) getLoadingNamespace(env=TRUE)
 		else if( !is.null(path.package(pkg, quiet=TRUE)) ) asNamespace(pkg)
-		else if( isLoadingNamespace(pkg) ) getLoadingNamespace(env=TRUE)
 		else if( isNamespaceLoaded(pkg) ) asNamespace(pkg)
 		else if( pkg %in% search() ) as.environment(pkg)
 		else as.environment(str_c('package:', pkg)) # dev mode
@@ -412,6 +411,8 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' @export
 as_package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	
+	if( !requireNamespace('devtools', quietly = TRUE) ) 
+        stop("Package 'devtools' is required to load development packages")
 	
 	if( is.null(x) ) return( devtools::as.package() )
 	if( devtools::is.package(x) ) return(x)
