@@ -134,6 +134,7 @@ qlibrary <- .silenceF(library)
 #' @param msg error message to use, to which is appended the string 
 #' \code{' requires package <pkg>'} to build the error message. 
 #' @param package name of the package to load.
+#' @inheritParams base::require
 #' 
 #' @rdname packages
 #' @export
@@ -142,9 +143,9 @@ qlibrary <- .silenceF(library)
 #' mrequire('Running this example', 'stringr')
 #' try( mrequire('Doing impossible things', 'notapackage') )
 #' 
-mrequire <- function(msg, package, ...){
+mrequire <- function(msg, package, lib.loc = NULL, quietly = FALSE){
 	
-	if( !require(package = package, character.only = TRUE, ...) ){
+	if( !require(package = package, character.only = TRUE, lib.loc = lib.loc, quietly = quietly) ){
 		if( !is.null(msg) ) stop(msg, " requires package ", str_out(package))
 		else stop("Could not find required package ", str_out(package))
 	}
@@ -155,7 +156,7 @@ mrequire <- function(msg, package, ...){
 #' @export
 requirePackage <- function(pkg, ...){
      .Deprecated('mrequire')
-     mrequire(msg = c(...), package = pkg)   
+#     mrequire(msg = c(...), package = pkg)   
 }
 
 #' Setting Mirrors and Repositories
@@ -378,7 +379,7 @@ isCRAN_timing <- function() isCRANcheck('timing')
 #' \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests are run and reported when 
 #' generating them.
 #' 
-#' @references \url{https://github.com/renozao/roxygen2}
+#' @references \url{https://github.com/renozao/roxygen}
 #' @rdname isCRANcheck
 #' @export
 #' 

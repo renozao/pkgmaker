@@ -211,8 +211,10 @@ latex_bibliography <- function(PACKAGE, file=''){
     }
 	
     # add post-processing knit hook
-    library(knitr)
-    knit_hooks$set(document = function(x){
+    if( !requireNamespace('knitr', quietly = TRUE) ) 
+        stop("Package 'knitr' is required to run latex_bibliography.")
+    
+    knitr::knit_hooks$set(document = function(x){
         # write bibfile if necessary
         if( length(pkgs <- parsePackageCitation(x)) ){
             # write bibfile
@@ -263,7 +265,10 @@ runVignette.default <- function(x, file=NULL, ...){
 ## #' If \code{TRUE} then the figure path is set to \code{'./cache/<basename>/'}.
 #' @S3method runVignette rnw_knitr 
 runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=TRUE){
-	library(knitr)
+	
+    if( !requireNamespace('knitr', quietly = TRUE) ) 
+        stop("Package 'knitr' is required to run knitr vignettes.")
+    
 	# expand path to cache to fix issue in knitr
 	bname <- sub("\\..{3}$", '', basename(x$file))	
 	# add suffix for windows
@@ -275,24 +280,24 @@ runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=T
 		if( isTRUE(cache.path) ){
 			cache.path <- file.path(getwd(), 'cache', bname, '/')
 		}
-		opts_chunk$set(cache.path=cache.path)	
+		knitr::opts_chunk$set(cache.path=cache.path)	
 	}
 	# fig.path
 	if( !isFALSE(fig.path) ){
 		if( isTRUE(fig.path) ){
 			fig.path <- file.path(getwd(), 'figure', str_c(bname,'-'))
 		}
-		opts_chunk$set(fig.path=fig.path)	
+		knitr::opts_chunk$set(fig.path=fig.path)	
 	}
 	
 	# set other options
-	opts_chunk$set(...)
+	knitr::opts_chunk$set(...)
 	
 	# run knitr
 	e <- new.env(parent = .GlobalEnv)
 	if( FALSE && (is.null(file) || file_extension(file) %in% c('tex', 'pdf')) ){
 		ofile <- if( file_extension(file) == 'pdf' ) file else NULL 
-		knit2pdf(x$file, ofile, envir=e)
+		knitr::knit2pdf(x$file, ofile, envir=e)
 		if( is.null(file) ){
 			# remove pdf file
 			unlink(file.path(getwd(), basename(file_extension(x$file, 'pdf'))))
@@ -300,7 +305,7 @@ runVignette.rnw_knitr <- function(x, file=NULL, ..., fig.path=TRUE, cache.path=T
 			# move tex file
 			file.rename(file_extension(file, 'tex'), file)
 		}
-	}else knit(x$file, file, envir=e)
+	}else knitr::knit(x$file, file, envir=e)
 }
 
 #' @S3method runVignette rnw_sweave 
@@ -601,7 +606,11 @@ cite_pkg <- local({
         if( !nargs() ) return(.keys)
         # reset cache
         if( is.null(cache) ) .keys <- character()
-        else if( isString(cache) ) .keys <- read.bib(file = cache, ...)
+        else if( isString(cache) ){
+            if( !requireNamespace('bibtex', quietly = TRUE) ) 
+                stop("Package 'bibtex' is required to run load bibtex files.")
+            .keys <- bibtex::read.bib(file = cache, ...)
+        } 
         if( !missing(key) ){
             cat(key)
             .keys <<- c(.keys, key)

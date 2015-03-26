@@ -30,7 +30,9 @@
 #' 
 knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     
-    library(knitr)
+    if( !requireNamespace('knitr', quietly = TRUE) ) 
+        stop("Package 'knitr' is required to run knit_ex.")
+    
     # substitute special markup for Rmd markup (necessary for knit_ex examples)
     x <- gsub("^^^", "```", x, fixed = TRUE)
     
@@ -42,7 +44,7 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     }
     x <- paste0(x, collapse = "\n")
     if( any(html_chunks) ){
-        res <- knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
+        res <- knitr::knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
         if( open ){
             tmp <- tempfile("knit_ex", fileext = '.html')
             cat(res, file = tmp, sep = "\n") 
@@ -50,7 +52,7 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
             return(invisible(res))
         }
     }else{
-        res <- knit(text = x, ..., quiet = quiet)
+        res <- knitr::knit(text = x, ..., quiet = quiet)
     }
     cat(res)
 }
@@ -132,6 +134,10 @@ hook_try <- local({
 chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
     type <- match.arg(type)
     function(){
+        
+        if( !requireNamespace('knitr', quietly = TRUE) ) 
+            stop("Package 'knitr' is required to setup knit hook '", name, "'")
+        
         .hook_bkp <- NULL
         function(before, options, envir){
             # do nothing if the option is not ON
@@ -140,7 +146,7 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
             # set/unset hook
             if( before ){
                 # store current hook function
-                if( is.null(.hook_bkp) ) .hook_bkp <<- knit_hooks$get(type)
+                if( is.null(.hook_bkp) ) .hook_bkp <<- knitr::knit_hooks$get(type)
                 
                 # define hook wrapper
                 hook_wrapper <- function(x, options){
@@ -150,11 +156,11 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
                         
                 args <- list()
                 args[[type]] <- hook_wrapper
-                do.call(knit_hooks$set, args)
+                do.call(knitr::knit_hooks$set, args)
             }else{
                 args <- list()
                 args[[type]] <- .hook_bkp
-                do.call(knit_hooks$set, args)
+                do.call(knitr::knit_hooks$set, args)
                 .hook_bkp <<- NULL
             }
         }

@@ -50,7 +50,7 @@ requireRUnit <- local({
 
 # Borrowed from RUnit::.existsTestLogger
 .existsTestLogger <- function(envir = .GlobalEnv){
-    exists(".testLogger", envir = envir) && inherits(.testLogger, "TestLogger")
+    exists(".testLogger", envir = envir) && inherits(envir$.testLogger, "TestLogger")
 }
 
 #' Enhancing RUnit Logger
@@ -347,8 +347,11 @@ makeUnitVignette <- function(pkg, file=paste(pkg, '-unitTests.pdf', sep=''), ...
 		# run unit tests
 		tests <- utest(package, ...)
 		
+        if( !requireNamespace('RUnit', quietly = TRUE) ) 
+            stop("Package 'RUnit' is required to make unit test vignettes")
+	        
 		# check for errors
-		err <- getErrors(tests)
+		err <- RUnit::getErrors(tests)
 		errMsg <- NULL
 		if( err$nFail > 0) {
 			errMsg <- c(errMsg, sprintf( "unit test problems: %d failures\n", err$nFail))
@@ -841,7 +844,7 @@ setMethod('utest', 'RUnitTestSuite',
 		## Return stop() to cause R CMD check stop in case of
 		##  - failures i.e. FALSE to unit tests or
 		##  - errors i.e. R errors
-        tmp <- getErrors(tests)
+        tmp <- RUnit::getErrors(tests)
         if(tmp$nFail > 0 | tmp$nErr > 0) {
             # filter failures and errors
             test_summary <- capture.output(.summaryRUnit(tests, c('error', 'failure'), print = TRUE))

@@ -68,7 +68,9 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	capture.output(suppressMessages({
 		library(pkgmaker)
 #		library(methods)
-		library(devtools)					
+        if( !requireNamespace('devtools', quietly = TRUE) ) 
+                stop("Package 'devtools' is required to generate a package Makefile")
+						
 	}))
 #	defMakeVar <- pkgmaker::defMakeVar
 #	subMakeVar <- pkgmaker::subMakeVar

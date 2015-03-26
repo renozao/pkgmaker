@@ -242,10 +242,13 @@ str_fun <- function(object){
 
 #' \code{str_pkg} formats a package name and version
 #' 
+#' @param pkg package name
+#' @param lib.loc path to a library of R packages
+#' 
 #' @export 
 #' @rdname str_out
-str_pkg <- function(pkg, ...){
-    sprintf("%s (version %s)", pkg, packageVersion(pkg, ...))
+str_pkg <- function(pkg, lib.loc = NULL){
+    sprintf("%s (version %s)", pkg, packageVersion(pkg, lib.loc = lib.loc))
 }
 
 # From example in ?toupper
