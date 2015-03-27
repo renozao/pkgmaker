@@ -471,3 +471,37 @@ packageOptions <- function(..., PACKAGE = packageName()){
 listPackageOptions <- function(){
 	grep('^package:', names(options()), value=TRUE)
 } 
+
+
+#' Reads YAML Options Embbeded into a File
+#' 
+#' @param section section name to lookup in the file.
+#' In the file this defined by paired tags \code{"#<section_name>", "#</section_name>"}, 
+#' or a single tag \code{"#<section_name@@file_path>"} that redirect to a YAML file.
+#' @param file path to the file to parse. Default is to parse the user's \emph{.Rprofile}.
+#' @param text text to parse.
+#' If provided, then argument \code{file} is not used.
+#' 
+#' @export
+read.Rprofile <- function(section, file = '~/.Rprofile', text = NULL){
+    
+    # parse .Rprofile for configuration sections
+    if( !is.null(text) ) file <- textConnection(text)
+    l <- str_trim(readLines(file))
+    i_start <- grep(sprintf("^# *<%s(@.*)?>", section), l)
+    if( !length(i_start) ) return()
+    i_end <- grep(sprintf("^# *</%s>", section), l)
+    
+    if( !length(i_end) ){ # no closing tag
+        # check for indirection to a yaml file
+        m <- str_match(l[i_start], sprintf("^# *<%s@(.*)>", section))[1, ]
+        if( !is.na(m[1]) ){ # load from file
+            return(yaml::yaml.load_file(m[2]))
+        }else return() # exit
+        
+    }else{ # parse section 
+        yml <- gsub('^#', '', l[seq(i_start+1, i_end-1)])
+        yml <- paste0(yml, collapse = "\n")
+        yaml::yaml.load(yml)
+    }
+}
