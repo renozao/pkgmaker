@@ -483,7 +483,7 @@ listPackageOptions <- function(){
 #' If provided, then argument \code{file} is not used.
 #' 
 #' @export
-read.Rprofile <- function(section, file = '~/.Rprofile', text = NULL){
+read.yaml_section <- function(section, file = '~/.Rprofile', text = NULL){
     
     # parse .Rprofile for configuration sections
     if( !is.null(text) ) file <- textConnection(text)
