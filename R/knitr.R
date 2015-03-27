@@ -427,3 +427,117 @@ hook_toggle <- function(){
     })
     fn()
 }
+
+parse_yaml_front_matter2 <- local({
+    .parse_yaml_front_matter <- NULL
+    .config <- NULL
+    .output_format <- NULL
+    function(input_lines, config = NULL, output_format = NULL){
+        if( is.null(.parse_yaml_front_matter) ){
+            env <- environment(rmarkdown::render)
+            .parse_yaml_front_matter <<- env$parse_yaml_front_matter
+        }
+        if( !nargs() ) return(.parse_yaml_front_matter)
+        if( !missing(config) ) .config <<- config
+        if( !missing(output_format) ) .output_format <<- output_format
+        if( missing(input_lines) ) return(parse_yaml_front_matter2)
+        
+        .config <- .config %||% 
+                    (if( file.exists(default_config <- '~/.rmarkdown.yaml') ) default_config) %||%
+                    read.Rprofile('rmarkdown::render') # section in .Rprofile
+        if( isString(.config) ){
+            .config <- yaml::yaml.load_file(.config)
+        }
+        
+        metadata <- .parse_yaml_front_matter(input_lines)
+        if( !is.list(.config) ) return(metadata)
+            
+        m <- rmarkdown:::merge_lists(.config, metadata)
+        of <- .output_format %||% m$output %||% 'html_document'
+        if( isString(of) && !is.null(.config$output[[of]]) ) 
+            m$output <- .config$output[of]
+        m
+    }
+})
+
+# initialize front_matter parser override if possible 
+if( requireNamespace('rmarkdown', quietly = TRUE) ){
+    parse_yaml_front_matter2()
+}
+
+#' Renders rmarkdown Documents Using System-Wide Defaults
+#' 
+#' 
+#' @inheritParams markdown::render
+#' @param .config location of the default options (a YAML file) 
+#' @export
+render_notes <- function(input, output_format = NULL, ..., .config = NULL){
+    
+    mrequire("to render documents", 'rmarkdown')
+    mrequire("to load yaml configuration", 'CLIR')
+    
+    # enforce suffix '_document'
+    if( isString(output_format) ) 
+        output_format <- paste0(gsub("_document$", '', tolower(output_format)), '_document')
+    
+    # hook wrapper in render environment
+    env <- environment(rmarkdown::render)
+    do.call("unlockBinding", list("parse_yaml_front_matter", env))
+    # restore on exit
+    on.exit({
+        if( bindingIsLocked("parse_yaml_front_matter", env) )
+            do.call("unlockBinding", list("parse_yaml_front_matter", env))
+        env$parse_yaml_front_matter <- parse_yaml_front_matter2()
+        lockBinding("parse_yaml_front_matter", env)
+    })
+    # override function
+    env$parse_yaml_front_matter <- parse_yaml_front_matter2(config = .config, output_format = output_format)
+    # lock it again
+    lockBinding("parse_yaml_front_matter", env)
+    
+    # classic render
+    render(input, output_format, ...)
+}
+
+#user_document <- local({
+#    ..config <- ..output_format <- NULL
+#    function(..., .config, .output_format = NULL){
+#        
+#        if( !missing(.config) ){
+#            if( is.null(.output_format) ) .output_format <- 'html'
+#            ..output_format <<- .output_format
+#            ..config <<- .config
+#            return()
+#        }
+#    
+#        of <- ..output_format
+#        if( isString(of) ){
+#            # call wrapped output format function
+#            e <- parent.frame()
+#            of <- getFunction(paste0(gsub("_document$", '', tolower(of)), '_document'), where = e)
+#        }
+#        if( is.function(of) ) of <- of(...)
+#        
+#        # wrap pre-processor
+#        .pre_processor <- of$pre_processor
+#        .set_render_metadata_defaults <- function(value){
+#                
+#                env <- environment(rmarkdown::render)
+#                old_value <- env$metadata
+#                #do.call("unlockBinding", list("metadata", env))
+#                #on.exit( lockBinding("metadata", env) )
+#                env$metadata <- value
+#                
+#                old_value
+#        }
+#        
+#        of$pre_processor <- function(metadata, ...){
+#            # merge and change metadata in render environment
+#            metadata <- rmarkdown:::merge_lists(..config, metadata)
+#            .set_render_metadata_defaults(metadata)
+#            .pre_processor(metadata, ...)
+#        }
+#        
+#        of
+#    }
+#})
