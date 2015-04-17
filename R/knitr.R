@@ -432,7 +432,9 @@ parse_yaml_front_matter2 <- local({
     .parse_yaml_front_matter <- NULL
     .config <- NULL
     .output_format <- NULL
-    function(input_lines, config = NULL, output_format = NULL){
+    .output_options <- NULL
+    
+    function(input_lines, config = NULL, output_options = NULL, output_format = NULL){
         if( is.null(.parse_yaml_front_matter) ){
             env <- environment(rmarkdown::render)
             .parse_yaml_front_matter <<- env$parse_yaml_front_matter
@@ -440,22 +442,26 @@ parse_yaml_front_matter2 <- local({
         if( !nargs() ) return(.parse_yaml_front_matter)
         if( !missing(config) ) .config <<- config
         if( !missing(output_format) ) .output_format <<- output_format
+        if( !missing(output_options) ) .output_options <<- output_options
         if( missing(input_lines) ) return(parse_yaml_front_matter2)
         
         .config <- .config %||% 
                     (if( file.exists(default_config <- '~/.rmarkdown.yaml') ) default_config) %||%
-                    read.Rprofile('rmarkdown::render') # section in .Rprofile
+                    read.yaml_section('rmarkdown::render') # section in .Rprofile
         if( isString(.config) ){
             .config <- yaml::yaml.load_file(.config)
         }
         
         metadata <- .parse_yaml_front_matter(input_lines)
+        if( !is.null(.output_options) ){
+            metadata <- rmarkdown:::merge_lists(metadata, .output_options)
+        }
         if( !is.list(.config) ) return(metadata)
             
         m <- rmarkdown:::merge_lists(.config, metadata)
         of <- .output_format %||% m$output %||% 'html_document'
         if( isString(of) && !is.null(.config$output[[of]]) ) 
-            m$output <- .config$output[of]
+            m$output <- rmarkdown:::merge_lists(m$output[[of]], .config$output[of])
         m
     }
 })
@@ -471,14 +477,53 @@ if( requireNamespace('rmarkdown', quietly = TRUE) ){
 #' @inheritParams markdown::render
 #' @param .config location of the default options (a YAML file) 
 #' @export
-render_notes <- function(input, output_format = NULL, ..., .config = NULL){
+render_notes <- function(input, output_format = NULL, output_options = NULL, ..., .config = NULL){
     
     mrequire("to render documents", 'rmarkdown')
     mrequire("to load yaml configuration", 'CLIR')
     
+    if( is.null(output_format) ){
+        fmt <- list(html = c('r', 'rmd', 'md'), pdf = 'rnw')
+        ext <- tolower(file_extension(input))
+        output_format <- setNames(rep(names(fmt), sapply(fmt, length)), unlist(fmt))[ext]
+        if( is_NA(output_format) ) output_format <- NULL
+        
+        if( ext == 'rnw' ){
+            
+            input0 <- normalizePath(input)
+            tmpinput <- tempfile(paste0(basename(input0), '_'), dirname(input0))
+            tmpinput_file <- paste0(tmpinput, ".", ext)
+            # chunk out preamble and add it as an option
+            l <- str_trim(readLines(input))
+            if( length(i0 <- grep("^[^%]*[\\]documentclass *((\\[)|(\\{))", l)) ){
+                i1 <- grep("^[^%]*[\\]begin *\\{ *document *\\}", l)
+                preamb <- l[seq(i0, i1)]
+                tmpinput_header <- paste0(tmpinput, "_preamble.tex")
+                cat(preamb[c(-1, -length(preamb))], file = tmpinput_header, sep = "\n")
+                output_options <- output_options %||% list()
+                output_options$includes$in_header <- tmpinput_header 
+                l <- l[-seq(i0, i1)]
+                on.exit({
+                    if( is.dir(tmp_fdir <- paste0(tmpinput, '_files')) ){
+                        fdir <- paste0(input0, '_files')
+                        unlink(fdir, recursive = TRUE)
+                        file.rename(tmp_fdir, fdir)
+                    }
+                    unlink(tmpinput_header)
+                    unlink(tmpinput_file)
+                }, add = TRUE)
+                cat(l, file = tmpinput_file, sep = "\n")
+                input <- tmpinput_file
+            }
+        }
+    }
     # enforce suffix '_document'
     if( isString(output_format) ) 
         output_format <- paste0(gsub("_document$", '', tolower(output_format)), '_document')
+    if( !rmarkdown:::is_output_format(output_format) ){
+        output_format <- rmarkdown:::output_format_from_yaml_front_matter(readLines(input), output_format_name = output_format)
+        output_format <- output_format$name
+    }
     
     # hook wrapper in render environment
     env <- environment(rmarkdown::render)
@@ -489,14 +534,14 @@ render_notes <- function(input, output_format = NULL, ..., .config = NULL){
             do.call("unlockBinding", list("parse_yaml_front_matter", env))
         env$parse_yaml_front_matter <- parse_yaml_front_matter2()
         lockBinding("parse_yaml_front_matter", env)
-    })
+    }, add = TRUE)
     # override function
-    env$parse_yaml_front_matter <- parse_yaml_front_matter2(config = .config, output_format = output_format)
+    env$parse_yaml_front_matter <- parse_yaml_front_matter2(config = .config, output_options = output_options, output_format = output_format)
     # lock it again
     lockBinding("parse_yaml_front_matter", env)
     
     # classic render
-    render(input, output_format, ...)
+    render(input, output_format, output_options = output_options, ...)
 }
 
 #user_document <- local({
