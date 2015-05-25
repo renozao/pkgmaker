@@ -251,6 +251,32 @@ str_pkg <- function(pkg, lib.loc = NULL){
     sprintf("%s (version %s)", pkg, packageVersion(pkg, lib.loc = lib.loc))
 }
 
+#' \code{str_md5sum} computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+#' @importFrom tools md5sum
+#' @export
+#' @rdname str_out
+str_md5sum <- function(x){
+    
+    tmp <- tempfile()
+    on.exit( unlink(tmp) )
+    cat(x, sep = "\n", file = tmp)
+    md5sum(tmp)
+    
+}
+
+#' \code{str_hash} computes hash of a character vector using \code{\link[digest]{digest}}.
+#' 
+#' @inheritParams digest::digest
+#' @import digest
+#' @export
+#' @rdname str_out
+str_hash <- function(x, algo = 'md5'){
+    
+    digest(x, algo = algo, serialize = FALSE)
+    
+}
+
+
 # From example in ?toupper
 capwords <- function(s, strict = FALSE) {
     cap <- function(s) paste(toupper(substring(s,1,1)),
