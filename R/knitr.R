@@ -428,6 +428,58 @@ hook_toggle <- function(){
     fn()
 }
 
+
+# adapted from rmarkdown:::merge_lists
+# added capability of appending instead of just replacing value
+.merge_lists <- local({
+    .depth <- -1L
+    function (base_list, overlay_list, recursive = TRUE) 
+    {
+      # track depth
+      .depth <<- .depth + 1L
+      on.exit( .depth <<- .depth - 1L)
+      
+      res <- 
+      if (length(base_list) == 0) 
+            overlay_list
+      else if (length(overlay_list) == 0) 
+            base_list
+      else {
+            merged_list <- base_list
+            for (name in unique(names(overlay_list)) ) {
+                  base <- base_list[[name]]
+                  overlay <- overlay_list[[name]]
+                  if (is.list(base) && is.list(overlay) && recursive) 
+                        merged_list[[name]] <- .merge_lists(base, overlay)
+                  else {
+                      merged_list[[name]] <- NULL
+                      merged_list <- append(merged_list, overlay_list[which(names(overlay_list) %in% 
+                                                      name)])
+                  }
+            }
+            merged_list
+      }
+
+      # merge append/prepend special fields
+      if( .depth == 0L && length(specials <- grep("[<>]$", names(res), value = TRUE)) ){
+          lapply(specials, function(s){
+              n <- gsub("[<>]$", "", s)
+              if( grepl("<$", s) ){ # append
+                  res[[n]] <<- c(res[[n]], res[[s]])
+                  
+              }else{ # prepend 
+                  res[[n]] <<- c(res[[s]], res[[n]])
+              }
+                  
+          })
+          res[specials] <- NULL
+      }
+      
+      res
+    }
+})
+
+
 parse_yaml_front_matter2 <- local({
     .parse_yaml_front_matter <- NULL
     .config <- NULL
@@ -435,6 +487,8 @@ parse_yaml_front_matter2 <- local({
     .output_options <- NULL
     
     function(input_lines, config = NULL, output_options = NULL, output_format = NULL){
+        
+        merge_lists <- .merge_lists 
         if( is.null(.parse_yaml_front_matter) ){
             env <- environment(rmarkdown::render)
             .parse_yaml_front_matter <<- env$parse_yaml_front_matter
@@ -454,14 +508,18 @@ parse_yaml_front_matter2 <- local({
         
         metadata <- .parse_yaml_front_matter(input_lines)
         if( !is.null(.output_options) ){
-            metadata <- rmarkdown:::merge_lists(metadata, .output_options)
+            metadata <- merge_lists(metadata, .output_options)
         }
         if( !is.list(.config) ) return(metadata)
-            
-        m <- rmarkdown:::merge_lists(.config, metadata)
-        of <- .output_format %||% m$output %||% 'html_document'
+        
+        m <- merge_lists(.config, metadata)
+        if( isString(m$output) )
+            m$output <- setNames(list(list()), m$output)
+        
+        of <- .output_format %||% names(m$output)[1L] %||% 'html_document'
         if( isString(of) && !is.null(.config$output[[of]]) ) 
-            m$output <- rmarkdown:::merge_lists(m$output[[of]], .config$output[of])
+            m$output <- merge_lists(m$output[[of]], .config$output[of])
+        
         m
     }
 })
@@ -483,37 +541,41 @@ render_notes <- function(input, output_format = NULL, output_options = NULL, ...
     mrequire("to load yaml configuration", 'CLIR')
     
     if( is.null(output_format) ){
-        fmt <- list(html = c('r', 'rmd', 'md'), pdf = 'rnw')
-        ext <- tolower(file_extension(input))
-        output_format <- setNames(rep(names(fmt), sapply(fmt, length)), unlist(fmt))[ext]
-        if( is_NA(output_format) ) output_format <- NULL
-        
-        if( ext == 'rnw' ){
+        doc_matter <- parse_yaml_front_matter2()(readLines(input))
+        output_format <- names(doc_matter$output)[1L] %||% doc_matter$output 
+        if( is.null(output_format) ){
+            fmt <- list(html = c('r', 'rmd', 'md'), pdf = 'rnw')
+            ext <- tolower(file_extension(input))
+            output_format <- setNames(rep(names(fmt), sapply(fmt, length)), unlist(fmt))[ext]
+            if( is_NA(output_format) ) output_format <- NULL
             
-            input0 <- normalizePath(input)
-            tmpinput <- tempfile(paste0(basename(input0), '_'), dirname(input0))
-            tmpinput_file <- paste0(tmpinput, ".", ext)
-            # chunk out preamble and add it as an option
-            l <- str_trim(readLines(input))
-            if( length(i0 <- grep("^[^%]*[\\]documentclass *((\\[)|(\\{))", l)) ){
-                i1 <- grep("^[^%]*[\\]begin *\\{ *document *\\}", l)
-                preamb <- l[seq(i0, i1)]
-                tmpinput_header <- paste0(tmpinput, "_preamble.tex")
-                cat(preamb[c(-1, -length(preamb))], file = tmpinput_header, sep = "\n")
-                output_options <- output_options %||% list()
-                output_options$includes$in_header <- tmpinput_header 
-                l <- l[-seq(i0, i1)]
-                on.exit({
-                    if( is.dir(tmp_fdir <- paste0(tmpinput, '_files')) ){
-                        fdir <- paste0(input0, '_files')
-                        unlink(fdir, recursive = TRUE)
-                        file.rename(tmp_fdir, fdir)
-                    }
-                    unlink(tmpinput_header)
-                    unlink(tmpinput_file)
-                }, add = TRUE)
-                cat(l, file = tmpinput_file, sep = "\n")
-                input <- tmpinput_file
+            if( ext == 'rnw' ){
+                
+                input0 <- normalizePath(input)
+                tmpinput <- tempfile(paste0(basename(input0), '_'), dirname(input0))
+                tmpinput_file <- paste0(tmpinput, ".", ext)
+                # chunk out preamble and add it as an option
+                l <- str_trim(readLines(input))
+                if( length(i0 <- grep("^[^%]*[\\]documentclass *((\\[)|(\\{))", l)) ){
+                    i1 <- grep("^[^%]*[\\]begin *\\{ *document *\\}", l)
+                    preamb <- l[seq(i0, i1)]
+                    tmpinput_header <- paste0(tmpinput, "_preamble.tex")
+                    cat(preamb[c(-1, -length(preamb))], file = tmpinput_header, sep = "\n")
+                    output_options <- output_options %||% list()
+                    output_options$includes$in_header <- tmpinput_header 
+                    l <- l[-seq(i0, i1)]
+                    on.exit({
+                        if( is.dir(tmp_fdir <- paste0(tmpinput, '_files')) ){
+                            fdir <- paste0(input0, '_files')
+                            unlink(fdir, recursive = TRUE)
+                            file.rename(tmp_fdir, fdir)
+                        }
+                        unlink(tmpinput_header)
+                        unlink(tmpinput_file)
+                    }, add = TRUE)
+                    cat(l, file = tmpinput_file, sep = "\n")
+                    input <- tmpinput_file
+                }
             }
         }
     }
