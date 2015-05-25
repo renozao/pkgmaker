@@ -106,7 +106,7 @@ setPackageExtra <- function(handler, extra, ...){
 	args <- list(...)
 	pkg <- packageName(topenv(parent.frame()), .Global=TRUE)
 	setPackageRegistryEntry('extra_action', key=extra, handler=handler, args=args
-							, package = pkg 
+							, package = pkg, where = topenv()
 							, msg=str_c(" for handler '", handler, "'"))
 }
 
