@@ -474,7 +474,7 @@ setPackageRegistry <- function(regname, regobj
 			}
 			stop("Could not create registry '", regname,"' in ", ns_str, ": registry already exists")
 		}else{
-			message("Remove registry '", regname,"' from ", ns_str)
+			message("Removing registry '", regname,"' from ", ns_str)
 			regenv$delete_entry(regname)
 		}
 	}
@@ -513,7 +513,7 @@ setPackageRegistry <- function(regname, regobj
 	regobj <- fix_registry(regobj)
 	# add package
 	attr(regobj, 'package') <- nm
-	
+    
 	# create new meta entry
 	regenv$set_entry(key=regname, regobj=regobj
 					, description=description, entrydesc=entrydesc
