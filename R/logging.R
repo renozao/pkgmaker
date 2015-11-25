@@ -62,4 +62,18 @@ lmessage <- function(..., level=1L, appendLF=TRUE){
 	if( !is.na(l) && l >= level ) cat(..., if(appendLF) "\n", sep='')
 }
 
-
+#' Generate Formated Message
+#' 
+#' Generate a formatted diagnostic message.
+#' This function is a shortcut for \code{message(sprintf(...))}.
+#' 
+#' @inheritParams base::sprintf
+#' @inheritParams base::message
+#' 
+#' @seealso \code{\link{sprintf}}, \code{\link{message}}
+#' @export
+#' @examples 
+#' 
+#' messagef("Hello %s number %i", 'world', 4)
+#' 
+messagef <- function(fmt, ..., domain = NULL, appendLF = TRUE) message(sprintf(fmt, ...), domain = domain, appendLF = appendLF)
