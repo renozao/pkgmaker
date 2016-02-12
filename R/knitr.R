@@ -488,6 +488,9 @@ parse_yaml_front_matter2 <- local({
     
     function(input_lines, config = NULL, output_options = NULL, output_format = NULL){
         
+        
+        requireNamespace('yaml')
+        
         merge_lists <- .merge_lists 
         if( is.null(.parse_yaml_front_matter) ){
             env <- environment(rmarkdown::render)
@@ -532,13 +535,19 @@ if( requireNamespace('rmarkdown', quietly = TRUE) ){
 #' Renders rmarkdown Documents Using System-Wide Defaults
 #' 
 #' 
-#' @inheritParams markdown::render
-#' @param .config location of the default options (a YAML file) 
+#' @inheritParams rmarkdown::render
+#' @param ... other arguments passed to \code{\link[rmarkdown]{render}} 
+#' @param .config location of the default options (a YAML file).
+#' Default behaviour is to look for file \code{'.rmarkdown.yaml'} in the user's
+#' home directory, or, if missing, for a yaml section \code{rmarkdown::render} 
+#' in the user's R profile.
+#' 
+#' @seealso \code{\link{read.yaml_section}}
 #' @export
 render_notes <- function(input, output_format = NULL, output_options = NULL, ..., .config = NULL){
     
     mrequire("to render documents", 'rmarkdown')
-    mrequire("to load yaml configuration", 'CLIR')
+    requireNamespace('rmarkdown')
     
     if( is.null(output_format) ){
         doc_matter <- parse_yaml_front_matter2()(readLines(input))
@@ -580,10 +589,16 @@ render_notes <- function(input, output_format = NULL, output_options = NULL, ...
         }
     }
     # enforce suffix '_document'
-    if( isString(output_format) ) 
-        output_format <- paste0(gsub("_document$", '', tolower(output_format)), '_document')
-    if( !rmarkdown:::is_output_format(output_format) ){
-        output_format <- rmarkdown:::output_format_from_yaml_front_matter(readLines(input), output_format_name = output_format)
+    if( isString(output_format) )
+        if( !grepl("_", output_format, fixed = TRUE) ){
+            output_type <- gsub("_((document)|(presentation))$", '', tolower(output_format))
+            if( output_type %in% c('beamer') )  output_format <- paste0(output_type, '_presentation')
+            else output_format <- paste0(output_type, '_document')
+        }
+    is_output_format <- ns_get('is_output_format', 'rmarkdown')
+    if( !is_output_format(output_format) ){
+        output_format_from_yaml_front_matter <- ns_get('output_format_from_yaml_front_matter', 'rmarkdown')
+        output_format <- output_format_from_yaml_front_matter(readLines(input), output_format_name = output_format)
         output_format <- output_format$name
     }
     

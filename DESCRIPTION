@@ -36,6 +36,8 @@ Suggests:
     RUnit,
     testthat,
     knitr,
+    rmarkdown,
+    yaml,
     argparse
 Collate:
     'bibtex.R'
