@@ -113,17 +113,19 @@ isLoadingNamespace <- function(ns, nodev=FALSE){
 	}
 }
 
-#' \code{isNamespaceLoaded} tests if a given namespace is loaded, without loading it, 
+#' \code{isNamespaceLoaded2} tests if a given namespace is loaded, without loading it, 
 #' contrary to \code{\link{isNamespace}}.
+#' It is similar to \code{\link{isNamespaceLoaded}} -- which it uses -- but also accepts
+#' environments.
 #' 
 #' @rdname namespace
 #' @export
-isNamespaceLoaded <- function(ns){
+isNamespaceLoaded2 <- isNamespaceLoaded <- function(ns){
 	if( is.environment(ns) ){
 		if( !isNamespace(ns) ) return(FALSE)
 		else ns <- getPackageName(ns)
 	}
-	if( isString(ns) ) ns %in% loadedNamespaces()
+	if( isString(ns) ) base::isNamespaceLoaded(ns)
 	else stop("Invalid argument `ns`: only support strings and environments.")
 }
 
