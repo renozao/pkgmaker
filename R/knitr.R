@@ -528,11 +528,11 @@ parse_yaml_front_matter2 <- local({
 })
 
 # initialize front_matter parser override if possible 
-if( requireNamespace('rmarkdown', quietly = TRUE) ){
-    parse_yaml_front_matter2()
-}
+#if( requireNamespace('rmarkdown', quietly = TRUE) ){
+#    parse_yaml_front_matter2()
+#}
 
-#' Renders rmarkdown Documents Using System-Wide Defaults
+#' Renders rmarkdown Documents Using User Default Options
 #' 
 #' 
 #' @inheritParams rmarkdown::render
@@ -548,8 +548,11 @@ render_notes <- function(input, output_format = NULL, output_options = NULL, ...
     
     mrequire("to render documents", 'rmarkdown')
     requireNamespace('rmarkdown')
+    # initial call to initialise override and backup
+    parse_yaml_front_matter2()
     
     if( is.null(output_format) ){
+        # parse using original rmarkdown parser
         doc_matter <- parse_yaml_front_matter2()(readLines(input))
         output_format <- names(doc_matter$output)[1L] %||% doc_matter$output 
         if( is.null(output_format) ){
@@ -618,7 +621,7 @@ render_notes <- function(input, output_format = NULL, output_options = NULL, ...
     lockBinding("parse_yaml_front_matter", env)
     
     # classic render
-    render(input, output_format, output_options = output_options, ...)
+    rmarkdown::render(input, output_format, output_options = output_options, ...)
 }
 
 #user_document <- local({

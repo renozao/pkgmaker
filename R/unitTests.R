@@ -723,9 +723,9 @@ setMethod('utest', 'character',
 						file.path(path, testdir)
 					}else{
 						# try to find a corresponding development package
-						if( require.quiet(devtools) 
-								&& is.package(pkg <- as.package(x, quiet=TRUE)) ){
-							load_all(pkg, TRUE)
+						if( qrequire('devtools') && requireNamespace('devtools') 
+								&& devtools::is.package(pkg <- as.package(x, quiet=TRUE)) ){
+							devtools::load_all(pkg, TRUE)
 							file.path(pkg$path, 'inst', testdir)
 						}else{ # assume x is a path  
 							x
@@ -776,7 +776,8 @@ setMethod('utest', 'character',
 				if( framework == 'RUnit' ){ # RUnit
 					
 					requireRUnit("Running RUnit test suites")
-					s <- defineTestSuite(x, path
+                    loadNamespace('RUnit')
+					s <- RUnit::defineTestSuite(x, path
 							, testFileRegexp=filter
 							, testFuncRegexp=fun, ...)
 					str(s)
@@ -785,19 +786,22 @@ setMethod('utest', 'character',
 				}else if( framework == 'testthat' ){ # testthat
 					
 					mrequire("Running testthat unit test suites", 'testthat')
-					test_dir(path, filter=filter, ...)
+                    loadNamespace('testthat')
+					testthat::test_dir(path, filter=filter, ...)
 					
 				}
 			}else{ # single test file
 				if( framework == 'RUnit' ){ # RUnit
 					
 					requireRUnit("Running RUnit unit test file")
-					runTestFile(path, testFuncRegexp=fun, ...)
+                    loadNamespace('RUnit')
+					RUnit::runTestFile(path, testFuncRegexp=fun, ...)
 					
 				}else if( framework == 'testthat' ){ # testthat
 					
 					mrequire("Running testthat unit test file", 'testthat')
-					test_file(path, ...)
+                    loadNamespace('testthat')
+					testthat::test_file(path, ...)
 					
 				}
 			}
@@ -812,34 +816,34 @@ setOldClass('RUnitTestSuite')
 setMethod('utest', 'RUnitTestSuite',
 	function(x, ..., quiet=FALSE, outdir=NULL){
 		requireRUnit("Running RUnit test suites")
-		
+		loadNamespace('RUnit')
 		pathReport <- file.path(outdir, str_c("utest.", sub("[:]", "_", x$name)))
 		
 		t <- system.time({
 			if( quiet ){
 				suppressWarnings(suppressMessages(out <- capture.output(
-					tests <- runTestSuite(x, ...)
+					tests <- RUnit::runTestSuite(x, ...)
 				)))
 			}else 
-				tests <- runTestSuite(x, ...)
+				tests <- RUnit::runTestSuite(x, ...)
 		})
 		
 		## Report to stdout and text files
 		cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
 		summary_file <- paste(pathReport, ".Summary.txt", sep="")
-		printTextProtocol(tests, showDetails=FALSE,	fileName=summary_file)
+		RUnit::printTextProtocol(tests, showDetails=FALSE,	fileName=summary_file)
 		# append timing
 		st <- c("\nTotal execution time\n***************************"
 				, paste(capture.output(print(t)), collapse="\n"))
 		write(st, file=summary_file, append=TRUE)
 		# detailed report
 		details_file <- paste(pathReport, ".Details.txt", sep="")
-		printTextProtocol(tests, showDetails=TRUE, fileName=details_file)
+		RUnit::printTextProtocol(tests, showDetails=TRUE, fileName=details_file)
 		write(st, file=details_file, append=TRUE)
 		#
 		
 		## Report to HTML file
-		printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
+		RUnit::printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
 		
 		## Return stop() to cause R CMD check stop in case of
 		##  - failures i.e. FALSE to unit tests or
