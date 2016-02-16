@@ -39,9 +39,9 @@ endif
 ifdef flavour
 RCMD=R$(flavour)
 RSCRIPT=Rscript-$(flavour)
-CHECK_DIR=checks/$(flavour)/
+CHECK_DIR=check_files/$(flavour)/
 else
-CHECK_DIR=checks/
+CHECK_DIR=check_files/release/
 endif
 
 R_BIN=#%R_BIN%#
@@ -154,8 +154,8 @@ deploy-repo: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 check: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
-	mkdir -p $(R_PACKAGE_OS) && \
-	$(R_LIBS) $(RCMD) CMD check $(R_CHECK_ARGS) -o $(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) && \
+	mkdir -p Rcheck/$(R_PACKAGE_OS) && \
+	$(R_LIBS) $(RCMD) CMD check $(R_CHECK_ARGS) -o Rcheck/$(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) && \
 	echo "*** DONE: CHECK"
 
 roxygen: init
