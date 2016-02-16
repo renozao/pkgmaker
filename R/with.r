@@ -4,6 +4,9 @@
 # Copyright Hadley Wickam 2015
 
 #' Execute code in temporarily altered environment.
+#' 
+#' These functions were extracted from the \pkg{devtools} package 
+#' to make them available without a dependency to \pkg{devtools}.
 #'
 #' \itemize{
 #'   \item \code{using_dir}: working directory
@@ -23,6 +26,7 @@
 #' @param new values for setting
 #' @param code code to execute in that environment
 #'
+#' @author Hadley Wickham
 #' @name using_something
 #' @examples
 #' getwd()
@@ -173,10 +177,29 @@ using_par <- using_something(par)
 #' @export
 #' @param add Combine with existing values? Currently for
 #'   \code{\link{using_path}} only. If \code{FALSE} all existing
-#'   paths are ovewritten, which don't you usually want.
-using_path <- function(new, code, add = TRUE) {
-  if (add) new <- c(get_path(), new)
+#'   paths are overwritten, which you don't usually want.
+#' @param prepend logical that indicates if the new paths should
+#' be added in front of the current ones.
+using_path <- function(new, code, add = TRUE, prepend = FALSE) {
+  if (add){
+      if( prepend ) new <- c(new, get_path())
+      else new <- c(get_path(), new)
+  }
   old <- set_path(new)
   on.exit(set_path(old))
   force(code)
 }
+    
+# define local versions of devtools::set/get_path
+get_path <- function(){
+    strsplit(Sys.getenv("PATH"), .Platform$path.sep)[[1]]
+}
+
+set_path <- function (path){
+    path <- normalizePath(path, mustWork = FALSE)
+    old <- get_path()
+    path <- paste(path, collapse = .Platform$path.sep)
+    Sys.setenv(PATH = path)
+    invisible(old)
+}
+
