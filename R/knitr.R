@@ -509,7 +509,9 @@ parse_yaml_front_matter2 <- local({
             .config <- yaml::yaml.load_file(.config)
         }
         
-        metadata <- .parse_yaml_front_matter(input_lines)
+        # use this trick to avoid spurious NOTE in check
+        yaml_front_matter_parser <- .parse_yaml_front_matter
+        metadata <- yaml_front_matter_parser(input_lines)
         if( !is.null(.output_options) ){
             metadata <- merge_lists(metadata, .output_options)
         }
