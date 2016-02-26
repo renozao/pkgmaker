@@ -133,8 +133,8 @@ userData <- function(..., create=NULL, package = topenv(parent.frame())){
 #' with \code{\link{require.quiet}} or normally with \code{\link{require}}.
 #' @param prependLF logical that indicates if the message should start at a new line.
 #' @param ptype type of package: from CRAN-like repositories, Bioconductor, Bioconductor software, Bioconductor annotation.
-#' Bioconductor packages are installed using \code{\link[repotools]{install.pkgs}} from the 
-#' \pkg{repotools} package.
+#' Bioconductor packages are installed using \code{biocLite} from the 
+#' \pkg{BiocInstaller} package or fetched on line at \url{http://bioconductor.org/biocLite.R}.
 #' @param autoinstall logical that indicates if missing packages should just be installed 
 #' without asking with the user, which is the default in non-interactive sessions.
 #' 
@@ -212,11 +212,13 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
     if( install_type == 'CRAN' ){
         pkginstall <- install.packages
     }else{ # Bioconductor 
-        # use enhanced installer from repotools
-        if( !reqpkg('repotools') ){
-            sourceURL("http://tx.technion.ac.il/~renaud/GRAN/repotools.R")
+        if( !reqpkg('BiocInstaller') ){
+            sourceURL("http://bioconductor.org/biocLite.R")
         }
-        pkginstall <- ns_get('install.pkgs', 'repotools')
+        pkginstall <- function(...){
+            f <- ns_get('biocLite', 'BiocInstaller')
+            f(..., suppressUpdates = TRUE)
+        }
     }
     message()
     pkginstall(package, lib=lib, ...)
