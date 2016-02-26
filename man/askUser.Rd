@@ -28,8 +28,8 @@ If \code{NA}, then the user is forced to provide an answer, even in non-interact
 non-interactive mode.
 }
 \description{
-  This function is an improved version of \code{\link[Biobase]{userQuery}} and ask
-the user about some task that needs her intervention to proceed,
+  This function is an improved version of \code{userQuery} from Bioconductor \pkg{Biobase}
+package, which asks the user about some task that needs her intervention to proceed,
 e.g., ask if one should perform a computation, install a package, etc..
 }
 
