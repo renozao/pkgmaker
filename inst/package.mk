@@ -155,7 +155,7 @@ check: build $(CHECK_DIR)$(R_PACKAGE_TAR_GZ)
 	@cd $(CHECK_DIR) && \
 	echo "\n*** STEP: CHECK\n" && \
 	mkdir -p Rcheck/$(R_PACKAGE_OS) && \
-	$(R_LIBS) $(RCMD) CMD check $(R_CHECK_ARGS) -o Rcheck/$(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) && \
+	_R_CHECK_XREFS_REPOSITORIES_="invalidURL" $(R_LIBS) $(RCMD) CMD check $(R_CHECK_ARGS) -o Rcheck/$(R_PACKAGE_OS) --as-cran --timings $(R_PACKAGE_TAR_GZ) && \
 	echo "*** DONE: CHECK"
 
 roxygen: init
