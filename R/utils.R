@@ -808,7 +808,6 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	#
 }
 
-#' @importFrom utils .DollarNames
 #' @S3method .DollarNames ExposeAttribute 
 .DollarNames.ExposeAttribute <- function(x, pattern=""){ 
 	

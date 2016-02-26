@@ -28,8 +28,8 @@ with \code{\link{require.quiet}} or normally with \code{\link{require}}.}
   \item{prependLF}{logical that indicates if the message should start at a new line.}
 
   \item{ptype}{type of package: from CRAN-like repositories, Bioconductor, Bioconductor software, Bioconductor annotation.
-Bioconductor packages are installed using \code{\link[repotools]{install.pkgs}} from the
-\pkg{repotools} package.}
+Bioconductor packages are installed using \code{biocLite} from the
+\pkg{BiocInstaller} package or fetched on line at \url{http://bioconductor.org/biocLite.R}.}
 
   \item{autoinstall}{logical that indicates if missing packages should just be installed
 without asking with the user, which is the default in non-interactive sessions.}

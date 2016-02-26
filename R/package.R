@@ -6,8 +6,7 @@
 
 #' @include utils.R
 #' @include devutils.R
-#' @import stats
-#' @import methods
+#' @import stats methods utils grDevices graphics
 NULL
 
 #' Default Load/Unload Functions

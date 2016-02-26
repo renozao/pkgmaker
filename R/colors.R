@@ -11,7 +11,6 @@
 #'  
 #' @inheritParams grDevices::col2rgb
 #' 
-#' @importFrom grDevices col2rgb
 #' @export
 #' @examples
 #' 

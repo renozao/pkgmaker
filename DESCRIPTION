@@ -25,11 +25,13 @@ Depends:
 Imports:
     methods,
     tools,
+    grDevices,
+    utils,
+    graphics,
     codetools,
     digest,
     stringr,
-    xtable,
-    grDevices
+    xtable
 Suggests:
     devtools (>= 0.8),
     bibtex,
