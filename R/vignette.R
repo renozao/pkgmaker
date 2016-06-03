@@ -187,7 +187,7 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 	# output or return commands
 	cmd <- c(cmd, "%%%% END: PKGMAKER COMMANDS %%%%%%\n")
 	cmd <- str_c(cmd, collapse="\n")
-	if( !is.null(file) ) cat(cmd, file, sep='')
+	if( !is.null(file) ) cat(cmd, file = file, sep='')
 	else cmd
 	
 }
@@ -834,3 +834,42 @@ compactVignettes <- function(paths, ...){
 	
 }
 
+buildPackageVignette <- function(file, ..., install = NULL){
+ 
+    # detect package directory
+    file_path <- normalizePath(file)
+    pkg <- as.package(dirname(file_path))
+            
+    # install if necessary
+    if( !isFALSE(install) ){
+        
+        pkglib <- install %||% file.path(tempdir(), 'buildVignette_lib')
+        dir.create(pkglib, recursive = TRUE, showWarnings = FALSE)
+        # compute MD5sum
+        md5 <- tools::md5sum(list.files(file.path(pkg$path, c('R')), full.names = TRUE))
+        hash <- digest(md5)
+        pkglib_path <- file.path(pkglib, pkg$package)
+        hash0 <- if( file.exists(hash_file <- paste0(pkglib_path, '.md5')) ) readLines(hash_file) 
+        
+        # cleanup if forcing installation 
+        if( isTRUE(install) ){
+            unlink(hash_file)
+            unlink(pkglib_path, recursive = TRUE)
+        }
+        # install if necessary
+        if( !is.dir(pkglib_path) || !identical(hash0, hash) ){
+            quickinstall(pkg$path, pkglib)
+        }
+        cat(hash, "\n", sep = "", file = hash_file)
+        
+        # prepend library
+        ol <- set_lib(pkglib)
+        on.exit( .libPaths(ol), add = TRUE )
+#        ov <- set_envvar(list(R_LIBS_USER = paste0(pkglib, ':', Sys.getenv('R_LIBS_USER'))), 'replace')
+#        on.exit( set_envvar(ov, 'replace'), add = TRUE )
+    }
+
+    # build vignette
+    tools::buildVignette(file, ...)
+       
+}
