@@ -39,8 +39,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    yaml,
-    argparse
+    yaml
 Collate:
     'bibtex.R'
     'colors.R'
