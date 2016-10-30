@@ -4,30 +4,42 @@
 # Created: May 1, 2013
 ###############################################################################
 
+
+#' Test for Package Root Directory
+#' 
+#' Tells if a directory is a package directory, i.e. that it contains
+#' a \code{DESCRIPTION} file.
+#' 
+#' @param x path to the directory to test
+#' @param error logical that indicates if an error should be raised
+#' if the directory is not a package directory.
+#' 
+is_package_path <- function(x, error = FALSE) {
+	if (is.null(x)) return(FALSE)
+	x <- normalizePath(x, mustWork = FALSE)
+	x <- gsub("\\\\$", "", x)
+	desc_path <- file.path(x, "DESCRIPTION")
+	if( !error ){
+		file.exists(x) && file.exists(desc_path)
+	}else{
+		if ( !file.exists(x) ) stop("Can't find directory ", x, call. = FALSE)
+		if ( !file.info(x)$isdir ) stop(x, " is not a directory", call. = FALSE)
+		if (!file.exists(desc_path)) stop("No DESCRIPTION file found in ", x, call. = FALSE)
+		TRUE
+	}
+}
+
+
+#' Find Path to Development Package Root Directory
+#' 
+#' Development packages are looked-up according to rules
+#' defined in a file \code{.Rpackages} in the user's home directory. 
+#' 
+#' @param x name of the development package to lookup.
+#' @export
 find_devpackage <- function (x) 
 {
 	
-	is_package_path <- function(x, check=FALSE) {
-		if (is.null(x)) return(FALSE)
-		x <- normalizePath(x, mustWork = FALSE)
-		x <- gsub("\\\\$", "", x)
-		desc_path <- file.path(x, "DESCRIPTION")
-		if( !check ){
-			file.exists(x) && file.exists(desc_path)
-		}else{
-			if (!file.exists(x)) {
-				stop("Can't find directory ", x, call. = FALSE)
-			}
-			if (!file.info(x)$isdir) {
-				stop(x, " is not a directory", call. = FALSE)
-			}
-			desc_path <- file.path(x, "DESCRIPTION")
-			if (!file.exists(desc_path)) {
-				stop("No DESCRIPTION file found in ", x, call. = FALSE)
-			}
-			TRUE
-		}
-	}
 	
 	if (is_package_path(x)) {
 		return(x)
@@ -44,11 +56,84 @@ find_devpackage <- function (x)
 	}
 	if (!is.null(lookup$default)) {
 		default_loc <- lookup$default(x)
-		if (is_package_path(default_loc, check=TRUE)) {
+		if (is_package_path(default_loc, error = TRUE)) {
 			return(default_loc)
 		}
 	}
 	NULL
+}
+
+#' Load Development Package
+#' 
+#' @param pkg name of the package/project to load.
+#' @param reset logical that indicates if the package should be reloaded (passed to \code{\link[devtools]{load_all}}.
+#' @param ... other arguments passed to \code{\link[devtools]{load_all}}.
+#' @param utests logical that indicates if an environment containing the unit test functions should be created.
+#' If \code{TRUE} this environment is accessible at \code{pkgname::UnitTests$test.filename.r$function.name}.
+#' @param verbose logical that indicates if log messages should be printed.
+#' @param addlib logical that indicates if the \code{lib/} sub-directory, if it exists, should be prepended 
+#' to the library path. 
+#' This enables to control the version of the loaded dependencies.
+#' @param character.only logical that indicates if argument \var{pkg} should be evaluated or taken litteral. 
+#' 
+#' @export 
+load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, addlib=TRUE, character.only = FALSE) {
+	
+	if( !requireNamespace('devtools') ){
+		stop("Could not load package: required package 'devtools' is not installed.")
+	}
+	if( !character.only ){
+		pkg <- deparse(substitute(pkg))
+		pkg <- sub("^\"(.*)\"$", "\\1", pkg)
+	}
+	
+	devpkg_path <- find_devpackage(pkg)
+	if( !is.character(devpkg_path) ) pkg <- tolower(pkg)
+	else pkg <- devpkg_path 
+	
+	# add ../lib to the path if necessary
+	if( addlib && is.character(tp <- find_devpackage(pkg)) ){
+		tp <- as.package(tp)
+		pdir <- normalizePath(file.path(dirname(tp$path), "lib"), mustWork=FALSE)
+		if( file_test('-d', pdir) && !is.element(pdir, .libPaths()) ){
+			message("Adding to .libPaths: '", pdir, "'")
+			olibs <- .libPaths()
+			.libPaths(c(pdir, .libPaths()))
+			on.exit( .libPaths(olibs), add=TRUE )
+		}
+	}
+	devpkg <- as.package(pkg)
+	
+	# load package
+	op <- options(verbose=verbose)
+	on.exit(options(op), add=TRUE)  
+	devtools::load_all(pkg, reset = reset, ...)
+	#
+	
+	# source unit test files if required
+	udir <- file.path(devpkg$path, 'inst', c('tests', 'unitTests'))
+	if( utests && length(w <- which(file.exists(udir))) ){
+		message("# Sourcing unit test directory ... ", appendLF = FALSE)
+		f <- list.files(udir[w[1L]], pattern = "\\.[Rr]$", full.names=TRUE)
+		if( length(f) ){
+#			if( !requireNamespace('RUnit') ) stop("Missing required dependency 'RUnit' to load unit tests")
+			# create unit test environment
+			utest_env <- new.env(parent = devtools::ns_env(devpkg))
+			assign('UnitTests', utest_env, devtools::ns_env(devpkg))
+			# source test files in separate sub-environments
+			sapply(f, function(f){
+						e <- new.env(parent = utest_env)
+						assign(basename(f), e, utest_env)
+						sys.source(f, envir = e)
+					})
+		}
+		message('OK [', length(f), ']')
+		# reload to export the unit test environment
+		devtools::load_all(pkg, reset = FALSE, ...)
+	}
+	#
+	
+	invisible(devpkg)
 }
 
 
@@ -67,7 +152,6 @@ packageMakefile <- function(package=NULL, template=NULL, temp = FALSE, print = T
 	
 	capture.output(suppressMessages({
 		library(pkgmaker)
-#		library(methods)
         if( !requireNamespace('devtools', quietly = TRUE) ) 
                 stop("Package 'devtools' is required to generate a package Makefile")
 						
