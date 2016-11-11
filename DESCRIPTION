@@ -31,7 +31,8 @@ Imports:
     codetools,
     digest,
     stringr,
-    xtable
+    xtable,
+    withr
 Suggests:
     devtools (>= 0.8),
     bibtex,

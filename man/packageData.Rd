@@ -4,7 +4,7 @@
 \alias{packageData}
 \title{Loading Package Data}
 \usage{
-packageData(list, envir = .GlobalEnv, ...)
+packageData(list, envir = .GlobalEnv, ..., options = NULL)
 
 ldata(list, ...)
 }
@@ -14,6 +14,10 @@ ldata(list, ...)
   \item{envir}{the \link{environment} where the data should be loaded.}
 
   \item{...}{other arguments eventually passed to \code{\link[utils]{data}}.}
+
+  \item{options}{list of R options to set before calling \code{\link[utils]{data}}.
+This particularly useful when loading data shipped as text files using
+\code{stringsAsFactors = FALSE}.}
 }
 \value{
   the loaded data.

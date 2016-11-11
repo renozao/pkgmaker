@@ -467,23 +467,30 @@ NotImplemented <- function(msg){
 #' @param list character vector containing the names of the data to load.
 #' @inheritParams utils::data
 #' @param ... other arguments eventually passed to \code{\link[utils]{data}}.
+#' @param options list of R options to set before calling \code{\link[utils]{data}}.
+#' This particularly useful when loading data shipped as text files using 
+#' \code{stringsAsFactors = FALSE}.
 #' 
 #' @return the loaded data.
 #' 
+#' @importFrom withr with_options
 #' @export
 #' @examples 
 #' 
 #' \dontrun{ mydata <- packageData('mydata') }
 #' 
-packageData <- function(list, envir = .GlobalEnv, ...){
+packageData <- function(list, envir = .GlobalEnv, ..., options = NULL){
 	
-	# same as utils::data if no 'list' argument
-	if( missing(list) ) return( data(..., envir=envir) )
-	# load into environment
-	data(list=list, ..., envir = envir)
-	# return the loaded data
-	if( length(list) == 1L ) get(list, envir=envir)
-	else sapply(list, get, envir=envir, simplify=FALSE)
+	withr::with_options(options, {
+		# same as utils::data if no 'list' argument
+		if( missing(list) ) return( data(..., envir=envir) )
+		# load into environment
+		data(list=list, ..., envir = envir)
+		# return the loaded data
+		if( length(list) == 1L ) get(list, envir=envir)
+		else sapply(list, get, envir=envir, simplify=FALSE)
+		
+	})
 	
 }
 
