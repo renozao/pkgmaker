@@ -468,8 +468,9 @@ NotImplemented <- function(msg){
 #' @inheritParams utils::data
 #' @param ... other arguments eventually passed to \code{\link[utils]{data}}.
 #' @param options list of R options to set before calling \code{\link[utils]{data}}.
-#' This particularly useful when loading data shipped as text files using 
-#' \code{stringsAsFactors = FALSE}.
+#' This may be useful the data is shipped as an R script.
+#' @param  logical that indicates if character columns of tabular data should be 
+#' converted into factors.
 #' 
 #' @return the loaded data.
 #' 
@@ -479,7 +480,7 @@ NotImplemented <- function(msg){
 #' 
 #' \dontrun{ mydata <- packageData('mydata') }
 #' 
-packageData <- function(list, envir = .GlobalEnv, ..., options = NULL){
+packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = TRUE){
 	
 	withr::with_options(options, {
 		# same as utils::data if no 'list' argument
@@ -487,8 +488,18 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL){
 		# load into environment
 		data(list=list, ..., envir = envir)
 		# return the loaded data
-		if( length(list) == 1L ) get(list, envir=envir)
-		else sapply(list, get, envir=envir, simplify=FALSE)
+		.get <- function(x, ...){
+			res <- get(x, ...)
+			# force factors into character vectors
+			if( !stringsAsFactors && is.data.frame(res) ){
+				for(n in colnames(res)[sapply(res, is.factor)]){
+					res[[n]] <- as.character(res[[n]])
+				}
+			}
+			res
+		}
+		if( length(list) == 1L ) .get(list, envir=envir)
+		else sapply(list, .get, envir=envir, simplify=FALSE)
 		
 	})
 	

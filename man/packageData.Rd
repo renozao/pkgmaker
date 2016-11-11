@@ -4,7 +4,8 @@
 \alias{packageData}
 \title{Loading Package Data}
 \usage{
-packageData(list, envir = .GlobalEnv, ..., options = NULL)
+packageData(list, envir = .GlobalEnv, ..., options = NULL,
+  stringsAsFactors = TRUE)
 
 ldata(list, ...)
 }
@@ -16,8 +17,10 @@ ldata(list, ...)
   \item{...}{other arguments eventually passed to \code{\link[utils]{data}}.}
 
   \item{options}{list of R options to set before calling \code{\link[utils]{data}}.
-This particularly useful when loading data shipped as text files using
-\code{stringsAsFactors = FALSE}.}
+This may be useful the data is shipped as an R script.}
+
+  \item{logical}{that indicates if character columns of tabular data should be
+converted into factors.}
 }
 \value{
   the loaded data.
