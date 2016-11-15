@@ -7,7 +7,7 @@
 \alias{vmessage}
 \title{Internal verbosity option}
 \usage{
-lverbose(val)
+lverbose(val, global = FALSE)
 
 lsilent()
 
@@ -19,6 +19,9 @@ lmessage(..., level = 1L, appendLF = TRUE)
 }
 \arguments{
   \item{val}{logical that sets the verbosity level.}
+
+  \item{global}{logical that indicates if the verbose level of
+all log handlers should be set to \var{val}.}
 
   \item{...}{arguments passed to \code{...} \code{\link{cat}}}
 

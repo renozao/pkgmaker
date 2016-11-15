@@ -9,14 +9,21 @@ NULL
 
 #' Internal verbosity option
 #' @param val logical that sets the verbosity level.
+#' @param global logical that indicates if the verbose level of 
+#' all log handlers should be set to \var{val}.
+#' 
 #' @return the old verbose level   
 #' @keywords internal
 lverbose <- local({
 			.val <- NA
-			function(val){
-				if( missing(val) ) return(.val)
+			function(val, global = FALSE){
+				if( missing(val) ) return( max(getOption('pkg_verbose_level', 0L), .val) )
 				oval <- .val
 				.val <<- val
+				# set value globally
+				if( global ){
+					options(pkg_verbose_level = val)
+				}
 				invisible(oval)
 			}
 		})
