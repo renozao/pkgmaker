@@ -1044,3 +1044,81 @@ expand_dots <- function(..., .exclude=NULL){
 hasEnvar <- function(x){
 	is.na(Sys.getenv(x, unset = NA, names = FALSE))
 }
+
+
+#' Substituting Strings Against a Mapping Table
+#' 
+#' Match the elements of a character vectors against a mapping table, 
+#' that can specify multiple exact or partial matches.
+#' 
+#' @param x character vector to match
+#' @param maps mapping tables.
+#' May be a character vector, a list of character vectors or a function.
+#' @param nomatch character string to be used for non-matched elements of \code{x}.
+#' If \code{NULL}, these elements are left unchanged.
+#' @param partial logical that indicates if partial matches are allowed, 
+#' in which case mappings are used as regular expressions. 
+#' 
+#' @export
+charmap <- function(x, maps, nomatch = NULL, partial = FALSE, rev = FALSE){
+	
+	x <- as.character(x)
+	res <- setNames(as.character(rep(NA, length(x))), x)
+	if( !is.list(maps) ) maps <- list(maps)
+	for( k in seq_along(maps) ){
+		# stop as soon as all type is mapped
+		if( !length(i <- which(is.na(res))) ) break;
+		
+		# match unmapped type
+		ct <- names(res)[i]
+		map <- maps[[k]]
+		if( is.function(map) ){
+			m <- map(ct)
+			
+		}else if( is.character(map) ){
+			if( is.null(names(map)) ) map <- setNames(rep(names(maps)[k], length(map)), map)
+			m <- .charmap(ct, map, partial = partial, rev = rev)
+			
+		}else if( is.list(map) ){
+			map <- unlist2(map)
+			m <- .charmap(ct, setNames(names(map), map), partial = partial, rev = rev)
+			
+		}else stop("Invalid cell type map [", class(map), ']')
+		# update result map
+		if( !is.null(m) ) res[i] <- m
+	}
+	
+	if( anyNA(res) ){
+		i <- is.na(res)
+		if( is.null(nomatch) ) res[i] <- x[i]
+		else res[i] <- nomatch
+	}
+	res
+}
+
+
+.charmap <- function(x, map, partial = FALSE, rev = FALSE){
+	map <- if( !rev ) setNames(as.character(map), names(map))
+			else if( !is.null(names(map)) ) setNames(names(map), as.character(map))
+			else stop("Impossible to map data: the provided map has no names.")
+	
+	if( isFALSE(partial) ) i <- match(tolower(x), tolower(names(map)))
+	else if( isTRUE(partial) ){
+		i <- sapply(tolower(x), function(x){
+					m <- pmatch(tolower(names(map)), x)
+					i <- which(!is.na(m))[1L]
+					if( !length(i) ) NA else i
+				})
+	}else{
+		i <- rep(NA, length(x))
+		sapply(seq_along(map), function(j){
+					e <- names(map)[j]
+					mi <- grep(e, x)
+					if( length(mi) ) i[mi] <<- j 
+				}) 
+	}
+	ok <- !is.na(i)
+	i[ok] <- as.character(map[i[ok]])
+	as.character(i)
+}
+
