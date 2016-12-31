@@ -144,7 +144,7 @@ using_libpaths <- using_something(set_libpaths)
 # lib ------------------------------------------------------------------------
 
 set_lib <- function(paths) {
-  libpath <- normalizePath(paths, mustWork = TRUE)
+  libpath <- normalizePath(paths %||% .libPaths()[1L], mustWork = TRUE)
 
   old <- .libPaths()
   .libPaths(c(libpath, .libPaths()))
