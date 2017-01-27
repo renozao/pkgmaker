@@ -20,10 +20,10 @@ SCM: github+gran:renozao, r-forge
 LazyLoad: yes
 Depends:
     R (>= 3.0.0),
+    methods,
     stats,
     registry
 Imports:
-	methods,
     tools,
     grDevices,
     utils,
@@ -67,3 +67,4 @@ Collate:
     'vignette.R'
     'with.r'
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1.9000
