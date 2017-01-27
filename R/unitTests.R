@@ -667,12 +667,11 @@ list.tests <- function(x, pattern=NULL){
 #' @param ... extra arguments to allow extensions and are passed to 
 #' the unit framework running funcitons. 
 #'
-#' @inline
 #' @export
 setGeneric('utest', function(x, ...) standardGeneric('utest'))
-#' Run the unit test assoicated to a function. 
-#' 
 #' @param run a logical that indicates if the unit test should be run
+#' 
+#' @describeIn utest Run the unit test assoicated to a function.
 setMethod('utest', 'function',
 	function(x, run = TRUE){
 		# get actual name of the function
@@ -686,7 +685,6 @@ setMethod('utest', 'function',
 		tfun <- ls(eTest, pattern=str_c("^", sid, ":"))		
 	}
 )
-#' Run a package test suite
 #' 
 #' @param filter pattern to match files that contain the definition of 
 #' the unit tests functions to run.
@@ -696,7 +694,8 @@ setMethod('utest', 'function',
 #' @param quiet a logical that indicates if the tests should be run silently
 #' @param lib.loc path to a library where installed packages are searched for.
 #' Used is of the form \code{x='package:*'}.
-#'  
+#'
+#' @describeIn utest Run a package test suite
 setMethod('utest', 'character', 
 		function(x, filter="^runit.+\\.[rR]$", fun="^test\\.", ...
 				, testdir='tests', framework=c('RUnit', 'testthat')
@@ -810,9 +809,9 @@ setMethod('utest', 'character',
 )
 
 setOldClass('RUnitTestSuite')
-#' Runs a RUnit test suite
-#' 
+
 #' @param outdir output directory
+#' @describeIn utest Runs a RUnit test suite
 setMethod('utest', 'RUnitTestSuite',
 	function(x, ..., quiet=FALSE, outdir=NULL){
 		requireRUnit("Running RUnit test suites")
