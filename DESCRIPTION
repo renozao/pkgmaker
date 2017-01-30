@@ -37,13 +37,14 @@ Imports:
     withr
 Suggests:
     devtools (>= 0.8),
-    bibtex,
+    bibtex (>= 0.4),
+    roxygen2,
     RUnit,
     testthat,
     knitr,
     rmarkdown,
     yaml
-Collate:
+Collate: 
     'bibtex.R'
     'colors.R'
     'data.R'
@@ -63,8 +64,10 @@ Collate:
     'packages.R'
     'project.R'
     'rd.R'
+    'roxygen.R'
     'user.R'
     'vignette.R'
     'with.r'
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1.9000
+Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd", 'pkgmaker::bib_roclet'))
