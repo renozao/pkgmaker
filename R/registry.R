@@ -391,7 +391,7 @@ hasPackageRegistry <- function(regname=NULL, package){
 	isNamespaceLoaded(package) && !is.null( packageRegistry(regname, package=package, quiet=TRUE, entry=TRUE) )
 }
 
-#' @S3method format package_subregistry
+#' @export
 format.package_subregistry <- function(x, ...){
 	c(Key = x$key
 	, Description = x$description
@@ -399,19 +399,19 @@ format.package_subregistry <- function(x, ...){
 	, Parent = x$parent)	
 }
 
-#' @S3method format package_metaregistry
+#' @export
 format.package_metaregistry <- function(x, ...){
 	rec <- x$get_entries()
 	data.frame(t(sapply(rec, base::format, ...))[, -1L, drop=FALSE])	 
 }
 
-#' @S3method print package_metaregistry
+#' @export
 print.package_metaregistry <- function(x, ...){	
 	NextMethod('print') #registry:::print.registry(x)
 	print(format(x, ...))
 }
 
-#' @S3method xtable package_metaregistry 
+#' @export
 #' @importFrom xtable xtable
 xtable.package_metaregistry <- function(x, ...){
 	d <- format(x)

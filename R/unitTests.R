@@ -810,8 +810,8 @@ setMethod('utest', 'character',
 
 setOldClass('RUnitTestSuite')
 
-#' @param outdir output directory
 #' @describeIn utest Runs a RUnit test suite
+#' @param outdir output directory
 setMethod('utest', 'RUnitTestSuite',
 	function(x, ..., quiet=FALSE, outdir=NULL){
 		requireRUnit("Running RUnit test suites")

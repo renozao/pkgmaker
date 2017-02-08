@@ -326,7 +326,7 @@ str_diff <- function(x, y){
 	wres
 }
 
-#' @S3method print str_diff
+#' @export
 print.str_diff <- function(x, ...){
 	s <- attr(x, 'str')
 	n <- max(nchar(s$x), nchar(s$y))
@@ -808,7 +808,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	#
 }
 
-#' @S3method .DollarNames ExposeAttribute 
+#' @export 
 .DollarNames.ExposeAttribute <- function(x, pattern=""){ 
 	
 	att <- grep(pattern, names(attributes(x)), value=TRUE)
@@ -825,7 +825,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	names(mode)
 }
 
-#' @S3method $ ExposeAttribute
+#' @export
 `$.ExposeAttribute` <- function(x, name){
 	if( is.null(attr(x, name)) )
 		stop("Object `", deparse(substitute(x)),"` has no attribute '", name, "'.")
@@ -840,7 +840,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	
 }
 
-#' @S3method $<- ExposeAttribute
+#' @export
 `$<-.ExposeAttribute` <- function(x, name, value){
 	mode <- .getEAmode(x, name)
 	if( !length(mode) ){
@@ -853,7 +853,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	x
 }
 
-#' @S3method print ExposeAttribute
+#' @export
 print.ExposeAttribute <- function(x, ...){
 	# remove EA stuff 
 	attr_mode(x) <- NULL

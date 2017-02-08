@@ -90,7 +90,7 @@ is.package_options <- function(x){
 	is(x, 'package_options')
 }
 
-#' @S3method print package_options
+#' @export
 print.package_options <- function(x, ...){
 	cat("<Package specific options: ", x$name, ">\n", sep='')
 	cat("Registered: ", !is.null(getOption(x$name)), "\n", sep='')
@@ -295,19 +295,19 @@ as.package_options <- function(..., defaults=NULL){
 #' @param ... arguments passed to \code{getOption} (only first one is used). 
 #'  
 #' @rdname options 
-#' @S3method [[ package_options
+#' @export
 "[[.package_options" <- function(x, ...){
 	if( missing(..1) ) x$options()
 	else x$getOption(..1)
 }
 
-#' @S3method [[<- package_options
+#' @export
 "[[<-.package_options" <- function(x, i, value){
 	x$.options[[i]] <- value 
 }
 
 
-##' @S3method [[ package_options
+# #' @S3method [[ package_options
 #`[[.package_options` <- function(x, ..., follow=FALSE){
 #	
 #	if( missing(..1) ) as.list(x$.options)
@@ -316,7 +316,7 @@ as.package_options <- function(..., defaults=NULL){
 #	}else x$.options[[..1]]
 #}
 #
-##' @S3method [[<- package_options
+# #' @S3method [[<- package_options
 #`[[<-.package_options` <- function(x, i, ..., value){
 #	
 #	follow <- if( missing(..1) ) FALSE else ..1 

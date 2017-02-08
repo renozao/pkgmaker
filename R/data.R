@@ -16,7 +16,7 @@ addnames <- function(x, ...){
 	UseMethod('addnames')
 }
 
-#' @S3method addnames default
+#' @export
 #' @rdname addnames
 addnames.default <- function(x, ...){
 	if( is.vector(x) ) addnames.vector(x, ...)
@@ -30,7 +30,7 @@ addnames.default <- function(x, ...){
 #' @param sep separator used between the prefix and the numeric index. 
 #' @param ... extra arguments to allow extension and passed to the next method.
 #' 
-#' @S3method addnames vector
+#' @export
 #' @rdname addnames
 addnames.vector <- function(x, prefix='x', sep='', ...){
 	names(x) <- paste(prefix, 1:length(x), sep=sep) 
@@ -38,7 +38,7 @@ addnames.vector <- function(x, prefix='x', sep='', ...){
 } 
 
 
-#' @S3method addnames array
+#' @export
 #' @rdname addnames
 addnames.array <- function(x, prefix=letters[1:length(dim(x))], sep='', ...){
 	d <- dim(x)
@@ -51,7 +51,7 @@ addnames.array <- function(x, prefix=letters[1:length(dim(x))], sep='', ...){
 	x
 } 
 
-#' @S3method addnames matrix
+#' @export
 #' @rdname addnames
 addnames.matrix <- function(x, prefix=c('row', 'col'), ...){
 	addnames.array(x, prefix=prefix, ...)
