@@ -4,7 +4,8 @@
 ###############################################################################
 
 #' Bibliography roclet
-#' @import roxygen2
+#' 
+#' @rawNamespace if( require(roxygen2) ) import(roxygen2)
 #' @export
 #' @rdname roclet
 bib_roclet <- function() {
@@ -20,7 +21,6 @@ bib_roclet <- function() {
 #'   * \\cite: 
 #' 
 #' @rawNamespace if( require(roxygen2) ) S3method(roclet_tags,roclet_bib)
-#' @rdname roclet
 roclet_tags.roclet_bib <- function(x) {
   list(
     cite = function(x){
@@ -34,7 +34,8 @@ roclet_tags.roclet_bib <- function(x) {
       bib <- RoxyBibObject()
       bib$add_bibfile(x$val)
       NULL
-    }
+    },
+    inline = tag_toggle
   )
   
 }
@@ -43,12 +44,32 @@ roclet_tags.roclet_bib <- function(x) {
 #' @rdname roclet
 roclet_process.roclet_bib <- function(x, parsed, base_path, global_options = list()){
   
+  # build inline set
+  inline_set <- unlist(sapply(parsed$blocks, function(x){
+        if( !is.null(x$inline) && class(x$object) == 's4generic' ) as.character(x$object$value@generic)
+    }))
+  
   # get bibfile cache object
   BIBS <- RoxyBibObject(package = packageName(parsed$env))
   
   # extract citations in tag values and add them as reference tags
   for (i in seq_along(parsed$blocks)) {
     block <- parsed$blocks[[i]]
+    hash <- digest(block)
+    
+    if( class(block$object) == 's4method' && 
+        (as.character(block$object$value@generic) %||% '') %in% inline_set && 
+        is.null(block$describeIn) ){
+      # build inline description from title and description
+      descIn <- list(name = as.character(block$object$value@generic)
+                      , description = paste(block$title, if( !identical(block$description, block$title) ) block$description, sep = "\n\n"))
+      if( !length(descIn$description) ) block$rdname <- block$rdname %||% descIn$name 
+      else{
+        block$describeIn <- descIn
+        block$title <- block$description <- NULL
+      }
+    }
+    
     if (length(block) == 0)
       next
     
@@ -73,7 +94,7 @@ roclet_process.roclet_bib <- function(x, parsed, base_path, global_options = lis
     }
     
     # update in parsed block only if necessary
-    if( length(c(j_cite, j_ref)) ) parsed$blocks[[i]] <- block
+    if( digest(block) != hash ) parsed$blocks[[i]] <- block
   }
   
   # call roclet_rd process method to update the .Rd files
@@ -135,6 +156,7 @@ RoxyBib <- R6::R6Class("RoxyTopic", public = list(
   bibfiles = character(),
   bibs_loaded = character(),
   bibs = list(),
+  bibentries = list(),
   
   # constructor
   initialize = function(package = NA) {
@@ -161,7 +183,7 @@ RoxyBib <- R6::R6Class("RoxyTopic", public = list(
     path <- setdiff(self$bibfiles, self$bibs_loaded)[1L]
     if( is.na(path) ) return(FALSE)
     library(bibtex)
-    newbibs <- read.bib(file = path)
+    newbibs <- read.bib2(file = path)
     self$bibs <- if( !length(self$bibs) ) newbibs else c(self$bibs, newbibs)
     self$bibs_loaded <- c(self$bibs_loaded, path)
     TRUE
@@ -193,6 +215,10 @@ RoxyBib <- R6::R6Class("RoxyTopic", public = list(
     bibitems <- self$get_bib(key, ...)
     if( !length(bibitems) ) return(res)
     
+    # add bibitems to set of used bibitems for final output in package REFERENCES.bib
+    if( !length(self$bibitems) ) self$bibitems <- bibitems
+    else self$bibitems <- c(self$bibitems, bibitems[setdiff(names(bibitems), names(self$bibitems))])
+  
     # format accordingly
     if( !short ){
       res[names(bibitems)] <- format(bibitems)
@@ -230,3 +256,27 @@ RoxyBib <- R6::R6Class("RoxyTopic", public = list(
 #        })
 #  } 
 #})
+
+read.bib2 <- function (file = findBibFile(package), package = "bibtex", encoding = "unknown", 
+    header = if (length(preamble)) paste(preamble, sep = "\n") else "", 
+    footer = "") 
+{
+  if (!is.character(file)) {
+    stop("'read.bib' only supports reading from files, 'file' should be a character vector of length one")
+  }
+  srcfile <- switch(encoding, unknown = srcfile(file), srcfile(file, 
+          encoding = encoding))
+  out <- .External("do_read_bib", file = file, encoding = encoding, 
+      srcfile = srcfile)
+  at <- attributes(out)
+  if ((typeof(out) != "integer") || (getRversion() < "3.0.0")) 
+    out <- lapply(out, make.bib.entry)
+  else out <- list()
+  preamble <- at[["preamble"]]
+  out <- make.citation.list(out, header, footer)
+  attr(out, "strings") <- at[["strings"]]
+  keys <- lapply(out, function(x) attr(x, "key"))
+  names(out) <- keys
+  out
+}
+environment(read.bib2) <- asNamespace('bibtex')

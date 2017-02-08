@@ -64,10 +64,9 @@ Collate:
     'packages.R'
     'project.R'
     'rd.R'
-    'roxygen.R'
     'user.R'
     'vignette.R'
     'with.r'
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1.9000
-Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd", 'pkgmaker::bib_roclet'))
+RoxygenNote: 6.0.0.9000
+Roxygen: list(markdown = TRUE)
