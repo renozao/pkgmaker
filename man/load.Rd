@@ -28,7 +28,6 @@ Default Load/Unload Functions
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## onLoad
 
 # in a package namespace:
 .onLoad <- function(libname=NULL, pkgname){
@@ -37,13 +36,10 @@ options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 
 }
 
-## onUnload
-
 # in a package namespace:
 .onUnload <- function(libpath){
 
 	pkgmaker::onUnload(libpath)
 
 }
-
 }

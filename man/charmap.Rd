@@ -15,10 +15,10 @@ May be a character vector, a list of character vectors or a function.}
 \item{nomatch}{character string to be used for non-matched elements of \code{x}.
 If \code{NULL}, these elements are left unchanged.}
 
-\item{partial}{logical that indicates if partial matches are allowed, 
+\item{partial}{logical that indicates if partial matches are allowed,
 in which case mappings are used as regular expressions.}
 }
 \description{
-Match the elements of a character vectors against a mapping table, 
+Match the elements of a character vectors against a mapping table,
 that can specify multiple exact or partial matches.
 }

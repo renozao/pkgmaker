@@ -22,7 +22,7 @@ a test function with no arguments that wrapping around \code{expr}
 \description{
 The function \code{unit.test} provides a way to write unit tests embedded within
 package source files.
-These tests are stored and organised in the package namespace, and can be run using 
+These tests are stored and organised in the package namespace, and can be run using
 the unified interface provided by the function \code{link{utest}}.
 Both Runit and testthat tests are supported -- and automatically detected.
 }

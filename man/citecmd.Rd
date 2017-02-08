@@ -17,8 +17,8 @@ citecmd(key, ..., REFERENCES = NULL)
 a character string containing the text formated BibTex entries
 }
 \description{
-Create a citation command from package specific BibTex entries, suitable to 
+Create a citation command from package specific BibTex entries, suitable to
 be used in Rd files or Latex documents.
-The entries are looked in a file named REFERNCES.bib in the package's root 
+The entries are looked in a file named REFERNCES.bib in the package's root
 directory (i.e. inst/ in development mode).
 }

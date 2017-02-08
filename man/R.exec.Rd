@@ -13,7 +13,7 @@ R.CMD(cmd, ...)
 R.SHLIB(libname, ...)
 }
 \arguments{
-\item{...}{extra arguments that are concatenated and appended to 
+\item{...}{extra arguments that are concatenated and appended to
 the command.}
 
 \item{lib.loc}{logical that indicates if the current library locations

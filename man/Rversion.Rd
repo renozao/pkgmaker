@@ -14,8 +14,6 @@ Returns the complete R version, e.g. 2.15.0
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## Rversion
 Rversion()
-
 
 }

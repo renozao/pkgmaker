@@ -27,10 +27,8 @@ This function is a shortcut for \code{message(sprintf(...))}.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## messagef
 
 messagef("Hello \%s number \%i", 'world', 4)
-
 
 }
 \seealso{

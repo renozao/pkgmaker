@@ -17,7 +17,7 @@ alphacol(col, alpha = FALSE)
     values should be returned.}
 }
 \description{
-\code{alphacol} adds an alpha value to a colour specification and convert to 
+\code{alphacol} adds an alpha value to a colour specification and convert to
 a hexadecimal colour string.
 }
 \examples{
@@ -25,13 +25,11 @@ a hexadecimal colour string.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## alphacol
 
 # Alphas
 alphacol('red') # do nothing
 alphacol('red', 10)
 alphacol('#aabbcc', 5)
 alphacol(4, 5)
-
 
 }

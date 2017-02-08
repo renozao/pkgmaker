@@ -19,8 +19,8 @@ If \code{TRUE} this environment is accessible at \code{pkgname::UnitTests$test.f
 
 \item{verbose}{logical that indicates if log messages should be printed.}
 
-\item{addlib}{logical that indicates if the \code{lib/} sub-directory, if it exists, should be prepended 
-to the library path. 
+\item{addlib}{logical that indicates if the \code{lib/} sub-directory, if it exists, should be prepended
+to the library path.
 This enables to control the version of the loaded dependencies.}
 
 \item{character.only}{logical that indicates if argument \var{pkg} should be evaluated or taken litteral.}

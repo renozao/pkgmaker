@@ -15,14 +15,14 @@ expand_dots(..., .exclude = NULL)
 \item{...}{extra named arguments defining the default items.
 A list of default values can also be passed as a a single unnamed argument.}
 
-\item{.exact}{logical that indicates if the names in \code{x} should be 
+\item{.exact}{logical that indicates if the names in \code{x} should be
 partially matched against the defaults.}
 
 \item{.names}{logical that only used when \code{.exact=FALSE} and indicates
 that the names of items in \code{x} that partially match some defaults should
 be expanded in the returned list.}
 
-\item{.exclude}{optional character vector of argument names to exclude 
+\item{.exclude}{optional character vector of argument names to exclude
 from expansion.}
 }
 \value{
@@ -41,7 +41,6 @@ It can \strong{only} be called from inside a function.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## expand_list
 
 expand_list(list(a=1, b=2), c=3)
 expand_list(list(a=1, b=2, c=4), c=3)
@@ -64,8 +63,6 @@ f(c=1)
 f(a=2)
 f(c=1, a=2)
 
-
-## expand_dots
 # expanding dot arguments
 
 f <- function(...){ 
@@ -78,6 +75,5 @@ f()
 f(a=10)
 # expand names
 f(a=10, b=4)
-
 
 }

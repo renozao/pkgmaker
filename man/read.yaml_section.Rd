@@ -8,7 +8,7 @@ read.yaml_section(section, file = "~/.Rprofile", text = NULL)
 }
 \arguments{
 \item{section}{section name to lookup in the file.
-In the file this defined by paired tags \code{"#<section_name>", "#</section_name>"}, 
+In the file this defined by paired tags \code{"#<section_name>", "#</section_name>"},
 or a single tag \code{"#<section_name@file_path>"} that redirect to a YAML file.}
 
 \item{file}{path to the file to parse. Default is to parse the user's \emph{.Rprofile}.}

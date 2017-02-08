@@ -11,10 +11,10 @@ exitCheck()
 in \code{\link{on.exit}} expressions.
 }
 \details{
-It generates a function that is used wihtin a function's body to 
+It generates a function that is used wihtin a function's body to
 "flag" normal exits and in its \code{\link{on.exit}} expression
 to check the exit status of a function.
-Note that it will correctly detect errors only if all normal exit 
+Note that it will correctly detect errors only if all normal exit
 are wrapped into a call to it.
 }
 \examples{
@@ -22,7 +22,6 @@ are wrapped into a call to it.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## exitCheck
 
 # define some function
 f <- function(err){
@@ -46,6 +45,5 @@ f <- function(err){
 f(FALSE)
 # with error
 try( f(TRUE) )
-
 
 }

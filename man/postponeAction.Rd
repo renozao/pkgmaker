@@ -28,7 +28,7 @@ Currently not used.}
 \description{
 This function implement a mechanism to postpone actions, which can be executed
 at a later stage.
-This is useful when developing packages, where actions that need to be run in the 
+This is useful when developing packages, where actions that need to be run in the
 \code{link{.onLoad}} function but can be defined close to their context.
 }
 \examples{
@@ -36,7 +36,6 @@ This is useful when developing packages, where actions that need to be run in th
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## postponeAction
 opt <- options(verbose=2)
 
 # define actions
@@ -49,6 +48,5 @@ runPostponedAction()
 
 # restore options
 options(opt)
-
 
 }

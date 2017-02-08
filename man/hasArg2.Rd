@@ -10,7 +10,7 @@ hasArg2(name)
 \item{name}{the name of an argument as a character string.}
 }
 \description{
-This function is identical to \code{\link{hasArg}}, except that 
+This function is identical to \code{\link{hasArg}}, except that
 it accepts the argument name as a character string.
 This avoids to have a check NOTE about invisible binding variable.
 }
@@ -19,12 +19,10 @@ This avoids to have a check NOTE about invisible binding variable.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## hasArg2
 
 f <- function(...){ hasArg2('abc') }
 f(a=1)
 f(abc=1)
 f(b=1)
-
 
 }

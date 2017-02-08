@@ -23,7 +23,6 @@ Computes which characters differ between two strings.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## str_diff
 
 # strings to compare
 x <- "once upon a time"
@@ -40,6 +39,5 @@ str_diff(y, x)
 str_diff(x, x)
 str_diff(x, z)
 str_diff(y, z)
-
 
 }

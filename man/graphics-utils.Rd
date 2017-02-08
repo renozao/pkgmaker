@@ -13,7 +13,7 @@ mfrow(n)
 \description{
 Utility Functions for Graphics
 
-\code{mfrow} returns a 2-long numeric vector suitable to use in \code{\link{par}(mfrow=x)}, 
+\code{mfrow} returns a 2-long numeric vector suitable to use in \code{\link{par}(mfrow=x)},
 that will arrange \code{n} panels in a single plot.
 }
 \examples{
@@ -21,12 +21,10 @@ that will arrange \code{n} panels in a single plot.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## mfrow
  
 mfrow(1)
 mfrow(2)
 mfrow(3)
 mfrow(4)
 mfrow(10)
-
 }

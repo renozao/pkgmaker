@@ -18,7 +18,6 @@ static variable.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## sVariable
 
 # define variable
 x <- sVariable(1)
@@ -29,6 +28,5 @@ old <- x(3)
 old
 # get new value
 x()
-
 
 }

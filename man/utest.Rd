@@ -21,12 +21,12 @@ utest(x, ...)
 \arguments{
 \item{x}{object to which a unit test is attached}
 
-\item{...}{extra arguments to allow extensions and are passed to 
+\item{...}{extra arguments to allow extensions and are passed to
 the unit framework running funcitons.}
 
 \item{run}{a logical that indicates if the unit test should be run}
 
-\item{filter}{pattern to match files that contain the definition of 
+\item{filter}{pattern to match files that contain the definition of
 the unit tests functions to run.}
 
 \item{fun}{patter to match the test functions to run.}

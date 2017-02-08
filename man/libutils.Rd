@@ -14,7 +14,7 @@ libname(x)
 
 \item{...}{extra arguments passed to \code{\link{list.files}}.}
 
-\item{all.platforms}{a logical that indicates whether to list library files for 
+\item{all.platforms}{a logical that indicates whether to list library files for
 the current platform only (default) or all platforms (Unix, Windows, Mac).}
 
 \item{x}{a filename}
@@ -25,8 +25,8 @@ a character vector
 \description{
 Lists binary library files in a directory
 
-\code{libname} extracts library names from a path, removing the 
-directory part of the path, as well as the platform 
+\code{libname} extracts library names from a path, removing the
+directory part of the path, as well as the platform
 specific library extension.
 }
 \examples{
@@ -34,10 +34,8 @@ specific library extension.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## libname
 
 libname('mylib.so')
 libname('/some/path/somewhere/mylib.dll') 
-
 
 }

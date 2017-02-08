@@ -9,7 +9,7 @@ new2(class, ...)
 \arguments{
 \item{class}{Class name to instanciate}
 
-\item{...}{extra arguments from which slot values are extracted by exact 
+\item{...}{extra arguments from which slot values are extracted by exact
 matching of names.}
 }
 \description{
@@ -21,7 +21,6 @@ of values.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## new2
 
 setClass('A', contain='character', representation(x='numeric', y='character'))
 
@@ -40,7 +39,6 @@ new('A', list(x=1, y='other'))
 # `new2` rather use it to initialise the slots it can find in the list 
 identical(new('A', x=1), new2('A', list(x=1)))
 identical(new('A', x=1, y='other'), new2('A', list(x=1, y='other')))
-
 
 
 }

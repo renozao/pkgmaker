@@ -18,7 +18,7 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
 \arguments{
 \item{...}{extra arguments passed to \code{\link{library}} or \code{\link{require}}.}
 
-\item{msg}{error message to use, to which is appended the string 
+\item{msg}{error message to use, to which is appended the string
 \code{' requires package <pkg>'} to build the error message.}
 
 \item{package}{name of the package to load.}
@@ -38,7 +38,7 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
 
 \code{qlibrary} silently loads a package.
 
-\code{mrequire} tries loading a package with base \code{\link{require}}  
+\code{mrequire} tries loading a package with base \code{\link{require}}
 and stops with a -- custom -- error message if it fails to do so.
 }
 \examples{
@@ -46,11 +46,9 @@ and stops with a -- custom -- error message if it fails to do so.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## mrequire
 
 mrequire('Running this example', 'stringr')
 try( mrequire('Doing impossible things', 'notapackage') )
-
 
 }
 \seealso{

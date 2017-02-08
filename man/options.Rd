@@ -25,14 +25,14 @@ packageOptions(..., PACKAGE = packageName())
 listPackageOptions()
 }
 \arguments{
-\item{x}{a character string, a list or an object of class 
+\item{x}{a character string, a list or an object of class
 \code{package_options}.}
 
 \item{opts}{a list of options}
 
 \item{...}{arguments passed to \code{getOption} (only first one is used).}
 
-\item{defaults}{\code{NULL} or a list of default options 
+\item{defaults}{\code{NULL} or a list of default options
 with their values.}
 
 \item{PACKAGE}{a package name}
@@ -45,20 +45,20 @@ a character vector (possibly empty).
 
 \code{is_option_symlink} tests if \code{x} is a symbolic link option.
 
-\code{option_symlink_target} returns the end target option of a symbolic link 
+\code{option_symlink_target} returns the end target option of a symbolic link
 option \code{x}.
 
-\code{as.package_options} creates an object such as the 
+\code{as.package_options} creates an object such as the
 ones used to stores package specific options.
 
 The method \code{[[} is equivalent to \code{options()} or \code{getOption(...)}:
-e.g. \code{obj[[]]} returns the list of options defined in \code{obj}, and 
+e.g. \code{obj[[]]} returns the list of options defined in \code{obj}, and
 \code{obj[['abc']]} returns the value of option \code{'abc'}.
 
-\code{packageOptions} provides access to package specific options from a 
+\code{packageOptions} provides access to package specific options from a
 given package that were defined with \code{setupPackageOptions}, and behaves as the base function \code{\link[base]{options}}.
 
-\code{listPackageOptions} returns the names of all option 
+\code{listPackageOptions} returns the names of all option
 currently defined with \code{setupPackageOptions}.
 }
 \examples{
@@ -66,8 +66,6 @@ currently defined with \code{setupPackageOptions}.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## listPackageOptions
 listPackageOptions()
-
 
 }

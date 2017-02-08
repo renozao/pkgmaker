@@ -22,13 +22,13 @@ hook_toggle()
 
 \item{quiet}{logical that indicates if knitting should be quiet (no progress bars etc..).}
 
-\item{open}{logical, only used when \code{x} is in .Rmd format, that indicates 
-if the generated document result should be open in a browse, instead of 
+\item{open}{logical, only used when \code{x} is in .Rmd format, that indicates
+if the generated document result should be open in a browse, instead of
 being printed on screen.
 Not that a browser will not open in non-interactive sessions, and the result will
 be returned invisibly.}
 
-\item{before}{logical that indicates when the hook is being called: 
+\item{before}{logical that indicates when the hook is being called:
 before or after the chunk is processed.}
 
 \item{options}{list of current knitr chunk options}
@@ -39,14 +39,14 @@ before or after the chunk is processed.}
 \code{knit_ex} returns the generated code, although invisibly when \code{open=TRUE}.
 }
 \description{
-\code{knit_ex} is a utility function for running small knitr examples, 
+\code{knit_ex} is a utility function for running small knitr examples,
 e.g., to illustrate functionalities or issues.
 
-\code{hook_try} simply defines a function \code{try} in \code{envir} that prints 
+\code{hook_try} simply defines a function \code{try} in \code{envir} that prints
 the error message if any, and is called instead of base \code{\link{try}}.
 
 \code{hook_backspace} is a chunk hook that enables the use of backspace
-characters in the output (e.g., as used in progress bars), and still 
+characters in the output (e.g., as used in progress bars), and still
 obtain a final output as in the console.
 
 \code{hook_toggle} is a chunk hook that adds clickable elements to toggle \emph{indvidual}
@@ -57,13 +57,10 @@ code chunks in HTML documents generated from .Rmd files.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## knit_ex
 
 library(knitr)
 knit_ex("1 + 1")
 
-
-## hook_try
 
 library(knitr)
 
@@ -83,8 +80,6 @@ knit_hooks$set(try = pkgmaker::hook_try)
 try( stop('ah ah') )
 ^^^")
 
-
-## hook_backspace
 
 # Correctly formatting backspaces in chunk outputs
 tmp <- tempfile(fileext = '.Rmd')
@@ -115,8 +110,6 @@ out <- knitr::knit2html(tmp, fragment.only = TRUE)
 unlink(c(tmp, out))
 
 
-
-## hook_toggle
 
 knit_ex("
 
@@ -155,6 +148,5 @@ sample(5)
 ^^^
 
 ", open = TRUE)
-
 
 }

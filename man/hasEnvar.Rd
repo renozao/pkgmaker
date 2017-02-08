@@ -17,10 +17,8 @@ Tells if some environment variable(s) are defined.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## hasEnvar
 
 hasEnvar('_R_CHECK_TIMINGS_')
 hasEnvar('ABCD')
-
 
 }

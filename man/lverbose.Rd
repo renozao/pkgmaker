@@ -21,22 +21,22 @@ lmessage(..., level = 1L, appendLF = TRUE)
 \arguments{
 \item{val}{logical that sets the verbosity level.}
 
-\item{global}{logical that indicates if the verbose level of 
+\item{global}{logical that indicates if the verbose level of
 all log handlers should be set to \var{val}.}
 
 \item{...}{arguments passed to \code{...} \code{\link{cat}}}
 
-\item{level}{verbosity level threshold (numeric value) above which the 
-message should be printed out. 
-This threshold is compared with the current verbosity level as returned by 
+\item{level}{verbosity level threshold (numeric value) above which the
+message should be printed out.
+This threshold is compared with the current verbosity level as returned by
 \code{lverbose}.}
 
-\item{appendLF}{logical indicating if an endline character should be appended 
+\item{appendLF}{logical indicating if an endline character should be appended
 at the end of the message. Passed to \code{\link{cat}}.}
 
 \item{...}{arguments passed to \code{...} \code{\link{lmessage}} or \code{\link{cat}}}
 
-\item{appendLF}{logical indicating if an endline character should be appended 
+\item{appendLF}{logical indicating if an endline character should be appended
 at the end of the message. Passed to \code{\link{cat}}.}
 }
 \value{
@@ -51,7 +51,7 @@ Tells if verbosity is on.
 
 Prints out a message (on sdtout) if verbose mode is on.
 
-Prints out a message (on sdtout) if the verbosity level is greater than a 
+Prints out a message (on sdtout) if the verbosity level is greater than a
 given value.
 }
 \keyword{internal}

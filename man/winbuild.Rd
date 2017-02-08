@@ -24,7 +24,6 @@ Build a Windows Binary Package
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## winbuild
 \dontrun{
 
 # from source directory
@@ -33,5 +32,4 @@ winbuild('path/to/package/source/dir/')
 winbuild('PKG_1.0.tar.gz')
 
 }
-
 }

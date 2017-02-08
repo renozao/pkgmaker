@@ -20,7 +20,7 @@ ldata(list, ...)
 \item{options}{list of R options to set before calling \code{\link[utils]{data}}.
 This may be useful the data is shipped as an R script.}
 
-\item{logical}{that indicates if character columns of tabular data should be 
+\item{logical}{that indicates if character columns of tabular data should be
 converted into factors.}
 }
 \value{
@@ -39,12 +39,9 @@ It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## packageData
 
 \dontrun{ mydata <- packageData('mydata') }
 
-
-## ldata
 
 \dontrun{ 
 # in a package' source => won't issue a NOTE
@@ -52,6 +49,5 @@ myfunction function(){
 	mydata <- ldata('mydata') 
 }
 }
-
 
 }

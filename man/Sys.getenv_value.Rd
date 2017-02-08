@@ -13,7 +13,7 @@ Sys.getenv_value(name, raw = FALSE)
 the convertion of any false value to \code{FALSE}.}
 }
 \value{
-the value of the environment variable as a character string or 
+the value of the environment variable as a character string or
 \code{NA} is the variable is not defined \strong{at all}.
 }
 \description{
@@ -24,7 +24,6 @@ System Environment Variables
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## Sys.getenv_value
 
 # undefined returns FALSE
 Sys.getenv_value('TOTO')
@@ -40,6 +39,5 @@ Sys.setenv(TOTO='0'); Sys.getenv_value('TOTO')
 
 # cleanup
 Sys.unsetenv('TOTO')
-
 
 }

@@ -51,20 +51,20 @@ paths are overwritten, which you don't usually want.}
 be added in front of the current ones.}
 }
 \description{
-These functions were extracted from the \pkg{devtools} package 
+These functions were extracted from the \pkg{devtools} package
 to make them available without a dependency to \pkg{devtools}.
 }
 \details{
 \itemize{
-  \item \code{using_dir}: working directory
-  \item \code{using_collate}: collation order
-  \item \code{using_envvar}: environmental variables
-  \item \code{using_libpaths}: library paths, replacing current libpaths
-  \item \code{using_lib}: library paths, prepending to current libpaths
-  \item \code{using_locale}: any locale setting
-  \item \code{using_options}: options
-  \item \code{using_path}: PATH environment variable
-  \item \code{using_par}: graphics parameters
+\item \code{using_dir}: working directory
+\item \code{using_collate}: collation order
+\item \code{using_envvar}: environmental variables
+\item \code{using_libpaths}: library paths, replacing current libpaths
+\item \code{using_lib}: library paths, prepending to current libpaths
+\item \code{using_locale}: any locale setting
+\item \code{using_options}: options
+\item \code{using_path}: PATH environment variable
+\item \code{using_par}: graphics parameters
 }
 }
 \section{Deprecation}{
@@ -78,7 +78,6 @@ devtools 1.3
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## using_something
 getwd()
 using_dir(tempdir(), getwd())
 getwd()
@@ -90,7 +89,6 @@ Sys.getenv("HADLEY")
 using_envvar(c("A" = 1),
   using_envvar(c("A" = 2), action = "suffix", Sys.getenv("A"))
 )
-
 }
 \author{
 Hadley Wickham

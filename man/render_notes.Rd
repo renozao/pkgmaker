@@ -29,7 +29,7 @@ render_notes(input, output_format = NULL, output_options = NULL, ...,
 
 \item{.config}{location of the default options (a YAML file).
 Default behaviour is to look for file \code{'.rmarkdown.yaml'} in the user's
-home directory, or, if missing, for a yaml section \code{rmarkdown::render} 
+home directory, or, if missing, for a yaml section \code{rmarkdown::render}
 in the user's R profile.}
 }
 \description{

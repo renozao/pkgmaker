@@ -26,26 +26,26 @@ CRAN
 
 \item{version}{version number}
 
-\item{unique}{logical that indicate if duplicated urls or names should be 
+\item{unique}{logical that indicate if duplicated urls or names should be
 removed.}
 }
 \description{
-\code{setBiocMirror} sets all Bioconductor repositories (software, data, 
+\code{setBiocMirror} sets all Bioconductor repositories (software, data,
 annotation, etc.).
 so that they are directly available to \code{\link{install.packages}}.
-It differs from \code{\link{chooseBioCmirror}} in that it effectively enables 
+It differs from \code{\link{chooseBioCmirror}} in that it effectively enables
 the repositories.
 
-\code{getBiocMirror} is a shortcut for \code{getOption('BioC_mirror')}, which 
+\code{getBiocMirror} is a shortcut for \code{getOption('BioC_mirror')}, which
 returns the current Bioconductor mirror as used by \code{biocLite}.
 
-\code{getBiocRepos} returns urls to all Bioconductor repositories on a 
+\code{getBiocRepos} returns urls to all Bioconductor repositories on a
 given mirror.
 
 \code{setCRANMirror} sets the preferred CRAN mirror.
 
-\code{CRAN} simply contains the url of CRAN main mirror 
-(\url{http://cran.r-project.org}), and aims at simplifying its use, e.g., in 
+\code{CRAN} simply contains the url of CRAN main mirror
+(\url{http://cran.r-project.org}), and aims at simplifying its use, e.g., in
 calls to \code{\link{install.packages}}.
 }
 \examples{
@@ -53,10 +53,8 @@ calls to \code{\link{install.packages}}.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## CRAN
 \dontrun{
 install.packages('pkgmaker', repos=CRAN)
 }
-
 }
 \keyword{datasets}

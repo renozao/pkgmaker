@@ -13,7 +13,7 @@ be assigned in \code{envir}.}
 \item{envir}{environment where to store the registry object.
 Defaults to the caller's top environment.}
 
-\item{verbose}{logical that toggle a verbose message when 
+\item{verbose}{logical that toggle a verbose message when
 the object is first created.}
 }
 \description{

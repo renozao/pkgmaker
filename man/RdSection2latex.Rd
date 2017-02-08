@@ -16,13 +16,13 @@ RdSection2latex(topic, package, i = 1L, notitle = TRUE)
 \item{notitle}{logical that indicates if the section's title should be removed}
 }
 \description{
-This function extract sections from Rd files and convert them into 
-LaTeX code. 
-This can be useful to include Rd text into vignettes, hence keeping them 
+This function extract sections from Rd files and convert them into
+LaTeX code.
+This can be useful to include Rd text into vignettes, hence keeping them
 up to date.
 }
 \section{Example section}{
- This is a nice section, with a bullet list: 
+ This is a nice section, with a bullet list:
 \itemize{
 \item tata
 \item toto
@@ -34,8 +34,6 @@ up to date.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## RdSection2latex
 RdSection2latex('RdSection2latex', package = 'pkgmaker')
-
 
 }

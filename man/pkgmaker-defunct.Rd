@@ -11,6 +11,6 @@ write.bib(...)
 \item{...}{extra arguments}
 }
 \description{
-These functions have been defunct or superseded by other 
+These functions have been defunct or superseded by other
 functions.
 }

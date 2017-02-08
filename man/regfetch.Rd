@@ -20,10 +20,10 @@ pkgreg_remove(regname, ..., msg = NULL, where = topenv(parent.frame()),
 \item{...}{key value(s) to look up.
 If multiple indexes are used, then the primary key should come first.}
 
-\item{all}{logical to indicate if hidden keys (starting with a '.') should be 
+\item{all}{logical to indicate if hidden keys (starting with a '.') should be
 returned and output in message.}
 
-\item{error}{a logical that indicates if an error should be thrown if the key has no match 
+\item{error}{a logical that indicates if an error should be thrown if the key has no match
 or multiple matches}
 
 \item{exact}{a logical that indicates if matching should be exact or partial.
@@ -43,14 +43,14 @@ If not missing, then arguments in \code{...} are discarded.}
 
 \item{where}{package name or namespace that owns the registry.}
 
-\item{quiet}{a logical that indicates if the operation should be performed quietly, 
+\item{quiet}{a logical that indicates if the operation should be performed quietly,
 without throwing errors or warnings.}
 }
 \description{
-This function provides extra control on how entries are queried 
+This function provides extra control on how entries are queried
 from a \code{\link[registry:regobj]{registry}} object.
 
-\code{pkgreg_fetch} loads the requested package registry and uses \code{regfetch} 
+\code{pkgreg_fetch} loads the requested package registry and uses \code{regfetch}
 to retrieve data from it.
 
 \code{pkgreg_remove} removes an entry from a package registry.

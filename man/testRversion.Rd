@@ -10,7 +10,7 @@ testRversion(x, test = 1L)
 \item{x}{target version to compare with.}
 
 \item{test}{numeric value that indicates the comparison to be carried out.
-The comparison is based on the result from 
+The comparison is based on the result from
 \code{utils::compareVersion(R.version, x)}:
 \itemize{
 \item 1: is R.version > \code{x}?
@@ -22,7 +22,7 @@ The comparison is based on the result from
 a logical
 }
 \description{
-Compares current R version with a given target version, which may be useful  
+Compares current R version with a given target version, which may be useful
 for implementing version dependent code.
 }
 \examples{
@@ -30,7 +30,6 @@ for implementing version dependent code.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## testRversion
 
 testRversion("2.14")
 testRversion("2.15")
@@ -39,6 +38,5 @@ testRversion("10", test = -1)
 testRversion("< 10")
 testRversion(Rversion())
 testRversion(paste0('=', Rversion()))
-
 
 }

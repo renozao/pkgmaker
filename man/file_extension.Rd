@@ -19,13 +19,11 @@ Extract File Extension
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## file_extension
 
 file_extension('alpha.txt')
 file_extension(paste('aa.tt', 1:5, sep=''))
 # change extension
 file_extension(paste('aa.tt', 1:5, sep=''), 'pdf')
 file_extension(paste('aatt', 1:5, sep=''), 'pdf')
-
 
 }

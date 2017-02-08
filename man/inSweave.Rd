@@ -17,12 +17,10 @@ Tells if the current code is being executed within a Sweave document.
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## inSweave
 
 # Not in a Sweave document 
 inSweave()
 
 # Within a Sweave document
-
 
 }

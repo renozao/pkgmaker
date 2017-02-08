@@ -37,7 +37,7 @@ with \code{packageExtra(name, ...)}}
 \item{...}{extra arguments passed to internal function calls.
 In \code{packageExtraHandler}, these are passed to \code{\link{pkgreg_fetch}}.
 
-In \code{setPackageExtra}, these define default arguments for the handler function. 
+In \code{setPackageExtra}, these define default arguments for the handler function.
 These are overwritten by arguments in the call to runner function if any.}
 
 \item{extra}{name of the extra action.}
@@ -57,32 +57,32 @@ as built by \code{packageExtraRunner}.
 }
 \description{
 These functions define a framework to register actions for which default sets of arguments
-can be defined when (lazy-)loading a package, and run later on, e.g., after the package 
+can be defined when (lazy-)loading a package, and run later on, e.g., after the package
 is installed using dedicated commands.
 
-\code{setPackageExtraHandler} defines main action handler functions, for which 
+\code{setPackageExtraHandler} defines main action handler functions, for which
 actions are defined as a set of arguments and registered using \code{setPackageExtra}.
 
 \code{packageExtraHandler} retrieves a given handler from the registry.
 
 For example, calling \code{setPackageExtra('install', pkgs='non_CRAN_pkg', repos='http://non-standard-repo')}
-in a source file of package 'myPkg' registers the call 
+in a source file of package 'myPkg' registers the call
 \code{install.packages('non_CRAN_pkg', repos='http://non-standard-repo', ...)}
-in a registry internal to the package. 
+in a registry internal to the package.
 All calls to \code{setPackageExtra('install', ...)} can then be run by the user, as
 a post installation step via \code{install.extrapackages('myPkg', ..)}.
 
 \code{packageExtra} retrieve a given extra action, either as its registry entry,
 or as a function that would perform the given action.
 
-\code{packageExtraRunner} defines a function to run all or some of the actions registered 
+\code{packageExtraRunner} defines a function to run all or some of the actions registered
 for a given handler in a given package.
-For example, the function \code{install.extrapackages} is the runner defined for the extra handler \code{'install'} 
+For example, the function \code{install.extrapackages} is the runner defined for the extra handler \code{'install'}
 via \code{packageExtraRunner('install')}.
 
 \code{install.extrapackages} runs all extra actions registered for a given package.
 
-\code{install.extrapackages} is defined as the extra handler for 
+\code{install.extrapackages} is defined as the extra handler for
 the extra action handler \code{'install.packages'}.
 All arguments in \code{...} are passed to \code{\link{install.packages}}.
 By default, packages that are already installed are not re-installed.

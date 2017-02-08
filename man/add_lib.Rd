@@ -16,7 +16,7 @@ rather than prepended.}
 Prepend/append paths to the library path list, using \code{\link{.libPaths}}.
 }
 \details{
-This function is meant to be more convenient than \code{.libPaths}, which requires 
+This function is meant to be more convenient than \code{.libPaths}, which requires
 more writing if one wants to:
 \itemize{
 \item sequentially add libraries;
@@ -29,7 +29,6 @@ more writing if one wants to:
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 }
 
-## add_lib
 ol <- .libPaths()
 # called sequentially, .libPaths only add the last library
 show( .libPaths('.') )
@@ -50,6 +49,5 @@ show( add_lib('..', append=TRUE) )
 
 # restore 
 .libPaths(ol)
-
 
 }
