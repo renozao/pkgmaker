@@ -19,7 +19,7 @@ isDevNamespace(ns)
 
 addNamespaceExport(x)
 
-ns_get(x, ns)
+ns_get(x, ns = NULL)
 }
 \arguments{
 \item{env}{logical that indicates that the namespace's environment (i.e. the

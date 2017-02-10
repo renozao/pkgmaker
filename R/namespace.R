@@ -166,7 +166,11 @@ addNamespaceExport <- function(x){
 #' \code{ns_get} gets an object from a given namespace.
 #' @rdname namespace
 #' @export
-ns_get <- function(x, ns){
-    if( !isNamespace(ns) ) ns <- asNamespace(ns)
-    get(x, ns)
+ns_get <- function(x, ns = NULL){
+  if( is.null(ns) ){
+    ns <- gsub("^([^:]+)::.*", "\\1", x)
+    x <- gsub(".*::([^:]+)$", "\\1", x)
+  }
+  if( !isNamespace(ns) ) ns <- asNamespace(ns)
+  get(x, ns)
 }
