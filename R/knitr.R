@@ -213,7 +213,7 @@ hook_backspace <- chunkOutputHook('backspace',
         }
 )
 
-#' \code{str_bs} substitutes backspace characters (\\b) to produce
+#' \code{str_bs} substitutes backspace characters (`\\b`) to produce
 #' a character string as it would be displayed in the console.
 #'
 #' @author
