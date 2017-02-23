@@ -70,9 +70,9 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 		}else nsInfo$pkgname
 		
 	}else if( !nodev ){ # devtools namespaces are allowed
-    if( (is_pkgcall('devtools') && (i <- is_funcall(devtools::load_all))) ||
-        (is_pkgcall('pkgload') && (i <- is_funcall(pkgload::load_all))) || # for devtools > 1.12
-        is_pkgcall('roxygen24') && (i <- is_funcall(ns_get('source_package', 'roxygen24'))) ){
+    if( (is_pkgcall('devtools') && (i <- is_funcall(ns_get('devtools::load_all')))) ||
+        (is_pkgcall('pkgload') && (i <- is_funcall(ns_get('pkgload::load_all')))) || # for devtools > 1.12
+        (is_pkgcall('roxygen24') && (i <- is_funcall(ns_get('roxygen24::source_package')))) ){
 			# find out the package that is currently being loaded by load_all
 			e <- sys.frame(i)
 			pkg <- e$pkg
@@ -164,13 +164,17 @@ addNamespaceExport <- function(x){
 }
 
 #' \code{ns_get} gets an object from a given namespace.
+#' @param ... extra arguments passed to [get0].
 #' @rdname namespace
 #' @export
-ns_get <- function(x, ns = NULL){
+ns_get <- function(x, ns = NULL, ...){
   if( is.null(ns) ){
     ns <- gsub("^([^:]+)::.*", "\\1", x)
     x <- gsub(".*::([^:]+)$", "\\1", x)
   }
-  if( !isNamespace(ns) ) ns <- asNamespace(ns)
-  get(x, ns)
+  if( !isNamespace(ns) ){
+    ns <- tryCatch(asNamespace(ns), error = function(e) NULL)
+    if( is.null(ns) ) return()
+  }
+  get0(x, envir = ns, ...)
 }

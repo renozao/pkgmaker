@@ -118,8 +118,9 @@ load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, 
 		if( length(f) ){
 #			if( !requireNamespace('RUnit') ) stop("Missing required dependency 'RUnit' to load unit tests")
 			# create unit test environment
-			utest_env <- new.env(parent = devtools::ns_env(devpkg))
-			assign('UnitTests', utest_env, devtools::ns_env(devpkg))
+      ns_env <- getDevtoolsFunction('ns_env')
+			utest_env <- new.env(parent = ns_env(devpkg))
+			assign('UnitTests', utest_env, ns_env(devpkg))
 			# source test files in separate sub-environments
 			sapply(f, function(f){
 						e <- new.env(parent = utest_env)
@@ -136,6 +137,13 @@ load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, 
 	invisible(devpkg)
 }
 
+getDevtoolsFunction <- function(name){
+  
+  if( qrequire('devtools') && !is.null(fun <- ns_get(name, 'devtools')) ) return(fun)
+  if( qrequire('pkgload') && !is.null(fun <- ns_get(name, 'pkgload')) ) return(fun)
+  if( qrequire('pkgbuild') && !is.null(fun <- ns_get(name, envir = 'pkgbuild')) ) return(fun)
+  
+}
 
 is_Mac <- function(check.gui=FALSE){
 	is.mac <- (length(grep("darwin", R.version$platform)) > 0)
