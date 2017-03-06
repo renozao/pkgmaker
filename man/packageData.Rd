@@ -20,7 +20,7 @@ ldata(list, ...)
 \item{options}{list of R options to set before calling \code{\link[utils]{data}}.
 This may be useful the data is shipped as an R script.}
 
-\item{logical}{that indicates if character columns of tabular data should be
+\item{stringsAsFactors}{logical that indicates if character columns of tabular data should be
 converted into factors.}
 }
 \value{

@@ -74,7 +74,7 @@ It typically formats the output \code{capture.output(args(object))}.
 
 \code{str_hash} computes hash of a character vector using \code{\link[digest]{digest}}.
 
-\code{str_bs} substitutes backspace characters (\b) to produce
+\code{str_bs} substitutes backspace characters (\code{\\b}) to produce
 a character string as it would be displayed in the console.
 }
 \examples{

@@ -4,7 +4,6 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
-#' @include unitTests.R
 #' @include devutils.R
 NULL
 
@@ -151,26 +150,6 @@ option_symlink_target <- function(x, opts){
 	x
 	
 }
-
-# unit test for option symbolic links
-unit.test('option_symlink', {
-
-	opt <- setupPackageOptions(a=1,b=2,c=option_symlink('a'),d=4)
-	
-	.test <- function(msg){
-		checkIdentical(names(opt$options('a')), 'a', paste(msg, " - options: name of target is ok"))
-		checkIdentical(names(opt$options('c')), 'c', paste(msg, " - options: name of link is ok"))
-		checkIdentical(opt$options('c'), setNames(opt$options('a'), 'c'), paste(msg, " - options: link ok"))
-		checkIdentical(opt$getOption('a'), opt$getOption('c'), paste(msg, " - getOption: link ok"))
-	}
-	
-	.test('Default')
-	opt$options(a=100)
-	.test('After setting target')
-	opt$options(c=50)
-	.test('After setting link')
-			
-})
 
 #' \code{as.package_options} creates an object such as the 
 #' ones used to stores package specific options.

@@ -2,9 +2,12 @@
 % Please edit documentation in R/logging.R
 \name{messagef}
 \alias{messagef}
-\title{Generate Formated Message}
+\alias{wnote}
+\title{General Log Formating}
 \usage{
 messagef(fmt, ..., domain = NULL, appendLF = TRUE)
+
+wnote(..., immediate. = TRUE)
 }
 \arguments{
 \item{fmt}{a character vector of format strings, each of up to 8192 bytes.}
@@ -17,11 +20,20 @@ messagef(fmt, ..., domain = NULL, appendLF = TRUE)
 
 \item{appendLF}{logical: should messages given as a character string
     have a newline appended?}
+
+\item{immediate.}{logical, indicating if the call should be output
+    immediately, even if \code{\link{getOption}("warn") <= 0}.}
 }
 \description{
 Generate a formatted diagnostic message.
 This function is a shortcut for \code{message(sprintf(...))}.
 }
+\section{Functions}{
+\itemize{
+\item \code{wnote}: throws a simple note as an immediate warning.
+It is a shorcut for \code{warning(..., immediate. = TRUE, call. = FALSE)}.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

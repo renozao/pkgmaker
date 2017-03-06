@@ -4,10 +4,48 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
+#' @include utils.R
 #' @include namespace.R
-#' @include unitTests.R
-#' @include logging.R
 NULL
+
+# taken from AnnotationDbi
+make.name.tree <- function (x, recursive, what.names) 
+{
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  .make.name.tree.rec <- function(x, parent_name, depth) {
+    if (length(x) == 0) 
+      return(character(0))
+    x_names <- names(x)
+    if (is.null(x_names)) 
+      x_names <- rep.int(parent_name, length(x))
+    else if (what.names == "full") 
+      x_names <- paste0(parent_name, x_names)
+    else x_names[x_names == ""] <- parent_name
+    if (!is.list(x) || (!recursive && depth >= 1L)) 
+      return(x_names)
+    if (what.names == "full") 
+      x_names <- paste0(x_names, ".")
+    lapply(seq_len(length(x)), function(i) .make.name.tree.rec(x[[i]], 
+              x_names[i], depth + 1L))
+  }
+  .make.name.tree.rec(x, "", 0L)
+}
+
+.unlist2 <- function (x, recursive = TRUE, use.names = TRUE, what.names = "inherited") 
+{
+  ans <- unlist(x, recursive, FALSE)
+  if (!use.names) 
+    return(ans)
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  names(ans) <- unlist(make.name.tree(x, recursive, what.names), 
+      recursive, FALSE)
+  ans
+}
+unlist2 <- ns_get('AnnotationDbi::unlist2') %||% .unlist2
 
 set_libPaths <- function(lib.loc=NULL){
   ol <- Sys.getenv('R_LIBS')
@@ -469,7 +507,7 @@ NotImplemented <- function(msg){
 #' @param ... other arguments eventually passed to \code{\link[utils]{data}}.
 #' @param options list of R options to set before calling \code{\link[utils]{data}}.
 #' This may be useful the data is shipped as an R script.
-#' @param  logical that indicates if character columns of tabular data should be 
+#' @param stringsAsFactors logical that indicates if character columns of tabular data should be 
 #' converted into factors.
 #' 
 #' @return the loaded data.

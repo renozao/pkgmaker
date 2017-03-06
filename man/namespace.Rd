@@ -19,7 +19,7 @@ isDevNamespace(ns)
 
 addNamespaceExport(x)
 
-ns_get(x, ns = NULL)
+ns_get(x, ns = NULL, ...)
 }
 \arguments{
 \item{env}{logical that indicates that the namespace's environment (i.e. the
@@ -36,6 +36,8 @@ If missing \code{isLoadingNamespace} test if any namespace is being loaded.}
 
 \item{x}{character vector containing the names of R objects to export in the
 loading namespace.}
+
+\item{...}{extra arguments passed to \link{get0}.}
 }
 \value{
 the name of the loading namespace if \code{env} and \code{info} are
