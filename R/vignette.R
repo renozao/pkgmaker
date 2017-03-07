@@ -229,6 +229,46 @@ latex_bibliography <- function(PACKAGE, file=''){
     else cmd
 }
 
+#' Generate RMarkdown Vignette Axiliary Files
+#' 
+#' @details
+#' To use this feature add the following in your YAML header:
+#' ```
+#' header-includes:
+#'   - \input{"`r pkgmaker::make_vignette_auxfiles('pkgmaker')`"}
+#' bibliography: library.bib
+#' ```
+#' 
+#' @param input vignette source file.
+#' If `NULL` then the current file is obtained via a call to [knitr::current_input].
+#' @inheritParams latex_preamble
+#' @param bibfile output file for R package citations.
+#' @param Rpkg.prefix prefix to use when generating the bibtex entries of cited R packages.
+#' If `Rpkg.prefix = 'Rpackage_'`, then Rmardown citations should be `@@Rpackage_mypkg`.
+#' @param ... other arguments passed to [latex_preamble]
+#' @export
+#' 
+make_vignette_auxfiles <- function(PACKAGE, input = NULL, bibfile = 'library.bib', Rpkg.prefix = 'Rpackage_', ...){
+  
+  if( !requireNamespace('knitr') )
+    stop("Missing dependency: package 'knitr' is required to create vignette auxiliary files")
+  input <- input %||% knitr::current_input()
+  # copy package reference bibfile
+  ref <- packageReferenceFile(PACKAGE)
+  if( file.exists(ref) ) file.copy(ref, bibfile, overwrite = TRUE)
+  
+  # append bib entries for R packages
+  pkgs_cite <- parsePackageCitation(readLines(input)); 
+  write.pkgbib(gsub('^Rpackage_', '', pkgs_cite), file = bibfile, prefix = Rpkg.prefix, append = TRUE)
+  
+  # generate header file
+  header_file <- tempfile(paste0(basename(knitr::current_input()), '_header'), fileext = '.tex')
+  latex_preamble(..., file = header_file, biblatex = FALSE)
+  
+  # return header file
+  header_file
+}
+
 is.rnw <- function(x){
 	is(x, 'rnw')
 }
@@ -569,18 +609,17 @@ parsePackageCitation <- function(x){
     x <- gsub(".*[^%]* *\\\\begin\\{document\\}(.*)", "\\1", x)
     cite <- .parse(x, "\\\\cite((CRAN)|(BioC)|(BioCAnn))?pkg[*]?\\{([^}]*)\\}", 6L)
     # \cite{Rpackage:pkgname, ...} - like
-	cite2 <- .parse(x, "\\\\cite[^{ ]*\\{([^}]*)\\}", 2L)
+	cite2 <- .parse(x, "\\\\(no)?cite[^{ ]*\\{([^}]*)\\}", 3L)
     if( length(cite2) ){
- 		cite2 <- .parse(cite2, '.*Rpackage:([^,}]+).*', 2L)
+ 		cite2 <- .parse(cite2, 'Rpackage:([^,} ]+)', 2L)
 		cite <- c(cite, cite2)
 	}
 	# remove Rpackage prefix
 	if( length(cite) ){
-        cite <- unlist(strsplit(cite, ","))
+        cite <- str_trim(unlist(strsplit(cite, ",")))
         cite <- gsub('^Rpackage:', '', cite)
 	}
-	
-    inc <- character()
+	  inc <- character()
 	if( length(cite) > 0L ){
 		inc <- unique(str_trim(unlist(strsplit(cite, ","))))
     }
