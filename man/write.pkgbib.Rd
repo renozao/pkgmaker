@@ -58,7 +58,7 @@ unlink(c('references.bib', 'references2.bib'))
 
 }
 \references{
-\emph{\link{R} Creating bibtex file of all installed packages?}
+\emph{Creating bibtex file of all installed packages?}
 Achim Zeileis. R-help mailing list.
 \url{https://stat.ethz.ch/pipermail/r-help/2009-December/415181.html}
 }
