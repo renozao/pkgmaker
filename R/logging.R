@@ -355,14 +355,15 @@ wnote <- function(..., immediate. = TRUE){
 #' @examples 
 #' 
 #' progress <- iterCount(LETTERS)
-#' sapply(LETTERS, function(x){
-#'  sleep(.1)
+#' res <- sapply(LETTERS, function(x){
+#'  Sys.sleep(.1)
 #' 	progress()
 #' })
 #' # terminate counter
-#' progress(NULL) 
+#' i_end <- progress(NULL)
+#' i_end 
 #' 
-iterCount <- function(n=100, i0=0, title='Iterations', extra = NULL, verbose = TRUE){
+iterCount <- function(n = 100, i0 = 0L, title = 'Iterations', extra = NULL, verbose = TRUE){
   
   if( !verbose ) return( function(...) NULL )
   
@@ -377,7 +378,7 @@ iterCount <- function(n=100, i0=0, title='Iterations', extra = NULL, verbose = T
   .msg_fmt <- sprintf("%s%%%ii/%i", title, size_i, n)
   
   inc_msg <- function(i, addon = extra[i]){
-    if( is.null(addon) || is.na(addon) ) sprintf(.msg_fmt, i)
+    if( !length(addon) || is.na(addon) ) sprintf(.msg_fmt, i, '')
     else paste0(sprintf(.msg_fmt, i, addon))
   }
   
@@ -401,10 +402,13 @@ iterCount <- function(n=100, i0=0, title='Iterations', extra = NULL, verbose = T
     if( missing(i) ) i <- .i
     else if( is.null(i) ){
       if( .i < n ) cat("\n")
-      return()
+      i_stop <- .i
+      .i <<- i0
+      return(invisible(i_stop))
     }
-    .cat_msg(paste0(.back, inc_msg(i)))
-    if( appendLF ) cat("\n")
     .i <<- i+1
+    .cat_msg(paste0(.back, inc_msg(.i)))
+    if( appendLF ) cat("\n")
+    invisible(.i)
   }
 }

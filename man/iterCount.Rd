@@ -4,7 +4,7 @@
 \alias{iterCount}
 \title{Simple Text Iteration Counter}
 \usage{
-iterCount(n = 100, i0 = 0, title = "Iterations", extra = NULL,
+iterCount(n = 100, i0 = 0L, title = "Iterations", extra = NULL,
   verbose = TRUE)
 }
 \arguments{
@@ -28,11 +28,12 @@ options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
 
 
 progress <- iterCount(LETTERS)
-sapply(LETTERS, function(x){
- sleep(.1)
+res <- sapply(LETTERS, function(x){
+ Sys.sleep(.1)
 	progress()
 })
 # terminate counter
-progress(NULL) 
+i_end <- progress(NULL)
+i_end 
 
 }
