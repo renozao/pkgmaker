@@ -5,7 +5,7 @@
 \title{Load Development Package}
 \usage{
 load_project(pkg, reset = FALSE, ..., utests = TRUE, verbose = FALSE,
-  addlib = TRUE, character.only = FALSE)
+  addlib = TRUE, character.only = FALSE, try.library = FALSE)
 }
 \arguments{
 \item{pkg}{name of the package/project to load.}
@@ -24,6 +24,9 @@ to the library path.
 This enables to control the version of the loaded dependencies.}
 
 \item{character.only}{logical that indicates if argument \var{pkg} should be evaluated or taken litteral.}
+
+\item{try.library}{logicatl that indicates if projects that could not be found should be looked up in
+the installed packages.}
 }
 \description{
 Load Development Package

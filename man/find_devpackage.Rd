@@ -4,12 +4,27 @@
 \alias{find_devpackage}
 \title{Find Path to Development Package Root Directory}
 \usage{
-find_devpackage(x)
+find_devpackage(x, error = TRUE)
 }
 \arguments{
 \item{x}{name of the development package to lookup.}
+
+\item{error}{logical that indicates if an error is thrown when the project root directory
+could not be found.}
 }
 \description{
 Development packages are looked-up according to rules
 defined in a file \code{.Rpackages} in the user's home directory.
 }
+\section{Specification of package path}{
+
+Package paths are specified in a list with:
+\itemize{
+\item unnamed elements: character strings give path to directories to lookup for sub-directories that match
+exactly the package's name;
+\item named element containing character strings: these are paths that are looked up only for packages that
+match the element name. If the element name contains any of the characters \code{*?()$^\\][}, then it is matched using
+regular expression.
+}
+}
+

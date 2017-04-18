@@ -8,14 +8,15 @@ is_pattern <- function(x){
   grepl('[*^?)$([]', x)
 }
 # match with exact or regular expression lookup
-match_mix <- function(x, table, nomatch = NA_integer_){
+match_mix <- function(x, table, nomatch = NA_integer_, ignore.case = FALSE){
   
   # find regular expression patterns
   is_reg <- is_pattern(table)
-  hit <- match(x, table[!is_reg], nomatch = nomatch)
+  case <- function(x) if( ignore.case ) tolower(x) else x
+  hit <- match(case(x), case(table[!is_reg]), nomatch = nomatch)
   
   if( any(is_reg) ){
-    reg_match <- unlist_(sapply(table[is_reg], grep, x, simplify = FALSE))
+    reg_match <- unlist_(sapply(table[is_reg], grep, x, ignore.case = ignore.case, simplify = FALSE))
     reg_match <- reg_match[!duplicated(reg_match)]
     hit[reg_match] <- pmin(hit[reg_match], match(names(reg_match), table), na.rm = TRUE)
     
@@ -63,8 +64,10 @@ is_package_path <- function(x, error = FALSE) {
 #' regular expression.
 #' 
 #' @param x name of the development package to lookup.
+#' @param error logical that indicates if an error is thrown when the project root directory 
+#' could not be found.
 #' @export
-find_devpackage <- function (x) 
+find_devpackage <- function(x, error = TRUE) 
 {
 	
 	
@@ -83,7 +86,7 @@ find_devpackage <- function (x)
   lookup <- lookup[!names(lookup) %in% 'default']
   
   # check for a match
-  i <- c(match_mix(x, names(lookup)), which(names(lookup) %in% ''))
+  i <- c(match_mix(x, names(lookup), ignore.case = TRUE), which(names(lookup) %in% ''))
   if( length(i) ){
       reg_spec <- is_pattern(names(lookup))
       for(k in i){
@@ -120,11 +123,13 @@ find_devpackage <- function (x)
   
   if( !is.null(default_lookup) ) {
 		default_loc <- default_lookup(x)
-		if (is_package_path(default_loc, error = TRUE)) {
+		if ( is_package_path(default_loc, error = error) ) {
       message("Loading path resolved by default lookup")
 			return(default_loc)
 		}
 	}
+  
+  if( error ) message("Could not find package directory for project ", x) 
 	NULL
 }
 
@@ -140,24 +145,37 @@ find_devpackage <- function (x)
 #' to the library path. 
 #' This enables to control the version of the loaded dependencies.
 #' @param character.only logical that indicates if argument \var{pkg} should be evaluated or taken litteral. 
+#' @param try.library logicatl that indicates if projects that could not be found should be looked up in 
+#' the installed packages.
 #' 
 #' @export 
-load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, addlib=TRUE, character.only = FALSE) {
+load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, addlib=TRUE, character.only = FALSE, try.library = FALSE) {
 	
-	if( !requireNamespace('devtools') ){
-		stop("Could not load package: required package 'devtools' is not installed.")
-	}
 	if( !character.only ){
 		pkg <- deparse(substitute(pkg))
 		pkg <- sub("^\"(.*)\"$", "\\1", pkg)
 	}
 	
-	devpkg_path <- find_devpackage(pkg)
-	if( !is.character(devpkg_path) ) pkg <- tolower(pkg)
-	else pkg <- devpkg_path 
-	
+  # lookup dev package root directory
+	devpkg_path <- find_devpackage(pkg, error = !try.library)
+  # load from installed pacakges if not found and requested
+  if( is.null(devpkg_path) ){
+    if( !try.library ) return(invisible())
+    message(sprintf("Trying to load installed package %s ... ", pkg), appendLF = FALSE)
+    library(pkg, character.only = TRUE, quietly = TRUE)
+    message('OK')
+    return(invisible())
+    
+  }
+  
+	pkg <- devpkg_path 
+
+  if( !requireNamespace('devtools') ){
+    stop("Could not load package: required package 'devtools' is not installed.")
+  }
+  
 	# add ../lib to the path if necessary
-	if( addlib && is.character(tp <- find_devpackage(pkg)) ){
+	if( addlib && is.character(tp <- pkg) ){
 		tp <- as.package(tp)
 		pdir <- normalizePath(file.path(dirname(tp$path), "lib"), mustWork=FALSE)
 		if( file_test('-d', pdir) && !is.element(pdir, .libPaths()) ){
