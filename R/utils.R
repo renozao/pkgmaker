@@ -1163,3 +1163,68 @@ gfile <- function(filename, width, height, ...){
   }
   do.call('f', args)	
 }
+
+#' Flatten a List Conserving Names 
+#' 
+#' `unlist2` is a replacement for [base::unlist] that does not mangle the names.
+#' 
+#' Use this function if you don't like the mangled names returned by the standard `unlist` function from the base package. 
+#' Using `unlist` with annotation data is dangerous and it is highly recommended to use `unlist_` instead.
+#' 
+#' @inheritParams AnnotationDbi::unlist2
+#' 
+#' @author Herve Pages
+#' @source Bioconductor AnnotationDbi::unlist2
+#' @export
+#' @examples 
+#' x <- list(A=c(b=-4, 2, b=7), B=3:-1, c(a=1, a=-2), C=list(c(2:-1, d=55), e=99))
+#' unlist(x)
+#' unlist_(x)
+#' 
+#' # annotation maps (as in AnnotationDbi objects
+#' egids2pbids <- list('10' = 'a', '100' = c('b', 'c'), '1000' = c('d', 'e'))
+#' egids2pbids
+#' 
+#' unlist(egids2pbids)   # 1001, 1002, 10001 and 10002 are not real
+#'                       # Entrez ids but are the result of unlist()
+#'                       # mangling the names!
+#' unlist_(egids2pbids)  # much cleaner! yes the names are not unique
+#'                       # but at least they are correct...
+#' 
+unlist_ <- function (x, recursive = TRUE, use.names = TRUE, what.names = "inherited") 
+{
+  ans <- unlist(x, recursive, FALSE)
+  if (!use.names) 
+    return(ans)
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  names(ans) <- unlist(make.name.tree(x, recursive, what.names), 
+      recursive, FALSE)
+  ans
+}
+
+# taken from Bioconductor AnnotatiobnDbi::make.name.tree
+make.name.tree <- function (x, recursive, what.names) 
+{
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  .make.name.tree.rec <- function(x, parent_name, depth) {
+    if (length(x) == 0) 
+      return(character(0))
+    x_names <- names(x)
+    if (is.null(x_names)) 
+      x_names <- rep.int(parent_name, length(x))
+    else if (what.names == "full") 
+      x_names <- paste0(parent_name, x_names)
+    else x_names[x_names == ""] <- parent_name
+    if (!is.list(x) || (!recursive && depth >= 1L)) 
+      return(x_names)
+    if (what.names == "full") 
+      x_names <- paste0(x_names, ".")
+    lapply(seq_len(length(x)), function(i) .make.name.tree.rec(x[[i]], 
+              x_names[i], depth + 1L))
+  }
+  .make.name.tree.rec(x, "", 0L)
+}
