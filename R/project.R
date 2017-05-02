@@ -220,6 +220,12 @@ load_project <- function(pkg, reset = FALSE, ..., utests = TRUE, verbose=FALSE, 
 	invisible(devpkg)
 }
 
+#' @describeIn load_project shortcut for `load_project(..., try.library = TRUE)`, to load project
+#' code from installed library if not found as a development project.
+#' All its arguments are passed to `load_project`.
+#' @export
+library_project <- function(...) load_project(..., try.library = TRUE)
+
 getDevtoolsFunction <- function(name){
   
   if( qrequire('devtools') && !is.null(fun <- ns_get(name, 'devtools')) ) return(fun)

@@ -2,10 +2,13 @@
 % Please edit documentation in R/project.R
 \name{load_project}
 \alias{load_project}
+\alias{library_project}
 \title{Load Development Package}
 \usage{
 load_project(pkg, reset = FALSE, ..., utests = TRUE, verbose = FALSE,
   addlib = TRUE, character.only = FALSE, try.library = FALSE)
+
+library_project(...)
 }
 \arguments{
 \item{pkg}{name of the package/project to load.}
@@ -31,3 +34,10 @@ the installed packages.}
 \description{
 Load Development Package
 }
+\section{Functions}{
+\itemize{
+\item \code{library_project}: shortcut for \code{load_project(..., try.library = TRUE)}, to load project
+code from installed library if not found as a development project.
+All its arguments are passed to \code{load_project}.
+}}
+
