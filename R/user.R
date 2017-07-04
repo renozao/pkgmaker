@@ -66,7 +66,7 @@ askUser <- function (msg, allowed = c("y", "n"), idefault = "n", default = "n", 
 #' Note that a base directory is \strong{always} created if necessary (see details).
 #' 
 #' The package-specific user data base directory is the sub-directory \emph{R-data/}, 
-#' located in the user's home.   
+#' located in the user's home or within a diredctory defined by global option 'userData.path'.
 #'  
 #' If in interactive mode, and the base directory does not exist yet, 
 #' the user is asked if it should be created in his home directory. 
@@ -95,7 +95,8 @@ userData <- function(..., create=NULL, package = topenv(parent.frame())){
         
     if( is.environment(package) ) package <- utils::packageName(package)
     
-    p <- file.path(Sys.getenv('HOME'), 'R-data', package)
+    root_dir <- getOption('userData.path', Sys.getenv('HOME'))
+    p <- file.path(root_dir, 'R-data', package)
     
     # ask the user about creating the directory
     if( !file.exists(p) && (is.null(create) || isTRUE(create))  ){

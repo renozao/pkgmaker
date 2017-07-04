@@ -29,7 +29,7 @@ It is used to prefix the path, within the user R data directory.}
 }
 \description{
 The package-specific user data base directory is the sub-directory \emph{R-data/},
-located in the user's home.
+located in the user's home or within a diredctory defined by global option 'userData.path'.
 
 If in interactive mode, and the base directory does not exist yet,
 the user is asked if it should be created in his home directory.
