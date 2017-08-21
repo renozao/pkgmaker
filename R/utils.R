@@ -240,6 +240,17 @@ str_fun <- function(object){
 	paste(s[-length(s)], collapse="\n")
 }
 
+
+#' \code{str_class} outputs the class(es) of an object using \code{str_out}. 
+#' @rdname str_out
+#' @export
+#' @examples 
+#' str_class(matrix())
+str_class <- function(x, max = Inf, ...){
+  str_out(class(x), max = max, ...)
+  
+}
+
 #' \code{str_pkg} formats a package name and version
 #' 
 #' @param pkg package name

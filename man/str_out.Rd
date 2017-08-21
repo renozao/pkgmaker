@@ -4,6 +4,7 @@
 \alias{str_out}
 \alias{str_desc}
 \alias{str_fun}
+\alias{str_class}
 \alias{str_pkg}
 \alias{str_md5sum}
 \alias{str_hash}
@@ -16,6 +17,8 @@ str_out(x, max = 3L, quote = is.character(x), use.names = FALSE,
 str_desc(object, exdent = 0L)
 
 str_fun(object)
+
+str_class(x, max = Inf, ...)
 
 str_pkg(pkg, lib.loc = NULL)
 
@@ -68,6 +71,8 @@ error/warning messages.
 \code{str_fun} extracts and formats a function signature.
 It typically formats the output \code{capture.output(args(object))}.
 
+\code{str_class} outputs the class(es) of an object using \code{str_out}.
+
 \code{str_pkg} formats a package name and version
 
 \code{str_md5sum} computes md5sum on character vector using \code{\link[tools]{md5sum}}.
@@ -91,6 +96,7 @@ str_out(x, quote=FALSE)
 str_out(x, total = TRUE)
 
 str_fun(install.packages)
+str_class(matrix())
 
 # Backspace substitution
 str_bs("abc")

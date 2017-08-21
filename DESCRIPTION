@@ -1,8 +1,8 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.26.7
-Date: 2016-08-01
+Version: 0.26.8
+Date: 2017-08-21
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
 Description: This package provides some low-level utilities to use for package
