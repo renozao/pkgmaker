@@ -50,6 +50,8 @@ appended to the formatted string as \code{"'a', ..., 'z' (<N> total)"}.}
 \item{exdent}{extra indentation passed to str_wrap, and used if the output
 should spread over more than one lines.}
 
+\item{...}{other arguments passed to \link{str_out}.}
+
 \item{pkg}{package name}
 
 \item{lib.loc}{path to a library of R packages}

@@ -242,6 +242,9 @@ str_fun <- function(object){
 
 
 #' \code{str_class} outputs the class(es) of an object using \code{str_out}. 
+#' 
+#' @param ... other arguments passed to [str_out].
+#' 
 #' @rdname str_out
 #' @export
 #' @examples 
@@ -1069,6 +1072,9 @@ hasEnvar <- function(x){
 #' If \code{NULL}, these elements are left unchanged.
 #' @param partial logical that indicates if partial matches are allowed, 
 #' in which case mappings are used as regular expressions. 
+#' @param rev logical that indicates if the mapping should be interpreted in the 
+#' reverse way. 
+#' 
 #' 
 #' @export
 charmap <- function(x, maps, nomatch = NULL, partial = FALSE, rev = FALSE){

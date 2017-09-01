@@ -17,6 +17,9 @@ If \code{NULL}, these elements are left unchanged.}
 
 \item{partial}{logical that indicates if partial matches are allowed,
 in which case mappings are used as regular expressions.}
+
+\item{rev}{logical that indicates if the mapping should be interpreted in the
+reverse way.}
 }
 \description{
 Match the elements of a character vectors against a mapping table,
