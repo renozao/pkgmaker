@@ -367,7 +367,7 @@ iterCount <- function(n = 100, i0 = 0L, title = 'Iterations', extra = NULL, verb
   
   if( !verbose ) return( function(...) NULL )
   
-  if( length(n) > 1L ){
+  if( length(n) > 1L || is.character(n) ){
     extra <- extra %||% n
     n <- length(n)
   }
