@@ -6,7 +6,7 @@
 \title{Loading Package Data}
 \usage{
 packageData(list, envir = .GlobalEnv, ..., options = NULL,
-  stringsAsFactors = TRUE)
+  stringsAsFactors = getOption("stringsAsFactors", TRUE))
 
 ldata(list, ...)
 }

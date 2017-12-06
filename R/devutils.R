@@ -518,7 +518,7 @@ NotImplemented <- function(msg){
 #' 
 #' \dontrun{ mydata <- packageData('mydata') }
 #' 
-packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = TRUE){
+packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors', TRUE)){
 	
 	withr::with_options(options, {
 		# same as utils::data if no 'list' argument
