@@ -1245,3 +1245,33 @@ make.name.tree <- function (x, recursive, what.names)
   }
   .make.name.tree.rec(x, "", 0L)
 }
+
+#' Reordering Columns
+#' 
+#' Reorders columns according to a prefered target order
+#' 
+#' Column names will be reordered so that their order match the one in `target`.
+#' Any column that does not appear in `target` will be put after those that are
+#' listed in `target`.
+#' 
+#' @param x an object with columns, such as a `matrix` or a `data.frame`, 
+#' or from a class that support subsetting via `x[, i, drop = FALSE]` and has a method `colnames`.
+#' @param target a character or named numeric vector that specifies the column prefered order.
+#' If a numeric vector, then its names are assumed to correspond to columns, 
+#' and its values determine the target order -- according to argument `decreasing`.
+#' @param decreasing logical that indicates in which direction a numeric target vector should
+#' be ordered.
+#' 
+#' @return an object of the same type and dimension 
+#' 
+#' @export
+#' 
+reorder_columns <- function(x, target, decreasing = FALSE){
+  if( is.numeric(target) ){
+    target <- names(target)[order(target, decreasing = decreasing)]
+    
+  }
+  
+  x[, order(match(colnames(x), target)), drop = FALSE]
+  
+}
