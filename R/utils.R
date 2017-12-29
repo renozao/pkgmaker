@@ -1275,3 +1275,26 @@ reorder_columns <- function(x, target, decreasing = FALSE){
   x[, order(match(colnames(x), target)), drop = FALSE]
   
 }
+
+#' Converting Factors to Character Vectors
+#' 
+#' Converts all `factor` variables to character vectors in a `data.frame`
+#' or phenotypic data.
+#' 
+#' @param x `data.frame` or `ExpressionSet` object
+#' 
+#' @return an object of the same class as `x`.
+#'  
+#' @export 
+factor2character <- function(x){
+  if( is(x, 'ExpressionSet') ){
+    pData(x) <- factor2character(pData(x))
+    return(x)
+  }
+  
+  for(v in colnames(x)){
+    if( is.factor(x[[v]]) ) x[[v]] <- as.character(x[[v]]) 
+  }
+  x
+  
+}
