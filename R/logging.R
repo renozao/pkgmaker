@@ -382,9 +382,10 @@ iterCount <- function(n = 100, i0 = 0L, title = 'Iterations', extra = NULL, verb
     else paste0(sprintf(.msg_fmt, i, addon))
   }
   
-  .cat_msg <- function(...){
-    cat(...)
+  .cat_msg <- function(msg){
+    cat(msg)
     flush.console()
+    nchar(msg)
   } 
   
   if( !is.null(extra) ){
@@ -395,7 +396,7 @@ iterCount <- function(n = 100, i0 = 0L, title = 'Iterations', extra = NULL, verb
   .msg_size <- nchar(.msg_size)
   .back <- paste0(rep("\b", .msg_size), collapse ='')
   .i <- i0
-  .cat_msg(inc_msg(i0))
+  .last_msg_size <- .cat_msg(inc_msg(i0))
   
   # increment function
   function(i, appendLF = i == n){
@@ -407,7 +408,9 @@ iterCount <- function(n = 100, i0 = 0L, title = 'Iterations', extra = NULL, verb
       return(invisible(i_stop))
     }
     .i <<- i+1
-    .cat_msg(paste0(.back, inc_msg(.i)))
+    msg <- paste0(substr(.back, 1L, .last_msg_size), msg0 <- inc_msg(.i))
+    .cat_msg(msg)
+    .last_msg_size <<- nchar(msg0)
     if( appendLF ) cat("\n")
     invisible(.i)
   }
