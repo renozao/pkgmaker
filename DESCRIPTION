@@ -1,8 +1,8 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.26.11
-Date: 2017-12-29
+Version: 0.26.12
+Date: 2018-04-26
 Author: Renaud Gaujoux
 Maintainer: Renaud Gaujoux <renaud@tx.technion.ac.il>
 Description: This package provides some low-level utilities to use for package
@@ -34,10 +34,10 @@ Imports:
     magrittr,
     stringr,
     xtable,
-    withr
+    withr,
+    bibtex (>= 0.4)
 Suggests:
     devtools (>= 0.8),
-    bibtex (>= 0.4),
     roxygen2,
     RUnit,
     testthat,

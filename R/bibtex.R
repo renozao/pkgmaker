@@ -264,10 +264,43 @@ citecmd_pkg <- function(key, ...){
 
 #' Bibtex Utilities
 #' 
-#' \code{packageReferenceFile} returns the path to a package REFERENCES.bib file.
+#' Utility functions to work with BiBTeX files.
 #' 
-#' @param PACKAGE package name
+#' @name bibtex
+NULL
+
+#' @describeIn bibtex returns the path to a package REFERENCES.bib file.
 #' 
-#' @rdname bibtex
-packageReferenceFile <- function(PACKAGE=NULL) packagePath('REFERENCES.bib', package=PACKAGE)
+#' @param PACKAGE package name. If `NULL`, then the name of the calling package is used.
+#' @param check logical that indicates if the result should be an empty string if the
+#' bibliography file (or package) does not exist. 
+#' 
+#' @export 
+#' @examples
+#' 
+#' packageReferenceFile('pkgmaker')
+#' packageReferenceFile('pkgmaker', check = TRUE)
+#' 
+packageReferenceFile <- function(PACKAGE = NULL, check = FALSE){
+  f <- packagePath('REFERENCES.bib', package = PACKAGE, check = FALSE)
+  if( check && length(f) && nzchar(f) && !file.exists(f) ) return('')
+  f
+  
+}
+
+#' @describeIn bibtex returns the bibliography associated with a package.
+#' This can 
+#' 
+#' @param load logical that specifies if the bibliography should be loaded as
+#' a list of [utils::bibentry] objects.
+#' 
+#' @importFrom bibtex read.bib 
+#' @export
+package_bibliography <- function(PACKAGE = NULL, load = FALSE){
+  f <- packageReferenceFile(PACKAGE, check = TRUE)
+  if( !load ) return(f)
+  else if( nzchar(f) ) bibtex::read.bib(f) 
+  else NULL
+  
+}
 

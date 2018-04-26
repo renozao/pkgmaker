@@ -21,7 +21,7 @@ packageName(envir = packageEnv(), .Global = FALSE, rm.prefix = TRUE)
 
 str_ns(envir = packageEnv())
 
-packagePath(..., package = NULL, lib.loc = NULL)
+packagePath(..., package = NULL, lib.loc = NULL, check = TRUE)
 
 isPackageInstalled(..., lib.loc = NULL)
 
@@ -59,6 +59,10 @@ should be removed from the returned string.}
 \item{package}{optional name of an installed package}
 
 \item{lib.loc}{path to a library of R packages where to search the package}
+
+\item{check}{logical that indicates if an error should be thrown if the path to the
+package root directory cannot be found.
+If this is the case and \code{check = FALSE}, then the function returns \code{NULL}.}
 
 \item{x}{package specified by its installation/development path or its name
 as \code{'package:*'}.}

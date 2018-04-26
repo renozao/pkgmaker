@@ -365,11 +365,14 @@ str_ns <- function(envir=packageEnv()){
 #' @param package optional name of an installed package 
 #' @param lib.loc path to a library of R packages where to search the package
 #' @param ... arguments passed to \code{\link{file.path}}.
+#' @param check logical that indicates if an error should be thrown if the path to the 
+#' package root directory cannot be found. 
+#' If this is the case and `check = FALSE`, then the function returns `NULL`. 
 #' 
 #' @rdname devutils
 #' @return a character string
 #' @export
-packagePath <- function(..., package=NULL, lib.loc=NULL){
+packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
 	
 	# try to find the path from the package's environment (namespace)
 	pname <- packageName(package)
@@ -390,7 +393,12 @@ packagePath <- function(..., package=NULL, lib.loc=NULL){
 			path <- info$path
 		}
 	}
-	stopifnot( !is.null(path) && path != '' )
+  
+  # check if the path was found
+  if( !length(path) || !nzchar(path) ){
+    if( check ) stop("Could not find path to package ", package)
+    return(NULL)
+  }
 	
 	# for development packages: add inst prefix if necessary
 	if( isDevNamespace(pname) ){
