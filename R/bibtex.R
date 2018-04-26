@@ -291,16 +291,34 @@ packageReferenceFile <- function(PACKAGE = NULL, check = FALSE){
 #' @describeIn bibtex returns the bibliography associated with a package.
 #' This can 
 #' 
-#' @param load logical that specifies if the bibliography should be loaded as
-#' a list of [utils::bibentry] objects.
+#' @param action single character string that specifies the action to be performed:
+#' 
+#'   * 'path': return the path to the bibliography file. It returns an empty character 
+#' string if the file does not exist.
+#'   * 'copy': copy the bibliography file to the current directory, overwriting any existing
+#' `REFERENCES.bib` file.  
+#'   * 'load': load the bibliography file and return a list of [utils::bibentry] 
+#' objects. It returns `NULL` if the file does not exist.
 #' 
 #' @importFrom bibtex read.bib 
 #' @export
-package_bibliography <- function(PACKAGE = NULL, load = FALSE){
+package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'load')){
+  
+  action <- match.arg(action)
   f <- packageReferenceFile(PACKAGE, check = TRUE)
-  if( !load ) return(f)
-  else if( nzchar(f) ) bibtex::read.bib(f) 
-  else NULL
+  switch(action
+      , path = f
+      , load = {
+          if( nzchar(f) ) bibtex::read.bib(f) 
+          else NULL
+          
+        }
+      , copy = {
+        if( !nzchar(f) ) return(invisible())
+        invisible(file.copy(f, '.', overwrite = TRUE))
+        
+      }
+  )
   
 }
 

@@ -8,7 +8,7 @@
 \usage{
 packageReferenceFile(PACKAGE = NULL, check = FALSE)
 
-package_bibliography(PACKAGE = NULL, load = FALSE)
+package_bibliography(PACKAGE = NULL, action = c("path", "copy", "load"))
 }
 \arguments{
 \item{PACKAGE}{package name. If \code{NULL}, then the name of the calling package is used.}
@@ -16,8 +16,15 @@ package_bibliography(PACKAGE = NULL, load = FALSE)
 \item{check}{logical that indicates if the result should be an empty string if the
 bibliography file (or package) does not exist.}
 
-\item{load}{logical that specifies if the bibliography should be loaded as
-a list of \link[utils:bibentry]{utils::bibentry} objects.}
+\item{action}{single character string that specifies the action to be performed:
+\itemize{
+\item 'path': return the path to the bibliography file. It returns an empty character
+string if the file does not exist.
+\item 'copy': copy the bibliography file to the current directory, overwriting any existing
+\code{REFERENCES.bib} file.
+\item 'load': load the bibliography file and return a list of \link[utils:bibentry]{utils::bibentry}
+objects. It returns \code{NULL} if the file does not exist.
+}}
 }
 \description{
 Utility functions to work with BiBTeX files.
