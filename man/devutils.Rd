@@ -75,26 +75,31 @@ source files should be extracted.
 In this case there will be no valid path.}
 }
 \value{
-\code{packageEnv} returns an environment
+\code{packageEnv}: \code{packageEnv} returns an environment
 
-a character string
+\code{packageName}: a character string
 
-a character string
+\code{packagePath}: a character string
 }
 \description{
 \code{packageEnv} is a slight modification from \code{\link{topenv}}, which
 returns the top environment, which in the case of development
 packages is the environment into which the source files are loaded by
 \code{\link[devtools]{load_all}}.
+}
+\section{Functions}{
+\itemize{
+\item \code{topns_name}: returns the name of the runtime sequence of top namespace(s),
+i.e. the name of the top calling package(s), from top to bottom.
 
-\code{topns_name}: the top namespace is is not necessarily the namespace where \code{topns_name}
+The top namespace is is not necessarily the namespace where \code{topns_name}
 is effectively called.
 This is useful for packages that define functions that need to access the
 calling namespace, even from calls nested into calls to another function from
 the same package -- in which case \code{topenv} would not give the desired
 environment.
 
-\code{topns} returns the runtime top namespace, i.e. the namespace of
+\item \code{topns}: returns the runtime top namespace, i.e. the namespace of
 the top calling package, possibly skipping the namespace where \code{topns}
 is effectively called.
 This is useful for packages that define functions that need to access the
@@ -102,20 +107,21 @@ calling namespace, even from calls nested into calls to another function from
 the same package -- in which case \code{topenv} would not give the desired
 environment.
 
-\code{packageName} returns the current package's name.
+\item \code{packageName}: returns the current package's name.
 It was made internal from version 0.16, since the package \pkg{utils}
 exported its own \code{\link[utils]{packageName}} function in R-3.0.0.
 
-\code{str_ns} formats a package environment/namespace for log/info messages.
+\item \code{str_ns}: formats a package environment/namespace for log/info messages.
 
-\code{packagePath} returns the current package's root directory, which is
+\item \code{packagePath}: returns the current package's root directory, which is
 its installation/loading directory in the case of an installed package, or
 its source directory served by devtools.
 
-\code{isPackageInstalled} checks if a package is installed.
+\item \code{isPackageInstalled}: checks if a package is installed.
 
-\code{as_package} is enhanced version of \code{\link[devtools]{as.package}},
+\item \code{as_package}: an enhanced version of \code{\link[devtools]{as.package}},
 that is not exported not to mask the original function.
 It could eventually be incorporated into \code{devtools} itself.
 Extra arguments in \code{...} are passed to \code{\link{find.package}}.
-}
+}}
+

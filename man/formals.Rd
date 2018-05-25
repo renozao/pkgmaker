@@ -13,9 +13,9 @@ allFormals(f)
 \item{f}{definition of the wrapper function}
 }
 \value{
-a function
+\code{extractLocalFun}: a function
 
-a paired list like the one returned by \code{\link{formals}}.
+\code{allFormals}: a paired list like the one returned by \code{\link{formals}}.
 }
 \description{
 \code{extractLocalFun} Extracts local function from wrapper functions of the following type, typically

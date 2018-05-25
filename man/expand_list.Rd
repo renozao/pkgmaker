@@ -31,11 +31,14 @@ a list
 \description{
 \code{expand_list} expands a named list with a given set of default items,
 if these are not already in the list, partially matching their names.
-
-\code{expand_dots} expands the \code{...} arguments of the function
+}
+\section{Functions}{
+\itemize{
+\item \code{expand_dots}: expands the \code{...} arguments of the function
 in which it is called with default values, using \code{expand_list}.
 It can \strong{only} be called from inside a function.
-}
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

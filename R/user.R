@@ -177,7 +177,7 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
     # non-interactive mode: force CRAN mirror if not already set
     if( !interactive() && length(iCRAN <- grep("@CRAN@", getOption('repos'))) ){
         repos <- getOption('repos')
-        repos[iCRAN] <- 'http://cran.rstudio.com'
+        repos[iCRAN] <- 'https://cran.rstudio.com'
         op <- options(repos = repos)
         on.exit(options(op), add = TRUE)
     }

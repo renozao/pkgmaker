@@ -122,13 +122,12 @@ require.quiet <- .silenceF(require)
 #' @export
 qrequire <- require.quiet
 
-#' \code{qlibrary} silently loads a package.
+#' @describeIn packages silently loads a package.
 #' 
-#' @rdname packages
 #' @export
 qlibrary <- .silenceF(library)
 
-#' \code{mrequire} tries loading a package with base \code{\link{require}}  
+#' @describeIn packages tries loading a package with base \code{\link{require}}  
 #' and stops with a -- custom -- error message if it fails to do so.
 #' 
 #' @param msg error message to use, to which is appended the string 
@@ -136,7 +135,6 @@ qlibrary <- .silenceF(library)
 #' @param package name of the package to load.
 #' @inheritParams base::require
 #' 
-#' @rdname packages
 #' @export
 #' @examples 
 #' 
@@ -187,19 +185,17 @@ setBiocMirror <- function(url='http://www.bioconductor.org', version=NULL, uniqu
     options(repos=repos)
 }
 
-#' \code{getBiocMirror} is a shortcut for \code{getOption('BioC_mirror')}, which 
+#' @describeIn mirrors is a shortcut for \code{getOption('BioC_mirror')}, which 
 #' returns the current Bioconductor mirror as used by \code{biocLite}.
 #'  
 #' @export
-#' @rdname mirrors
 getBiocMirror <- function(){
 	getOption('BioC_mirror')
 }
-#' \code{getBiocRepos} returns urls to all Bioconductor repositories on a 
+#' @describeIn mirrors returns urls to all Bioconductor repositories on a 
 #' given mirror.
 #' 
 #' @export
-#' @rdname mirrors
 getBiocRepos <- function(url='http://www.bioconductor.org', version=NULL){
 	
 	if( is.null(url) ){
@@ -229,9 +225,8 @@ getBiocRepos <- function(url='http://www.bioconductor.org', version=NULL){
     setNames(paste(url, 'packages', version, biocParts, sep='/'), names(biocParts))
 }
 
-#' \code{setCRANMirror} sets the preferred CRAN mirror.
+#' @describeIn mirrors sets the preferred CRAN mirror.
 #' 
-#' @rdname mirrors
 #' @export
 setCRANMirror <- function(url=CRAN, unique=TRUE){
 	
@@ -243,18 +238,19 @@ setCRANMirror <- function(url=CRAN, unique=TRUE){
     options(repos=repos)
 }
 
+#' Main CRAN Mirror URL
+#' 
 #' \code{CRAN} simply contains the url of CRAN main mirror 
-#' (\url{http://cran.r-project.org}), and aims at simplifying its use, e.g., in 
+#' (\url{https://cran.r-project.org}), and aims at simplifying its use, e.g., in 
 #' calls to \code{\link{install.packages}}.
 #' 
-#' @rdname mirrors
 #' @export
 #' 
 #' @examples
 #' \dontrun{
 #' install.packages('pkgmaker', repos=CRAN)
 #' }
-CRAN <- 'http://cran.r-project.org'
+CRAN <- 'https://cran.r-project.org'
 
 
 #' Adding Package Libraries
@@ -355,13 +351,12 @@ isCRANcheck <- function(...){
   
   any(tests)
 }
-#' \code{isCRAN_timing} tells if one is running CRAN check with flag \code{'--timing'}.
+#' @describeIn isCRANcheck tells if one is running CRAN check with flag \code{'--timing'}.
 #' 
 #' @export
-#' @rdname isCRANcheck
 isCRAN_timing <- function() isCRANcheck('timing')
 
-#' \code{isCHECK} tries harder to test if running under \code{R CMD check}.
+#' @describeIn isCRANcheck tries harder to test if running under \code{R CMD check}.
 #' It will definitely identifies check runs for: 
 #' \itemize{
 #' \item unit tests that use the unified unit test framework defined by \pkg{pkgmaker} (see \code{\link{utest}});
@@ -380,7 +375,6 @@ isCRAN_timing <- function() isCRANcheck('timing')
 #' generating them.
 #' 
 #' @references \url{https://github.com/renozao/roxygen}
-#' @rdname isCRANcheck
 #' @export
 #' 
 #' @examples

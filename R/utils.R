@@ -213,13 +213,12 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ",
 	s
 }
 
-#' \code{str_desc} builds formatted string from a list of complex values.
+#' @describeIn str_out builds formatted string from a list of complex values.
 #' 
 #' @param object an R object
 #' @param exdent extra indentation passed to str_wrap, and used if the output 
 #' should spread over more than one lines.
 #' 
-#' @rdname str_out
 #' @export
 str_desc <- function(object, exdent=0L){
 	p <- sapply(object, function(x){
@@ -229,9 +228,9 @@ str_desc <- function(object, exdent=0L){
 	str_wrap(str_out(p, NA, use.names=TRUE, quote=FALSE), exdent=exdent)
 }
 
-#' \code{str_fun} extracts and formats a function signature.
+#' @describeIn str_out extracts and formats a function signature.
 #' It typically formats the output \code{capture.output(args(object))}.
-#' @rdname str_out
+#' 
 #' @export
 #' @examples 
 #' str_fun(install.packages)
@@ -241,11 +240,10 @@ str_fun <- function(object){
 }
 
 
-#' \code{str_class} outputs the class(es) of an object using \code{str_out}. 
+#' @describeIn str_out outputs the class(es) of an object using \code{str_out}. 
 #' 
 #' @param ... other arguments passed to [str_out].
 #' 
-#' @rdname str_out
 #' @export
 #' @examples 
 #' str_class(matrix())
@@ -254,21 +252,20 @@ str_class <- function(x, max = Inf, ...){
   
 }
 
-#' \code{str_pkg} formats a package name and version
+#' @describeIn str_out formats a package name and version
 #' 
 #' @param pkg package name
 #' @param lib.loc path to a library of R packages
 #' 
 #' @export 
-#' @rdname str_out
 str_pkg <- function(pkg, lib.loc = NULL){
     sprintf("%s (version %s)", pkg, packageVersion(pkg, lib.loc = lib.loc))
 }
 
-#' \code{str_md5sum} computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+#' @describeIn str_out computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+#' 
 #' @importFrom tools md5sum
 #' @export
-#' @rdname str_out
 str_md5sum <- function(x){
     
     tmp <- tempfile()
@@ -278,12 +275,11 @@ str_md5sum <- function(x){
     
 }
 
-#' \code{str_hash} computes hash of a character vector using \code{\link[digest]{digest}}.
+#' @describeIn str_out computes hash of a character vector using \code{\link[digest]{digest}}.
 #' 
 #' @inheritParams digest::digest
 #' @import digest
 #' @export
-#' @rdname str_out
 str_hash <- function(x, algo = 'md5'){
     
     digest(x, algo = algo, serialize = FALSE)
@@ -997,7 +993,7 @@ expand_list <- function(x, ..., .exact=TRUE, .names=!.exact){
 	x
 }
 
-#' \code{expand_dots} expands the \code{...} arguments of the function
+#' @describeIn expand_list expands the \code{...} arguments of the function
 #' in which it is called with default values, using \code{expand_list}.
 #' It can \strong{only} be called from inside a function.
 #' 
@@ -1005,8 +1001,6 @@ expand_list <- function(x, ..., .exact=TRUE, .names=!.exact){
 #' from expansion. 
 #'
 #' @export
-#' @rdname expand_list
-#' 
 #' @examples
 #' # expanding dot arguments
 #' 

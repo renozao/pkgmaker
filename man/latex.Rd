@@ -41,15 +41,18 @@ silently.}
 \description{
 \code{latex_preamble} outputs/returns command definition LaTeX commands to
 be put in the preamble of vignettes.
-
-\code{latex_bibliography} prints or return a LaTeX command that includes a
-package bibliography file if it exists.
 }
 \details{
 Argument \code{PACKAGE} is not required for \code{latex_preamble}, but must
 be correctly specified to ensure \code{biblatex=TRUE} generates the correct
 bibliography command.
 }
+\section{Functions}{
+\itemize{
+\item \code{latex_bibliography}: \code{latex_bibliography} prints or return a LaTeX command that includes a
+package bibliography file if it exists.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

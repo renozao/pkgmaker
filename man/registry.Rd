@@ -68,25 +68,12 @@ should be overwritten if it exists.}
 when \code{verbose=TRUE}.}
 }
 \value{
-a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument
+\code{packageRegistry}: a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument
 \code{quiet}).
 }
 \description{
 \code{packageRegistry} provides ways to create query package specific
 registries.
-
-\code{packageRegistries} lists registries from loaded packages.
-
-\code{hasPackageRegistry} tells if a given package has a meta-registry or
-a given registry.
-
-\code{setPackageRegistry} creates a package-specific registry within a package.
-
-Each package sub-registry has its own set of fields.
-Sub-registries defined by passing a character string in argument \code{regobj} of
-\code{setPackageRegistry} have the following fields: \code{'key'} and \code{'object'}
-
-\code{setPackageRegistryEntry} adds an entry in a package registry.
 }
 \details{
 Package registries are organised in a meta-registry (a registry of registries) within a package's namespace.
@@ -114,3 +101,19 @@ Note that this function cannot be called from the global environment, but from
 a package namespace, e.g., when a package is lazy-loaded on installation or loaded
 via the function \code{\link[devtools]{load_all}} from the \pkg{devtools} package.
 }
+\section{Functions}{
+\itemize{
+\item \code{packageRegistries}: lists registries from loaded packages.
+
+\item \code{hasPackageRegistry}: tells if a given package has a meta-registry or
+a given registry.
+
+\item \code{setPackageRegistry}: creates a package-specific registry within a package.
+
+Each package sub-registry has its own set of fields.
+Sub-registries defined by passing a character string in argument \code{regobj} of
+\code{setPackageRegistry} have the following fields: \code{'key'} and \code{'object'}
+
+\item \code{setPackageRegistryEntry}: adds an entry in a package registry.
+}}
+

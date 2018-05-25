@@ -67,23 +67,26 @@ a single character string
 \description{
 \code{str_out} formats character vectors for use in show methods or
 error/warning messages.
+}
+\section{Functions}{
+\itemize{
+\item \code{str_desc}: builds formatted string from a list of complex values.
 
-\code{str_desc} builds formatted string from a list of complex values.
-
-\code{str_fun} extracts and formats a function signature.
+\item \code{str_fun}: extracts and formats a function signature.
 It typically formats the output \code{capture.output(args(object))}.
 
-\code{str_class} outputs the class(es) of an object using \code{str_out}.
+\item \code{str_class}: outputs the class(es) of an object using \code{str_out}.
 
-\code{str_pkg} formats a package name and version
+\item \code{str_pkg}: formats a package name and version
 
-\code{str_md5sum} computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+\item \code{str_md5sum}: computes md5sum on character vector using \code{\link[tools]{md5sum}}.
 
-\code{str_hash} computes hash of a character vector using \code{\link[digest]{digest}}.
+\item \code{str_hash}: computes hash of a character vector using \code{\link[digest]{digest}}.
 
-\code{str_bs} substitutes backspace characters (\code{\\b}) to produce
+\item \code{str_bs}: substitutes backspace characters (\code{\\b}) to produce
 a character string as it would be displayed in the console.
-}
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

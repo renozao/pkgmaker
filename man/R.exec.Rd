@@ -25,9 +25,14 @@ If a character vector, then it is used as the library path specification.}
 \item{libname}{name of the output compiled library}
 }
 \description{
-\code{R.exec} executes a single R command via \code{\link{system2}}.
-
-\code{R.CMD} executes R CMD commands.
-
-\code{R.SHLIB} executes R CMD SHLIB commands.
+Functions to execute R commands.
 }
+\section{Functions}{
+\itemize{
+\item \code{R.exec}: executes a single R command via \code{\link{system2}}.
+
+\item \code{R.CMD}: executes R CMD commands.
+
+\item \code{R.SHLIB}: executes R CMD SHLIB commands.
+}}
+

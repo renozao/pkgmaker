@@ -25,18 +25,6 @@ as with the flag \code{'--as-cran'} was set.}
 }
 \description{
 \code{isCRANcheck} \strong{tries} to identify if one is running CRAN-like checks.
-
-\code{isCRAN_timing} tells if one is running CRAN check with flag \code{'--timing'}.
-
-Currently, \code{isCHECK} checks both CRAN expected flags, the value of environment variable
-\code{_R_CHECK_RUNNING_UTESTS_}, and the value of option \code{R_CHECK_RUNNING_EXAMPLES_}.
-It will return \code{TRUE} if any of these environment variables is set to
-anything not equivalent to \code{FALSE}, or if the option is \code{TRUE}.
-For example, the function \code{\link{utest}} sets it to the name of the package
-being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}),
-but unit tests run as part of unit tests vignettes are run with
-\code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests are run and reported when
-generating them.
 }
 \details{
 Currently \code{isCRANcheck} returns \code{TRUE} if the check is run with
@@ -49,6 +37,29 @@ As a result, there is no guarantee this function effectively identifies such che
 If really needed for honest reasons, CRAN recommends users rely on custom dedicated environment
 variables to enable specific tests or examples.
 }
+\section{Functions}{
+\itemize{
+\item \code{isCRAN_timing}: tells if one is running CRAN check with flag \code{'--timing'}.
+
+\item \code{isCHECK}: tries harder to test if running under \code{R CMD check}.
+It will definitely identifies check runs for:
+\itemize{
+\item unit tests that use the unified unit test framework defined by \pkg{pkgmaker} (see \code{\link{utest}});
+\item examples that are run with option \code{R_CHECK_RUNNING_EXAMPLES_ = TRUE},
+which is automatically set for man pages generated with a fork of \pkg{roxygen2} (see \emph{References}).
+}
+
+Currently, \code{isCHECK} checks both CRAN expected flags, the value of environment variable
+\code{_R_CHECK_RUNNING_UTESTS_}, and the value of option \code{R_CHECK_RUNNING_EXAMPLES_}.
+It will return \code{TRUE} if any of these environment variables is set to
+anything not equivalent to \code{FALSE}, or if the option is \code{TRUE}.
+For example, the function \code{\link{utest}} sets it to the name of the package
+being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}),
+but unit tests run as part of unit tests vignettes are run with
+\code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests are run and reported when
+generating them.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

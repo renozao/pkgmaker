@@ -20,15 +20,18 @@ the current platform only (default) or all platforms (Unix, Windows, Mac).}
 \item{x}{a filename}
 }
 \value{
-a character vector
+\code{list.libs}: a character vector
 }
 \description{
 Lists binary library files in a directory
-
-\code{libname} extracts library names from a path, removing the
+}
+\section{Functions}{
+\itemize{
+\item \code{libname}: extracts library names from a path, removing the
 directory part of the path, as well as the platform
 specific library extension.
-}
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

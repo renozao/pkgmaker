@@ -49,7 +49,4 @@ as read-only, attribute \code{'b'} as write-only, all attributes that start with
 The function \code{ExposeAttribute} creates an S3 object that
 exposes all attributes of any R object, by making them accessible via
 methods \code{\link{$}} and/or \code{\link{$<-}}.
-
-\code{attr_mode} and \code{attr_mode<-} get and sets the access mode of
-\code{ExposeAttribute} objects.
 }

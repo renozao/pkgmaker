@@ -35,12 +35,15 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
 }
 \description{
 \code{require.quiet} silently requires a package, and \code{qrequire} is an alias to \code{require.quiet}.
-
-\code{qlibrary} silently loads a package.
-
-\code{mrequire} tries loading a package with base \code{\link{require}}
-and stops with a -- custom -- error message if it fails to do so.
 }
+\section{Functions}{
+\itemize{
+\item \code{qlibrary}: silently loads a package.
+
+\item \code{mrequire}: tries loading a package with base \code{\link{require}}
+and stops with a -- custom -- error message if it fails to do so.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
@@ -54,3 +57,4 @@ try( mrequire('Doing impossible things', 'notapackage') )
 \seealso{
 Other require: \code{\link{irequire}}
 }
+\concept{require}

@@ -133,12 +133,12 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 	if( inc(CRAN) ){
 		cmd <- c(cmd,
 "% CRAN
-\\newcommand{\\CRANurl}[1]{\\url{http://cran.r-project.org/package=#1}}
+\\newcommand{\\CRANurl}[1]{\\url{https://cran.r-project.org/package=#1}}
 %% CRANpkg
 \\makeatletter
 \\def\\CRANpkg{\\@ifstar\\@CRANpkg\\@@CRANpkg}
-\\def\\@CRANpkg#1{\\href{http://cran.r-project.org/package=#1}{\\pkgname{#1}}\\footnote{\\CRANurl{#1}}}
-\\def\\@@CRANpkg#1{\\href{http://cran.r-project.org/package=#1}{\\pkgname{#1}} package\\footnote{\\CRANurl{#1}}}
+\\def\\@CRANpkg#1{\\href{https://cran.r-project.org/package=#1}{\\pkgname{#1}}\\footnote{\\CRANurl{#1}}}
+\\def\\@@CRANpkg#1{\\href{https://cran.r-project.org/package=#1}{\\pkgname{#1}} package\\footnote{\\CRANurl{#1}}}
 \\makeatother
 %% citeCRANpkg
 \\makeatletter
@@ -146,8 +146,8 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 \\def\\@citeCRANpkg#1{\\CRANpkg{#1}\\cite*{Rpackage:#1}}
 \\def\\@@citeCRANpkg#1{\\CRANpkg{#1}~\\cite{Rpackage:#1}}
 \\makeatother
-\\newcommand{\\CRANnmf}{\\href{http://cran.r-project.org/package=NMF}{CRAN}}
-\\newcommand{\\CRANnmfURL}{\\url{http://cran.r-project.org/package=NMF}}
+\\newcommand{\\CRANnmf}{\\href{https://cran.r-project.org/package=NMF}{CRAN}}
+\\newcommand{\\CRANnmfURL}{\\url{https://cran.r-project.org/package=NMF}}
 ")
 }
 
@@ -192,13 +192,12 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 	
 }
 
-#' \code{latex_bibliography} prints or return a LaTeX command that includes a 
+#' @describeIn latex \code{latex_bibliography} prints or return a LaTeX command that includes a 
 #' package bibliography file if it exists.
 #' 
 #' @param PACKAGE package name
 #' 
 #' @export
-#' @rdname latex
 #' 
 latex_bibliography <- function(PACKAGE, file=''){
 	
@@ -280,19 +279,6 @@ runVignette <- function(x, ...){
     on.exit( options(opts) )
     # run
 	UseMethod('runVignette')
-}
-
-# tells if a vignette is locally made
-#' Identifies Manually Run Vignettes
-#' 
-#' \code{isManualVignette} tells if a vignette is being run through the function \code{runVignette} 
-#' of \pkg{pkgmker}, allowing disabling behaviours not allowed in package vignettes that are
-#' checked vi \code{R CMD check}. 
-#' 
-#' @rdname vignette
-#' @export
-isManualVignette <- function(){
-    isTRUE(getOption('R_RUNNING_MANUAL_VIGNETTE'))
 }
 
 runVignette.default <- function(x, file=NULL, ...){
@@ -416,6 +402,16 @@ rnw <- function(x, file=NULL, ..., raw=FALSE){
 	invisible(res)
 }
 
+# tells if a vignette is locally made
+#' @describeIn vignette tells if a vignette is being run through the function \code{runVignette} 
+#' of \pkg{pkgmker}, allowing disabling behaviours not allowed in package vignettes that are
+#' checked vi \code{R CMD check}. 
+#' 
+#' @export
+isManualVignette <- function(){
+  isTRUE(getOption('R_RUNNING_MANUAL_VIGNETTE'))
+}
+
 checkFile <- function(x, msg="file '%s' does not exist."){
 	if( !is.file(x) ) stop(sprintf(msg, x))
 	TRUE
@@ -426,13 +422,12 @@ checkRnwFile <- function(x){
 	checkFile(x, msg="Vignette file '%s' does not exist.")
 }
 
-#' \code{as.rnw} creates a S3 \code{rnw} object that contains information
+#' @describeIn vignette creates a S3 \code{rnw} object that contains information
 #' about a vignette, e.g., source filename, driver, fixed included files, etc..
 #' 
 #' @param load logical to indicate if all the object's properties should loaded, 
 #' which is done by parsing the file and look up for specific tags. 
 #' 
-#' @rdname vignette
 #' @export
 as.rnw <- function(x, ..., load = TRUE){
 	
@@ -510,26 +505,23 @@ rnwVignetteParser <- function(tag, ...){
 
 rnwLatexPackages <- rnwParser('usepackage', name='LaTeX package(s)', options=TRUE)
 
-#' \code{rnwCompiler} tries to detect the vignette compiler to use on a vignette
+#' @describeIn vignette tries to detect the vignette compiler to use on a vignette
 #' source file, e.g., \code{\link{Sweave}} or \code{\link[knitr]{knitr}}.
 #' 
 #' @param verbose logical that toggles verbosity
 #' 
-#' @rdname vignette
 #' @export
 rnwCompiler <- rnwVignetteParser('Compiler')
 
-#' \code{rnwWrapper} tries to detect the type of vignette and if it is meant 
+#' @describeIn vignette tries to detect the type of vignette and if it is meant 
 #' to be wrapped into another main file.
 #' 
-#' @rdname vignette
 #' @export
 rnwWrapper <- rnwVignetteParser('Wrapper')
 
-#' \code{rnwDriver} tries to detect Sweave driver to use on a vignette source 
+#' @describeIn vignette tries to detect Sweave driver to use on a vignette source 
 #' file, e.g., \code{SweaveCache}, \code{highlight}, etc..
 #' 
-#' @rdname vignette
 #' @export
 rnwDriver <- function(x){
 	
@@ -541,10 +533,9 @@ rnwDriver <- function(x){
 	
 }  
 
-#' \code{rnwIncludes} detects fixed includes, e.g., image or pdf files, that are 
+#' @describeIn vignette detects fixed includes, e.g., image or pdf files, that are 
 #' required to build the final document.  
 #' 
-#' @rdname vignette
 #' @export
 rnwIncludes <- function(x){
 	
@@ -566,10 +557,9 @@ rnwIncludes <- function(x){
 	
 }
 
-#' \code{rnwChildren} detects included vignette documents and return them as a 
+#' @describeIn vignette detects included vignette documents and return them as a 
 #' list of vignette objects.  
 #'  
-#' @rdname vignette
 #' @export
 rnwChildren <- function(x){
 	
@@ -718,7 +708,7 @@ quick_install <- function(path, ..., lib.loc){
 
 vignetteCheckMode <- checkMode_function('_R_CHECK_BUILDING_VIGNETTES_')
 
-#' \code{vignetteMakefile} returns the path to a generic makefile used to make 
+#' @describeIn vignette returns the path to a generic makefile used to make 
 #' vignettes.
 #' 
 #' @param package package name.
@@ -744,7 +734,6 @@ vignetteCheckMode <- checkMode_function('_R_CHECK_BUILDING_VIGNETTES_')
 #' However, unit tests are not (re)-run at this stage when the vignettes are built 
 #' when checking the package with \code{R CMD check}.
 #' 
-#' @rdname vignette
 #' @export
 vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL, temp=FALSE
                              , checkMode = isCHECK() || vignetteCheckMode()
@@ -845,14 +834,11 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	invisible(l)
 }
 
-#' Compact PDF at Best
-#' 
-#' Compact PDFs using either \code{gs_quality='none'} or \code{'ebook'}, 
+#' @describeIn vignette compacts vignette PDFs using either \code{gs_quality='none'} or \code{'ebook'}, 
 #' depending on which compacts best (as per CRAN check criteria).
 #' 
 #' @inheritParams tools::compactPDF
 #' 
-#' @rdname vignette
 #' @export
 compactVignettes <- function(paths, ...){
 	

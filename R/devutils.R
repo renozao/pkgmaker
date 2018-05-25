@@ -71,7 +71,11 @@ set_libPaths <- function(lib.loc=NULL){
 
 #' Executing R Commands
 #' 
-#' \code{R.exec} executes a single R command via \code{\link{system2}}.
+#' Functions to execute R commands.
+#' @name R.exec
+NULL
+
+#' @describeIn R.exec executes a single R command via \code{\link{system2}}.
 #' 
 #' @param ... extra arguments that are concatenated and appended to 
 #' the command. 
@@ -90,22 +94,20 @@ R.exec <- function(..., lib.loc=NULL){
 	system(cmd, intern=interactive())
 }
 
-#' \code{R.CMD} executes R CMD commands.
+#' @describeIn R.exec executes R CMD commands.
 #' 
 #' @param cmd command to run, e.g. \sQuote{check} or \sQuote{INSTALL}.
 #' 
 #' @export
-#' @rdname R.exec
 R.CMD <- function(cmd, ...){
 	R.exec('CMD ', cmd, ' ', ...)
 }
 
-#' \code{R.SHLIB} executes R CMD SHLIB commands.
+#' @describeIn R.exec executes R CMD SHLIB commands.
 #' 
 #' @param libname name of the output compiled library
 #' 
 #' @export
-#' @rdname R.exec
 R.SHLIB <- function(libname, ...){
 	R.CMD('SHLIB', '-o ', libname, .Platform$dynlib.ext, ...)
 }
@@ -229,10 +231,10 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 	return(e)
 }
 
-#' \code{topns_name} returns the name of the runtime sequence of top namespace(s), 
+#' @describeIn devutils returns the name of the runtime sequence of top namespace(s), 
 #' i.e. the name of the top calling package(s), from top to bottom.
 #' 
-#' \code{topns_name}: the top namespace is is not necessarily the namespace where \code{topns_name} 
+#' The top namespace is is not necessarily the namespace where \code{topns_name} 
 #' is effectively called.
 #' This is useful for packages that define functions that need to access the 
 #' calling namespace, even from calls nested into calls to another function from
@@ -244,8 +246,7 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 #' be considered as a valid namespace.
 #' @param unique logical that indicates if the result should be reduced
 #' to contain only one occurence of each namespace. 
-#'  
-#' @rdname devutils
+#'   
 #' @export
 topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	
@@ -281,7 +282,7 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	if( length(res) || n>1L ) res else ''
 }
 
-#' \code{topns} returns the runtime top namespace, i.e. the namespace of 
+#' @describeIn devutils returns the runtime top namespace, i.e. the namespace of 
 #' the top calling package, possibly skipping the namespace where \code{topns} 
 #' is effectively called.
 #' This is useful for packages that define functions that need to access the 
@@ -289,7 +290,6 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 #' the same package -- in which case \code{topenv} would not give the desired 
 #' environment.
 #'  
-#' @rdname devutils
 #' @export
 topns <- function(strict=TRUE){
 	ns <- topns_name(n=1L, strict=strict)
@@ -298,7 +298,7 @@ topns <- function(strict=TRUE){
 	#packageEnv(skip=TRUE, verbose=verbose)
 }
 
-#' \code{packageName} returns the current package's name.
+#' @describeIn devutils returns the current package's name.
 #' It was made internal from version 0.16, since the package \pkg{utils} 
 #' exported its own \code{\link[utils]{packageName}} function in R-3.0.0. 
 #' 
@@ -310,7 +310,6 @@ topns <- function(strict=TRUE){
 #' @param rm.prefix logical that indicates if an eventual prefix 'package:' 
 #' should be removed from the returned string.
 #' 
-#' @rdname devutils
 #' @return a character string
 packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){
 	
@@ -346,9 +345,8 @@ packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){
 	}
 }
 
-#' \code{str_ns} formats a package environment/namespace for log/info messages.
+#' @describeIn devutils formats a package environment/namespace for log/info messages.
 #' 
-#' @rdname devutils
 #' @export
 str_ns <- function(envir=packageEnv()){
 	if( !is.environment(envir) )
@@ -358,7 +356,7 @@ str_ns <- function(envir=packageEnv()){
 }
 
 
-#' \code{packagePath} returns the current package's root directory, which is 
+#' @describeIn devutils returns the current package's root directory, which is 
 #' its installation/loading directory in the case of an installed package, or
 #' its source directory served by devtools. 
 #' 
@@ -369,7 +367,6 @@ str_ns <- function(envir=packageEnv()){
 #' package root directory cannot be found. 
 #' If this is the case and `check = FALSE`, then the function returns `NULL`. 
 #' 
-#' @rdname devutils
 #' @return a character string
 #' @export
 packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
@@ -415,9 +412,8 @@ packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
 	file.path(path, ...)	
 }
 
-#' \code{isPackageInstalled} checks if a package is installed.
+#' @describeIn devutils checks if a package is installed.
 #' 
-#' @rdname devutils
 #' @export
 isPackageInstalled <- function(..., lib.loc=NULL){
 	
@@ -440,7 +436,7 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #	gsub("\\\\.\\{(.)\\}", "\\1", x)
 #}
 
-#' \code{as_package} is enhanced version of \code{\link[devtools]{as.package}}, 
+#' @describeIn devutils an enhanced version of \code{\link[devtools]{as.package}}, 
 #' that is not exported not to mask the original function.
 #' It could eventually be incorporated into \code{devtools} itself.
 #' Extra arguments in \code{...} are passed to \code{\link{find.package}}. 
@@ -453,7 +449,6 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' source files should be extracted.
 #' In this case there will be no valid path. 
 #' 
-#' @rdname devutils
 #' @export
 as_package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	
@@ -551,10 +546,9 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 	
 }
 
-#' \code{ldata} loads a package data in the parent frame.
+#' @describeIn packageData loads a package data in the parent frame.
 #' It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 #' 
-#' @rdname packageData
 #' @export
 #' @examples
 #' 

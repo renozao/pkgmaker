@@ -6,6 +6,7 @@ staticdocs
 vignettes/Rpackages\.bib
 vignettes/.*\.tex
 vignettes/vignette.mk$
+vignettes/tmp_files
 ^README.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$

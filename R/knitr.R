@@ -67,12 +67,12 @@ try_message <- function(signal = FALSE){
     }
 }
 
-#' \code{hook_try} is a knitr hook to enable showing error 
+#' @describeIn knit_ex is a knitr hook to enable showing error 
 #' messages thrown by \code{\link{try}}.
 #' The function is not meant to be called directly, but only registered 
-#' using \code{\link{knit_hooks}} (see details on this dedicated man page).
+#' using [knitr::knit_hooks] (see details on this dedicated man page).
 #' 
-#' \code{hook_try} simply defines a function \code{try} in \code{envir} that prints 
+#' This simply defines a function \code{try} in \code{envir} that prints 
 #' the error message if any, and is called instead of base \code{\link{try}}. 
 #' 
 #' @param before logical that indicates when the hook is being called: 
@@ -80,7 +80,6 @@ try_message <- function(signal = FALSE){
 #' @param options list of current knitr chunk options 
 #' @param envir environment where the chunk is evaluated
 #' 
-#' @rdname knit_ex
 #' @export
 #' @examples
 #' 
@@ -213,15 +212,14 @@ hook_backspace <- chunkOutputHook('backspace',
         }
 )
 
-#' \code{str_bs} substitutes backspace characters (`\\b`) to produce
+#' @describeIn str_out substitutes backspace characters (`\\b`) to produce
 #' a character string as it would be displayed in the console.
 #'
 #' @author
 #' Renaud Gaujoux
 #'  
 #' \code{str_bs} was adapted from a proposal from Yihui Xie.
-#'  
-#' @rdname str_out 
+#' 
 #' @export
 #' @examples 
 #' 
@@ -354,10 +352,9 @@ $( document ).ready(function(){
 });
 </script>"
 
-#' \code{hook_toggle} is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+#' @describeIn knit_ex is a chunk hook that adds clickable elements to toggle \emph{indvidual}
 #' code chunks in HTML documents generated from .Rmd files.
 #' 
-#' @rdname knit_ex
 #' @export
 #' @examples
 #' 

@@ -42,16 +42,24 @@ before or after the chunk is processed.}
 \code{knit_ex} is a utility function for running small knitr examples,
 e.g., to illustrate functionalities or issues.
 
-\code{hook_try} simply defines a function \code{try} in \code{envir} that prints
-the error message if any, and is called instead of base \code{\link{try}}.
-
 \code{hook_backspace} is a chunk hook that enables the use of backspace
 characters in the output (e.g., as used in progress bars), and still
 obtain a final output as in the console.
-
-\code{hook_toggle} is a chunk hook that adds clickable elements to toggle \emph{indvidual}
-code chunks in HTML documents generated from .Rmd files.
 }
+\section{Functions}{
+\itemize{
+\item \code{hook_try}: is a knitr hook to enable showing error
+messages thrown by \code{\link{try}}.
+The function is not meant to be called directly, but only registered
+using \link[knitr:knit_hooks]{knitr::knit_hooks} (see details on this dedicated man page).
+
+This simply defines a function \code{try} in \code{envir} that prints
+the error message if any, and is called instead of base \code{\link{try}}.
+
+\item \code{hook_toggle}: is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+code chunks in HTML documents generated from .Rmd files.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

@@ -30,10 +30,13 @@ the loaded data.
 Loads package data using \code{\link[utils]{data}}, but allows the user to avoid
 NOTEs for a \sQuote{non visible binding variable} to be thrown when checking a package.
 This is possible because this function returns the loaded data.
-
-\code{ldata} loads a package data in the parent frame.
-It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 }
+\section{Functions}{
+\itemize{
+\item \code{ldata}: loads a package data in the parent frame.
+It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag

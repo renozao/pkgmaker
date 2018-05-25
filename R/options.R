@@ -357,7 +357,7 @@ mkoptions <- function(...){
 	}
 }
 
-#' \code{.options} is a low-level function that mimics the behaviour 
+#' @describeIn local-options is a low-level function that mimics the behaviour 
 #' of the base function \code{\link[base]{options}}, given a set 
 #' of key-value pairs.
 #' It is the workhorse function used in \code{mkoptions} and package-specific
@@ -367,7 +367,6 @@ mkoptions <- function(...){
 #' For \code{mkoptions} these define inital/default key-value pairs. 
 #' @param .DATA a list or an environment with an element \code{.options}.
 #' 
-#' @rdname local-options
 .options <- function(..., .DATA){
 	
 	opts <- if( is.package_options(.DATA) || is.environment(.DATA) ) .DATA$.options else .DATA

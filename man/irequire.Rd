@@ -46,3 +46,4 @@ but in an interactive way, i.e. offering the user to install it if not found.
 \seealso{
 Other require: \code{\link{require.quiet}}
 }
+\concept{require}

@@ -26,14 +26,13 @@ list.libs <- function(dir, ..., all.platforms=FALSE){
 	list.files(dir, pattern=p, ...)
 }
 
-#' \code{libname} extracts library names from a path, removing the 
+#' @describeIn libutils extracts library names from a path, removing the 
 #' directory part of the path, as well as the platform 
 #' specific library extension.
 #' 
 #' @param x a filename
 #' 
 #' @export
-#' @rdname libutils
 #' 
 #' @examples
 #' 

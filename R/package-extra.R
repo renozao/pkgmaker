@@ -63,7 +63,7 @@ setPackageExtraHandler <- function(handler, fun, ...){
 	runner <- packageExtraRunner(handler)
 }
 
-#' \code{packageExtraHandler} retrieves a given handler from the registry. 
+#' @describeIn packageExtra retrieves a given handler from the registry. 
 #' 
 #' @param ... extra arguments passed to internal function calls.
 #' In \code{packageExtraHandler}, these are passed to \code{\link{pkgreg_fetch}}.
@@ -71,13 +71,12 @@ setPackageExtraHandler <- function(handler, fun, ...){
 #' In \code{setPackageExtra}, these define default arguments for the handler function. 
 #' These are overwritten by arguments in the call to runner function if any.
 #'  
-#' @rdname packageExtra
 #' @export 
 packageExtraHandler <- function(handler=NULL, ...){
 	# load handler from registry
 	pkgreg_fetch('extra_handler', key=handler, ...)
 }
-#' \code{setPackageExtra} registers extra actions for a given handler.
+#' @describeIn packageExtra registers extra actions for a given handler.
 #' 
 #' For example, calling \code{setPackageExtra('install', pkgs='non_CRAN_pkg', repos='http://non-standard-repo')}
 #' in a source file of package 'myPkg' registers the call 
@@ -90,7 +89,6 @@ packageExtraHandler <- function(handler=NULL, ...){
 #' @param .wrap logical that indicates if a function that runs the extra action should
 #' be returned or only the default arguments
 #' 
-#' @rdname packageExtra
 #' @export
 setPackageExtra <- function(handler, extra, ...){
 	
@@ -128,9 +126,9 @@ setPackageExtra <- function(handler, extra, ...){
 	formals(f) <- c(args, formals(f))
 	f
 }
-#' \code{packageExtra} retrieve a given extra action, either as its registry entry,
+#' @describeIn packageExtra retrieve a given extra action, either as its registry entry,
 #' or as a function that would perform the given action.
-#' @rdname packageExtra
+#' 
 #' @export
 packageExtra <- function(handler=NULL, extra=NULL, package=NULL, .wrap=FALSE){
 	
@@ -151,7 +149,7 @@ packageExtra <- function(handler=NULL, extra=NULL, package=NULL, .wrap=FALSE){
 	# define wrapper function
 	.wrapExtra(fhandler, args)		
 }
-#' \code{packageExtraRunner} defines a function to run all or some of the actions registered 
+#' @describeIn packageExtra defines a function to run all or some of the actions registered 
 #' for a given handler in a given package.
 #' For example, the function \code{install.extrapackages} is the runner defined for the extra handler \code{'install'} 
 #' via \code{packageExtraRunner('install')}.
@@ -159,7 +157,6 @@ packageExtra <- function(handler=NULL, extra=NULL, package=NULL, .wrap=FALSE){
 #' @param .verbose logical that indicates if verbose messages about the extra actions being
 #' run should be displayed.
 #' 
-#' @rdname packageExtra
 #' @export
 packageExtraRunner <- function(handler){
 
@@ -194,22 +191,20 @@ packageExtraRunner <- function(handler){
 	}
 }
 
-#' \code{install.extrapackages} runs all extra actions registered for a given package.
+#' @describeIn packageExtra runs all extra actions registered for a given package.
 #' 
-#' @rdname packageExtra
 #' @export
 install.extras <- packageExtraRunner(NULL)
-#' \code{install.extrapackages} install sets of packages that can enhance a 
+#' @describeIn packageExtra install sets of packages that can enhance a 
 #' package, but may not be available from CRAN.
 #' 
-#' \code{install.extrapackages} is defined as the extra handler for 
+#' It is defined as the extra handler for 
 #' the extra action handler \code{'install.packages'}.
 #' All arguments in \code{...} are passed to \code{\link{install.packages}}.
 #' By default, packages that are already installed are not re-installed.
 #' An extra argument \code{force} allows to force their installation.
 #' The packages are loaded if their installation is successful. 
 #' 
-#' @rdname packageExtra
 #' @export
 install.extrapackages <- setPackageExtraHandler('install.packages', 
 	function(pkgs, ..., force=FALSE){

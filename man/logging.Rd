@@ -44,21 +44,24 @@ at the end of the message.}
 null logger, even if the verbose mode is not high enough.}
 }
 \value{
-the old verbose level
+\code{lverbose}: the old verbose level
 }
 \description{
 \code{lverbose} returns/sets the current verbosity level.
+}
+\section{Functions}{
+\itemize{
+\item \code{lsilent}: tells if all verbose messages are silenced.
 
-\code{lsilent} tells if all verbose messages are silenced.
+\item \code{is.verbose}: tells if verbosity is on, i.e. at level greater than 0.
 
-\code{is.verbose} tells if verbosity is on, i.e. at level greater than 0.
-
-\code{lmessage} prints out a message (on sdtout) if the verbosity level is greater than a
+\item \code{lmessage}: prints out a message (on sdtout) if the verbosity level is greater than a
 given value.
 
-\code{vmessage} prints out a log message (at level 1) using the current logger,
+\item \code{vmessage}: prints out a log message (at level 1) using the current logger,
 typically on stdout.
 It is a shortcut for \code{lmessage(1L, ...)}.
 
-\code{log_append} directly appends some message to the current log line.
-}
+\item \code{log_append}: directly appends some message to the current log line.
+}}
+

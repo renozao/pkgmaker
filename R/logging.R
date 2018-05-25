@@ -32,22 +32,20 @@ lverbose <- local({
       }
     })
 
-#' \code{lsilent} tells if all verbose messages are silenced. 
-#' @rdname logging
+#' @describeIn logging tells if all verbose messages are silenced. 
 #' @export
 lsilent <- function(){
 	l <- lverbose()
 	is.na(l) || l == 0L
 }
-#' \code{is.verbose} tells if verbosity is on, i.e. at level greater than 0.
-#' @rdname logging
+#' @describeIn logging tells if verbosity is on, i.e. at level greater than 0.
 #' @export
 is.verbose <- function(){
 	l <- lverbose()
 	!is.na(l) && l >= 0L
 }
 
-#' \code{lmessage} prints out a message (on sdtout) if the verbosity level is greater than a 
+#' @describeIn logging prints out a message (on sdtout) if the verbosity level is greater than a 
 #' given value. 
 #' 
 #' @param ... parts of a character message that are concatenated and passed to 
@@ -62,24 +60,21 @@ is.verbose <- function(){
 #' @param force logical that indicates if one should output messages or return a non 
 #' null logger, even if the verbose mode is not high enough.
 #' 
-#' @rdname logging
 #' @export 
 lmessage <- function(level, ..., appendLF=TRUE, sep='', force=FALSE){
   getLogger(force=force)$lmessage(level, ..., appendLF=appendLF, sep=sep, force=force)
 }
 
-#' \code{vmessage} prints out a log message (at level 1) using the current logger, 
+#' @describeIn logging prints out a log message (at level 1) using the current logger, 
 #' typically on stdout.
 #' It is a shortcut for \code{lmessage(1L, ...)}.
 #'  
-#' @rdname logging  
 #' @export
 vmessage <- function(...){
   lmessage(1L, ...)
 }
 
-#' \code{log_append} directly appends some message to the current log line.
-#' @rdname logging
+#' @describeIn logging directly appends some message to the current log line.
 #' @export 
 log_append <- function(...){
   if( !is.null(w <- getLogger(new=FALSE)$write) ) w(...)

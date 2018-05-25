@@ -16,4 +16,5 @@ The main fixed issue is due to the fact that key filtering does not return
 the correct entry, when an entry key is a prefix of another entry key,
 even when passed the exact key.
 }
+\concept{registry-internals}
 \keyword{internal}

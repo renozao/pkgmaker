@@ -38,7 +38,7 @@ with their values.}
 \item{PACKAGE}{a package name}
 }
 \value{
-a character vector (possibly empty).
+\code{listPackageOptions}: a character vector (possibly empty).
 }
 \description{
 \code{option_symlink} creates a symbolic link to option \code{x}.

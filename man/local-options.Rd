@@ -19,13 +19,16 @@ For \code{mkoptions} these define inital/default key-value pairs.}
 \code{mkoptions} is a function that returns a function that
 behaves like \code{\link[base]{options}}, with an attached
 internal/local list of key-value pairs.
-
-\code{.options} is a low-level function that mimics the behaviour
+}
+\section{Functions}{
+\itemize{
+\item \code{.options}: is a low-level function that mimics the behaviour
 of the base function \code{\link[base]{options}}, given a set
 of key-value pairs.
 It is the workhorse function used in \code{mkoptions} and package-specific
 option sets (see \code{\link{setupPackageOptions}})
-}
+}}
+
 \examples{
 \dontshow{
 options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
