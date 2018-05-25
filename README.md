@@ -11,5 +11,5 @@ The package `pkgmaker` provides implementeations of features commonly used when 
 * Unified environment/namespace access functions that work in both production mode (build/check/install) 
 and development mode, when loading code with the package `devtools`.   
  
-The package `pkgmaker` is available from CRAN at http://cran.r-project.org/web/packages/pkgmaker.
-The development project is hosted on `R-forge` at http://r-forge.r-project.org/projects/pkgmaker/
+The package `pkgmaker` is available from CRAN at https://cran.r-project.org/web/packages/pkgmaker.
+The development project is hosted on `GitHub` at https://github.com/renozao/pkgmaker.
