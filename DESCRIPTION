@@ -43,7 +43,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    yaml
+    yaml,
+    Biobase
 Collate: 
     'bibtex.R'
     'colors.R'
@@ -67,6 +68,5 @@ Collate:
     'user.R'
     'vignette.R'
     'with.r'
-VignetteBuilder: knitr
 RoxygenNote: 6.0.1.9000
-Roxygen: list(markdown = TRUE)
+Roxygen: list(markdown = TRUE, roclets = list('collate', 'namespace', 'roclets::rd2_roclet'))

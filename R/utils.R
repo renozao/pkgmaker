@@ -1288,7 +1288,12 @@ reorder_columns <- function(x, target, decreasing = FALSE){
 #' @export 
 factor2character <- function(x){
   if( is(x, 'ExpressionSet') ){
-    pData(x) <- factor2character(pData(x))
+    if( !requireNamespace('Biobase') ){
+      stop("Missing dependency: package 'Biobase' is required to handle ExpressionSet objects.\n"
+              , "  Try installing with: source('https://bioconductor.org/biocLite.R')")
+      
+    }
+    Biobase::pData(x) <- factor2character(Biobase::pData(x))
     return(x)
   }
   
