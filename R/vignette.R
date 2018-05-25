@@ -805,7 +805,7 @@ vignetteMakefile <- function(package=NULL, skip=NULL, print=TRUE, template=NULL,
 	# src
 	if( is.dir('src') ) rnwFiles <- list.files('src', pattern="\\.Rnw$")
 	# unit tests
-	if( tests && is.dir('../tests') ) rnwFiles <- c(rnwFiles, str_c(package, '-unitTests.Rnw'))
+	if( tests && is.dir('../tests') && !is.dir('../tests/testthat') ) rnwFiles <- c(rnwFiles, str_c(package, '-unitTests.Rnw'))
 	# non-fake vignettes
     rnwFiles <- c(rnwFiles, list.files('.', pattern="\\.Rnw$"))
 	# substitute in makefile
