@@ -1,4 +1,10 @@
-[![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=develop)](https://travis-ci.org/renozao/pkgmaker)
+## Status
+
+| Branch     | Travis CI        | 
+| ------------- | ------------- |
+| `master` | [![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=master)](https://travis-ci.org/renozao/pkgmaker) |
+| `develop` | [![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=develop)](https://travis-ci.org/renozao/pkgmaker) |
+
 
 ## Introduction
 
