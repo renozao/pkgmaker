@@ -4,10 +4,48 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
+#' @include utils.R
 #' @include namespace.R
-#' @include unitTests.R
-#' @include logging.R
 NULL
+
+# taken from AnnotationDbi
+make.name.tree <- function (x, recursive, what.names) 
+{
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  .make.name.tree.rec <- function(x, parent_name, depth) {
+    if (length(x) == 0) 
+      return(character(0))
+    x_names <- names(x)
+    if (is.null(x_names)) 
+      x_names <- rep.int(parent_name, length(x))
+    else if (what.names == "full") 
+      x_names <- paste0(parent_name, x_names)
+    else x_names[x_names == ""] <- parent_name
+    if (!is.list(x) || (!recursive && depth >= 1L)) 
+      return(x_names)
+    if (what.names == "full") 
+      x_names <- paste0(x_names, ".")
+    lapply(seq_len(length(x)), function(i) .make.name.tree.rec(x[[i]], 
+              x_names[i], depth + 1L))
+  }
+  .make.name.tree.rec(x, "", 0L)
+}
+
+.unlist2 <- function (x, recursive = TRUE, use.names = TRUE, what.names = "inherited") 
+{
+  ans <- unlist(x, recursive, FALSE)
+  if (!use.names) 
+    return(ans)
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  names(ans) <- unlist(make.name.tree(x, recursive, what.names), 
+      recursive, FALSE)
+  ans
+}
+unlist2 <- ns_get('AnnotationDbi::unlist2') %||% .unlist2
 
 set_libPaths <- function(lib.loc=NULL){
   ol <- Sys.getenv('R_LIBS')
@@ -33,7 +71,11 @@ set_libPaths <- function(lib.loc=NULL){
 
 #' Executing R Commands
 #' 
-#' \code{R.exec} executes a single R command via \code{\link{system2}}.
+#' Functions to execute R commands.
+#' @name R.exec
+NULL
+
+#' @describeIn R.exec executes a single R command via \code{\link{system2}}.
 #' 
 #' @param ... extra arguments that are concatenated and appended to 
 #' the command. 
@@ -52,22 +94,20 @@ R.exec <- function(..., lib.loc=NULL){
 	system(cmd, intern=interactive())
 }
 
-#' \code{R.CMD} executes R CMD commands.
+#' @describeIn R.exec executes R CMD commands.
 #' 
 #' @param cmd command to run, e.g. \sQuote{check} or \sQuote{INSTALL}.
 #' 
 #' @export
-#' @rdname R.exec
 R.CMD <- function(cmd, ...){
 	R.exec('CMD ', cmd, ' ', ...)
 }
 
-#' \code{R.SHLIB} executes R CMD SHLIB commands.
+#' @describeIn R.exec executes R CMD SHLIB commands.
 #' 
 #' @param libname name of the output compiled library
 #' 
 #' @export
-#' @rdname R.exec
 R.SHLIB <- function(libname, ...){
 	R.CMD('SHLIB', '-o ', libname, .Platform$dynlib.ext, ...)
 }
@@ -83,7 +123,6 @@ R.SHLIB <- function(libname, ...){
 compile_src <- function(pkg=NULL, load=TRUE){
 	
 	if( !is.null(pkg) ){
-		library(devtools)
 		p <- as.package(pkg)
 		path <- p$path
 	}else{
@@ -143,8 +182,8 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 		# - as.environment('package:*') will return the correct environment
 		# in dev mode.
 		env <- if( is.environment(pkg) ) topenv(pkg)
+        else if( isLoadingNamespace(pkg) ) getLoadingNamespace(env=TRUE)
 		else if( !is.null(path.package(pkg, quiet=TRUE)) ) asNamespace(pkg)
-		else if( isLoadingNamespace(pkg) ) getLoadingNamespace(env=TRUE)
 		else if( isNamespaceLoaded(pkg) ) asNamespace(pkg)
 		else if( pkg %in% search() ) as.environment(pkg)
 		else as.environment(str_c('package:', pkg)) # dev mode
@@ -192,10 +231,10 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 	return(e)
 }
 
-#' \code{topns_name} returns the name of the runtime sequence of top namespace(s), 
+#' @describeIn devutils returns the name of the runtime sequence of top namespace(s), 
 #' i.e. the name of the top calling package(s), from top to bottom.
 #' 
-#' \code{topns_name}: the top namespace is is not necessarily the namespace where \code{topns_name} 
+#' The top namespace is is not necessarily the namespace where \code{topns_name} 
 #' is effectively called.
 #' This is useful for packages that define functions that need to access the 
 #' calling namespace, even from calls nested into calls to another function from
@@ -207,8 +246,7 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 #' be considered as a valid namespace.
 #' @param unique logical that indicates if the result should be reduced
 #' to contain only one occurence of each namespace. 
-#'  
-#' @rdname devutils
+#'   
 #' @export
 topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	
@@ -244,7 +282,7 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	if( length(res) || n>1L ) res else ''
 }
 
-#' \code{topns} returns the runtime top namespace, i.e. the namespace of 
+#' @describeIn devutils returns the runtime top namespace, i.e. the namespace of 
 #' the top calling package, possibly skipping the namespace where \code{topns} 
 #' is effectively called.
 #' This is useful for packages that define functions that need to access the 
@@ -252,7 +290,6 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 #' the same package -- in which case \code{topenv} would not give the desired 
 #' environment.
 #'  
-#' @rdname devutils
 #' @export
 topns <- function(strict=TRUE){
 	ns <- topns_name(n=1L, strict=strict)
@@ -261,7 +298,7 @@ topns <- function(strict=TRUE){
 	#packageEnv(skip=TRUE, verbose=verbose)
 }
 
-#' \code{packageName} returns the current package's name.
+#' @describeIn devutils returns the current package's name.
 #' It was made internal from version 0.16, since the package \pkg{utils} 
 #' exported its own \code{\link[utils]{packageName}} function in R-3.0.0. 
 #' 
@@ -273,7 +310,6 @@ topns <- function(strict=TRUE){
 #' @param rm.prefix logical that indicates if an eventual prefix 'package:' 
 #' should be removed from the returned string.
 #' 
-#' @rdname devutils
 #' @return a character string
 packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){
 	
@@ -309,9 +345,8 @@ packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){
 	}
 }
 
-#' \code{str_ns} formats a package environment/namespace for log/info messages.
+#' @describeIn devutils formats a package environment/namespace for log/info messages.
 #' 
-#' @rdname devutils
 #' @export
 str_ns <- function(envir=packageEnv()){
 	if( !is.environment(envir) )
@@ -321,18 +356,20 @@ str_ns <- function(envir=packageEnv()){
 }
 
 
-#' \code{packagePath} returns the current package's root directory, which is 
+#' @describeIn devutils returns the current package's root directory, which is 
 #' its installation/loading directory in the case of an installed package, or
 #' its source directory served by devtools. 
 #' 
 #' @param package optional name of an installed package 
 #' @param lib.loc path to a library of R packages where to search the package
 #' @param ... arguments passed to \code{\link{file.path}}.
+#' @param check logical that indicates if an error should be thrown if the path to the 
+#' package root directory cannot be found. 
+#' If this is the case and `check = FALSE`, then the function returns `NULL`. 
 #' 
-#' @rdname devutils
 #' @return a character string
 #' @export
-packagePath <- function(..., package=NULL, lib.loc=NULL){
+packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
 	
 	# try to find the path from the package's environment (namespace)
 	pname <- packageName(package)
@@ -353,7 +390,12 @@ packagePath <- function(..., package=NULL, lib.loc=NULL){
 			path <- info$path
 		}
 	}
-	stopifnot( !is.null(path) && path != '' )
+  
+  # check if the path was found
+  if( !length(path) || !nzchar(path) ){
+    if( check ) stop("Could not find path to package ", package)
+    return(NULL)
+  }
 	
 	# for development packages: add inst prefix if necessary
 	if( isDevNamespace(pname) ){
@@ -370,9 +412,8 @@ packagePath <- function(..., package=NULL, lib.loc=NULL){
 	file.path(path, ...)	
 }
 
-#' \code{isPackageInstalled} checks if a package is installed.
+#' @describeIn devutils checks if a package is installed.
 #' 
-#' @rdname devutils
 #' @export
 isPackageInstalled <- function(..., lib.loc=NULL){
 	
@@ -395,7 +436,7 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #	gsub("\\\\.\\{(.)\\}", "\\1", x)
 #}
 
-#' \code{as_package} is enhanced version of \code{\link[devtools]{as.package}}, 
+#' @describeIn devutils an enhanced version of \code{\link[devtools]{as.package}}, 
 #' that is not exported not to mask the original function.
 #' It could eventually be incorporated into \code{devtools} itself.
 #' Extra arguments in \code{...} are passed to \code{\link{find.package}}. 
@@ -408,10 +449,11 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' source files should be extracted.
 #' In this case there will be no valid path. 
 #' 
-#' @rdname devutils
 #' @export
 as_package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	
+	if( !requireNamespace('devtools', quietly = TRUE) ) 
+        stop("Package 'devtools' is required to load development packages")
 	
 	if( is.null(x) ) return( devtools::as.package() )
 	if( devtools::is.package(x) ) return(x)
@@ -466,30 +508,47 @@ NotImplemented <- function(msg){
 #' @param list character vector containing the names of the data to load.
 #' @inheritParams utils::data
 #' @param ... other arguments eventually passed to \code{\link[utils]{data}}.
+#' @param options list of R options to set before calling \code{\link[utils]{data}}.
+#' This may be useful the data is shipped as an R script.
+#' @param stringsAsFactors logical that indicates if character columns of tabular data should be 
+#' converted into factors.
 #' 
 #' @return the loaded data.
 #' 
+#' @importFrom withr with_options
 #' @export
 #' @examples 
 #' 
 #' \dontrun{ mydata <- packageData('mydata') }
 #' 
-packageData <- function(list, envir = .GlobalEnv, ...){
+packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors', TRUE)){
 	
-	# same as utils::data if no 'list' argument
-	if( missing(list) ) return( data(..., envir=envir) )
-	# load into environment
-	data(list=list, ..., envir = envir)
-	# return the loaded data
-	if( length(list) == 1L ) get(list, envir=envir)
-	else sapply(list, get, envir=envir, simplify=FALSE)
+	withr::with_options(options, {
+		# same as utils::data if no 'list' argument
+		if( missing(list) ) return( data(..., envir=envir) )
+		# load into environment
+		data(list=list, ..., envir = envir)
+		# return the loaded data
+		.get <- function(x, ...){
+			res <- get(x, ...)
+			# force factors into character vectors
+			if( !stringsAsFactors && is.data.frame(res) ){
+				for(n in colnames(res)[sapply(res, is.factor)]){
+					res[[n]] <- as.character(res[[n]])
+				}
+			}
+			res
+		}
+		if( length(list) == 1L ) .get(list, envir=envir)
+		else sapply(list, .get, envir=envir, simplify=FALSE)
+		
+	})
 	
 }
 
-#' \code{ldata} loads a package data in the parent frame.
+#' @describeIn packageData loads a package data in the parent frame.
 #' It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 #' 
-#' @rdname packageData
 #' @export
 #' @examples
 #' 

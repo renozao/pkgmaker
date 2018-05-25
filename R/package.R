@@ -6,8 +6,7 @@
 
 #' @include utils.R
 #' @include devutils.R
-#' @import stats
-#' @import methods
+#' @import stats methods utils grDevices graphics
 NULL
 
 #' Default Load/Unload Functions
@@ -233,4 +232,14 @@ simpleRegistry <- function(name, envir=topenv(parent.frame()), verbose=FALSE){
 #' 
 #' @rdname pkgmaker-defunct
 #' @name pkgmaker-defunct
+NULL
+
+#' Deprecated Functions in pkgmaker
+#' 
+#' These functions have been deprecated and will be defunct in the next release.
+#' 
+#' @param ... extra arguments
+#' 
+#' @rdname pkgmaker-deprecated
+#' @name pkgmaker-deprecated
 NULL

@@ -70,13 +70,20 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 		}else nsInfo$pkgname
 		
 	}else if( !nodev ){ # devtools namespaces are allowed
-		if( is_pkgcall('devtools') && (i <- is_funcall(devtools::load_all)) ){
+    if( (is_pkgcall('devtools') && (i <- is_funcall(ns_get('devtools::load_all')))) ||
+        (is_pkgcall('pkgload') && (i <- is_funcall(ns_get('pkgload::load_all')))) || # for devtools > 1.12
+        (is_pkgcall('roxygen24') && (i <- is_funcall(ns_get('roxygen24::source_package')))) ){
 			# find out the package that is currently being loaded by load_all
 			e <- sys.frame(i)
 			pkg <- e$pkg
+            
+            if( is.null(pkg) ) stop("Could not infer loading namespace")
+            
 			# extract namespace
-			if( env ) asNamespace(pkg$package)
-			else if( info ){
+			if( env ){
+        if( isDevNamespace(pkg$package) ) asNamespace(pkg$package)
+        else pkg$ns
+			}else if( info ){
 				list(
 						pkgname = pkg$package
 						, path = pkg$path
@@ -88,14 +95,13 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 	else NULL
 }
 
-#' Tests if a namespace is being loaded.
+#' @describeIn namespace Tests if a namespace is being loaded.
 #' 
 #' @param ns the name of a namespace or a namespace whose loading state is tested.
 #' If missing \code{isLoadingNamespace} test if any namespace is being loaded.
 #' @param nodev logical that indicates if loading devtools namespace should 
 #' be discarded.
 #' 
-#' @rdname namespace
 #' @export
 isLoadingNamespace <- function(ns, nodev=FALSE){
 	
@@ -107,23 +113,23 @@ isLoadingNamespace <- function(ns, nodev=FALSE){
 	}
 }
 
-#' \code{isNamespaceLoaded} tests if a given namespace is loaded, without loading it, 
+#' @describeIn namespace tests if a given namespace is loaded, without loading it, 
 #' contrary to \code{\link{isNamespace}}.
+#' It is similar to \code{\link{isNamespaceLoaded}} -- which it uses -- but also accepts
+#' environments.
 #' 
-#' @rdname namespace
 #' @export
-isNamespaceLoaded <- function(ns){
+isNamespaceLoaded2 <- isNamespaceLoaded <- function(ns){
 	if( is.environment(ns) ){
 		if( !isNamespace(ns) ) return(FALSE)
 		else ns <- getPackageName(ns)
 	}
-	if( isString(ns) ) ns %in% loadedNamespaces()
+	if( isString(ns) ) base::isNamespaceLoaded(ns)
 	else stop("Invalid argument `ns`: only support strings and environments.")
 }
 
-#' \code{isDevNamespace} tests the -- current -- namespace is a devtools namespace.
+#' @describeIn namespace tests the -- current -- namespace is a devtools namespace.
 #' 
-#' @rdname namespace
 #' @export
 isDevNamespace <- function(ns){
 	if( missing(ns) ){
@@ -140,12 +146,11 @@ isDevNamespace <- function(ns){
 	
 }
 
-#' Dynamically adds exported objects into the loading namespace.   
+#' @describeIn namespace Dynamically adds exported objects into the loading namespace.   
 #' 
 #' @param x character vector containing the names of R objects to export in the 
 #' loading namespace.
 #' 
-#' @rdname namespace
 #' @export
 addNamespaceExport <- function(x){
 	ns <- pkgmaker::getLoadingNamespace(env=TRUE)
@@ -154,10 +159,18 @@ addNamespaceExport <- function(x){
 	}
 }
 
-#' \code{ns_get} gets an object from a given namespace.
-#' @rdname namespace
+#' @describeIn namespace gets an object from a given namespace.
+#' @param ... extra arguments passed to [get0].
+#' 
 #' @export
-ns_get <- function(x, ns){
-    if( !isNamespace(ns) ) ns <- asNamespace(ns)
-    get(x, ns)
+ns_get <- function(x, ns = NULL, ...){
+  if( is.null(ns) ){
+    ns <- gsub("^([^:]+)::.*", "\\1", x)
+    x <- gsub(".*::([^:]+)$", "\\1", x)
+  }
+  if( !isNamespace(ns) ){
+    ns <- tryCatch(asNamespace(ns), error = function(e) NULL)
+    if( is.null(ns) ) return()
+  }
+  get0(x, envir = ns, ...)
 }

@@ -18,25 +18,85 @@ cgetAnywhere <- function(x){
 	do.call("getAnywhere", list(x))
 }
 
-#' Silent Require
-#' 
-#' Silently require a package.
-#' 
-#' @inheritParams base::require
-#' @param ... extra arguments passed to \code{\link{require}}.
-#' 
-#' @export
-require.quiet <- function(package, character.only = FALSE, ...){
-	
-	if( !character.only )
-		package <- as.character(substitute(package))
-	utils::capture.output(suppressMessages(suppressWarnings(
-	 res <- do.call('require', 
-			 list(package=package, ..., character.only=TRUE, quietly=TRUE))
-	)))
-	res
-}
 
+#' Silencing Functions
+#' 
+#' Generates a wrapper function that silences the output, messages, and/or warnings of a given function.
+#' 
+#' @param f function to silence
+#' @param level a single numeric (integer) that indicates the silencing level, which encodes the set of 
+#' output to be silenced.
+#' 
+#' It is interpreted like unix permission bit system, where each bit of the binary expression of the silencing 
+#' level corresponds to a given type of output: 
+#' \itemize{
+#' \item 0: nothing silenced;
+#' \item 1: \emph{stdout};
+#' \item 2: \emph{stderr} messages;
+#' \item 4: \emph{stderr} warnings.
+#' }
+#' 
+#' For example, level \code{3 = 2 + 1} means silencing \emph{stdout} and \emph{stderr}, while 
+#' \code{5 = 3 + 2} means silencing \emph{stderr} messages and warnings, but not outputs to \emph{stdout}.
+#' The default value is \code{7 = 4 + 2 + 1}, which silences all output.
+#'  
+#' Negative values are supported and mean \emph{"silence everything except the corresponding type"}, 
+#' e.g., \code{level = -1} silences all except \emph{stdout} (computed as the binary complementary of 7, i.e. \code{7 - 1 = 5 = 3 + 2}).
+#' See examples. 
+#' @return a function 
+#' @export 
+#' @examples 
+#' 
+#' f <- function(){
+#' 	cat("stdout message\n")
+#'  message("stderr message")
+#' 	warning("stderr warning", immediate. = TRUE)
+#' }
+#' 
+#' # example of generated wrapper
+#' g <- .silenceF(f)
+#' g
+#' 
+#' # use of silencing level
+#' for(l in 7:-7){ message("\nLevel: ", l); .silenceF(f, l)() }
+#' 
+#' # inline functions
+#' ifun <- .silenceF(function(){ f(); invisible(1) })
+#' ifun()
+#' ifun <- .silenceF(function(){ f(); 1 })
+#' ifun()
+#' ifun <- .silenceF(function(){ f(); 1 }, 2L)
+#' ifun()
+#' 
+.silenceF <- function(f, level = 7L){
+    
+    # switch inverse level specification
+    if( level < 0 ) level <- 7L + level
+    # early exit if not silencing
+    if( !level ) return(f)
+                
+    silencer <- c('utils::capture.output(', 'suppressPackageStartupMessages(suppressMessages(', 'suppressWarnings(')
+    wrapper <- character()
+    for( i in 1:3 ){
+        if( bitwAnd(level, 2^(i-1)) ) wrapper <- c(wrapper, silencer[i])
+    }
+    wrapper <- paste0(wrapper, collapse = "")
+    npar <- length(gregexpr("(", wrapper, fixed = TRUE)[[1]])
+    
+    # build source code of wrapper function 
+    f_str <- paste0(as.character(substitute(f)), collapse = "")
+	ca <- match.call()
+    use_env <- languageEl(ca$f, 1) == as.symbol('function')
+    if( use_env ) f_str <- 'f'
+    txt <- sprintf("function(...){ %s res <- withVisible(%s(...))%s; if( res$visible ) res$value else invisible(res$value) }", wrapper, f_str, paste0(rep(")", npar), collapse = ""))
+    
+    e <- parent.frame()
+    if( use_env ){
+        e <- new.env(parent = e)
+        e$f <- f
+    }
+    force(eval(parse(text = txt), e))
+}
 
 #' Testing R Version
 #' 
@@ -147,19 +207,18 @@ str_out <- function(x, max=3L, quote=is.character(x), use.names=FALSE, sep=", ",
 	}
 	s <- paste(paste(x, collapse=sep), sep='')
 	
-	if( total ) s <- paste0(s, ' (', nTotal, ' total)')
+	if( total ) s <- paste0(s, ' (', format(nTotal, big.mark=",", scientific=F), ' total)')
 	
 	# return formatted string 
 	s
 }
 
-#' \code{str_desc} builds formatted string from a list of complex values.
+#' @describeIn str_out builds formatted string from a list of complex values.
 #' 
 #' @param object an R object
 #' @param exdent extra indentation passed to str_wrap, and used if the output 
 #' should spread over more than one lines.
 #' 
-#' @rdname str_out
 #' @export
 str_desc <- function(object, exdent=0L){
 	p <- sapply(object, function(x){
@@ -169,9 +228,9 @@ str_desc <- function(object, exdent=0L){
 	str_wrap(str_out(p, NA, use.names=TRUE, quote=FALSE), exdent=exdent)
 }
 
-#' \code{str_fun} extracts and formats a function signature.
+#' @describeIn str_out extracts and formats a function signature.
 #' It typically formats the output \code{capture.output(args(object))}.
-#' @rdname str_out
+#' 
 #' @export
 #' @examples 
 #' str_fun(install.packages)
@@ -179,6 +238,54 @@ str_fun <- function(object){
 	s <- capture.output(args(object))
 	paste(s[-length(s)], collapse="\n")
 }
+
+
+#' @describeIn str_out outputs the class(es) of an object using \code{str_out}. 
+#' 
+#' @param ... other arguments passed to [str_out].
+#' 
+#' @export
+#' @examples 
+#' str_class(matrix())
+str_class <- function(x, max = Inf, ...){
+  str_out(class(x), max = max, ...)
+  
+}
+
+#' @describeIn str_out formats a package name and version
+#' 
+#' @param pkg package name
+#' @param lib.loc path to a library of R packages
+#' 
+#' @export 
+str_pkg <- function(pkg, lib.loc = NULL){
+    sprintf("%s (version %s)", pkg, packageVersion(pkg, lib.loc = lib.loc))
+}
+
+#' @describeIn str_out computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+#' 
+#' @importFrom tools md5sum
+#' @export
+str_md5sum <- function(x){
+    
+    tmp <- tempfile()
+    on.exit( unlink(tmp) )
+    cat(x, sep = "\n", file = tmp)
+    md5sum(tmp)
+    
+}
+
+#' @describeIn str_out computes hash of a character vector using \code{\link[digest]{digest}}.
+#' 
+#' @inheritParams digest::digest
+#' @import digest
+#' @export
+str_hash <- function(x, algo = 'md5'){
+    
+    digest(x, algo = algo, serialize = FALSE)
+    
+}
+
 
 # From example in ?toupper
 capwords <- function(s, strict = FALSE) {
@@ -229,7 +336,7 @@ str_diff <- function(x, y){
 	wres
 }
 
-#' @S3method print str_diff
+#' @export
 print.str_diff <- function(x, ...){
 	s <- attr(x, 'str')
 	n <- max(nchar(s$x), nchar(s$y))
@@ -711,8 +818,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	#
 }
 
-#' @importFrom utils .DollarNames
-#' @S3method .DollarNames ExposeAttribute 
+#' @export 
 .DollarNames.ExposeAttribute <- function(x, pattern=""){ 
 	
 	att <- grep(pattern, names(attributes(x)), value=TRUE)
@@ -729,7 +835,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	names(mode)
 }
 
-#' @S3method $ ExposeAttribute
+#' @export
 `$.ExposeAttribute` <- function(x, name){
 	if( is.null(attr(x, name)) )
 		stop("Object `", deparse(substitute(x)),"` has no attribute '", name, "'.")
@@ -744,7 +850,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	
 }
 
-#' @S3method $<- ExposeAttribute
+#' @export
 `$<-.ExposeAttribute` <- function(x, name, value){
 	mode <- .getEAmode(x, name)
 	if( !length(mode) ){
@@ -757,7 +863,7 @@ ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	x
 }
 
-#' @S3method print ExposeAttribute
+#' @export
 print.ExposeAttribute <- function(x, ...){
 	# remove EA stuff 
 	attr_mode(x) <- NULL
@@ -887,7 +993,7 @@ expand_list <- function(x, ..., .exact=TRUE, .names=!.exact){
 	x
 }
 
-#' \code{expand_dots} expands the \code{...} arguments of the function
+#' @describeIn expand_list expands the \code{...} arguments of the function
 #' in which it is called with default values, using \code{expand_list}.
 #' It can \strong{only} be called from inside a function.
 #' 
@@ -895,8 +1001,6 @@ expand_list <- function(x, ..., .exact=TRUE, .names=!.exact){
 #' from expansion. 
 #'
 #' @export
-#' @rdname expand_list
-#' 
 #' @examples
 #' # expanding dot arguments
 #' 
@@ -947,4 +1051,249 @@ expand_dots <- function(..., .exclude=NULL){
 #' 
 hasEnvar <- function(x){
 	is.na(Sys.getenv(x, unset = NA, names = FALSE))
+}
+
+
+#' Substituting Strings Against a Mapping Table
+#' 
+#' Match the elements of a character vectors against a mapping table, 
+#' that can specify multiple exact or partial matches.
+#' 
+#' @param x character vector to match
+#' @param maps mapping tables.
+#' May be a character vector, a list of character vectors or a function.
+#' @param nomatch character string to be used for non-matched elements of \code{x}.
+#' If \code{NULL}, these elements are left unchanged.
+#' @param partial logical that indicates if partial matches are allowed, 
+#' in which case mappings are used as regular expressions. 
+#' @param rev logical that indicates if the mapping should be interpreted in the 
+#' reverse way. 
+#' 
+#' 
+#' @export
+charmap <- function(x, maps, nomatch = NULL, partial = FALSE, rev = FALSE){
+	
+	x <- as.character(x)
+	res <- setNames(as.character(rep(NA, length(x))), x)
+	if( !is.list(maps) ) maps <- list(maps)
+	for( k in seq_along(maps) ){
+		# stop as soon as all type is mapped
+		if( !length(i <- which(is.na(res))) ) break;
+		
+		# match unmapped type
+		ct <- names(res)[i]
+		map <- maps[[k]]
+		if( is.function(map) ){
+			m <- map(ct)
+			
+		}else if( is.character(map) ){
+			if( is.null(names(map)) ) map <- setNames(rep(names(maps)[k], length(map)), map)
+			m <- .charmap(ct, map, partial = partial, rev = rev)
+			
+		}else if( is.list(map) ){
+			map <- unlist2(map)
+			m <- .charmap(ct, setNames(names(map), map), partial = partial, rev = rev)
+			
+		}else stop("Invalid cell type map [", class(map), ']')
+		# update result map
+		if( !is.null(m) ) res[i] <- m
+	}
+	
+	if( anyNA(res) ){
+		i <- is.na(res)
+		if( is.null(nomatch) ) res[i] <- x[i]
+		else res[i] <- nomatch
+	}
+	res
+}
+
+
+.charmap <- function(x, map, partial = FALSE, rev = FALSE){
+	map <- if( !rev ) setNames(as.character(map), names(map))
+			else if( !is.null(names(map)) ) setNames(names(map), as.character(map))
+			else stop("Impossible to map data: the provided map has no names.")
+	
+	if( isFALSE(partial) ) i <- match(tolower(x), tolower(names(map)))
+	else if( isTRUE(partial) ){
+		i <- sapply(tolower(x), function(x){
+					m <- pmatch(tolower(names(map)), x)
+					i <- which(!is.na(m))[1L]
+					if( !length(i) ) NA else i
+				})
+	}else{
+		i <- rep(NA, length(x))
+		sapply(seq_along(map), function(j){
+					e <- names(map)[j]
+					mi <- grep(e, x)
+					if( length(mi) ) i[mi] <<- j 
+				}) 
+	}
+	ok <- !is.na(i)
+	i[ok] <- as.character(map[i[ok]])
+	as.character(i)
+}
+
+
+#' Open a File Graphic Device
+#'
+#' Opens a graphic device depending on the file extension.
+#' 
+#' @param filename path to the image file to create.
+#' @param width output width
+#' @param height output height
+#' @param ... other arguments passed to the relevant device function
+#' such as \code{\link{png}} or \code{\link{pdf}}.
+#' 
+#' importFrom grDevices bmp jpeg pdf png svg tiff
+#' @export
+gfile <- function(filename, width, height, ...){ 
+  # Get file type
+  r = regexpr("\\.[a-zA-Z]*$", filename)
+  if(r == -1) stop("Improper filename")
+  ending = substr(filename, r + 1, r + attr(r, "match.length"))
+  
+  f = switch(ending,
+      pdf = function(x, ...) pdf(x, ...),
+      svg = function(x, ...) svg(x, ...),			
+      png = function(x, ...) png(x, ...),
+      jpeg = function(x, ...) jpeg(x, ...),
+      jpg = function(x, ...) jpeg(x, ...),
+      tiff = function(x, ...) tiff(x, compression = "lzw", ...),
+      bmp = function(x, ...) bmp(x, ...),
+      stop("File type should be: pdf, svg, png, bmp, jpg, tiff")
+  )
+  
+  args <- c(list(filename), list(...))	
+  if( !missing(width) ){
+    args$width <- as.numeric(width)
+    args$height <- as.numeric(height)
+    if( !ending %in% c('pdf','svg') && is.null(args[['res']]) ){
+      args$units <- "in"
+      args$res <- 300
+    }
+  }
+  do.call('f', args)	
+}
+
+#' Flatten a List Conserving Names 
+#' 
+#' `unlist2` is a replacement for [base::unlist] that does not mangle the names.
+#' 
+#' Use this function if you don't like the mangled names returned by the standard `unlist` function from the base package. 
+#' Using `unlist` with annotation data is dangerous and it is highly recommended to use `unlist_` instead.
+#' 
+#' @inheritParams AnnotationDbi::unlist2
+#' 
+#' @author Herve Pages
+#' @source Bioconductor AnnotationDbi::unlist2
+#' @export
+#' @examples 
+#' x <- list(A=c(b=-4, 2, b=7), B=3:-1, c(a=1, a=-2), C=list(c(2:-1, d=55), e=99))
+#' unlist(x)
+#' unlist_(x)
+#' 
+#' # annotation maps (as in AnnotationDbi objects
+#' egids2pbids <- list('10' = 'a', '100' = c('b', 'c'), '1000' = c('d', 'e'))
+#' egids2pbids
+#' 
+#' unlist(egids2pbids)   # 1001, 1002, 10001 and 10002 are not real
+#'                       # Entrez ids but are the result of unlist()
+#'                       # mangling the names!
+#' unlist_(egids2pbids)  # much cleaner! yes the names are not unique
+#'                       # but at least they are correct...
+#' 
+unlist_ <- function (x, recursive = TRUE, use.names = TRUE, what.names = "inherited") 
+{
+  ans <- unlist(x, recursive, FALSE)
+  if (!use.names) 
+    return(ans)
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  names(ans) <- unlist(make.name.tree(x, recursive, what.names), 
+      recursive, FALSE)
+  ans
+}
+
+# taken from Bioconductor AnnotatiobnDbi::make.name.tree
+make.name.tree <- function (x, recursive, what.names) 
+{
+  if (!is.character(what.names) || length(what.names) != 1) 
+    stop("'what.names' must be a single string")
+  what.names <- match.arg(what.names, c("inherited", "full"))
+  .make.name.tree.rec <- function(x, parent_name, depth) {
+    if (length(x) == 0) 
+      return(character(0))
+    x_names <- names(x)
+    if (is.null(x_names)) 
+      x_names <- rep.int(parent_name, length(x))
+    else if (what.names == "full") 
+      x_names <- paste0(parent_name, x_names)
+    else x_names[x_names == ""] <- parent_name
+    if (!is.list(x) || (!recursive && depth >= 1L)) 
+      return(x_names)
+    if (what.names == "full") 
+      x_names <- paste0(x_names, ".")
+    lapply(seq_len(length(x)), function(i) .make.name.tree.rec(x[[i]], 
+              x_names[i], depth + 1L))
+  }
+  .make.name.tree.rec(x, "", 0L)
+}
+
+#' Reordering Columns
+#' 
+#' Reorders columns according to a prefered target order
+#' 
+#' Column names will be reordered so that their order match the one in `target`.
+#' Any column that does not appear in `target` will be put after those that are
+#' listed in `target`.
+#' 
+#' @param x an object with columns, such as a `matrix` or a `data.frame`, 
+#' or from a class that support subsetting via `x[, i, drop = FALSE]` and has a method `colnames`.
+#' @param target a character or named numeric vector that specifies the column prefered order.
+#' If a numeric vector, then its names are assumed to correspond to columns, 
+#' and its values determine the target order -- according to argument `decreasing`.
+#' @param decreasing logical that indicates in which direction a numeric target vector should
+#' be ordered.
+#' 
+#' @return an object of the same type and dimension 
+#' 
+#' @export
+#' 
+reorder_columns <- function(x, target, decreasing = FALSE){
+  if( is.numeric(target) ){
+    target <- names(target)[order(target, decreasing = decreasing)]
+    
+  }
+  
+  x[, order(match(colnames(x), target)), drop = FALSE]
+  
+}
+
+#' Converting Factors to Character Vectors
+#' 
+#' Converts all `factor` variables to character vectors in a `data.frame`
+#' or phenotypic data.
+#' 
+#' @param x `data.frame` or `ExpressionSet` object
+#' 
+#' @return an object of the same class as `x`.
+#'  
+#' @export 
+factor2character <- function(x){
+  if( is(x, 'ExpressionSet') ){
+    if( !requireNamespace('Biobase') ){
+      stop("Missing dependency: package 'Biobase' is required to handle ExpressionSet objects.\n"
+              , "  Try installing with: source('https://bioconductor.org/biocLite.R')")
+      
+    }
+    Biobase::pData(x) <- factor2character(Biobase::pData(x))
+    return(x)
+  }
+  
+  for(v in colnames(x)){
+    if( is.factor(x[[v]]) ) x[[v]] <- as.character(x[[v]]) 
+  }
+  x
+  
 }

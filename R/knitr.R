@@ -30,7 +30,9 @@
 #' 
 knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     
-    library(knitr)
+    if( !requireNamespace('knitr', quietly = TRUE) ) 
+        stop("Package 'knitr' is required to run knit_ex.")
+    
     # substitute special markup for Rmd markup (necessary for knit_ex examples)
     x <- gsub("^^^", "```", x, fixed = TRUE)
     
@@ -42,7 +44,7 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     }
     x <- paste0(x, collapse = "\n")
     if( any(html_chunks) ){
-        res <- knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
+        res <- knitr::knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
         if( open ){
             tmp <- tempfile("knit_ex", fileext = '.html')
             cat(res, file = tmp, sep = "\n") 
@@ -50,7 +52,7 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
             return(invisible(res))
         }
     }else{
-        res <- knit(text = x, ..., quiet = quiet)
+        res <- knitr::knit(text = x, ..., quiet = quiet)
     }
     cat(res)
 }
@@ -65,12 +67,12 @@ try_message <- function(signal = FALSE){
     }
 }
 
-#' \code{hook_try} is a knitr hook to enable showing error 
+#' @describeIn knit_ex is a knitr hook to enable showing error 
 #' messages thrown by \code{\link{try}}.
 #' The function is not meant to be called directly, but only registered 
-#' using \code{\link{knit_hooks}} (see details on this dedicated man page).
+#' using [knitr::knit_hooks] (see details on this dedicated man page).
 #' 
-#' \code{hook_try} simply defines a function \code{try} in \code{envir} that prints 
+#' This simply defines a function \code{try} in \code{envir} that prints 
 #' the error message if any, and is called instead of base \code{\link{try}}. 
 #' 
 #' @param before logical that indicates when the hook is being called: 
@@ -78,7 +80,6 @@ try_message <- function(signal = FALSE){
 #' @param options list of current knitr chunk options 
 #' @param envir environment where the chunk is evaluated
 #' 
-#' @rdname knit_ex
 #' @export
 #' @examples
 #' 
@@ -132,6 +133,10 @@ hook_try <- local({
 chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
     type <- match.arg(type)
     function(){
+        
+        if( !requireNamespace('knitr', quietly = TRUE) ) 
+            stop("Package 'knitr' is required to setup knit hook '", name, "'")
+        
         .hook_bkp <- NULL
         function(before, options, envir){
             # do nothing if the option is not ON
@@ -140,7 +145,7 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
             # set/unset hook
             if( before ){
                 # store current hook function
-                if( is.null(.hook_bkp) ) .hook_bkp <<- knit_hooks$get(type)
+                if( is.null(.hook_bkp) ) .hook_bkp <<- knitr::knit_hooks$get(type)
                 
                 # define hook wrapper
                 hook_wrapper <- function(x, options){
@@ -150,11 +155,11 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
                         
                 args <- list()
                 args[[type]] <- hook_wrapper
-                do.call(knit_hooks$set, args)
+                do.call(knitr::knit_hooks$set, args)
             }else{
                 args <- list()
                 args[[type]] <- .hook_bkp
-                do.call(knit_hooks$set, args)
+                do.call(knitr::knit_hooks$set, args)
                 .hook_bkp <<- NULL
             }
         }
@@ -207,15 +212,14 @@ hook_backspace <- chunkOutputHook('backspace',
         }
 )
 
-#' \code{str_bs} substitutes backspace characters (\\b) to produce
+#' @describeIn str_out substitutes backspace characters (`\\b`) to produce
 #' a character string as it would be displayed in the console.
 #'
 #' @author
 #' Renaud Gaujoux
 #'  
 #' \code{str_bs} was adapted from a proposal from Yihui Xie.
-#'  
-#' @rdname str_out 
+#' 
 #' @export
 #' @examples 
 #' 
@@ -348,10 +352,9 @@ $( document ).ready(function(){
 });
 </script>"
 
-#' \code{hook_toggle} is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+#' @describeIn knit_ex is a chunk hook that adds clickable elements to toggle \emph{indvidual}
 #' code chunks in HTML documents generated from .Rmd files.
 #' 
-#' @rdname knit_ex
 #' @export
 #' @examples
 #' 
@@ -421,3 +424,244 @@ hook_toggle <- function(){
     })
     fn()
 }
+
+
+# adapted from rmarkdown:::merge_lists
+# added capability of appending instead of just replacing value
+.merge_lists <- local({
+    .depth <- -1L
+    function (base_list, overlay_list, recursive = TRUE) 
+    {
+      # track depth
+      .depth <<- .depth + 1L
+      on.exit( .depth <<- .depth - 1L)
+      
+      res <- 
+      if (length(base_list) == 0) 
+            overlay_list
+      else if (length(overlay_list) == 0) 
+            base_list
+      else {
+            merged_list <- base_list
+            for (name in unique(names(overlay_list)) ) {
+                  base <- base_list[[name]]
+                  overlay <- overlay_list[[name]]
+                  if (is.list(base) && is.list(overlay) && recursive) 
+                        merged_list[[name]] <- .merge_lists(base, overlay)
+                  else {
+                      merged_list[[name]] <- NULL
+                      merged_list <- append(merged_list, overlay_list[which(names(overlay_list) %in% 
+                                                      name)])
+                  }
+            }
+            merged_list
+      }
+
+      # merge append/prepend special fields
+      if( .depth == 0L && length(specials <- grep("[<>]$", names(res), value = TRUE)) ){
+          lapply(specials, function(s){
+              n <- gsub("[<>]$", "", s)
+              if( grepl("<$", s) ){ # append
+                  res[[n]] <<- c(res[[n]], res[[s]])
+                  
+              }else{ # prepend 
+                  res[[n]] <<- c(res[[s]], res[[n]])
+              }
+                  
+          })
+          res[specials] <- NULL
+      }
+      
+      res
+    }
+})
+
+
+parse_yaml_front_matter2 <- local({
+    .parse_yaml_front_matter <- NULL
+    .config <- NULL
+    .output_format <- NULL
+    .output_options <- NULL
+    
+    function(input_lines, config = NULL, output_options = NULL, output_format = NULL){
+        
+        
+        requireNamespace('yaml')
+        
+        merge_lists <- .merge_lists 
+        if( is.null(.parse_yaml_front_matter) ){
+            env <- environment(rmarkdown::render)
+            .parse_yaml_front_matter <<- env$parse_yaml_front_matter
+        }
+        if( !nargs() ) return(.parse_yaml_front_matter)
+        if( !missing(config) ) .config <<- config
+        if( !missing(output_format) ) .output_format <<- output_format
+        if( !missing(output_options) ) .output_options <<- output_options
+        if( missing(input_lines) ) return(parse_yaml_front_matter2)
+        
+        .config <- .config %||% 
+                    (if( file.exists(default_config <- '~/.rmarkdown.yaml') ) default_config) %||%
+                    read.yaml_section('rmarkdown::render') # section in .Rprofile
+        if( isString(.config) ){
+            .config <- yaml::yaml.load_file(.config)
+        }
+        
+        # use this trick to avoid spurious NOTE in check
+        yaml_front_matter_parser <- .parse_yaml_front_matter
+        metadata <- yaml_front_matter_parser(input_lines)
+        if( !is.null(.output_options) ){
+            metadata <- merge_lists(metadata, .output_options)
+        }
+        if( !is.list(.config) ) return(metadata)
+        
+        m <- merge_lists(.config, metadata)
+        if( isString(m$output) )
+            m$output <- setNames(list(list()), m$output)
+        
+        of <- .output_format %||% names(m$output)[1L] %||% 'html_document'
+        if( isString(of) && !is.null(.config$output[[of]]) ) 
+            m$output <- merge_lists(m$output[[of]], .config$output[of])
+        
+        m
+    }
+})
+
+# initialize front_matter parser override if possible 
+#if( requireNamespace('rmarkdown', quietly = TRUE) ){
+#    parse_yaml_front_matter2()
+#}
+
+#' Renders rmarkdown Documents Using User Default Options
+#' 
+#' 
+#' @inheritParams rmarkdown::render
+#' @param ... other arguments passed to \code{\link[rmarkdown]{render}} 
+#' @param .config location of the default options (a YAML file).
+#' Default behaviour is to look for file \code{'.rmarkdown.yaml'} in the user's
+#' home directory, or, if missing, for a yaml section \code{rmarkdown::render} 
+#' in the user's R profile.
+#' 
+#' @seealso \code{\link{read.yaml_section}}
+#' @export
+render_notes <- function(input, output_format = NULL, output_options = NULL, ..., .config = NULL){
+    
+    mrequire("to render documents", 'rmarkdown')
+    requireNamespace('rmarkdown')
+    # initial call to initialise override and backup
+    parse_yaml_front_matter2()
+    
+    if( is.null(output_format) ){
+        # parse using original rmarkdown parser
+        doc_matter <- parse_yaml_front_matter2()(readLines(input))
+        output_format <- names(doc_matter$output)[1L] %||% doc_matter$output 
+        if( is.null(output_format) ){
+            fmt <- list(html = c('r', 'rmd', 'md'), pdf = 'rnw')
+            ext <- tolower(file_extension(input))
+            output_format <- setNames(rep(names(fmt), sapply(fmt, length)), unlist(fmt))[ext]
+            if( is_NA(output_format) ) output_format <- NULL
+            
+            if( ext == 'rnw' ){
+                
+                input0 <- normalizePath(input)
+                tmpinput <- tempfile(paste0(basename(input0), '_'), dirname(input0))
+                tmpinput_file <- paste0(tmpinput, ".", ext)
+                # chunk out preamble and add it as an option
+                l <- str_trim(readLines(input))
+                if( length(i0 <- grep("^[^%]*[\\]documentclass *((\\[)|(\\{))", l)) ){
+                    i1 <- grep("^[^%]*[\\]begin *\\{ *document *\\}", l)
+                    preamb <- l[seq(i0, i1)]
+                    tmpinput_header <- paste0(tmpinput, "_preamble.tex")
+                    cat(preamb[c(-1, -length(preamb))], file = tmpinput_header, sep = "\n")
+                    output_options <- output_options %||% list()
+                    output_options$includes$in_header <- tmpinput_header 
+                    l <- l[-seq(i0, i1)]
+                    on.exit({
+                        if( is.dir(tmp_fdir <- paste0(tmpinput, '_files')) ){
+                            fdir <- paste0(input0, '_files')
+                            unlink(fdir, recursive = TRUE)
+                            file.rename(tmp_fdir, fdir)
+                        }
+                        unlink(tmpinput_header)
+                        unlink(tmpinput_file)
+                    }, add = TRUE)
+                    cat(l, file = tmpinput_file, sep = "\n")
+                    input <- tmpinput_file
+                }
+            }
+        }
+    }
+    # enforce suffix '_document'
+    if( isString(output_format) )
+        if( !grepl("_", output_format, fixed = TRUE) ){
+            output_type <- gsub("_((document)|(presentation))$", '', tolower(output_format))
+            if( output_type %in% c('beamer') )  output_format <- paste0(output_type, '_presentation')
+            else output_format <- paste0(output_type, '_document')
+        }
+    is_output_format <- ns_get('is_output_format', 'rmarkdown')
+    if( !is_output_format(output_format) ){
+        output_format_from_yaml_front_matter <- ns_get('output_format_from_yaml_front_matter', 'rmarkdown')
+        output_format <- output_format_from_yaml_front_matter(readLines(input), output_format_name = output_format)
+        output_format <- output_format$name
+    }
+    
+    # hook wrapper in render environment
+    env <- environment(rmarkdown::render)
+    do.call("unlockBinding", list("parse_yaml_front_matter", env))
+    # restore on exit
+    on.exit({
+        if( bindingIsLocked("parse_yaml_front_matter", env) )
+            do.call("unlockBinding", list("parse_yaml_front_matter", env))
+        env$parse_yaml_front_matter <- parse_yaml_front_matter2()
+        lockBinding("parse_yaml_front_matter", env)
+    }, add = TRUE)
+    # override function
+    env$parse_yaml_front_matter <- parse_yaml_front_matter2(config = .config, output_options = output_options, output_format = output_format)
+    # lock it again
+    lockBinding("parse_yaml_front_matter", env)
+    
+    # classic render
+    rmarkdown::render(input, output_format, output_options = output_options, ...)
+}
+
+#user_document <- local({
+#    ..config <- ..output_format <- NULL
+#    function(..., .config, .output_format = NULL){
+#        
+#        if( !missing(.config) ){
+#            if( is.null(.output_format) ) .output_format <- 'html'
+#            ..output_format <<- .output_format
+#            ..config <<- .config
+#            return()
+#        }
+#    
+#        of <- ..output_format
+#        if( isString(of) ){
+#            # call wrapped output format function
+#            e <- parent.frame()
+#            of <- getFunction(paste0(gsub("_document$", '', tolower(of)), '_document'), where = e)
+#        }
+#        if( is.function(of) ) of <- of(...)
+#        
+#        # wrap pre-processor
+#        .pre_processor <- of$pre_processor
+#        .set_render_metadata_defaults <- function(value){
+#                
+#                env <- environment(rmarkdown::render)
+#                old_value <- env$metadata
+#                #do.call("unlockBinding", list("metadata", env))
+#                #on.exit( lockBinding("metadata", env) )
+#                env$metadata <- value
+#                
+#                old_value
+#        }
+#        
+#        of$pre_processor <- function(metadata, ...){
+#            # merge and change metadata in render environment
+#            metadata <- rmarkdown:::merge_lists(..config, metadata)
+#            .set_render_metadata_defaults(metadata)
+#            .pre_processor(metadata, ...)
+#        }
+#        
+#        of
+#    }
+#})

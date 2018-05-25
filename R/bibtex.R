@@ -13,9 +13,7 @@
 #' Multiple citations are handled by adding a numeric suffix to the Bibtex key 
 #' (other than the first/main citation) as \code{"<pkgname>\%i"} (e.g. pkg, pkg2, pkg3).
 #' 
-#' This function has now been integrated by Romain François in the bibtex package.
-#'
-#' @encoding utf8
+#' This function has now been integrated by Romain Francois in the bibtex package.
 #'
 #' @param entry a \code{\link{bibentry}} object or a character vector of package 
 #' names. If \code{NULL}, then the list of all installed packages is used.
@@ -35,9 +33,9 @@
 #' from Achim Zeileis (see \emph{References}).
 #' 
 #' @references 
-#' \emph{[R] Creating bibtex file of all installed packages?}
+#' \emph{Creating bibtex file of all installed packages?}
 #' Achim Zeileis. R-help mailing list. 
-#' \url{https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html}
+#' \url{https://stat.ethz.ch/pipermail/r-help/2009-December/415181.html}
 #' 
 #' @seealso \code{link{connection}}, \code{link{bibentry}}
 #'  
@@ -162,11 +160,12 @@ write.bib <- function(...){
 #' @param key character vector of BibTex keys
 #' @param short logical that indicates if the reference should be shorten as 
 #' First Author et al. if it has more than one author.
+#' @param PACKAGE package in which the BiBTeX entry is defined.
 #' @return a character string containing the text formated BibTex entries
 #'  
 #' @export
-packageReference <- function(key, short=FALSE){
-	bibs <- bibtex::read.bib(file=packageReferenceFile())
+packageReference <- function(key, short=FALSE, PACKAGE = NULL){
+	bibs <- bibtex::read.bib(file=packageReferenceFile(PACKAGE))
 	k <- sapply(bibs, function(x) x$key)
     mk <- match(key, k)
 	sel <- mk[!is.na(mk)]
@@ -265,10 +264,61 @@ citecmd_pkg <- function(key, ...){
 
 #' Bibtex Utilities
 #' 
-#' \code{packageReferenceFile} returns the path to a package REFERENCES.bib file.
+#' Utility functions to work with BiBTeX files.
 #' 
-#' @param PACKAGE package name
+#' @name bibtex
+NULL
+
+#' @describeIn bibtex returns the path to a package REFERENCES.bib file.
 #' 
-#' @rdname bibtex
-packageReferenceFile <- function(PACKAGE=NULL) packagePath('REFERENCES.bib', package=PACKAGE)
+#' @param PACKAGE package name. If `NULL`, then the name of the calling package is used.
+#' @param check logical that indicates if the result should be an empty string if the
+#' bibliography file (or package) does not exist. 
+#' 
+#' @export 
+#' @examples
+#' 
+#' packageReferenceFile('pkgmaker')
+#' packageReferenceFile('pkgmaker', check = TRUE)
+#' 
+packageReferenceFile <- function(PACKAGE = NULL, check = FALSE){
+  f <- packagePath('REFERENCES.bib', package = PACKAGE, check = FALSE)
+  if( check && length(f) && nzchar(f) && !file.exists(f) ) return('')
+  f
+  
+}
+
+#' @describeIn bibtex returns the bibliography associated with a package.
+#' This can 
+#' 
+#' @param action single character string that specifies the action to be performed:
+#' 
+#'   * 'path': return the path to the bibliography file. It returns an empty character 
+#' string if the file does not exist.
+#'   * 'copy': copy the bibliography file to the current directory, overwriting any existing
+#' `REFERENCES.bib` file.  
+#'   * 'load': load the bibliography file and return a list of [utils::bibentry] 
+#' objects. It returns `NULL` if the file does not exist.
+#' 
+#' @importFrom bibtex read.bib 
+#' @export
+package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'load')){
+  
+  action <- match.arg(action)
+  f <- packageReferenceFile(PACKAGE, check = TRUE)
+  switch(action
+      , path = f
+      , load = {
+          if( nzchar(f) ) bibtex::read.bib(f) 
+          else NULL
+          
+        }
+      , copy = {
+        if( !nzchar(f) ) return(invisible())
+        invisible(file.copy(f, '.', overwrite = TRUE))
+        
+      }
+  )
+  
+}
 

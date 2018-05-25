@@ -11,7 +11,6 @@
 #'  
 #' @inheritParams grDevices::col2rgb
 #' 
-#' @importFrom grDevices col2rgb
 #' @export
 #' @examples
 #' 
@@ -21,8 +20,14 @@
 #' alphacol('#aabbcc', 5)
 #' alphacol(4, 5)
 #' 
-alphacol <- function(col, alpha=FALSE){
-	apply(as.character(as.hexmode(col2rgb(col, alpha))), 2, function(x) paste("#", paste(x, collapse=''), sep=''))
+alphacol <- function(col, alpha = FALSE){
+    col <- as.character(as.hexmode(col2rgb(col, alpha)))
+    if( !is.logical(alpha) ){
+        if( alpha < 1 ) alpha <- alpha * 255
+        alpha <- round(alpha)
+        col['alpha', ] <- as.character(as.hexmode(alpha))
+    }
+	apply(col, 2, function(x) paste("#", paste(x, collapse=''), sep=''))
 }
 
 

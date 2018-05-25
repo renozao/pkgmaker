@@ -4,15 +4,17 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
-test.option_link <- function(){
+context('Package specific options')
+
+test_that('setupPackageOptions', {
 	
 	opt <- setupPackageOptions(a=1,b=2,c=option_symlink('a'),d=4, RESET=TRUE)
 	
 	.test <- function(msg){
-		checkIdentical(names(opt$options('a')), 'a', paste(msg, " - options: name of target is ok"))
-		checkIdentical(names(opt$options('c')), 'c', paste(msg, " - options: name of link is ok"))
-		checkIdentical(opt$options('c'), setNames(opt$options('a'), 'c'), paste(msg, " - options: link ok"))
-		checkIdentical(opt$getOption('a'), opt$getOption('c'), paste(msg, " - getOption: link ok"))
+		expect_identical(names(opt$options('a')), 'a', paste(msg, " - options: name of target is ok"))
+    expect_identical(names(opt$options('c')), 'c', paste(msg, " - options: name of link is ok"))
+    expect_identical(opt$options('c'), setNames(opt$options('a'), 'c'), paste(msg, " - options: link ok"))
+    expect_identical(opt$getOption('a'), opt$getOption('c'), paste(msg, " - getOption: link ok"))
 	}
 	
 	.test('Default')
@@ -21,12 +23,12 @@ test.option_link <- function(){
 	opt$options(c=50)
 	.test('After setting link')
 
-}
+})
 
-test.resetOptions <- function(){
+test_that('resetOptions', {
 	opt <- setupPackageOptions(a=1,b=2,c=option_symlink('a'),d=4, RESET=TRUE)
 	
-	.checkOptions <- function(y, msg) checkIdentical(opt$options(), y, msg)
+	.checkOptions <- function(y, msg) expect_identical(opt$options(), y, msg)
 	ref <- opt$options()
 	# simple set
 	opt$options(a=10)
@@ -62,4 +64,4 @@ test.resetOptions <- function(){
 	x$aaa <- NULL
 	.checkOptions(x, 'new options get removed')
 	
-}
+})

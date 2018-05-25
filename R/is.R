@@ -20,7 +20,9 @@ NULL
 #' @rdname is_something
 #' @export
 is_NA <- function(x){ 
-	identical(x, NA) || identical(x, as.character(NA)) || identical(x, as.numeric(NA)) || identical(x, as.integer(NA))
+    is.atomic(x) && length(x) == 1L && is.na(x)
+#   x <- unname(x)
+#	identical(x, NA) || identical(x, as.character(NA)) || identical(x, as.numeric(NA)) || identical(x, as.integer(NA))
 }
 
 #' \code{isFALSE} Tests if a variable is exactly FALSE.

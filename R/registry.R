@@ -344,12 +344,11 @@ packageRegistry <- function(regname=NULL, quiet=FALSE, entry=FALSE, update=!entr
 })
 
 
-#' \code{packageRegistries} lists registries from loaded packages.
+#' @describeIn registry lists registries from loaded packages.
 #' 
 #' @param primary logical that indicates if only primary registries 
 #' should be listed.
 #'  
-#' @rdname registry
 #' @export
 packageRegistries <- function(regname=NULL, package=NULL, primary=FALSE){
 	lns <- loadedNamespaces()
@@ -382,16 +381,15 @@ packageRegistries <- function(regname=NULL, package=NULL, primary=FALSE){
 	res
 }
 
-#' \code{hasPackageRegistry} tells if a given package has a meta-registry or 
+#' @describeIn registry tells if a given package has a meta-registry or 
 #' a given registry. 
 #' 
-#' @rdname registry
 #' @export
 hasPackageRegistry <- function(regname=NULL, package){
 	isNamespaceLoaded(package) && !is.null( packageRegistry(regname, package=package, quiet=TRUE, entry=TRUE) )
 }
 
-#' @S3method format package_subregistry
+#' @export
 format.package_subregistry <- function(x, ...){
 	c(Key = x$key
 	, Description = x$description
@@ -399,26 +397,26 @@ format.package_subregistry <- function(x, ...){
 	, Parent = x$parent)	
 }
 
-#' @S3method format package_metaregistry
+#' @export
 format.package_metaregistry <- function(x, ...){
 	rec <- x$get_entries()
 	data.frame(t(sapply(rec, base::format, ...))[, -1L, drop=FALSE])	 
 }
 
-#' @S3method print package_metaregistry
+#' @export
 print.package_metaregistry <- function(x, ...){	
 	NextMethod('print') #registry:::print.registry(x)
 	print(format(x, ...))
 }
 
-#' @S3method xtable package_metaregistry 
+#' @export
 #' @importFrom xtable xtable
 xtable.package_metaregistry <- function(x, ...){
 	d <- format(x)
 	xtable::xtable(d, ...)
 }
 
-#' \code{setPackageRegistry} creates a package-specific registry within a package.
+#' @describeIn registry creates a package-specific registry within a package.
 #'  
 #' Each package sub-registry has its own set of fields.
 #' Sub-registries defined by passing a character string in argument \code{regobj} of 
@@ -441,7 +439,6 @@ xtable.package_metaregistry <- function(x, ...){
 #' should be overwritten if it exists.
 #' 
 #' @inheritParams packageRegistry
-#' @rdname registry
 #' @export
 setPackageRegistry <- function(regname, regobj
 								, description='', entrydesc=NA
@@ -474,7 +471,7 @@ setPackageRegistry <- function(regname, regobj
 			}
 			stop("Could not create registry '", regname,"' in ", ns_str, ": registry already exists")
 		}else{
-			message("Remove registry '", regname,"' from ", ns_str)
+			message("Removing registry '", regname,"' from ", ns_str)
 			regenv$delete_entry(regname)
 		}
 	}
@@ -513,7 +510,7 @@ setPackageRegistry <- function(regname, regobj
 	regobj <- fix_registry(regobj)
 	# add package
 	attr(regobj, 'package') <- nm
-	
+    
 	# create new meta entry
 	regenv$set_entry(key=regname, regobj=regobj
 					, description=description, entrydesc=entrydesc
@@ -652,15 +649,14 @@ regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 	if( !entry && is(regobj, 'object_subregistry') ) d$object
 	else d
 }
-#' \code{pkgreg_fetch} fetches entries in a package registry, as set up by 
+#' @describeIn regfetch fetches entries in a package registry, as set up by 
 #' \code{\link{setPackageRegistry}}.
 #' 
-#' \code{pkgreg_fetch} loads the requested package registry and uses \code{regfetch} 
+#' It loads the requested package registry and uses \code{regfetch} 
 #' to retrieve data from it.
 #' 
 #' @inheritParams setPackageRegistry
 #'  
-#' @rdname regfetch
 #' @export
 pkgreg_fetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
 	# get package registry
@@ -671,12 +667,11 @@ pkgreg_fetch <- function(regname, ..., msg=NULL, where=topenv(parent.frame())){
 	regfetch(regentry$regobj, ..., msg=msg)
 }
 
-#' \code{pkgreg_remove} removes an entry from a package registry.
+#' @describeIn regfetch removes an entry from a package registry.
 #' 
 #' @param quiet a logical that indicates if the operation should be performed quietly, 
 #' without throwing errors or warnings.
 #' 
-#' @rdname regfetch
 #' @export
 pkgreg_remove <- function(regname, ..., msg=NULL, where=topenv(parent.frame()), quiet=FALSE){
 	# get package registry
@@ -745,7 +740,7 @@ setClassRegistry <- function(registry, Class, ...){
 	do.call('setClass', c(args, ...))
 }
 
-#' \code{setPackageRegistryEntry} adds an entry in a package registry.
+#' @describeIn registry adds an entry in a package registry.
 #' 
 #' @param key entry identifier.
 #' @param where package name or namespace that owns the registry. 
@@ -753,7 +748,6 @@ setClassRegistry <- function(registry, Class, ...){
 #' @param msg addon message to print at the end of the output log line, 
 #' when \code{verbose=TRUE}.
 #' 
-#' @rdname registry
 #' @export
 setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=FALSE
 									, where=topenv(parent.frame()), msg=NULL){
@@ -846,7 +840,7 @@ setPackageRegistryEntry <- function(regname, key, ..., overwrite=FALSE, verbose=
 			locregobj$delete_entry(names(locentry)[1L])
 		}
 		# add entry into local registry
-		if( verbose ) message(action, " entry '", key, "' in registry '", fullregistry, "' ... ", appendLF=FALSE)
+		if( verbose ) message(action, " entry '", key, "' in registry '", packageName(lns), "::", fullregistry, "' ... ", appendLF=FALSE)
 		do.call(locregobj$set_entry, fields)
 		if( verbose ) message("OK")
 	}

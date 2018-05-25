@@ -4,7 +4,6 @@
 # Creation: 25 Apr 2012
 ###############################################################################
 
-#' @include unitTests.R
 #' @include devutils.R
 NULL
 
@@ -90,7 +89,7 @@ is.package_options <- function(x){
 	is(x, 'package_options')
 }
 
-#' @S3method print package_options
+#' @export
 print.package_options <- function(x, ...){
 	cat("<Package specific options: ", x$name, ">\n", sep='')
 	cat("Registered: ", !is.null(getOption(x$name)), "\n", sep='')
@@ -151,26 +150,6 @@ option_symlink_target <- function(x, opts){
 	x
 	
 }
-
-# unit test for option symbolic links
-unit.test('option_symlink', {
-
-	opt <- setupPackageOptions(a=1,b=2,c=option_symlink('a'),d=4)
-	
-	.test <- function(msg){
-		checkIdentical(names(opt$options('a')), 'a', paste(msg, " - options: name of target is ok"))
-		checkIdentical(names(opt$options('c')), 'c', paste(msg, " - options: name of link is ok"))
-		checkIdentical(opt$options('c'), setNames(opt$options('a'), 'c'), paste(msg, " - options: link ok"))
-		checkIdentical(opt$getOption('a'), opt$getOption('c'), paste(msg, " - getOption: link ok"))
-	}
-	
-	.test('Default')
-	opt$options(a=100)
-	.test('After setting target')
-	opt$options(c=50)
-	.test('After setting link')
-			
-})
 
 #' \code{as.package_options} creates an object such as the 
 #' ones used to stores package specific options.
@@ -295,19 +274,19 @@ as.package_options <- function(..., defaults=NULL){
 #' @param ... arguments passed to \code{getOption} (only first one is used). 
 #'  
 #' @rdname options 
-#' @S3method [[ package_options
+#' @export
 "[[.package_options" <- function(x, ...){
 	if( missing(..1) ) x$options()
 	else x$getOption(..1)
 }
 
-#' @S3method [[<- package_options
+#' @export
 "[[<-.package_options" <- function(x, i, value){
 	x$.options[[i]] <- value 
 }
 
 
-##' @S3method [[ package_options
+# #' @S3method [[ package_options
 #`[[.package_options` <- function(x, ..., follow=FALSE){
 #	
 #	if( missing(..1) ) as.list(x$.options)
@@ -316,7 +295,7 @@ as.package_options <- function(..., defaults=NULL){
 #	}else x$.options[[..1]]
 #}
 #
-##' @S3method [[<- package_options
+# #' @S3method [[<- package_options
 #`[[<-.package_options` <- function(x, i, ..., value){
 #	
 #	follow <- if( missing(..1) ) FALSE else ..1 
@@ -378,7 +357,7 @@ mkoptions <- function(...){
 	}
 }
 
-#' \code{.options} is a low-level function that mimics the behaviour 
+#' @describeIn local-options is a low-level function that mimics the behaviour 
 #' of the base function \code{\link[base]{options}}, given a set 
 #' of key-value pairs.
 #' It is the workhorse function used in \code{mkoptions} and package-specific
@@ -388,7 +367,6 @@ mkoptions <- function(...){
 #' For \code{mkoptions} these define inital/default key-value pairs. 
 #' @param .DATA a list or an environment with an element \code{.options}.
 #' 
-#' @rdname local-options
 .options <- function(..., .DATA){
 	
 	opts <- if( is.package_options(.DATA) || is.environment(.DATA) ) .DATA$.options else .DATA
@@ -471,3 +449,37 @@ packageOptions <- function(..., PACKAGE = packageName()){
 listPackageOptions <- function(){
 	grep('^package:', names(options()), value=TRUE)
 } 
+
+
+#' Reads YAML Options Embbeded into a File
+#' 
+#' @param section section name to lookup in the file.
+#' In the file this defined by paired tags \code{"#<section_name>", "#</section_name>"}, 
+#' or a single tag \code{"#<section_name@@file_path>"} that redirect to a YAML file.
+#' @param file path to the file to parse. Default is to parse the user's \emph{.Rprofile}.
+#' @param text text to parse.
+#' If provided, then argument \code{file} is not used.
+#' 
+#' @export
+read.yaml_section <- function(section, file = '~/.Rprofile', text = NULL){
+    
+    # parse .Rprofile for configuration sections
+    if( !is.null(text) ) file <- textConnection(text)
+    l <- str_trim(readLines(file))
+    i_start <- grep(sprintf("^# *<%s(@.*)?>", section), l)
+    if( !length(i_start) ) return()
+    i_end <- grep(sprintf("^# *</%s>", section), l)
+    
+    if( !length(i_end) ){ # no closing tag
+        # check for indirection to a yaml file
+        m <- str_match(l[i_start], sprintf("^# *<%s@(.*)>", section))[1, ]
+        if( !is.na(m[1]) ){ # load from file
+            return(yaml::yaml.load_file(m[2]))
+        }else return() # exit
+        
+    }else{ # parse section 
+        yml <- gsub('^#', '', l[seq(i_start+1, i_end-1)])
+        yml <- paste0(yml, collapse = "\n")
+        yaml::yaml.load(yml)
+    }
+}

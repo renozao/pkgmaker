@@ -26,14 +26,13 @@ list.libs <- function(dir, ..., all.platforms=FALSE){
 	list.files(dir, pattern=p, ...)
 }
 
-#' \code{libname} extracts library names from a path, removing the 
+#' @describeIn libutils extracts library names from a path, removing the 
 #' directory part of the path, as well as the platform 
 #' specific library extension.
 #' 
 #' @param x a filename
 #' 
 #' @export
-#' @rdname libutils
 #' 
 #' @examples
 #' 
@@ -57,7 +56,24 @@ libname <- function(x){
 source_files <- function(x, pattern=NULL, ...){
 	if( length(x) == 1L && is.dir(x) )
 		x <- list.files(x, pattern=pattern, full.names=TRUE)
-	invisible(sapply(x, source, ...))
+    
+    if( length(x) > 1L ) invisible(sapply(x, sourceURL, ...))
+    else sourceURL(x, ...)
+}
+
+# internal source function to play well with CNTLM proxies
+sourceURL <- function(url, ...){
+    
+    file <- url
+    if( grepl("^http", url) ){
+        dest <- tempfile(basename(url), fileext='.R')
+        download.file(url, dest, quiet = TRUE)
+        if( file.exists(dest) ){
+            file <- dest
+            on.exit( file.remove(file) )
+        }else stop("Failed to download file '", url, "'")
+    }
+    source(file, ...)
 }
 
 #' Extract File Extension
@@ -78,5 +94,5 @@ source_files <- function(x, pattern=NULL, ...){
 file_extension <- function(x, ext=NULL){
 	
 	if( is.null(ext) ) sub(".*\\.([^.]{3})$","\\1",x)
-	else str_c(sub("(.*)(\\.([^.]{3}))$","\\1", x), '.', sub("^.", '', ext))
+	else str_c(sub("(.*)(\\.([^.]{3}))$","\\1", x), '.', sub("^\\.", '', ext))
 }

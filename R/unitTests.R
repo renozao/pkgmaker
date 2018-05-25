@@ -13,7 +13,7 @@ NULL
 #' Loads the package responsible for the implementation of the RUnit framework,
 #' choosing amongst \sQuote{RUnitX}, \sQuote{svUnit} and \sQuote{RUnit}.
 #' 
-#' @param ... arguments passed to \code{\link{requirePackage}}.
+#' @param ... arguments not used.
 #' 
 #' @return nothing
 #' @export
@@ -50,7 +50,7 @@ requireRUnit <- local({
 
 # Borrowed from RUnit::.existsTestLogger
 .existsTestLogger <- function(envir = .GlobalEnv){
-    exists(".testLogger", envir = envir) && inherits(.testLogger, "TestLogger")
+    exists(".testLogger", envir = envir) && inherits(envir$.testLogger, "TestLogger")
 }
 
 #' Enhancing RUnit Logger
@@ -347,8 +347,11 @@ makeUnitVignette <- function(pkg, file=paste(pkg, '-unitTests.pdf', sep=''), ...
 		# run unit tests
 		tests <- utest(package, ...)
 		
+        if( !requireNamespace('RUnit', quietly = TRUE) ) 
+            stop("Package 'RUnit' is required to make unit test vignettes")
+	        
 		# check for errors
-		err <- getErrors(tests)
+		err <- RUnit::getErrors(tests)
 		errMsg <- NULL
 		if( err$nFail > 0) {
 			errMsg <- c(errMsg, sprintf( "unit test problems: %d failures\n", err$nFail))
@@ -664,12 +667,12 @@ list.tests <- function(x, pattern=NULL){
 #' @param ... extra arguments to allow extensions and are passed to 
 #' the unit framework running funcitons. 
 #'
-#' @inline
 #' @export
 setGeneric('utest', function(x, ...) standardGeneric('utest'))
-#' Run the unit test assoicated to a function. 
+#' @describeIn utest Run the unit test assoicated to a function.
 #' 
 #' @param run a logical that indicates if the unit test should be run
+#' 
 setMethod('utest', 'function',
 	function(x, run = TRUE){
 		# get actual name of the function
@@ -683,8 +686,8 @@ setMethod('utest', 'function',
 		tfun <- ls(eTest, pattern=str_c("^", sid, ":"))		
 	}
 )
-#' Run a package test suite
-#' 
+#' @describeIn utest Run a package test suite
+#'  
 #' @param filter pattern to match files that contain the definition of 
 #' the unit tests functions to run.
 #' @param fun patter to match the test functions to run.
@@ -693,7 +696,7 @@ setMethod('utest', 'function',
 #' @param quiet a logical that indicates if the tests should be run silently
 #' @param lib.loc path to a library where installed packages are searched for.
 #' Used is of the form \code{x='package:*'}.
-#'  
+#'
 setMethod('utest', 'character', 
 		function(x, filter="^runit.+\\.[rR]$", fun="^test\\.", ...
 				, testdir='tests', framework=c('RUnit', 'testthat')
@@ -720,9 +723,9 @@ setMethod('utest', 'character',
 						file.path(path, testdir)
 					}else{
 						# try to find a corresponding development package
-						if( require.quiet(devtools) 
-								&& is.package(pkg <- as.package(x, quiet=TRUE)) ){
-							load_all(pkg, TRUE)
+						if( qrequire('devtools') && requireNamespace('devtools') 
+								&& devtools::is.package(pkg <- as.package(x, quiet=TRUE)) ){
+							devtools::load_all(pkg, TRUE)
 							file.path(pkg$path, 'inst', testdir)
 						}else{ # assume x is a path  
 							x
@@ -773,7 +776,8 @@ setMethod('utest', 'character',
 				if( framework == 'RUnit' ){ # RUnit
 					
 					requireRUnit("Running RUnit test suites")
-					s <- defineTestSuite(x, path
+                    loadNamespace('RUnit')
+					s <- RUnit::defineTestSuite(x, path
 							, testFileRegexp=filter
 							, testFuncRegexp=fun, ...)
 					str(s)
@@ -781,20 +785,23 @@ setMethod('utest', 'character',
 					
 				}else if( framework == 'testthat' ){ # testthat
 					
-					requirePackage('testthat', "Running testthat unit test suites")
-					test_dir(path, filter=filter, ...)
+					mrequire("Running testthat unit test suites", 'testthat')
+                    loadNamespace('testthat')
+					testthat::test_dir(path, filter=filter, ...)
 					
 				}
 			}else{ # single test file
 				if( framework == 'RUnit' ){ # RUnit
 					
 					requireRUnit("Running RUnit unit test file")
-					runTestFile(path, testFuncRegexp=fun, ...)
+                    loadNamespace('RUnit')
+					RUnit::runTestFile(path, testFuncRegexp=fun, ...)
 					
 				}else if( framework == 'testthat' ){ # testthat
 					
-					requirePackage('testthat', "Running testthat unit test file")
-					test_file(path, ...)
+					mrequire("Running testthat unit test file", 'testthat')
+                    loadNamespace('testthat')
+					testthat::test_file(path, ...)
 					
 				}
 			}
@@ -803,45 +810,45 @@ setMethod('utest', 'character',
 )
 
 setOldClass('RUnitTestSuite')
-#' Runs a RUnit test suite
-#' 
+
+#' @describeIn utest Runs a RUnit test suite
 #' @param outdir output directory
 setMethod('utest', 'RUnitTestSuite',
 	function(x, ..., quiet=FALSE, outdir=NULL){
 		requireRUnit("Running RUnit test suites")
-		
+		loadNamespace('RUnit')
 		pathReport <- file.path(outdir, str_c("utest.", sub("[:]", "_", x$name)))
 		
 		t <- system.time({
 			if( quiet ){
 				suppressWarnings(suppressMessages(out <- capture.output(
-					tests <- runTestSuite(x, ...)
+					tests <- RUnit::runTestSuite(x, ...)
 				)))
 			}else 
-				tests <- runTestSuite(x, ...)
+				tests <- RUnit::runTestSuite(x, ...)
 		})
 		
 		## Report to stdout and text files
 		cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
 		summary_file <- paste(pathReport, ".Summary.txt", sep="")
-		printTextProtocol(tests, showDetails=FALSE,	fileName=summary_file)
+		RUnit::printTextProtocol(tests, showDetails=FALSE,	fileName=summary_file)
 		# append timing
 		st <- c("\nTotal execution time\n***************************"
 				, paste(capture.output(print(t)), collapse="\n"))
 		write(st, file=summary_file, append=TRUE)
 		# detailed report
 		details_file <- paste(pathReport, ".Details.txt", sep="")
-		printTextProtocol(tests, showDetails=TRUE, fileName=details_file)
+		RUnit::printTextProtocol(tests, showDetails=TRUE, fileName=details_file)
 		write(st, file=details_file, append=TRUE)
 		#
 		
 		## Report to HTML file
-		printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
+		RUnit::printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
 		
 		## Return stop() to cause R CMD check stop in case of
 		##  - failures i.e. FALSE to unit tests or
 		##  - errors i.e. R errors
-        tmp <- getErrors(tests)
+        tmp <- RUnit::getErrors(tests)
         if(tmp$nFail > 0 | tmp$nErr > 0) {
             # filter failures and errors
             test_summary <- capture.output(.summaryRUnit(tests, c('error', 'failure'), print = TRUE))

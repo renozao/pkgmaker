@@ -16,7 +16,7 @@ addnames <- function(x, ...){
 	UseMethod('addnames')
 }
 
-#' @S3method addnames default
+#' @export
 #' @rdname addnames
 addnames.default <- function(x, ...){
 	if( is.vector(x) ) addnames.vector(x, ...)
@@ -30,7 +30,7 @@ addnames.default <- function(x, ...){
 #' @param sep separator used between the prefix and the numeric index. 
 #' @param ... extra arguments to allow extension and passed to the next method.
 #' 
-#' @S3method addnames vector
+#' @export
 #' @rdname addnames
 addnames.vector <- function(x, prefix='x', sep='', ...){
 	names(x) <- paste(prefix, 1:length(x), sep=sep) 
@@ -38,7 +38,7 @@ addnames.vector <- function(x, prefix='x', sep='', ...){
 } 
 
 
-#' @S3method addnames array
+#' @export
 #' @rdname addnames
 addnames.array <- function(x, prefix=letters[1:length(dim(x))], sep='', ...){
 	d <- dim(x)
@@ -51,8 +51,69 @@ addnames.array <- function(x, prefix=letters[1:length(dim(x))], sep='', ...){
 	x
 } 
 
-#' @S3method addnames matrix
+#' @export
 #' @rdname addnames
 addnames.matrix <- function(x, prefix=c('row', 'col'), ...){
 	addnames.array(x, prefix=prefix, ...)
+}
+
+
+#' Flattens All List Levels Using Separated Names
+#' 
+#' @param x a list object, usually containing other lists -- of lists.
+#' @param sep character string used to separate each component of the final element names.
+#' @param use.names logical that indicates if the original names of each the sucessive
+#' nested list elements should be used to build the final names of the result list.
+#' @param depth maximum number of levels to unlist. 
+#' Root level is `1L`. 
+#' 
+#' @export
+#' @examples 
+#' 
+#' x <- list(X = list(a = 1
+#'                    , b = list(b.1 = 2
+#'                               , b.2 = list(b.2.1 = 4, b.2.2 = data.frame())
+#'                               , b.3 = 3)
+#'                    , c = matrix()))
+#' unlist_with_sep(x)
+#' unlist_with_sep(x, '###')
+#' 
+unlist_with_sep <- function(x, sep = '/', use.names = TRUE, depth = Inf){
+  
+  # early exit for non-list input
+  if( !is.list(x) ) return(x)
+  
+  .local <- function(y, n = 1L){
+    if( is.null(names(y)) || !use.names ) names(y) <- seq_along(y)
+    if( anyDuplicated(names(y)) ){
+      stop(sprintf("Invalid names at level %i: foudn duplucated names %s", n, str_out(unique(names(y)[duplicated(names(y))]), Inf)))
+    }
+    
+    leaves <- c()
+    res <- lapply(seq_along(y), function(i){
+          m <- names(y)[i]
+          e <- y[[i]]
+          if( is.list(e) && !is.data.frame(e) && n < depth){
+            e <- .local(e, n+1L)
+            names(e) <- paste(m, names(e), sep = sep)
+            
+          }else{
+            e <- y[i]
+            leaves <<- c(leaves, i)
+          }
+          
+          e
+        })
+    
+#    # use original names for leaves
+#    names(res) <- rep('', length(res))
+#    names(res)[leaves] <- names(y)[leaves]
+    
+    # concatenate result
+    do.call(c, res)
+    
+  }
+  
+  .local(x)
+  
 }

@@ -233,7 +233,7 @@ ifdef USE_PDFLATEX
 	# Compact vignettes
 	$(RSCRIPT) --vanilla -e "pkgmaker::compactVignettes('$*.pdf')"
 	# Remove temporary LaTeX files (but keep the .tex)
-	rm -fr $*.toc $*.log $*.bbl $*.blg $*.aux $*.out $*-blx.bib	
+	rm -fr $*.toc $*.log $*.bbl $*.blg $*.aux $*.out $*-blx.bib $*.bcf $*.run-xml	
 	
 else
 	# Using tools::texi2dvi
