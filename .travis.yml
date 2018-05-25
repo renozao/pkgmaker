@@ -6,6 +6,7 @@
 
 language: r
 sudo: false
+bioc_required: true
 cache: packages
 r:
   - release
