@@ -523,6 +523,13 @@ NotImplemented <- function(msg){
 #' 
 packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors', TRUE)){
 	
+  # workaround for when this function is called under batchtools
+  # See https://github.com/mllg/batchtools/issues/195
+  if( !length(options) ){
+    options <- setNames(list(1), tempfile())
+    
+  }
+  
 	withr::with_options(options, {
 		# same as utils::data if no 'list' argument
 		if( missing(list) ) return( data(..., envir=envir) )
@@ -541,7 +548,7 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 		}
 		if( length(list) == 1L ) .get(list, envir=envir)
 		else sapply(list, .get, envir=envir, simplify=FALSE)
-		
+    
 	})
 	
 }
