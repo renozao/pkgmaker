@@ -1,8 +1,8 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.27
-Date: 2018-05-25
+Version: 0.27.1
+Date: 2018-06-06
 Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
 Description: Provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
@@ -34,7 +34,8 @@ Imports:
     stringr,
     xtable,
     withr,
-    bibtex (>= 0.4)
+    bibtex (>= 0.4),
+    assertthat
 Suggests:
     devtools (>= 0.8),
     roxygen2,
@@ -43,7 +44,8 @@ Suggests:
     knitr,
     rmarkdown,
     yaml,
-    Biobase
+    Biobase,
+    datasets
 Collate: 
     'bibtex.R'
     'colors.R'

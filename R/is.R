@@ -78,6 +78,11 @@ isString <- function(x, y, ignore.case=FALSE){
 	res
 }
 
+isNZString <- function(x){
+  isString(x) && nzchar(x)
+  
+}
+
 #' \code{is.dir} tests if a filename is a directory.
 #' 
 #' @rdname is_something

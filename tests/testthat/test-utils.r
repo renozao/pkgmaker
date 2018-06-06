@@ -133,3 +133,35 @@ test_that('.str_bs', {
     expect_identical(str_bs("abcd\b\b\b\b"), "", "As many backspaces as characters at the end is OK")
     expect_identical(str_bs("abcd\b\be"), "abe", "Backspace in the middle is OK")
 })
+
+test_that("ldata", {
+      
+  # parameter check error
+  expect_error(ldata(NA), "Invalid argument 'list':.* NULL .* character vector")
+  expect_error(ldata(1L), "Invalid argument 'list':.* NULL .* character vector")
+  for(v in list(1L, "", character()))
+    expect_error(ldata(package = v), "Invalid argument 'package':.* NULL .* non-empty string")
+  for(v in list(1L, c(TRUE, FALSE), logical()))
+    expect_error(ldata(error = v), "Invalid argument 'error':.* single logical")
+  for(v in list(1L, c(TRUE, FALSE), logical()))
+    expect_error(ldata(simplify = v), "Invalid argument 'simplify':.* single logical")
+  
+  # load single data
+  a <- ldata("iris", package = "datasets")
+  expect_true(is.data.frame(a))
+  e <- environment()
+  expect_true(exists("iris", envir = e, inherit = FALSE), "Dataset is loaded in caller environment")
+  expect_identical(e[["iris"]], a)
+  expect_true(!exists("iris", envir = .GlobalEnv, inherit = FALSE), "Dataset is not loaded in .GlobalEnv")
+  expect_error(ldata("blabla", package = "datasets"), "object 'blabla' not found")
+  expect_identical(ldata("iris", package = "datasets", error = FALSE), a, "Data found returns correct data if error = FALSE")
+  expect_identical(ldata("blabla", package = "datasets", error = FALSE), NULL, "Data not found returns NULL if error = FALSE")
+  expect_identical(ldata("blabla", package = "datasets", error = FALSE, simplify = FALSE)
+                      , list(blabla = NULL), "Data not found returns named list with NULL element if error = FALSE and not simplifying")
+  expect_identical(ldata(c("blabla", "iris"), package = "datasets", error = FALSE)
+                    , list(blabla = NULL, iris = a), "Some data not found with error = FALSE returns partially filled list")
+  expect_identical(ldata(c("iris", "blabla"), package = "datasets", error = FALSE)
+                    , list(iris = a, blabla = NULL), "Some data not found with error = FALSE returns partially filled list (order is honored)")
+  
+})
+

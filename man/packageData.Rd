@@ -8,7 +8,7 @@
 packageData(list, envir = .GlobalEnv, ..., options = NULL,
   stringsAsFactors = getOption("stringsAsFactors", TRUE))
 
-ldata(list, ...)
+ldata(list, ..., package = NULL, error = TRUE, simplify = TRUE)
 }
 \arguments{
 \item{list}{character vector containing the names of the data to load.}
@@ -22,6 +22,21 @@ This may be useful the data is shipped as an R script.}
 
 \item{stringsAsFactors}{logical that indicates if character columns of tabular data should be
 converted into factors.}
+
+\item{package}{
+    a character vector giving the package(s) to look
+    in for data sets, or \code{NULL}.
+
+    By default, all packages in the search path are used, then
+    the \file{data} subdirectory (if present) of the current working
+    directory.
+  }
+
+\item{error}{a logical that indicates whether an error should be thrown if
+the requested data cannot be found.}
+
+\item{simplify}{logical that indicates if queries of one object only (i.e. argument \code{list}
+is of length one) should return the data object itself.}
 }
 \value{
 the loaded data.
