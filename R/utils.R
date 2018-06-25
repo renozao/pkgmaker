@@ -1297,3 +1297,93 @@ factor2character <- function(x){
   x
   
 }
+
+#' Compute Function Digest Hash
+#' 
+#' Computes a digest hash of the body and signature of a function.
+#' Note that the hash is not affected by attributes or the 
+#' function's environment.
+#' 
+#' The hash itself is computed using [digest::digest].
+#' 
+#' @param fun a function
+#' @param n a single numeric that indicates the length of the hash.
+#' 
+#' @return a character string
+#' 
+#' @import digest
+#' @importFrom assertthat is.number
+#' @export 
+digest_function <- function(fun, n = Inf){
+  
+  assert_that(is.number(n) & n>0, msg = "Invalid argument 'n': must be Inf or a positive number.")
+  # get function body (handle primitive in a special way)
+  bd <- if( !is.primitive(fun) ) body(fun) else capture.output(fun)
+  attributes(bd) <- NULL
+  bd <- as.character(bd)
+  # include formals in the hash for non-primitive functions
+  if( !is.primitive(fun) ) bd <- list(bd, formals(fun))
+  hash <- digest::digest(bd)
+  # limit to a given size if requested
+  if( is.finite(n) ) hash <- substr(hash, 1L, n)
+  hash
+  
+}
+
+#' System Call Stack Utilities
+#' 
+#' @name sys_call_stack
+NULL
+
+#' @describeIn sys_call_stack computes digest hash for each function in the call stack.
+#' @param n a single frame
+#' @export
+sys.function_digest <- function(n = NULL){
+  assert_that(is.null(n) || (is.number(n) & n>0), msg = "Invalid argument 'n': must be NULL or a positive number.")
+  n <- n %||% sys.nframe()
+  sapply(1:n, function(i){
+        f <- sys.function(i)
+        digest_function(f)
+        
+      })
+  
+}
+
+#' @describeIn sys_call_stack returns the index of the frame that calls a given function.
+#' @param fun the function object to find in the call stack.
+#' @export 
+sys.function_nframe <- function(fun){
+  which(sys.function_digest() == digest_function(fun))
+  
+}
+
+#' @describeIn sys_call_stack returns the frame that calls a given function.
+#' @export
+sys.function_frame <- function(fun){
+  n <- sys.function_nframe(fun)
+  if( length(n) > 1L )
+    warning(sprintf("Multiple call frames found for target function '%s': using last call.", digest_function(fun)))
+  else if( !length(n) )
+    stop(sprintf("No call frames found for target function '%s'", digest_function(fun)))
+  
+  sys.frame(n)
+  
+}
+
+#' @describeIn sys_call_stack returns path to the script that is being sourced either
+#' by [base::source] or [base::sys.source].
+#' @export
+sys.source_file <- function(){
+  res <- try(sys.function_frame(base::source), silent = TRUE)
+  if( is(res, "try-error") ){
+    res <- try(sys.function_frame(base::sys.source), silent = TRUE)
+    if( is(res, "try-error") ) stop("Could not find call frame for 'source' or 'sys.source'")
+    res[["file"]]
+    
+  }else{
+    if( isString(res[["ofile"]]) ) res[["ofile"]]
+    else res[["filename"]]
+    
+  }
+  
+}
