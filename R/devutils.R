@@ -667,3 +667,54 @@ list.data <- function(package = NULL){
   data.frame(package = dlist[, "Package"], data = key, object = obj_name, stringsAsFactors = FALSE)
   
 }
+
+
+#' Generate a Loading Script for Development Packages
+#' 
+#' Writes a script file that contains code that loads a given development package.
+#' 
+#' This is useful when we want to load a development package in `batchtools` registries:
+#' 
+#' ```
+#' library(devtools)
+#' library(batchtools)
+#' 
+#' load_all("path/to/pkgA")
+#' makeRegistry(..., source = load_all_file("pkgA"))
+#' ```
+#' 
+#' @param path a character string that contains the path to the development package.
+#' @param package the name of the package for which the loading script must be generated.
+#' It must be a package that has already been loaded with [devtools::load_all] in the current
+#' session, so that its path can be retrieved.
+#' @param dest the path to script file to create (as a character string).
+#' If not provided, then the script is written in a temporary .R file with prefix 
+#' `"load_all_<pkgname>_"`.
+#' 
+#' @return a character string that contains the path to the script file.
+#' 
+#' @export
+load_all_file <- function(path = path.package(package), package, dest = NULL){
+  
+  if( !missing(path) && !missing(package)  ){
+    stop("Arguments 'path' and 'package' are exclusive: only one of them can be provided.")
+    
+  }
+  if( !requireNamespace('devtools', quietly = TRUE) ) 
+    stop("Package 'devtools' is required to load development package information.")
+  
+  # load package object
+  if( !missing(package) ) path <- path.package(package) 
+  pkg <- devtools::as.package(path)
+   
+  # define destination script file
+  if( is.null(dest) ) dest <- tempfile(paste0("load_all_", pkg[["package"]], "_"), fileext = ".R")
+  # write file
+  cat(sprintf("# package loader script (generated on: %s) \nmessage(\"* Loader script '%s'\")\nmessage(\"* Loading development package %s from: '%s'\")\ndevtools::load_all(\"%s\")\n"
+          , date(), dest, pkg[["package"]], pkg[["path"]], pkg[["path"]])
+      , file = dest)
+  
+  # return path to script
+  dest
+  
+}
