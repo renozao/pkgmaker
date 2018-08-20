@@ -15,8 +15,8 @@ packageRegistries(regname = NULL, package = NULL, primary = FALSE)
 
 hasPackageRegistry(regname = NULL, package)
 
-setPackageRegistry(regname, regobj, description = "", entrydesc = NA, ...,
-  package = topenv(parent.frame()), overwrite = FALSE)
+setPackageRegistry(regname, regobj, description = "", entrydesc = NA,
+  ..., package = topenv(parent.frame()), overwrite = FALSE)
 
 setPackageRegistryEntry(regname, key, ..., overwrite = FALSE,
   verbose = FALSE, where = topenv(parent.frame()), msg = NULL)

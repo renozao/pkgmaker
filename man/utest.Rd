@@ -14,7 +14,8 @@ utest(x, ...)
 
 \S4method{utest}{character}(x, filter = "^runit.+\\\\.[rR]$",
   fun = "^test\\\\.", ..., testdir = "tests", framework = c("RUnit",
-  "testthat"), quiet = Sys.getenv("RCMDCHECK") != "FALSE", lib.loc = NULL)
+  "testthat"), quiet = Sys.getenv("RCMDCHECK") != "FALSE",
+  lib.loc = NULL)
 
 \S4method{utest}{RUnitTestSuite}(x, ..., quiet = FALSE, outdir = NULL)
 }

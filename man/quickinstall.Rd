@@ -4,8 +4,8 @@
 \alias{quickinstall}
 \title{Quick Installation of a Source Package}
 \usage{
-quickinstall(path, destdir = NULL, vignettes = FALSE, force = TRUE, ...,
-  lib.loc = if (!is.null(destdir)) TRUE)
+quickinstall(path, destdir = NULL, vignettes = FALSE, force = TRUE,
+  ..., lib.loc = if (!is.null(destdir)) TRUE)
 }
 \arguments{
 \item{path}{path to the package source directory}
