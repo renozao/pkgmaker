@@ -73,23 +73,27 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
     if( (is_pkgcall('devtools') && (i <- is_funcall(ns_get('devtools::load_all')))) ||
         (is_pkgcall('pkgload') && (i <- is_funcall(ns_get('pkgload::load_all')))) || # for devtools > 1.12
         (is_pkgcall('roxygen24') && (i <- is_funcall(ns_get('roxygen24::source_package')))) ){
-			# find out the package that is currently being loaded by load_all
-			e <- sys.frame(i)
-			pkg <- e$pkg
+  			# find out the package that is currently being loaded by load_all
+  			e <- sys.frame(i)
+  			pkg <- e[["pkg"]]
             
-            if( is.null(pkg) ) stop("Could not infer loading namespace")
-            
-			# extract namespace
-			if( env ){
-        if( isDevNamespace(pkg$package) ) asNamespace(pkg$package)
-        else pkg$ns
-			}else if( info ){
-				list(
-						pkgname = pkg$package
-						, path = pkg$path
-						, libname = dirname(pkg$path)
-				)
-			}else pkg$package
+        if( is.null(pkg) ){ # try to load from path
+          if( is.null(path <- e[["path"]]) ) stop("Could not infer loading namespace")
+          pkg <- as_package(path)
+          
+        }
+        
+  			# extract namespace
+  			if( env ){
+          if( isDevNamespace(pkg$package) ) asNamespace(pkg$package)
+          else pkg$ns
+  			}else if( info ){
+  				list(
+  						pkgname = pkg$package
+  						, path = pkg$path
+  						, libname = dirname(pkg$path)
+  				)
+  			}else pkg$package
 		}
 	}
 	else NULL
