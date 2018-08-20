@@ -286,6 +286,15 @@ str_hash <- function(x, algo = 'md5'){
     
 }
 
+#' @describeIn str_out builds a string that describes the dimension of an object, in the form
+#' `n x m` for 2D-objects, `n x m x p` for 3D-objects, and so on.
+#' 
+#' @export
+str_dim <- function(x, dims=dim(x)){
+  if( !is.null(dims) ) paste0(dims, collapse = ' x ')
+  else length(x)
+}
+
 
 # From example in ?toupper
 capwords <- function(s, strict = FALSE) {

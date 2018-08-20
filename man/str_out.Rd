@@ -8,6 +8,7 @@
 \alias{str_pkg}
 \alias{str_md5sum}
 \alias{str_hash}
+\alias{str_dim}
 \alias{str_bs}
 \title{Formatting Utilities}
 \usage{
@@ -25,6 +26,8 @@ str_pkg(pkg, lib.loc = NULL)
 str_md5sum(x)
 
 str_hash(x, algo = "md5")
+
+str_dim(x, dims = dim(x))
 
 str_bs(x)
 }
@@ -82,6 +85,9 @@ It typically formats the output \code{capture.output(args(object))}.
 \item \code{str_md5sum}: computes md5sum on character vector using \code{\link[tools]{md5sum}}.
 
 \item \code{str_hash}: computes hash of a character vector using \code{\link[digest]{digest}}.
+
+\item \code{str_dim}: builds a string that describes the dimension of an object, in the form
+\code{n x m} for 2D-objects, \code{n x m x p} for 3D-objects, and so on.
 
 \item \code{str_bs}: substitutes backspace characters (\code{\\b}) to produce
 a character string as it would be displayed in the console.
