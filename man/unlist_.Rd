@@ -7,7 +7,8 @@
 Bioconductor AnnotationDbi::unlist2
 }
 \usage{
-unlist_(x, recursive = TRUE, use.names = TRUE, what.names = "inherited")
+unlist_(x, recursive = TRUE, use.names = TRUE,
+  what.names = "inherited")
 }
 \arguments{
 \item{x}{See \code{?unlist}.}

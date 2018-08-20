@@ -8,7 +8,8 @@
 \usage{
 packageReferenceFile(PACKAGE = NULL, check = FALSE)
 
-package_bibliography(PACKAGE = NULL, action = c("path", "copy", "load"))
+package_bibliography(PACKAGE = NULL, action = c("path", "copy",
+  "load"))
 }
 \arguments{
 \item{PACKAGE}{package name. If \code{NULL}, then the name of the calling package is used.}
