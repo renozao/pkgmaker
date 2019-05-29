@@ -213,12 +213,22 @@ irequire <- function(package, lib=NULL, ..., load=TRUE, msg=NULL, quiet=TRUE, pr
     if( install_type == 'CRAN' ){
         pkginstall <- install.packages
     }else{ # Bioconductor 
-        if( !reqpkg('BiocInstaller') ){
+        if( testRversion("3.6", -1L) ){ # Before 3.6 use BiocInstaller::biocLite
+          if( !reqpkg('BiocInstaller') ){
             sourceURL("http://bioconductor.org/biocLite.R")
-        }
-        pkginstall <- function(...){
+          }
+          pkginstall <- function(...){
             f <- ns_get('biocLite', 'BiocInstaller')
             f(..., suppressUpdates = TRUE)
+          }
+          
+       }else { # >= 3.6 -> use BiocManager::install
+          irequire("BiocManager", autoinstall = TRUE)
+          pkginstall <- function(...){
+            f <- ns_get('install', 'BiocManager')
+            f(..., update = FALSE)
+          }
+          
         }
     }
     message()
