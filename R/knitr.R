@@ -202,7 +202,9 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #'   edit( file = out)
 #' }
 #' # cleanup
-#' unlink(c(tmp, out))
+#' out_files <- list.files(dirname(out), full.names = TRUE,
+#'                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
+#' unlink(c(tmp, out_files))
 #' 
 #' 
 hook_backspace <- chunkOutputHook('backspace', 

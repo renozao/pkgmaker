@@ -61,10 +61,6 @@ code chunks in HTML documents generated from .Rmd files.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 library(knitr)
 knit_ex("1 + 1")
@@ -98,12 +94,12 @@ knit_hooks$set(backspace = pkgmaker::hook_backspace())
 ^^^
 Default knitr does not handle backspace and adds a special character:
 ^^^{r}
-cat('abc\\bd')
+cat('abc\bd')
 ^^^
 
 Using the hook backspace solves the issue:
 ^^^{r, backspace=TRUE}
-cat('abc\\bd')
+cat('abc\bd')
 ^^^
 ")
 
@@ -115,7 +111,9 @@ out <- knitr::knit2html(tmp, fragment.only = TRUE)
   edit( file = out)
 }
 # cleanup
-unlink(c(tmp, out))
+out_files <- list.files(dirname(out), full.names = TRUE,
+                         pattern = paste0("^", tools::file_path_sans_ext(out))) 
+unlink(c(tmp, out_files))
 
 
 
