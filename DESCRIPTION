@@ -2,7 +2,7 @@ Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
 Version: 0.28
-Date: 2019-05-29
+Date: 2020-01-21
 Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
 Description: Provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
@@ -69,5 +69,5 @@ Collate:
     'user.R'
     'vignette.R'
     'with.r'
-RoxygenNote: 6.0.1.9000
-Roxygen: list(markdown = TRUE, roclets = list('collate', 'namespace', 'roclets::rd2_roclet'))
+RoxygenNote: 7.0.2
+Roxygen: list(markdown = TRUE)
