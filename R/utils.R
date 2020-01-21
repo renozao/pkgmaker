@@ -289,8 +289,11 @@ str_hash <- function(x, algo = 'md5'){
 #' @describeIn str_out builds a string that describes the dimension of an object, in the form
 #' `n x m` for 2D-objects, `n x m x p` for 3D-objects, and so on.
 #' 
+#' @param dims a numeric vector of dimensions.
+#' Default is to use the input object dimensions (via function `dims()`)
+#' 
 #' @export
-str_dim <- function(x, dims=dim(x)){
+str_dim <- function(x, dims = dim(x)){
   if( !is.null(dims) ) paste0(dims, collapse = ' x ')
   else length(x)
 }
