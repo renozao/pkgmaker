@@ -29,8 +29,8 @@ is_NA <- function(x){
 #' 
 #' @rdname is_something
 #' @seealso \code{\link{isTRUE}}
-#' @export
-isFALSE <- function(x) identical(x, FALSE)
+#' @rawNamespace if (getRversion() < "3.5.0") export(isFALSE)
+isFALSE <- function(x) is.logical(x) && length(x) == 1L && !is.na(x) && !x
 
 #' \code{isNumber} tests if a variable is a single number
 #' 
