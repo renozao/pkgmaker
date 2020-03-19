@@ -521,8 +521,13 @@ NotImplemented <- function(msg){
 #' 
 #' \dontrun{ mydata <- packageData('mydata') }
 #' 
-packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors', TRUE)){
+packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors')){
 	
+  # use default value based on R version
+  if( is.null(stringsAsFactors) ){
+    stringsAsFactors <- testRversion("<=3.6.3")
+    
+  }
   # workaround for when this function is called under batchtools
   # See https://github.com/mllg/batchtools/issues/195
   if( !length(options) ){
@@ -536,7 +541,7 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 		# load into environment
 		data(list=list, ..., envir = envir)
 		# return the loaded data
-		.get <- function(x, ...){
+		.get <- function(x, envir, ...){
 			res <- get(x, ...)
 			# force factors into character vectors
 			if( !stringsAsFactors && is.data.frame(res) ){
@@ -544,6 +549,8 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 					res[[n]] <- as.character(res[[n]])
 				}
 			}
+			# update value in environment
+			assign(x, value = res, envir = envir)
 			res
 		}
 		if( length(list) == 1L ) .get(list, envir=envir)

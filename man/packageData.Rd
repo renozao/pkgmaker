@@ -5,8 +5,13 @@
 \alias{ldata}
 \title{Loading Package Data}
 \usage{
-packageData(list, envir = .GlobalEnv, ..., options = NULL,
-  stringsAsFactors = getOption("stringsAsFactors", TRUE))
+packageData(
+  list,
+  envir = .GlobalEnv,
+  ...,
+  options = NULL,
+  stringsAsFactors = getOption("stringsAsFactors")
+)
 
 ldata(list, ..., package = NULL, error = TRUE, simplify = TRUE)
 }
@@ -53,10 +58,6 @@ It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 \dontrun{ mydata <- packageData('mydata') }
 

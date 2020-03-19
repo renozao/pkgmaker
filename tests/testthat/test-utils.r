@@ -163,5 +163,10 @@ test_that("ldata", {
   expect_identical(ldata(c("iris", "blabla"), package = "datasets", error = FALSE)
                     , list(iris = a, blabla = NULL), "Some data not found with error = FALSE returns partially filled list (order is honored)")
   
+  # check that argument stringsAsFactors is honoured
+  expect_true(is.factor(ldata("iris", package = "datasets", stringsAsFactors = TRUE)[["Species"]]) && 
+                is.factor(e[["iris"]][["Species"]]))
+  expect_true(is.character(ldata("iris", package = "datasets", stringsAsFactors = FALSE)[["Species"]]) && 
+                is.character(e[["iris"]][["Species"]]))
 })
 
