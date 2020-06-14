@@ -4,6 +4,7 @@
 # see the wiki:
 #   https://github.com/craigcitro/r-travis/wiki
 
+dist: bionic
 language: r
 sudo: false
 bioc_required: true
