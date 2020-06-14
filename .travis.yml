@@ -6,7 +6,14 @@
 
 dist: bionic
 language: r
-sudo: false
+sudo: true
+r_binary_packages:
+  - stringi
+  - stringr
+  - devtools
+  - rmarkdown
+  - bibtex
+  - knitr
 bioc_required: true
 cache: packages
 r:
