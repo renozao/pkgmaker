@@ -542,7 +542,7 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 		data(list=list, ..., envir = envir)
 		# return the loaded data
 		.get <- function(x, envir, ...){
-			res <- get(x, ...)
+			res <- get(x, ..., envir = envir)
 			# force factors into character vectors
 			if( !stringsAsFactors && is.data.frame(res) ){
 				for(n in colnames(res)[sapply(res, is.factor)]){
