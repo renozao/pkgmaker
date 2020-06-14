@@ -29,8 +29,6 @@ Imports:
     graphics,
     codetools,
     digest,
-    stringi,
-    magrittr,
     stringr,
     xtable,
     withr,
