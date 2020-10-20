@@ -129,7 +129,7 @@ userData <- function(..., create=NULL, package = topenv(parent.frame())){
 #' possibly after installation.
 #' @param msg message to display in case the package is not found when first 
 #' trying to load/find it.
-#' This message is appended to the string \dQuote{Package '<packagename>' is required}.
+#' This message is appended to the string `"Package '<packagename>' is required"`.
 #' @param quiet logical that indicates if loading a package should be done quietly 
 #' with \code{\link{require.quiet}} or normally with \code{\link{require}}.
 #' @param prependLF logical that indicates if the message should start at a new line.

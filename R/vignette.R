@@ -506,7 +506,7 @@ rnwVignetteParser <- function(tag, ...){
 rnwLatexPackages <- rnwParser('usepackage', name='LaTeX package(s)', options=TRUE)
 
 #' @describeIn vignette tries to detect the vignette compiler to use on a vignette
-#' source file, e.g., \code{\link{Sweave}} or [knitr][knitr-package].
+#' source file, e.g., \code{\link{Sweave}} or [knitr][knitr::knitr-package].
 #' 
 #' @param verbose logical that toggles verbosity
 #' 
