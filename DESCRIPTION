@@ -13,8 +13,8 @@ Description: Provides some low-level utilities to use for package
     It is still under heavy development and changes in the interface(s) are
     more than likely to happen.
 License: GPL (>=2)
-URL: https://renozao.github.io/pkgmaker
-BugReports: http://github.com/renozao/pkgmaker/issues
+URL: https://renozao.github.io/pkgmaker/
+BugReports: https://github.com/renozao/pkgmaker/issues
 LazyLoad: yes
 Encoding: UTF-8
 Depends:
@@ -40,6 +40,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
+    markdown,
     yaml,
     Biobase,
     datasets,
