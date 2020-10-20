@@ -17,7 +17,7 @@ If \code{NULL}, then all previously cached keys are deleted, before .
 If a character string, then it specifies the path to a Bibtex file that is loaded
 to initialise the cache.}
 
-\item{...}{extra arguments passed to \code{\link[bibtex]{read.bib}}.}
+\item{...}{extra arguments passed to \link[rbibutils:readBib]{rbibutils::readBib}.}
 }
 \description{
 \code{bibcite} provides an inline package citation functionnality.

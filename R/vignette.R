@@ -626,7 +626,7 @@ parsePackageCitation <- function(x){
 #' If \code{NULL}, then all previously cached keys are deleted, before .
 #' If a character string, then it specifies the path to a Bibtex file that is loaded 
 #' to initialise the cache.
-#' @param ... extra arguments passed to \code{\link[bibtex]{read.bib}}.
+#' @param ... extra arguments passed to [rbibutils::readBib].
 #' @keywords internal
 cite_pkg <- local({
     .keys <- character()
@@ -636,9 +636,7 @@ cite_pkg <- local({
         # reset cache
         if( is.null(cache) ) .keys <- character()
         else if( isString(cache) ){
-            if( !requireNamespace('bibtex', quietly = TRUE) ) 
-                stop("Package 'bibtex' is required to run load bibtex files.")
-            .keys <- bibtex::read.bib(file = cache, ...)
+            .keys <- .read.bib(file = cache, ...)
         } 
         if( !missing(key) ){
             cat(key)

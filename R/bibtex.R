@@ -13,7 +13,8 @@
 #' Multiple citations are handled by adding a numeric suffix to the Bibtex key 
 #' (other than the first/main citation) as \code{"<pkgname>\%i"} (e.g. pkg, pkg2, pkg3).
 #' 
-#' This function has now been integrated by Romain Francois in the bibtex package.
+#' @note The Old version of this function {write.bib} has now been integrated 
+#' by Romain Francois in the bibtex package.
 #'
 #' @param entry a \code{\link{bibentry}} object or a character vector of package 
 #' names. If \code{NULL}, then the list of all installed packages is used.
@@ -42,15 +43,15 @@
 #' @export
 #' @examples
 #' 
-#' write.pkgbib(c('bibtex', 'utils', 'tools'), file='references')
-#' bibs <- bibtex::read.bib('references.bib')
+#' write.pkgbib(c('rbibutils', 'utils', 'tools'), file='references')
+#' bibs <- rbibutils::readBib('references.bib', "UTF-8")
 #' write.pkgbib(bibs, 'references2.bib')
-#' md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
-#' md5[1] == md5[2]
-#' \dontshow{ stopifnot(md5[1] == md5[2]) }
+#' bibs2 <- rbibutils::readBib('references.bib', "UTF-8")
+#' identical(bibs, bibs2)
+#' \dontshow{ stopifnot(identical(bibs, bibs2)) }
 #' 
 #' # write to stdout()
-#' write.pkgbib(c('bibtex', 'utils', 'tools'), file=NULL)
+#' write.pkgbib(c('rbibutils', 'utils', 'tools'), file=NULL)
 #' 
 #' # clean up 
 #' unlink(c('references.bib', 'references2.bib'))
@@ -137,7 +138,9 @@ write.pkgbib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = F
 	file.desc <- summary(fh)['description']
 	
 	if( verbose ) message(if( append ) "Adding " else "Writing ", length(bibs) , " Bibtex entries ... ", appendLF=FALSE)
-	writeLines(toBibtex(bibs), fh)
+	bibs_str <- toBibtex(bibs)
+	# bibs_str <- bibs_str[!grepl("citekey", bibs_str)]
+	writeLines(bibs_str, fh)
 	if(verbose) message("OK\nResults written to file '", file.desc, "'")
 	
 	## return Bibtex items invisibly
@@ -165,7 +168,7 @@ write.bib <- function(...){
 #'  
 #' @export
 packageReference <- function(key, short=FALSE, PACKAGE = NULL){
-	bibs <- bibtex::read.bib(file=packageReferenceFile(PACKAGE))
+	bibs <- .read.bib(file=packageReferenceFile(PACKAGE))
 	k <- sapply(bibs, function(x) x$key)
     mk <- match(key, k)
 	sel <- mk[!is.na(mk)]
@@ -217,7 +220,7 @@ citecmd <- local({
 				if( !nchar(pkg) )
 					stop("Could not identify package")
 				# load REFERENCES from detected package
-				.cache$REFERENCES <<- bibtex::read.bib(package=pkg)
+				.cache$REFERENCES <<- .read.bib(package=pkg)
 			}
 			REFERENCES <- .cache$REFERENCES
 		}
@@ -226,8 +229,8 @@ citecmd <- local({
 		REFERENCES <- if( is(REFERENCES, 'bibentry') ) REFERENCES
 				else if( is.character(REFERENCES) ){
 					p <- str_match(REFERENCES, "^package:(.*)")[,2]
-					if( is.na(p) ) bibtex::read.bib(file=REFERENCES)
-					else bibtex::read.bib(package=p)
+					if( is.na(p) ) .read.bib(file=REFERENCES)
+					else .read.bib(package=p)
 				}else
 					stop("Invalid argument `REFERENCES`: expected bibentry object or character string [", class(REFERENCES), "]")
 		
@@ -300,7 +303,6 @@ packageReferenceFile <- function(PACKAGE = NULL, check = FALSE){
 #'   * 'load': load the bibliography file and return a list of [utils::bibentry] 
 #' objects. It returns `NULL` if the file does not exist.
 #' 
-#' @importFrom bibtex read.bib 
 #' @export
 package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'load')){
   
@@ -309,7 +311,7 @@ package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'loa
   switch(action
       , path = f
       , load = {
-          if( nzchar(f) ) bibtex::read.bib(f) 
+          if( nzchar(f) ) .read.bib(f) 
           else NULL
           
         }
@@ -319,6 +321,21 @@ package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'loa
         
       }
   )
+  
+}
+
+# local wrapper around rbibutils::readBib to enable reading from REFERENCES.bib files
+# in a given package
+.read.bib <- function(file, package = NULL){
+  if( !requireNamespace('rbibutils', quietly = TRUE) ) 
+    stop("Package 'rbibutils' is required to run load bibtex files.")
+  if( !is.null(package) ){
+    stopifnot(missing(file))
+    file <- system.file("REFERENCES.bib", package = package)
+    
+  }
+  
+  rbibutils::readBib(file = file, encoding = "UTF-8")
   
 }
 
