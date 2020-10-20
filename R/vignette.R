@@ -123,17 +123,17 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 "% R
 \\let\\proglang=\\textit
 \\let\\code=\\texttt 
-\\newcommand{\\Rcode}{\\code}
-\\newcommand{\\pkgname}[1]{\\textit{#1}\\xspace}
-\\newcommand{\\Rpkg}[1]{\\pkgname{#1} package\\xspace}
-\\newcommand{\\citepkg}[1]{\\cite{#1}}
+\\providecommand{\\Rcode}{\\code}
+\\providecommand{\\pkgname}[1]{\\textit{#1}\\xspace}
+\\providecommand{\\Rpkg}[1]{\\pkgname{#1} package\\xspace}
+\\providecommand{\\citepkg}[1]{\\cite{#1}}
 ")
 }
 
 	if( inc(CRAN) ){
 		cmd <- c(cmd,
 "% CRAN
-\\newcommand{\\CRANurl}[1]{\\url{https://cran.r-project.org/package=#1}}
+\\providecommand{\\CRANurl}[1]{\\url{https://cran.r-project.org/package=#1}}
 %% CRANpkg
 \\makeatletter
 \\def\\CRANpkg{\\@ifstar\\@CRANpkg\\@@CRANpkg}
@@ -146,36 +146,36 @@ latex_preamble <- function(PACKAGE, R=TRUE, CRAN=TRUE, Bioconductor=TRUE
 \\def\\@citeCRANpkg#1{\\CRANpkg{#1}\\cite*{Rpackage:#1}}
 \\def\\@@citeCRANpkg#1{\\CRANpkg{#1}~\\cite{Rpackage:#1}}
 \\makeatother
-\\newcommand{\\CRANnmf}{\\href{https://cran.r-project.org/package=NMF}{CRAN}}
-\\newcommand{\\CRANnmfURL}{\\url{https://cran.r-project.org/package=NMF}}
+\\providecommand{\\CRANnmf}{\\href{https://cran.r-project.org/package=NMF}{CRAN}}
+\\providecommand{\\CRANnmfURL}{\\url{https://cran.r-project.org/package=NMF}}
 ")
 }
 
 	if( inc(Bioconductor) ){
 		cmd <- c(cmd,
 "% Bioconductor
-\\newcommand{\\BioCurl}[1]{\\url{http://www.bioconductor.org/packages/release/bioc/html/#1.html}}
-\\newcommand{\\BioCpkg}[1]{\\href{http://www.bioconductor.org/packages/release/bioc/html/#1.html}{\\pkgname{#1}} package\\footnote{\\BioCurl{#1}}}
-\\newcommand{\\citeBioCpkg}[1]{\\BioCpkg{#1}~\\cite{Rpackage:#1}}
+\\providecommand{\\BioCurl}[1]{\\url{http://www.bioconductor.org/packages/release/bioc/html/#1.html}}
+\\providecommand{\\BioCpkg}[1]{\\href{http://www.bioconductor.org/packages/release/bioc/html/#1.html}{\\pkgname{#1}} package\\footnote{\\BioCurl{#1}}}
+\\providecommand{\\citeBioCpkg}[1]{\\BioCpkg{#1}~\\cite{Rpackage:#1}}
 % Bioconductor annotation
-\\newcommand{\\BioCAnnurl}[1]{\\url{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}}
-\\newcommand{\\BioCAnnpkg}[1]{\\href{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}{\\Rcode{#1}} annotation package\\footnote{\\BioCAnnurl{#1}}}
-\\newcommand{\\citeBioCAnnpkg}[1]{\\BioCAnnpkg{#1}~\\cite{Rpackage:#1}}
+\\providecommand{\\BioCAnnurl}[1]{\\url{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}}
+\\providecommand{\\BioCAnnpkg}[1]{\\href{http://www.bioconductor.org/packages/release/data/annotation/html/#1.html}{\\Rcode{#1}} annotation package\\footnote{\\BioCAnnurl{#1}}}
+\\providecommand{\\citeBioCAnnpkg}[1]{\\BioCAnnpkg{#1}~\\cite{Rpackage:#1}}
 ")
 }
 
 	if( inc(GEO) ){
 		cmd <- c(cmd, 
 "% GEO
-\\newcommand{\\GEOurl}[1]{\\href{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}{#1}\\xspace}
-\\newcommand{\\GEOhref}[1]{\\GEOurl{#1}\\footnote{\\url{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}}}
+\\providecommand{\\GEOurl}[1]{\\href{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}{#1}\\xspace}
+\\providecommand{\\GEOhref}[1]{\\GEOurl{#1}\\footnote{\\url{http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#1}}}
 ")
 	}
 
 	if( inc(ArrayExpress) ) cmd <- c(cmd,
 "% ArrayExpress
-\\newcommand{\\ArrayExpressurl}[1]{\\href{http://www.ebi.ac.uk/arrayexpress/experiments/#1}{#1}\\xspace}
-\\newcommand{\\ArrayExpresshref}[1]{\\ArrayExpressurl{#1}\\footnote{\\url{http://www.ebi.ac.uk/arrayexpress/experiments/#1}}}
+\\providecommand{\\ArrayExpressurl}[1]{\\href{http://www.ebi.ac.uk/arrayexpress/experiments/#1}{#1}\\xspace}
+\\providecommand{\\ArrayExpresshref}[1]{\\ArrayExpressurl{#1}\\footnote{\\url{http://www.ebi.ac.uk/arrayexpress/experiments/#1}}}
 ")
 
 	if( biblatex ){
