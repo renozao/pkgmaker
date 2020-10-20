@@ -2,6 +2,7 @@ sandbox/
 \.project
 \.settings
 staticdocs
+docs
 ^dev$
 vignettes/Rpackages\.bib
 vignettes/.*\.tex
