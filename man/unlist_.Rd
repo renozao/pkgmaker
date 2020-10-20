@@ -7,8 +7,7 @@
 Bioconductor AnnotationDbi::unlist2
 }
 \usage{
-unlist_(x, recursive = TRUE, use.names = TRUE,
-  what.names = "inherited")
+unlist_(x, recursive = TRUE, use.names = TRUE, what.names = "inherited")
 }
 \arguments{
 \item{x}{See \code{?unlist}.}
@@ -27,10 +26,6 @@ Use this function if you don't like the mangled names returned by the standard \
 Using \code{unlist} with annotation data is dangerous and it is highly recommended to use \code{unlist_} instead.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 x <- list(A=c(b=-4, 2, b=7), B=3:-1, c(a=1, a=-2), C=list(c(2:-1, d=55), e=99))
 unlist(x)
 unlist_(x)

@@ -5,8 +5,16 @@
 \alias{library_project}
 \title{Load Development Package}
 \usage{
-load_project(pkg, reset = FALSE, ..., utests = TRUE, verbose = FALSE,
-  addlib = TRUE, character.only = FALSE, try.library = FALSE)
+load_project(
+  pkg,
+  reset = FALSE,
+  ...,
+  utests = TRUE,
+  verbose = FALSE,
+  addlib = TRUE,
+  character.only = FALSE,
+  try.library = FALSE
+)
 
 library_project(...)
 }

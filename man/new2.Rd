@@ -17,10 +17,6 @@ An alternative version of \code{\link{new}} to create objects based on a list
 of values.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 setClass('A', contain='character', representation(x='numeric', y='character'))
 

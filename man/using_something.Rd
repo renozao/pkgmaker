@@ -74,10 +74,6 @@ devtools 1.3
 }
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 getwd()
 using_dir(tempdir(), getwd())
 getwd()

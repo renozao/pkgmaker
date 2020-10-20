@@ -4,8 +4,12 @@
 \alias{makeUnitVignette}
 \title{Make Vignette for Unit Tests}
 \usage{
-makeUnitVignette(pkg, file = paste(pkg, "-unitTests.pdf", sep = ""), ...,
-  check = FALSE)
+makeUnitVignette(
+  pkg,
+  file = paste(pkg, "-unitTests.pdf", sep = ""),
+  ...,
+  check = FALSE
+)
 }
 \arguments{
 \item{pkg}{Package name}

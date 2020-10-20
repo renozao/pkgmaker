@@ -4,8 +4,13 @@
 \alias{write.pkgbib}
 \title{Generate a Bibtex File from Package Citations}
 \usage{
-write.pkgbib(entry = NULL, file = "Rpackages.bib", prefix = "",
-  append = FALSE, verbose = TRUE)
+write.pkgbib(
+  entry = NULL,
+  file = "Rpackages.bib",
+  prefix = "",
+  append = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{entry}{a \code{\link{bibentry}} object or a character vector of package
@@ -34,24 +39,22 @@ It is useful for adding relevant citations in Sweave documents.
 \details{
 Multiple citations are handled by adding a numeric suffix to the Bibtex key
 (other than the first/main citation) as \code{"<pkgname>\%i"} (e.g. pkg, pkg2, pkg3).
-
-This function has now been integrated by Romain Francois in the bibtex package.
+}
+\note{
+The Old version of this function {write.bib} has now been integrated
+by Romain Francois in the bibtex package.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
 
-
-write.pkgbib(c('bibtex', 'utils', 'tools'), file='references')
-bibs <- bibtex::read.bib('references.bib')
+write.pkgbib(c('rbibutils', 'utils', 'tools'), file='references')
+bibs <- rbibutils::readBib('references.bib', "UTF-8")
 write.pkgbib(bibs, 'references2.bib')
-md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
-md5[1] == md5[2]
-\dontshow{ stopifnot(md5[1] == md5[2]) }
+bibs2 <- rbibutils::readBib('references.bib', "UTF-8")
+identical(bibs, bibs2)
+\dontshow{ stopifnot(identical(bibs, bibs2)) }
 
 # write to stdout()
-write.pkgbib(c('bibtex', 'utils', 'tools'), file=NULL)
+write.pkgbib(c('rbibutils', 'utils', 'tools'), file=NULL)
 
 # clean up 
 unlink(c('references.bib', 'references2.bib'))

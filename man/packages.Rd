@@ -26,7 +26,7 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
 \item{lib.loc}{a character vector describing the location of \R
     library trees to search through, or \code{NULL}.  The default value
     of \code{NULL} corresponds to all libraries currently known to
-    \code{\link{.libPaths}()}.
+    \code{\link[base]{.libPaths}()}.
     Non-existent library trees are silently ignored.}
 
 \item{quietly}{a logical.  If \code{TRUE}, no message confirming
@@ -45,16 +45,13 @@ and stops with a -- custom -- error message if it fails to do so.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 mrequire('Running this example', 'stringr')
 try( mrequire('Doing impossible things', 'notapackage') )
 
 }
 \seealso{
-Other require: \code{\link{irequire}}
+Other require: 
+\code{\link{irequire}()}
 }
 \concept{require}

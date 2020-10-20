@@ -25,10 +25,6 @@ more writing if one wants to:
 }
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 ol <- .libPaths()
 # called sequentially, .libPaths only add the last library
 show( .libPaths('.') )

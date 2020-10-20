@@ -20,10 +20,6 @@ Invisibly returns the full path to the generated zip file.
 Build a Windows Binary Package
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 \dontrun{
 
 # from source directory

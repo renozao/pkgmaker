@@ -4,8 +4,13 @@
 \alias{askUser}
 \title{User Queries}
 \usage{
-askUser(msg, allowed = c("y", "n"), idefault = "n", default = "n",
-  case.sensitive = FALSE)
+askUser(
+  msg,
+  allowed = c("y", "n"),
+  idefault = "n",
+  default = "n",
+  case.sensitive = FALSE
+)
 }
 \arguments{
 \item{msg}{The output message}

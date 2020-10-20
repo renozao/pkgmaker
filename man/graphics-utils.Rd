@@ -17,10 +17,6 @@ Utility Functions for Graphics
 that will arrange \code{n} panels in a single plot.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
  
 mfrow(1)
 mfrow(2)

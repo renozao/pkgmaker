@@ -18,10 +18,6 @@ Note that it will correctly detect errors only if all normal exit
 are wrapped into a call to it.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # define some function
 f <- function(err){
@@ -31,8 +27,8 @@ f <- function(err){
 
  # do something on exit that depends on the error status
 	on.exit({
-		if(success()) cat("Exit with no error: do nothing\\n") 
-		else cat("Exit with error: cleaning up the mess ...\\n") 
+		if(success()) cat("Exit with no error: do nothing\n") 
+		else cat("Exit with error: cleaning up the mess ...\n") 
 	})
 	
  # throw an error here

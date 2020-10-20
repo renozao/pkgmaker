@@ -38,7 +38,7 @@ with their values.}
 \item{PACKAGE}{a package name}
 }
 \value{
-\code{listPackageOptions}: a character vector (possibly empty).
+a character vector (possibly empty).
 }
 \description{
 \code{option_symlink} creates a symbolic link to option \code{x}.
@@ -62,10 +62,6 @@ given package that were defined with \code{setupPackageOptions}, and behaves as 
 currently defined with \code{setupPackageOptions}.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 listPackageOptions()
 
 }

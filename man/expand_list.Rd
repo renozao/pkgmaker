@@ -40,10 +40,6 @@ It can \strong{only} be called from inside a function.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 expand_list(list(a=1, b=2), c=3)
 expand_list(list(a=1, b=2, c=4), c=3)

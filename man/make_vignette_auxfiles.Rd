@@ -4,8 +4,13 @@
 \alias{make_vignette_auxfiles}
 \title{Generate RMarkdown Vignette Axiliary Files}
 \usage{
-make_vignette_auxfiles(PACKAGE, input = NULL, bibfile = "library.bib",
-  Rpkg.prefix = "Rpackage_", ...)
+make_vignette_auxfiles(
+  PACKAGE,
+  input = NULL,
+  bibfile = "library.bib",
+  Rpkg.prefix = "Rpackage_",
+  ...
+)
 }
 \arguments{
 \item{PACKAGE}{package name}
@@ -16,7 +21,7 @@ If \code{NULL} then the current file is obtained via a call to \link[knitr:curre
 \item{bibfile}{output file for R package citations.}
 
 \item{Rpkg.prefix}{prefix to use when generating the bibtex entries of cited R packages.
-If \code{Rpkg.prefix = 'Rpackage_'}, then Rmardown citations should be \code{@Rpackage_mypkg}.}
+If \code{Rpkg.prefix = 'Rpackage_'}, then Rmardown citations should be \verb{@Rpackage_mypkg}.}
 
 \item{...}{other arguments passed to \link{latex_preamble}}
 }
@@ -25,7 +30,7 @@ Generate RMarkdown Vignette Axiliary Files
 }
 \details{
 To use this feature add the following in your YAML header:\preformatted{header-includes:
-  - \input{"`r pkgmaker::make_vignette_auxfiles('pkgmaker')`"}
+  - \\input\{"`r pkgmaker::make_vignette_auxfiles('pkgmaker')`"\}
 bibliography: library.bib
 }
 }

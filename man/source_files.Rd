@@ -9,7 +9,7 @@ source_files(x, pattern = NULL, ...)
 \arguments{
 \item{x}{character vector containing filenames}
 
-\item{pattern}{an optional \link{regular expression}.  Only file names
+\item{pattern}{an optional \link[base]{regular expression}.  Only file names
     which match the regular expression will be returned.}
 
 \item{...}{extra arguments passed to \code{\link{source}}.}

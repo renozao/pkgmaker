@@ -4,9 +4,17 @@
 \alias{irequire}
 \title{Require a Package with User Interaction}
 \usage{
-irequire(package, lib = NULL, ..., load = TRUE, msg = NULL,
-  quiet = TRUE, prependLF = FALSE, ptype = c("CRAN-like", "BioC",
-  "BioCsoft", "BioCann"), autoinstall = !interactive())
+irequire(
+  package,
+  lib = NULL,
+  ...,
+  load = TRUE,
+  msg = NULL,
+  quiet = TRUE,
+  prependLF = FALSE,
+  ptype = c("CRAN-like", "BioC", "BioCsoft", "BioCann"),
+  autoinstall = !interactive()
+)
 }
 \arguments{
 \item{package}{name of the package}
@@ -21,7 +29,7 @@ possibly after installation.}
 
 \item{msg}{message to display in case the package is not found when first
 trying to load/find it.
-This message is appended to the string \dQuote{Package '<packagename>' is required}.}
+This message is appended to the string \code{"Package '<packagename>' is required"}.}
 
 \item{quiet}{logical that indicates if loading a package should be done quietly
 with \code{\link{require.quiet}} or normally with \code{\link{require}}.}
@@ -44,6 +52,7 @@ Like base \code{\link{require}}, \code{irequire} tries to find and load a packag
 but in an interactive way, i.e. offering the user to install it if not found.
 }
 \seealso{
-Other require: \code{\link{require.quiet}}
+Other require: 
+\code{\link{require.quiet}()}
 }
 \concept{require}

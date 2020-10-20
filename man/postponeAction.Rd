@@ -5,8 +5,13 @@
 \alias{runPostponedAction}
 \title{Postponing Actions}
 \usage{
-postponeAction(expr, key = digest(tempfile()), group = NULL,
-  envir = topns(strict = FALSE), verbose = getOption("verbose"))
+postponeAction(
+  expr,
+  key = digest(tempfile()),
+  group = NULL,
+  envir = topns(strict = FALSE),
+  verbose = getOption("verbose")
+)
 
 runPostponedAction(group = NULL, verbose = getOption("verbose"))
 }
@@ -32,10 +37,6 @@ This is useful when developing packages, where actions that need to be run in th
 \code{link{.onLoad}} function but can be defined close to their context.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 opt <- options(verbose=2)
 
 # define actions

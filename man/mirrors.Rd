@@ -7,8 +7,11 @@
 \alias{setCRANMirror}
 \title{Setting Mirrors and Repositories}
 \usage{
-setBiocMirror(url = "http://www.bioconductor.org", version = NULL,
-  unique = TRUE)
+setBiocMirror(
+  url = "http://www.bioconductor.org",
+  version = NULL,
+  unique = TRUE
+)
 
 getBiocMirror()
 

@@ -23,7 +23,7 @@ Package paths are specified in a list with:
 \item unnamed elements: character strings give path to directories to lookup for sub-directories that match
 exactly the package's name;
 \item named element containing character strings: these are paths that are looked up only for packages that
-match the element name. If the element name contains any of the characters \code{*?()$^\\][}, then it is matched using
+match the element name. If the element name contains any of the characters \verb{*?()$^\\\][}, then it is matched using
 regular expression.
 }
 }

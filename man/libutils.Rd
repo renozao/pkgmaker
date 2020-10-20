@@ -20,7 +20,7 @@ the current platform only (default) or all platforms (Unix, Windows, Mac).}
 \item{x}{a filename}
 }
 \value{
-\code{list.libs}: a character vector
+a character vector
 }
 \description{
 Lists binary library files in a directory
@@ -33,10 +33,6 @@ specific library extension.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 libname('mylib.so')
 libname('/some/path/somewhere/mylib.dll') 

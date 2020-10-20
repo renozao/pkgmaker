@@ -40,7 +40,7 @@ loading namespace.}
 \item{...}{extra arguments passed to \link{get0}.}
 }
 \value{
-\code{getLoadingNamespace}: the name of the loading namespace if \code{env} and \code{info} are
+the name of the loading namespace if \code{env} and \code{info} are
 \code{FALSE}, an environment if \code{env=TRUE}, a list with elements
 \code{pkgname} and \code{libname} if \code{info=TRUE}.
 }

@@ -75,11 +75,11 @@ source files should be extracted.
 In this case there will be no valid path.}
 }
 \value{
-\code{packageEnv}: \code{packageEnv} returns an environment
+\code{packageEnv} returns an environment
 
-\code{packageName}: a character string
+a character string
 
-\code{packagePath}: a character string
+a character string
 }
 \description{
 \code{packageEnv} is a slight modification from \code{\link{topenv}}, which

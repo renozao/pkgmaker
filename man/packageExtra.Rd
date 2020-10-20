@@ -16,16 +16,25 @@ packageExtraHandler(handler = NULL, ...)
 
 setPackageExtra(handler, extra, ...)
 
-packageExtra(handler = NULL, extra = NULL, package = NULL,
-  .wrap = FALSE)
+packageExtra(handler = NULL, extra = NULL, package = NULL, .wrap = FALSE)
 
 packageExtraRunner(handler)
 
-install.extras(package, extra = NULL, handler = NULL, ...,
-  .verbose = getOption("verbose"))
+install.extras(
+  package,
+  extra = NULL,
+  handler = NULL,
+  ...,
+  .verbose = getOption("verbose")
+)
 
-install.extrapackages(package, extra = NULL, handler = NULL, ...,
-  .verbose = getOption("verbose"))
+install.extrapackages(
+  package,
+  extra = NULL,
+  handler = NULL,
+  ...,
+  .verbose = getOption("verbose")
+)
 }
 \arguments{
 \item{handler}{name of a handler, e.g, \code{'install'}.
@@ -52,7 +61,7 @@ be returned or only the default arguments}
 run should be displayed.}
 }
 \value{
-\code{setPackageExtraHandler}: the runner function associated with the newly registered handler,
+the runner function associated with the newly registered handler,
 as built by \code{packageExtraRunner}.
 }
 \description{

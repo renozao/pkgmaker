@@ -4,7 +4,9 @@
 \name{CRAN}
 \alias{CRAN}
 \title{Main CRAN Mirror URL}
-\format{An object of class \code{character} of length 1.}
+\format{
+An object of class \code{character} of length 1.
+}
 \usage{
 CRAN
 }
@@ -14,10 +16,6 @@ CRAN
 calls to \code{\link{install.packages}}.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 \dontrun{
 install.packages('pkgmaker', repos=CRAN)
 }

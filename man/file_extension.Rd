@@ -15,10 +15,6 @@ file_extension(x, ext = NULL)
 Extract File Extension
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 file_extension('alpha.txt')
 file_extension(paste('aa.tt', 1:5, sep=''))

@@ -15,10 +15,6 @@ it accepts the argument name as a character string.
 This avoids to have a check NOTE about invisible binding variable.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 f <- function(...){ hasArg2('abc') }
 f(a=1)

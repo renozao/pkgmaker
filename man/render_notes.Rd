@@ -4,26 +4,32 @@
 \alias{render_notes}
 \title{Renders rmarkdown Documents Using User Default Options}
 \usage{
-render_notes(input, output_format = NULL, output_options = NULL, ...,
-  .config = NULL)
+render_notes(
+  input,
+  output_format = NULL,
+  output_options = NULL,
+  ...,
+  .config = NULL
+)
 }
 \arguments{
-\item{input}{Input file (R script, Rmd, or plain markdown).}
+\item{input}{The input file to be rendered. This can be an R script (.R),
+an R Markdown document (.Rmd), or a plain markdown document.}
 
-\item{output_format}{R Markdown output format to convert to. Pass
-  \code{"all"} to render all formats defined within the file. Pass
-  the name of a format (e.g. \code{"html_document"}) to render a single
-  format or pass a vector of format names to render multiple formats.
-  Alternatively you can pass an output format object;
-  e.g. \code{html_document()}. If \code{NULL} is passed then the
-  output format is the first one defined in the YAML metadata of the
-  input file (defaulting to HTML if none is specified).}
+\item{output_format}{The R Markdown output format to convert to. The option
+\code{"all"} will render all formats defined within the file. The option can
+be the name of a format (e.g. \code{"html_document"}) and that will render
+the document to that single format. One can also use a vector of format
+names to render to multiple formats. Alternatively, you can pass an output
+format object (e.g. \code{html_document()}). If using \code{NULL} then the
+output format is the first one defined in the YAML frontmatter in the input
+file (this defaults to HTML if no format is specified there).}
 
 \item{output_options}{List of output options that can override the options
-  specified in metadata (e.g. could be used to force \code{self_contained} or
-  \code{mathjax = "local"}). Note that this is only valid when the output
-  format is read from metadata (i.e. not a custom format object passed to
-  \code{output_format}).}
+specified in metadata (e.g. could be used to force \code{self_contained} or
+\code{mathjax = "local"}). Note that this is only valid when the output
+format is read from metadata (i.e. not a custom format object passed to
+\code{output_format}).}
 
 \item{...}{other arguments passed to \code{\link[rmarkdown]{render}}}
 

@@ -6,13 +6,27 @@
 \alias{pkgreg_remove}
 \title{Finds an entry in a registry.}
 \usage{
-regfetch(regobj, ..., all = FALSE, error = TRUE, exact = FALSE,
-  KEYS = NULL, verbose = FALSE, entry = FALSE, msg = NULL)
+regfetch(
+  regobj,
+  ...,
+  all = FALSE,
+  error = TRUE,
+  exact = FALSE,
+  KEYS = NULL,
+  verbose = FALSE,
+  entry = FALSE,
+  msg = NULL
+)
 
 pkgreg_fetch(regname, ..., msg = NULL, where = topenv(parent.frame()))
 
-pkgreg_remove(regname, ..., msg = NULL, where = topenv(parent.frame()),
-  quiet = FALSE)
+pkgreg_remove(
+  regname,
+  ...,
+  msg = NULL,
+  where = topenv(parent.frame()),
+  quiet = FALSE
+)
 }
 \arguments{
 \item{regobj}{a registry object}

@@ -14,10 +14,6 @@ sVariable(default = NULL)
 static variable.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # define variable
 x <- sVariable(1)

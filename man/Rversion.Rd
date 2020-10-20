@@ -10,10 +10,6 @@ Rversion()
 Returns the complete R version, e.g. 2.15.0
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 Rversion()
 
 }

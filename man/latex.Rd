@@ -5,9 +5,17 @@
 \alias{latex_bibliography}
 \title{LaTeX Utilities for Vignettes}
 \usage{
-latex_preamble(PACKAGE, R = TRUE, CRAN = TRUE, Bioconductor = TRUE,
-  GEO = TRUE, ArrayExpress = TRUE, biblatex = FALSE, only = FALSE,
-  file = "")
+latex_preamble(
+  PACKAGE,
+  R = TRUE,
+  CRAN = TRUE,
+  Bioconductor = TRUE,
+  GEO = TRUE,
+  ArrayExpress = TRUE,
+  biblatex = FALSE,
+  only = FALSE,
+  file = ""
+)
 
 latex_bibliography(PACKAGE, file = "")
 }
@@ -54,10 +62,6 @@ package bibliography file if it exists.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 latex_preamble()
 latex_preamble(R=TRUE, only=TRUE)

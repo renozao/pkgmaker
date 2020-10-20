@@ -44,7 +44,7 @@ at the end of the message.}
 null logger, even if the verbose mode is not high enough.}
 }
 \value{
-\code{lverbose}: the old verbose level
+the old verbose level
 }
 \description{
 \code{lverbose} returns/sets the current verbosity level.

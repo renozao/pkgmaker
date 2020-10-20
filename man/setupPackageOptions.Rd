@@ -17,7 +17,7 @@ options and their values.}
 
 \item{NAME}{name of the set of options.
 This is used as a prefix for the name of the associated global
-option: \code{package:<name>}.}
+option: \verb{package:<name>}.}
 
 \item{ENVIR}{environment where the option wrapper functions will be defined.
 No function is defined if \code{ENVIR=NULL}}
@@ -34,7 +34,7 @@ in \code{envir}:
 }
 \details{
 \itemize{
-\item <subset>Options
-\item <subset>GetOption
+\item \verb{<subset>Options}
+\item \verb{<subset>GetOption}
 }
 }

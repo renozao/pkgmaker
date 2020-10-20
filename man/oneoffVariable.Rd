@@ -22,10 +22,6 @@ Defines a function that allow to get/assign a global variable whose value is
 ensured to be reset after each access.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 x <- oneoffVariable(0)
 # returns default value

@@ -36,13 +36,9 @@ a function
 Generates a wrapper function that silences the output, messages, and/or warnings of a given function.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 f <- function(){
-	cat("stdout message\\n")
+	cat("stdout message\n")
  message("stderr message")
 	warning("stderr warning", immediate. = TRUE)
 }
@@ -52,7 +48,7 @@ g <- .silenceF(f)
 g
 
 # use of silencing level
-for(l in 7:-7){ message("\\nLevel: ", l); .silenceF(f, l)() }
+for(l in 7:-7){ message("\nLevel: ", l); .silenceF(f, l)() }
 
 # inline functions
 ifun <- .silenceF(function(){ f(); invisible(1) })

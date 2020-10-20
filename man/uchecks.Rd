@@ -21,10 +21,6 @@ For backward compatibility, a \code{NULL} value is equivalent to \code{TRUE}.}
 optionally follows an expected regular expression pattern.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # check warnings
 checkWarning({ warning('ah ah'); 3})

@@ -19,10 +19,6 @@ in the first string.
 Computes which characters differ between two strings.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # strings to compare
 x <- "once upon a time"

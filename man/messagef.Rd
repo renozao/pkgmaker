@@ -16,13 +16,13 @@ wnote(..., immediate. = TRUE)
     integer, real and character vectors are supported, but some coercion
     will be done: see the \sQuote{Details} section. Up to 100.}
 
-\item{domain}{see \code{\link{gettext}}.}
+\item{domain}{see \code{\link[base]{gettext}}.}
 
 \item{appendLF}{logical: should messages given as a character string
     have a newline appended?}
 
 \item{immediate.}{logical, indicating if the call should be output
-    immediately, even if \code{\link{getOption}("warn") <= 0}.}
+    immediately, even if \code{\link[base]{getOption}("warn") <= 0}.}
 }
 \description{
 Generate a formatted diagnostic message.
@@ -35,10 +35,6 @@ It is a shorcut for \code{warning(..., immediate. = TRUE, call. = FALSE)}.
 }}
 
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 messagef("Hello \%s number \%i", 'world', 4)
 

@@ -22,10 +22,6 @@ a \code{data.frame} object with columns:
 Lists data objects that are shipped within package(s).
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # list all data objects
 head(list.data())

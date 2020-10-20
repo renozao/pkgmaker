@@ -108,7 +108,7 @@ checked vi \code{R CMD check}.
 about a vignette, e.g., source filename, driver, fixed included files, etc..
 
 \item \code{rnwCompiler}: tries to detect the vignette compiler to use on a vignette
-source file, e.g., \code{\link{Sweave}} or \link[=knitr-package]{knitr}.
+source file, e.g., \code{\link{Sweave}} or \link[knitr:knitr-package]{knitr}.
 
 \item \code{rnwWrapper}: tries to detect the type of vignette and if it is meant
 to be wrapped into another main file.

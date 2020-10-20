@@ -8,18 +8,37 @@
 \alias{setPackageRegistryEntry}
 \title{Package Registry}
 \usage{
-packageRegistry(regname = NULL, quiet = FALSE, entry = FALSE,
-  update = !entry, package = topenv(parent.frame()))
+packageRegistry(
+  regname = NULL,
+  quiet = FALSE,
+  entry = FALSE,
+  update = !entry,
+  package = topenv(parent.frame())
+)
 
 packageRegistries(regname = NULL, package = NULL, primary = FALSE)
 
 hasPackageRegistry(regname = NULL, package)
 
-setPackageRegistry(regname, regobj, description = "", entrydesc = NA,
-  ..., package = topenv(parent.frame()), overwrite = FALSE)
+setPackageRegistry(
+  regname,
+  regobj,
+  description = "",
+  entrydesc = NA,
+  ...,
+  package = topenv(parent.frame()),
+  overwrite = FALSE
+)
 
-setPackageRegistryEntry(regname, key, ..., overwrite = FALSE,
-  verbose = FALSE, where = topenv(parent.frame()), msg = NULL)
+setPackageRegistryEntry(
+  regname,
+  key,
+  ...,
+  overwrite = FALSE,
+  verbose = FALSE,
+  where = topenv(parent.frame()),
+  msg = NULL
+)
 }
 \arguments{
 \item{regname}{Name of a sub-registry, used as its identifier.}
@@ -68,7 +87,7 @@ should be overwritten if it exists.}
 when \code{verbose=TRUE}.}
 }
 \value{
-\code{packageRegistry}: a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument
+a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument
 \code{quiet}).
 }
 \description{

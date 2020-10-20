@@ -21,10 +21,6 @@ Root level is \code{1L}.}
 Flattens All List Levels Using Separated Names
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 x <- list(X = list(a = 1
                    , b = list(b.1 = 2

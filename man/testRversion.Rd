@@ -26,10 +26,6 @@ Compares current R version with a given target version, which may be useful
 for implementing version dependent code.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 testRversion("2.14")
 testRversion("2.15")

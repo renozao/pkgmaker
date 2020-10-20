@@ -20,10 +20,6 @@ the value of the environment variable as a character string or
 System Environment Variables
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # undefined returns FALSE
 Sys.getenv_value('TOTO')

@@ -8,10 +8,10 @@ alphacol(col, alpha = FALSE)
 }
 \arguments{
 \item{col}{vector of any of the three kinds of \R color specifications,
-    i.e., either a color name (as listed by \code{\link{colors}()}), a
+    i.e., either a color name (as listed by \code{\link[grDevices]{colors}()}), a
     hexadecimal string of the form \code{"#rrggbb"} or
-    \code{"#rrggbbaa"} (see \code{\link{rgb}}), or a positive integer
-    \code{i} meaning \code{\link{palette}()[i]}.}
+    \code{"#rrggbbaa"} (see \code{\link[grDevices]{rgb}}), or a positive integer
+    \code{i} meaning \code{\link[grDevices]{palette}()[i]}.}
 
 \item{alpha}{logical value indicating whether the alpha channel (opacity)
     values should be returned.}
@@ -21,10 +21,6 @@ alphacol(col, alpha = FALSE)
 a hexadecimal colour string.
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # Alphas
 alphacol('red') # do nothing

@@ -24,10 +24,6 @@ onUnload(libpath)
 Default Load/Unload Functions
 }
 \examples{
-\dontshow{
-options(R_CHECK_RUNNING_EXAMPLES_=TRUE) ## roxygen generated flag
-}
-
 
 # in a package namespace:
 .onLoad <- function(libname=NULL, pkgname){

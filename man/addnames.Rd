@@ -14,8 +14,7 @@ addnames(x, ...)
 
 \method{addnames}{vector}(x, prefix = "x", sep = "", ...)
 
-\method{addnames}{array}(x, prefix = letters[1:length(dim(x))],
-  sep = "", ...)
+\method{addnames}{array}(x, prefix = letters[1:length(dim(x))], sep = "", ...)
 
 \method{addnames}{matrix}(x, prefix = c("row", "col"), ...)
 }
