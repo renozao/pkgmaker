@@ -11,10 +11,9 @@ NULL
 #' 
 #' The following functions to access/set the options from the set are assigned 
 #' in \code{envir}:
-#' \describe{
-#' \item{<subset>Options}{}
-#' \item{<subset>GetOption}{}
-#' }
+#' 
+#' * <subset>Options
+#' * <subset>GetOption
 #' 
 #' @param ... a single named list or named arguments that provide the default 
 #' options and their values.
