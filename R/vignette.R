@@ -347,7 +347,7 @@ runVignette.rnw_sweave <- function(x, file=NULL, ...){
 #' Utilities for Vignettes
 #' 
 #' \code{rnw} provides a unified interface to run vignettes that detects
-#' the type of vignette (Sweave or \code{\link[knitr]{knitr}}), and which Sweave driver 
+#' the type of vignette (Sweave or knitr), and which Sweave driver 
 #' to use (either automatically or from an embedded command \code{\\VignetteDriver} 
 #' command).
 #' 
@@ -506,7 +506,7 @@ rnwVignetteParser <- function(tag, ...){
 rnwLatexPackages <- rnwParser('usepackage', name='LaTeX package(s)', options=TRUE)
 
 #' @describeIn vignette tries to detect the vignette compiler to use on a vignette
-#' source file, e.g., \code{\link{Sweave}} or \code{\link[knitr]{knitr}}.
+#' source file, e.g., \code{\link{Sweave}} or [knitr][knitr-package].
 #' 
 #' @param verbose logical that toggles verbosity
 #' 

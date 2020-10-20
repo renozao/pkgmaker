@@ -29,9 +29,16 @@ rnwIncludes(x)
 
 rnwChildren(x)
 
-vignetteMakefile(package = NULL, skip = NULL, print = TRUE,
-  template = NULL, temp = FALSE, checkMode = isCHECK() ||
-  vignetteCheckMode(), user = NULL, tests = TRUE)
+vignetteMakefile(
+  package = NULL,
+  skip = NULL,
+  print = TRUE,
+  template = NULL,
+  temp = FALSE,
+  checkMode = isCHECK() || vignetteCheckMode(),
+  user = NULL,
+  tests = TRUE
+)
 
 compactVignettes(paths, ...)
 }
@@ -87,7 +94,7 @@ when checking the package with \code{R CMD check}.}
 }
 \description{
 \code{rnw} provides a unified interface to run vignettes that detects
-the type of vignette (Sweave or \code{\link[knitr]{knitr}}), and which Sweave driver
+the type of vignette (Sweave or knitr), and which Sweave driver
 to use (either automatically or from an embedded command \code{\\VignetteDriver}
 command).
 }
@@ -101,7 +108,7 @@ checked vi \code{R CMD check}.
 about a vignette, e.g., source filename, driver, fixed included files, etc..
 
 \item \code{rnwCompiler}: tries to detect the vignette compiler to use on a vignette
-source file, e.g., \code{\link{Sweave}} or \code{\link[knitr]{knitr}}.
+source file, e.g., \code{\link{Sweave}} or \link[=knitr-package]{knitr}.
 
 \item \code{rnwWrapper}: tries to detect the type of vignette and if it is meant
 to be wrapped into another main file.
