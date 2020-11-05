@@ -422,7 +422,7 @@ hook_toggle <- function(){
             .last_label <<- label
             subst <- paste0("<a href=\"\" onclick=\"toggle_vis2('", id, "'); return false;\">Show/Hide R code</a>\n", subst)
         }
-        sub("```([^\n]*)\n", sprintf(subst, 'block'), x)
+        sub("```([^\n]*)\n", subst, x)
     })
     fn()
 }
