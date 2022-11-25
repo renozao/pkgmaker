@@ -13,4 +13,4 @@ vignettes/tmp_files
 ^.*\.Rproj$
 ^\.Rproj\.user$
 _old.mk$
-^\.travis\.yml$
+^\.github$
