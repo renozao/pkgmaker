@@ -74,9 +74,9 @@ actions are defined as a set of arguments and registered using \code{setPackageE
 }
 \section{Functions}{
 \itemize{
-\item \code{packageExtraHandler}: retrieves a given handler from the registry.
+\item \code{packageExtraHandler()}: retrieves a given handler from the registry.
 
-\item \code{setPackageExtra}: registers extra actions for a given handler.
+\item \code{setPackageExtra()}: registers extra actions for a given handler.
 
 For example, calling \code{setPackageExtra('install', pkgs='non_CRAN_pkg', repos='http://non-standard-repo')}
 in a source file of package 'myPkg' registers the call
@@ -85,17 +85,17 @@ in a registry internal to the package.
 All calls to \code{setPackageExtra('install', ...)} can then be run by the user, as
 a post installation step via \code{install.extrapackages('myPkg', ..)}.
 
-\item \code{packageExtra}: retrieve a given extra action, either as its registry entry,
+\item \code{packageExtra()}: retrieve a given extra action, either as its registry entry,
 or as a function that would perform the given action.
 
-\item \code{packageExtraRunner}: defines a function to run all or some of the actions registered
+\item \code{packageExtraRunner()}: defines a function to run all or some of the actions registered
 for a given handler in a given package.
 For example, the function \code{install.extrapackages} is the runner defined for the extra handler \code{'install'}
 via \code{packageExtraRunner('install')}.
 
-\item \code{install.extras}: runs all extra actions registered for a given package.
+\item \code{install.extras()}: runs all extra actions registered for a given package.
 
-\item \code{install.extrapackages}: install sets of packages that can enhance a
+\item \code{install.extrapackages()}: install sets of packages that can enhance a
 package, but may not be available from CRAN.
 
 It is defined as the extra handler for
@@ -104,5 +104,5 @@ All arguments in \code{...} are passed to \code{\link{install.packages}}.
 By default, packages that are already installed are not re-installed.
 An extra argument \code{force} allows to force their installation.
 The packages are loaded if their installation is successful.
-}}
 
+}}

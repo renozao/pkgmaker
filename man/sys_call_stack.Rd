@@ -26,13 +26,13 @@ System Call Stack Utilities
 }
 \section{Functions}{
 \itemize{
-\item \code{sys.function_digest}: computes digest hash for each function in the call stack.
+\item \code{sys.function_digest()}: computes digest hash for each function in the call stack.
 
-\item \code{sys.function_nframe}: returns the index of the frame that calls a given function.
+\item \code{sys.function_nframe()}: returns the index of the frame that calls a given function.
 
-\item \code{sys.function_frame}: returns the frame that calls a given function.
+\item \code{sys.function_frame()}: returns the frame that calls a given function.
 
-\item \code{sys.source_file}: returns path to the script that is being sourced either
+\item \code{sys.source_file()}: returns path to the script that is being sourced either
 by \link[base:source]{base::source} or \link[base:sys.source]{base::sys.source}.
-}}
 
+}}

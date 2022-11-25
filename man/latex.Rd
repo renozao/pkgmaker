@@ -57,10 +57,10 @@ bibliography command.
 }
 \section{Functions}{
 \itemize{
-\item \code{latex_bibliography}: \code{latex_bibliography} prints or return a LaTeX command that includes a
+\item \code{latex_bibliography()}: \code{latex_bibliography} prints or return a LaTeX command that includes a
 package bibliography file if it exists.
-}}
 
+}}
 \examples{
 
 latex_preamble()

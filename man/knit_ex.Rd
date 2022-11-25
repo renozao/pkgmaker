@@ -48,7 +48,7 @@ obtain a final output as in the console.
 }
 \section{Functions}{
 \itemize{
-\item \code{hook_try}: is a knitr hook to enable showing error
+\item \code{hook_try()}: is a knitr hook to enable showing error
 messages thrown by \code{\link{try}}.
 The function is not meant to be called directly, but only registered
 using \link[knitr:knit_hooks]{knitr::knit_hooks} (see details on this dedicated man page).
@@ -56,10 +56,10 @@ using \link[knitr:knit_hooks]{knitr::knit_hooks} (see details on this dedicated 
 This simply defines a function \code{try} in \code{envir} that prints
 the error message if any, and is called instead of base \code{\link{try}}.
 
-\item \code{hook_toggle}: is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+\item \code{hook_toggle()}: is a chunk hook that adds clickable elements to toggle \emph{indvidual}
 code chunks in HTML documents generated from .Rmd files.
-}}
 
+}}
 \examples{
 
 library(knitr)

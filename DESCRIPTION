@@ -68,5 +68,5 @@ Collate:
     'user.R'
     'vignette.R'
     'with.r'
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.2
 Roxygen: list(markdown = TRUE)

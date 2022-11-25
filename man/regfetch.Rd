@@ -66,12 +66,12 @@ from a \code{\link[registry:regobj]{registry}} object.
 }
 \section{Functions}{
 \itemize{
-\item \code{pkgreg_fetch}: fetches entries in a package registry, as set up by
+\item \code{pkgreg_fetch()}: fetches entries in a package registry, as set up by
 \code{\link{setPackageRegistry}}.
 
 It loads the requested package registry and uses \code{regfetch}
 to retrieve data from it.
 
-\item \code{pkgreg_remove}: removes an entry from a package registry.
-}}
+\item \code{pkgreg_remove()}: removes an entry from a package registry.
 
+}}

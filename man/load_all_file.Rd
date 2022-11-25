@@ -24,10 +24,12 @@ a character string that contains the path to the script file.
 Writes a script file that contains code that loads a given development package.
 }
 \details{
-This is useful when we want to load a development package in \code{batchtools} registries:\preformatted{library(devtools)
+This is useful when we want to load a development package in \code{batchtools} registries:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{library(devtools)
 library(batchtools)
 
 load_all("path/to/pkgA")
 makeRegistry(..., source = load_all_file("pkgA"))
-}
+}\if{html}{\out{</div>}}
 }

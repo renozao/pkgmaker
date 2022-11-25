@@ -36,12 +36,12 @@ the repositories.
 }
 \section{Functions}{
 \itemize{
-\item \code{getBiocMirror}: is a shortcut for \code{getOption('BioC_mirror')}, which
+\item \code{getBiocMirror()}: is a shortcut for \code{getOption('BioC_mirror')}, which
 returns the current Bioconductor mirror as used by \code{biocLite}.
 
-\item \code{getBiocRepos}: returns urls to all Bioconductor repositories on a
+\item \code{getBiocRepos()}: returns urls to all Bioconductor repositories on a
 given mirror.
 
-\item \code{setCRANMirror}: sets the preferred CRAN mirror.
-}}
+\item \code{setCRANMirror()}: sets the preferred CRAN mirror.
 
+}}

@@ -29,10 +29,10 @@ Functions to execute R commands.
 }
 \section{Functions}{
 \itemize{
-\item \code{R.exec}: executes a single R command via \code{\link{system2}}.
+\item \code{R.exec()}: executes a single R command via \code{\link{system2}}.
 
-\item \code{R.CMD}: executes R CMD commands.
+\item \code{R.CMD()}: executes R CMD commands.
 
-\item \code{R.SHLIB}: executes R CMD SHLIB commands.
+\item \code{R.SHLIB()}: executes R CMD SHLIB commands.
+
 }}
-

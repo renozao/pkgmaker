@@ -122,17 +122,17 @@ via the function \code{\link[devtools]{load_all}} from the \pkg{devtools} packag
 }
 \section{Functions}{
 \itemize{
-\item \code{packageRegistries}: lists registries from loaded packages.
+\item \code{packageRegistries()}: lists registries from loaded packages.
 
-\item \code{hasPackageRegistry}: tells if a given package has a meta-registry or
+\item \code{hasPackageRegistry()}: tells if a given package has a meta-registry or
 a given registry.
 
-\item \code{setPackageRegistry}: creates a package-specific registry within a package.
+\item \code{setPackageRegistry()}: creates a package-specific registry within a package.
 
 Each package sub-registry has its own set of fields.
 Sub-registries defined by passing a character string in argument \code{regobj} of
 \code{setPackageRegistry} have the following fields: \code{'key'} and \code{'object'}
 
-\item \code{setPackageRegistryEntry}: adds an entry in a package registry.
-}}
+\item \code{setPackageRegistryEntry()}: adds an entry in a package registry.
 
+}}

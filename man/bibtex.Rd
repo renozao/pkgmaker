@@ -31,12 +31,12 @@ Utility functions to work with BiBTeX files.
 }
 \section{Functions}{
 \itemize{
-\item \code{packageReferenceFile}: returns the path to a package REFERENCES.bib file.
+\item \code{packageReferenceFile()}: returns the path to a package REFERENCES.bib file.
 
-\item \code{package_bibliography}: returns the bibliography associated with a package.
+\item \code{package_bibliography()}: returns the bibliography associated with a package.
 This can
-}}
 
+}}
 \examples{
 
 packageReferenceFile('pkgmaker')

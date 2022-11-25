@@ -34,11 +34,11 @@ if these are not already in the list, partially matching their names.
 }
 \section{Functions}{
 \itemize{
-\item \code{expand_dots}: expands the \code{...} arguments of the function
+\item \code{expand_dots()}: expands the \code{...} arguments of the function
 in which it is called with default values, using \code{expand_list}.
 It can \strong{only} be called from inside a function.
-}}
 
+}}
 \examples{
 
 expand_list(list(a=1, b=2), c=3)

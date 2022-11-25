@@ -44,8 +44,8 @@ Load Development Package
 }
 \section{Functions}{
 \itemize{
-\item \code{library_project}: shortcut for \code{load_project(..., try.library = TRUE)}, to load project
+\item \code{library_project()}: shortcut for \code{load_project(..., try.library = TRUE)}, to load project
 code from installed library if not found as a development project.
 All its arguments are passed to \code{load_project}.
-}}
 
+}}

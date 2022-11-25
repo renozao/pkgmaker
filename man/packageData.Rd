@@ -53,10 +53,10 @@ This is possible because this function returns the loaded data.
 }
 \section{Functions}{
 \itemize{
-\item \code{ldata}: loads a package data in the parent frame.
+\item \code{ldata()}: loads a package data in the parent frame.
 It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
-}}
 
+}}
 \examples{
 
 \dontrun{ mydata <- packageData('mydata') }

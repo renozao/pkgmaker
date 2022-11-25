@@ -68,7 +68,7 @@ should spread over more than one lines.}
 \item{algo}{The algorithms to be used; currently available choices are
     \code{md5}, which is also the default, \code{sha1}, \code{crc32},
     \code{sha256}, \code{sha512}, \code{xxhash32}, \code{xxhash64},
-    \code{murmur32} and \code{spookyhash}.}
+    \code{murmur32}, \code{spookyhash} and \code{blake3}.}
 
 \item{dims}{a numeric vector of dimensions.
 Default is to use the input object dimensions (via function \code{dims()})}
@@ -82,26 +82,26 @@ error/warning messages.
 }
 \section{Functions}{
 \itemize{
-\item \code{str_desc}: builds formatted string from a list of complex values.
+\item \code{str_desc()}: builds formatted string from a list of complex values.
 
-\item \code{str_fun}: extracts and formats a function signature.
+\item \code{str_fun()}: extracts and formats a function signature.
 It typically formats the output \code{capture.output(args(object))}.
 
-\item \code{str_class}: outputs the class(es) of an object using \code{str_out}.
+\item \code{str_class()}: outputs the class(es) of an object using \code{str_out}.
 
-\item \code{str_pkg}: formats a package name and version
+\item \code{str_pkg()}: formats a package name and version
 
-\item \code{str_md5sum}: computes md5sum on character vector using \code{\link[tools]{md5sum}}.
+\item \code{str_md5sum()}: computes md5sum on character vector using \code{\link[tools]{md5sum}}.
 
-\item \code{str_hash}: computes hash of a character vector using \code{\link[digest]{digest}}.
+\item \code{str_hash()}: computes hash of a character vector using \code{\link[digest]{digest}}.
 
-\item \code{str_dim}: builds a string that describes the dimension of an object, in the form
+\item \code{str_dim()}: builds a string that describes the dimension of an object, in the form
 \verb{n x m} for 2D-objects, \verb{n x m x p} for 3D-objects, and so on.
 
-\item \code{str_bs}: substitutes backspace characters (\verb{\\\\b}) to produce
+\item \code{str_bs()}: substitutes backspace characters (\verb{\\\\b}) to produce
 a character string as it would be displayed in the console.
-}}
 
+}}
 \examples{
 
 x <- letters[1:10]
