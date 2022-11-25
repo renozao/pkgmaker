@@ -100,32 +100,32 @@ command).
 }
 \section{Functions}{
 \itemize{
-\item \code{isManualVignette}: tells if a vignette is being run through the function \code{runVignette}
+\item \code{isManualVignette()}: tells if a vignette is being run through the function \code{runVignette}
 of \pkg{pkgmker}, allowing disabling behaviours not allowed in package vignettes that are
 checked vi \code{R CMD check}.
 
-\item \code{as.rnw}: creates a S3 \code{rnw} object that contains information
+\item \code{as.rnw()}: creates a S3 \code{rnw} object that contains information
 about a vignette, e.g., source filename, driver, fixed included files, etc..
 
-\item \code{rnwCompiler}: tries to detect the vignette compiler to use on a vignette
+\item \code{rnwCompiler()}: tries to detect the vignette compiler to use on a vignette
 source file, e.g., \code{\link{Sweave}} or \link[knitr:knitr-package]{knitr}.
 
-\item \code{rnwWrapper}: tries to detect the type of vignette and if it is meant
+\item \code{rnwWrapper()}: tries to detect the type of vignette and if it is meant
 to be wrapped into another main file.
 
-\item \code{rnwDriver}: tries to detect Sweave driver to use on a vignette source
+\item \code{rnwDriver()}: tries to detect Sweave driver to use on a vignette source
 file, e.g., \code{SweaveCache}, \code{highlight}, etc..
 
-\item \code{rnwIncludes}: detects fixed includes, e.g., image or pdf files, that are
+\item \code{rnwIncludes()}: detects fixed includes, e.g., image or pdf files, that are
 required to build the final document.
 
-\item \code{rnwChildren}: detects included vignette documents and return them as a
+\item \code{rnwChildren()}: detects included vignette documents and return them as a
 list of vignette objects.
 
-\item \code{vignetteMakefile}: returns the path to a generic makefile used to make
+\item \code{vignetteMakefile()}: returns the path to a generic makefile used to make
 vignettes.
 
-\item \code{compactVignettes}: compacts vignette PDFs using either \code{gs_quality='none'} or \code{'ebook'},
+\item \code{compactVignettes()}: compacts vignette PDFs using either \code{gs_quality='none'} or \code{'ebook'},
 depending on which compacts best (as per CRAN check criteria).
-}}
 
+}}

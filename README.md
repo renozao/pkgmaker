@@ -1,14 +1,12 @@
 ## Status
 
-| Branch     | Travis CI        | 
-| ------------- | ------------- |
-| `master` | [![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=master)](https://travis-ci.org/renozao/pkgmaker) |
-| `develop` | [![Build Status](https://travis-ci.org/renozao/pkgmaker.png?branch=develop)](https://travis-ci.org/renozao/pkgmaker) |
-
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/renozao/pkgmaker/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/renozao/pkgmaker/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 ## Introduction
 
-The package `pkgmaker` provides implementeations of features commonly used when developing R packages:
+The package `pkgmaker` provides implementations of features commonly used when developing R packages:
 
 * Package specific options, with the possibility of defining multiple subsets
 

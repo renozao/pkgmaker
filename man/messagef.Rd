@@ -16,7 +16,8 @@ wnote(..., immediate. = TRUE)
     integer, real and character vectors are supported, but some coercion
     will be done: see the \sQuote{Details} section. Up to 100.}
 
-\item{domain}{see \code{\link[base]{gettext}}.}
+\item{domain}{see \code{\link[base]{gettext}}.  If \code{NA}, messages will
+    not be translated, see also the note in \code{\link[base]{stop}}.}
 
 \item{appendLF}{logical: should messages given as a character string
     have a newline appended?}
@@ -30,10 +31,10 @@ This function is a shortcut for \code{message(sprintf(...))}.
 }
 \section{Functions}{
 \itemize{
-\item \code{wnote}: throws a simple note as an immediate warning.
+\item \code{wnote()}: throws a simple note as an immediate warning.
 It is a shorcut for \code{warning(..., immediate. = TRUE, call. = FALSE)}.
-}}
 
+}}
 \examples{
 
 messagef("Hello \%s number \%i", 'world', 4)

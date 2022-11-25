@@ -27,11 +27,11 @@ Lists binary library files in a directory
 }
 \section{Functions}{
 \itemize{
-\item \code{libname}: extracts library names from a path, removing the
+\item \code{libname()}: extracts library names from a path, removing the
 directory part of the path, as well as the platform
 specific library extension.
-}}
 
+}}
 \examples{
 
 libname('mylib.so')

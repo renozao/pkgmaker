@@ -23,7 +23,12 @@ the document to that single format. One can also use a vector of format
 names to render to multiple formats. Alternatively, you can pass an output
 format object (e.g. \code{html_document()}). If using \code{NULL} then the
 output format is the first one defined in the YAML frontmatter in the input
-file (this defaults to HTML if no format is specified there).}
+file (this defaults to HTML if no format is specified there).
+If you pass an output format object to \code{output_format}, the options
+specified in the YAML header or \code{_output.yml} will be ignored and you
+must explicitly set all the options you want when you construct the object.
+If you pass a string, the output format will use the output parameters in
+the YAML header or \code{_output.yml}.}
 
 \item{output_options}{List of output options that can override the options
 specified in metadata (e.g. could be used to force \code{self_contained} or

@@ -51,17 +51,17 @@ an error.
 }
 \section{Functions}{
 \itemize{
-\item \code{isLoadingNamespace}: Tests if a namespace is being loaded.
+\item \code{isLoadingNamespace()}: Tests if a namespace is being loaded.
 
-\item \code{isNamespaceLoaded2}: tests if a given namespace is loaded, without loading it,
+\item \code{isNamespaceLoaded2()}: tests if a given namespace is loaded, without loading it,
 contrary to \code{\link{isNamespace}}.
 It is similar to \code{\link{isNamespaceLoaded}} -- which it uses -- but also accepts
 environments.
 
-\item \code{isDevNamespace}: tests the -- current -- namespace is a devtools namespace.
+\item \code{isDevNamespace()}: tests the -- current -- namespace is a devtools namespace.
 
-\item \code{addNamespaceExport}: Dynamically adds exported objects into the loading namespace.
+\item \code{addNamespaceExport()}: Dynamically adds exported objects into the loading namespace.
 
-\item \code{ns_get}: gets an object from a given namespace.
+\item \code{ns_get()}: gets an object from a given namespace.
+
 }}
-

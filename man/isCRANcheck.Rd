@@ -39,9 +39,9 @@ variables to enable specific tests or examples.
 }
 \section{Functions}{
 \itemize{
-\item \code{isCRAN_timing}: tells if one is running CRAN check with flag \code{'--timing'}.
+\item \code{isCRAN_timing()}: tells if one is running CRAN check with flag \code{'--timing'}.
 
-\item \code{isCHECK}: tries harder to test if running under \code{R CMD check}.
+\item \code{isCHECK()}: tries harder to test if running under \code{R CMD check}.
 It will definitely identifies check runs for:
 \itemize{
 \item unit tests that use the unified unit test framework defined by \pkg{pkgmaker} (see \code{\link{utest}});
@@ -58,8 +58,8 @@ being checked (\code{_R_CHECK_RUNNING_UTESTS_=<pkgname>}),
 but unit tests run as part of unit tests vignettes are run with
 \code{_R_CHECK_RUNNING_UTESTS_=FALSE}, so that all tests are run and reported when
 generating them.
-}}
 
+}}
 \examples{
 
 isCHECK()

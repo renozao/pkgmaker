@@ -84,7 +84,7 @@ onUnload <- function(libpath) {
 #' @export
 #' 
 #' @examples
-#' opt <- options(verbose=2)
+#' opt <- options(actions.verbose=2)
 #' 
 #' # define actions
 #' postponeAction(function(){print(10)}, "print")
@@ -97,7 +97,8 @@ onUnload <- function(libpath) {
 #' # restore options
 #' options(opt)
 #' 
-postponeAction <- function(expr, key=digest(tempfile()), group=NULL, envir=topns(strict=FALSE), verbose=getOption('verbose')){
+postponeAction <- function(expr, key=digest(tempfile()), group=NULL, envir=topns(strict=FALSE), 
+                           verbose = getOption('actions.verbose', getOption('verbose'))){
 	
 	# do not do anything if already running delayed actions
 	if( isRunningPostponedAction() ) return()
@@ -127,7 +128,7 @@ postponeAction <- function(expr, key=digest(tempfile()), group=NULL, envir=topns
 
 #' @rdname postponeAction
 #' @export
-runPostponedAction <- function(group=NULL, verbose=getOption('verbose')){
+runPostponedAction <- function(group=NULL, verbose = getOption('actions.verbose', getOption('verbose'))){
 	
 	ns <- topns(strict=FALSE)
 	taskObj <- simpleRegistry('.__delayedTasks__', envir=ns)

@@ -1,7 +1,7 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.32.2
+Version: 0.32.2.900
 Date: 2020-10-20
 Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
 Description: Provides some low-level utilities to use for package
@@ -68,5 +68,5 @@ Collate:
     'user.R'
     'vignette.R'
     'with.r'
-RoxygenNote: 7.1.0
+RoxygenNote: 7.2.2
 Roxygen: list(markdown = TRUE)

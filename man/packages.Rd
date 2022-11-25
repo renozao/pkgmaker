@@ -38,12 +38,12 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
 }
 \section{Functions}{
 \itemize{
-\item \code{qlibrary}: silently loads a package.
+\item \code{qlibrary()}: silently loads a package.
 
-\item \code{mrequire}: tries loading a package with base \code{\link{require}}
+\item \code{mrequire()}: tries loading a package with base \code{\link{require}}
 and stops with a -- custom -- error message if it fails to do so.
-}}
 
+}}
 \examples{
 
 mrequire('Running this example', 'stringr')
