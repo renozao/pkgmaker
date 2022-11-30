@@ -74,6 +74,7 @@ knit_ex("stop('ah ah')")
 # with try the error is output on stderr but not caughted by knitr
 knit_ex("try( stop('ah ah') )")
 
+\dontrun{
 # no message caught
 knit_ex("
 ^^^{r, include = FALSE}
@@ -83,8 +84,10 @@ knit_hooks$set(try = pkgmaker::hook_try)
 ^^^{r, try=TRUE}
 try( stop('ah ah') )
 ^^^")
+}
 
 
+\dontrun{
 # Correctly formatting backspaces in chunk outputs
 tmp <- tempfile(fileext = '.Rmd')
 cat(file = tmp, "
@@ -106,16 +109,18 @@ cat('abc\bd')
 # knit
 out <- knitr::knit2html(tmp, fragment.only = TRUE)
 # look at output
-\dontrun{
   browseURL(out)
   edit( file = out)
-}
+  
 # cleanup
 out_files <- list.files(dirname(out), full.names = TRUE,
                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
 unlink(c(tmp, out_files))
 
+}
 
+
+\dontrun{
 
 knit_ex("
 
@@ -154,5 +159,7 @@ sample(5)
 ^^^
 
 ", open = TRUE)
+
+}
 
 }

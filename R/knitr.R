@@ -91,6 +91,7 @@ try_message <- function(signal = FALSE){
 #' # with try the error is output on stderr but not caughted by knitr
 #' knit_ex("try( stop('ah ah') )")
 #' 
+#' \dontrun{
 #' # no message caught
 #' knit_ex("
 #' ^^^{r, include = FALSE}
@@ -100,6 +101,7 @@ try_message <- function(signal = FALSE){
 #' ^^^{r, try=TRUE}
 #' try( stop('ah ah') )
 #' ^^^")
+#' }
 #' 
 hook_try <- local({
     .try_defined <- FALSE
@@ -176,6 +178,7 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' @export 
 #' @examples 
 #' 
+#' \dontrun{
 #' # Correctly formatting backspaces in chunk outputs
 #' tmp <- tempfile(fileext = '.Rmd')
 #' cat(file = tmp, "
@@ -197,15 +200,15 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' # knit
 #' out <- knitr::knit2html(tmp, fragment.only = TRUE)
 #' # look at output
-#' \dontrun{
 #'   browseURL(out)
 #'   edit( file = out)
-#' }
+#'   
 #' # cleanup
 #' out_files <- list.files(dirname(out), full.names = TRUE,
 #'                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
 #' unlink(c(tmp, out_files))
 #' 
+#' }
 #' 
 hook_backspace <- chunkOutputHook('backspace', 
         function(x, options){
@@ -360,6 +363,8 @@ $( document ).ready(function(){
 #' @export
 #' @examples
 #' 
+#' \dontrun{
+#' 
 #' knit_ex("
 #' 
 #' Declare chunk hook:
@@ -397,6 +402,8 @@ $( document ).ready(function(){
 #' ^^^
 #' 
 #' ", open = TRUE)
+#' 
+#' }
 #' 
 hook_toggle <- function(){
     .init <- TRUE
