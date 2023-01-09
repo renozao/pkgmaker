@@ -6,6 +6,9 @@
 \usage{
 exitCheck()
 }
+\value{
+Either \code{x} or the success status when called without arguments.
+}
 \description{
 \code{exitCheck} provides a mechanism to distinguish the exit status
 in \code{\link{on.exit}} expressions.

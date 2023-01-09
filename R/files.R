@@ -52,6 +52,7 @@ libname <- function(x){
 #' @inheritParams base::list.files
 #' @param ... extra arguments passed to \code{\link{source}}.
 #' 
+#' @return the return value of running [source] on each individual file.
 #' @export
 source_files <- function(x, pattern=NULL, ...){
 	if( length(x) == 1L && is.dir(x) )
@@ -81,6 +82,7 @@ sourceURL <- function(url, ...){
 #' @param x path as a character vector.
 #' @param ext extension to append instead of the original extension.
 #' 
+#' @return a character vector.
 #' @export
 #' 
 #' @examples

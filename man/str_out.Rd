@@ -75,6 +75,10 @@ Default is to use the input object dimensions (via function \code{dims()})}
 }
 \value{
 a single character string
+
+\itemize{
+\item \code{str_bs} returns a character string.
+}
 }
 \description{
 \code{str_out} formats character vectors for use in show methods or

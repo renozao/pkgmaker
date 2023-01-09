@@ -14,8 +14,11 @@ unlist_(x, recursive = TRUE, use.names = TRUE, what.names = "inherited")
 
 \item{what.names}{\code{"inherited"} or \code{"full"}.}
 }
+\value{
+A vector.
+}
 \description{
-\code{unlist2} is a replacement for \link[base:unlist]{base::unlist} that does not mangle the names.
+\code{unlist_} is a replacement for \link[base:unlist]{base::unlist} that does not mangle the names.
 }
 \details{
 Use this function if you don't like the mangled names returned by the standard \code{unlist} function from the base package.

@@ -12,6 +12,9 @@ find_devpackage(x, error = TRUE)
 \item{error}{logical that indicates if an error is thrown when the project root directory
 could not be found.}
 }
+\value{
+A character string containing the path to the package.
+}
 \description{
 Development packages are looked-up according to rules
 defined in a file \code{.Rpackages} in the user's home directory.

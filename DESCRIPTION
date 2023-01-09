@@ -1,13 +1,13 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.32.3
-Date: 2022-11-25
+Version: 0.32.4
+Date: 2022-11-30
 Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
 Description: Provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
     options and registries, vignette, unit test and bibtex related utilities.
-    It serves as a base package for packages like NMF, RcppOctave, doRNG, and
+    It serves as a base package for packages like 'NMF', 'RcppOctave', 'doRNG', and
     as an incubator package for other general purposes utilities, that will
     eventually be packaged separately.
     It is still under heavy development and changes in the interface(s) are
@@ -68,5 +68,5 @@ Collate:
     'user.R'
     'vignette.R'
     'with.r'
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)

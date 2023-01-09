@@ -16,6 +16,9 @@ alphacol(col, alpha = FALSE)
 \item{alpha}{logical value indicating whether the alpha channel (opacity)
     values should be returned.}
 }
+\value{
+a character vector of color specifications.
+}
 \description{
 \code{alphacol} adds an alpha value to a colour specification and convert to
 a hexadecimal colour string.

@@ -27,6 +27,9 @@ See also section \emph{Details}.}
 \item{package}{name of the package associated with the user data path.
 It is used to prefix the path, within the user R data directory.}
 }
+\value{
+Path to the user data directory.
+}
 \description{
 The package-specific user data base directory is the sub-directory \emph{R-data/},
 located in the user's home or within a diredctory defined by global option 'userData.path'.

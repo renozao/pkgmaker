@@ -72,6 +72,8 @@ set_libPaths <- function(lib.loc=NULL){
 #' Executing R Commands
 #' 
 #' Functions to execute R commands.
+#' 
+#' @return Returns the value of executing the R command via [system].
 #' @name R.exec
 NULL
 
@@ -118,7 +120,7 @@ R.SHLIB <- function(libname, ...){
 #' @param load a logical indicating whether the compiled library should be loaded
 #' after the compilation (default) or not.
 #' 
-#' @return None
+#' @return Returns nothing. Used for its side effect of compiling source files.
 #' @export
 compile_src <- function(pkg=NULL, load=TRUE){
 	
@@ -171,7 +173,7 @@ compile_src <- function(pkg=NULL, load=TRUE){
 #' @param verbose logical that toggles verbosity
 #' 
 #' @rdname devutils
-#' @return \code{packageEnv} returns an environment
+#' @return * \code{packageEnv} returns an environment
 #' @export
 packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 	
@@ -247,6 +249,7 @@ packageEnv <- function(pkg, skip=FALSE, verbose=FALSE){
 #' @param unique logical that indicates if the result should be reduced
 #' to contain only one occurence of each namespace. 
 #'   
+#' @return * `topns_name` returns the name of the namespace a character string.
 #' @export
 topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 	
@@ -289,7 +292,8 @@ topns_name <- function(n=1L, strict=TRUE, unique=TRUE){
 #' calling namespace, even from calls nested into calls to another function from
 #' the same package -- in which case \code{topenv} would not give the desired 
 #' environment.
-#'  
+#' 
+#' @return * `topns` returns an environment.  
 #' @export
 topns <- function(strict=TRUE){
 	ns <- topns_name(n=1L, strict=strict)
@@ -310,7 +314,7 @@ topns <- function(strict=TRUE){
 #' @param rm.prefix logical that indicates if an eventual prefix 'package:' 
 #' should be removed from the returned string.
 #' 
-#' @return a character string
+#' @return * `packageName` returns a character string
 packageName <- function(envir=packageEnv(), .Global=FALSE, rm.prefix=TRUE){
 	
 	if( is.null(envir) ) envir <- packageEnv() 
@@ -367,7 +371,7 @@ str_ns <- function(envir=packageEnv()){
 #' package root directory cannot be found. 
 #' If this is the case and `check = FALSE`, then the function returns `NULL`. 
 #' 
-#' @return a character string
+#' @return * `packagePath` returns a character string.
 #' @export
 packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
 	
@@ -414,6 +418,7 @@ packagePath <- function(..., package=NULL, lib.loc=NULL, check = TRUE){
 
 #' @describeIn devutils checks if a package is installed.
 #' 
+#' * `isPackageInstalled` returns a logical flag.
 #' @export
 isPackageInstalled <- function(..., lib.loc=NULL){
 	
@@ -449,6 +454,7 @@ isPackageInstalled <- function(..., lib.loc=NULL){
 #' source files should be extracted.
 #' In this case there will be no valid path. 
 #' 
+#' @return * `as_package` returns a `package` object like [devtools::as.package].
 #' @export
 as_package <- function(x, ..., quiet=FALSE, extract=FALSE){
 	

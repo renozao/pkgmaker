@@ -30,7 +30,11 @@ listPackageOptions()
 
 \item{opts}{a list of options}
 
-\item{...}{arguments passed to \code{getOption} (only first one is used).}
+\item{...}{
+  Arguments passed on to \code{\link[base:options]{base::options}}
+  \describe{
+    \item{\code{}}{}
+  }}
 
 \item{defaults}{\code{NULL} or a list of default options
 with their values.}
@@ -38,7 +42,13 @@ with their values.}
 \item{PACKAGE}{a package name}
 }
 \value{
-a character vector (possibly empty).
+\itemize{
+\item \code{packageOptions} returns a list of package-specific options.
+}
+
+\itemize{
+\item \code{listPackageOptions} returns a character vector (possibly empty).
+}
 }
 \description{
 \code{option_symlink} creates a symbolic link to option \code{x}.

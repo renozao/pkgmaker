@@ -17,6 +17,9 @@ nested list elements should be used to build the final names of the result list.
 \item{depth}{maximum number of levels to unlist.
 Root level is \code{1L}.}
 }
+\value{
+a vector of the same type as the inner vector elements of the input list.
+}
 \description{
 Flattens All List Levels Using Separated Names
 }

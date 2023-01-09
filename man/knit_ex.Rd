@@ -37,6 +37,18 @@ before or after the chunk is processed.}
 }
 \value{
 \code{knit_ex} returns the generated code, although invisibly when \code{open=TRUE}.
+
+\itemize{
+\item \code{hook_try} returns a function.
+}
+
+\itemize{
+\item \code{hook_backspace} returns a function.
+}
+
+\itemize{
+\item \code{hook_toggle}: returns a hook function.
+}
 }
 \description{
 \code{knit_ex} is a utility function for running small knitr examples,
@@ -56,7 +68,7 @@ using \link[knitr:knit_hooks]{knitr::knit_hooks} (see details on this dedicated 
 This simply defines a function \code{try} in \code{envir} that prints
 the error message if any, and is called instead of base \code{\link{try}}.
 
-\item \code{hook_toggle()}: is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+\item \code{hook_toggle()}: a chunk hook that adds clickable elements to toggle \emph{indvidual}
 code chunks in HTML documents generated from .Rmd files.
 
 }}
@@ -74,6 +86,7 @@ knit_ex("stop('ah ah')")
 # with try the error is output on stderr but not caughted by knitr
 knit_ex("try( stop('ah ah') )")
 
+\dontrun{
 # no message caught
 knit_ex("
 ^^^{r, include = FALSE}
@@ -83,8 +96,10 @@ knit_hooks$set(try = pkgmaker::hook_try)
 ^^^{r, try=TRUE}
 try( stop('ah ah') )
 ^^^")
+}
 
 
+\dontrun{
 # Correctly formatting backspaces in chunk outputs
 tmp <- tempfile(fileext = '.Rmd')
 cat(file = tmp, "
@@ -106,16 +121,18 @@ cat('abc\bd')
 # knit
 out <- knitr::knit2html(tmp, fragment.only = TRUE)
 # look at output
-\dontrun{
   browseURL(out)
   edit( file = out)
-}
+  
 # cleanup
 out_files <- list.files(dirname(out), full.names = TRUE,
                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
 unlink(c(tmp, out_files))
 
+}
 
+
+\dontrun{
 
 knit_ex("
 
@@ -154,5 +171,7 @@ sample(5)
 ^^^
 
 ", open = TRUE)
+
+}
 
 }

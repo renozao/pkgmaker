@@ -9,6 +9,9 @@ userIs(user)
 \arguments{
 \item{user}{the usernames to check for, as a character vector.}
 }
+\value{
+A logical flag
+}
 \description{
 Tests if the current R user is amongst a given set of users.
 }

@@ -17,6 +17,9 @@ iterCount(n = 100, i0 = 0L, title = "Iterations", extra = NULL, verbose = TRUE)
 
 \item{verbose}{logical that toggles the counter}
 }
+\value{
+A function that can be used to increment progress.
+}
 \description{
 Simple Text Iteration Counter
 }

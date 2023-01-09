@@ -18,6 +18,9 @@ such as \code{\link{png}} or \code{\link{pdf}}.
 
 importFrom grDevices bmp jpeg pdf png svg tiff}
 }
+\value{
+The value of the called device function.
+}
 \description{
 Opens a graphic device depending on the file extension.
 }

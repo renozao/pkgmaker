@@ -6,6 +6,9 @@
 \usage{
 Rversion()
 }
+\value{
+A character string.
+}
 \description{
 Returns the complete R version, e.g. 2.15.0
 }

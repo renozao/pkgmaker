@@ -11,6 +11,9 @@ file_extension(x, ext = NULL)
 
 \item{ext}{extension to append instead of the original extension.}
 }
+\value{
+a character vector.
+}
 \description{
 Extract File Extension
 }

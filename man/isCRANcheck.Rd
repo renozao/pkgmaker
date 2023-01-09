@@ -23,6 +23,9 @@ as with the flag \code{'--timing'} was set.}
 as with the flag \code{'--as-cran'} was set.}
 }}
 }
+\value{
+A logical flag.
+}
 \description{
 \code{isCRANcheck} \strong{tries} to identify if one is running CRAN-like checks.
 }

@@ -15,6 +15,9 @@ For \code{mkoptions} these define inital/default key-value pairs.}
 
 \item{.DATA}{a list or an environment with an element \code{.options}.}
 }
+\value{
+\code{mkoptions} returns a function.
+}
 \description{
 \code{mkoptions} is a function that returns a function that
 behaves like \code{\link[base]{options}}, with an attached

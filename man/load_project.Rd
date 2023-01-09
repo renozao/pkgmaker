@@ -39,6 +39,9 @@ This enables to control the version of the loaded dependencies.}
 \item{try.library}{logicatl that indicates if projects that could not be found should be looked up in
 the installed packages.}
 }
+\value{
+Invisibly the \code{package} object of the loaded package.
+}
 \description{
 Load Development Package
 }

@@ -13,6 +13,8 @@
 #' 
 #' @param x a single character string
 #' 
+#' @return The value of [getAnywhere].
+#' 
 #' @export
 cgetAnywhere <- function(x){
 	do.call("getAnywhere", list(x))
@@ -144,6 +146,7 @@ testRversion <- function(x, test=1L){
 #' 
 #' Returns the complete R version, e.g. 2.15.0
 #' 
+#' @return A character string.
 #' @export
 #' @examples
 #' Rversion()
@@ -399,7 +402,6 @@ extractLocalFun <- function(f){
 #' Works for methods that are created (setMethod) as a wrapper function to an 
 #' internal function named .local.
 #'
-#' @inheritParams extractLocalFun
 #' @return a paired list like the one returned by \code{\link{formals}}. 
 #' 
 #' @export
@@ -442,6 +444,8 @@ allFormals <- function(f){
 #' @param class Class name to instanciate
 #' @param ... extra arguments from which slot values are extracted by exact 
 #' matching of names.
+#' 
+#' @return An S4 object.
 #' 
 #' @export
 #' @examples
@@ -593,6 +597,7 @@ oneoffVariable <- function(default=NULL){
 #' 
 #' @param default default value for the static variable. 
 #' 
+#' @return A function that can be used to set/get the static variable.
 #' @export
 #' @examples 
 #' 
@@ -628,6 +633,8 @@ sVariable <- function(default=NULL){
 #' to check the exit status of a function.
 #' Note that it will correctly detect errors only if all normal exit 
 #' are wrapped into a call to it. 
+#' 
+#' @return Either `x` or the success status when called without arguments.
 #' 
 #' @export
 #' 
@@ -675,6 +682,7 @@ exitCheck <- function(){
 #' @param x a character vector of version numbers
 #' @param decreasing a logical that indicates if the ordering should be decreasing
 #' 
+#' @return A character vector.
 #' @export
 #' @examples
 #' 
@@ -719,6 +727,7 @@ sortVersion <- function(x, ...){
 #' 
 #' @param name the name of an argument as a character string.
 #' 
+#' @return A logical flag.
 #' @export
 #' @examples
 #' 
@@ -769,6 +778,7 @@ hasArg2 <- function (name)
 #' In this case all these attributes will have the access permission
 #' as defined by argument \code{.MODE}.
 #' 
+#' @return `ExposeAttribute` returns an S3 object of class `ExposeAttribute`.
 #' @export
 ExposeAttribute <- function(object, ..., .MODE='rw', .VALUE=FALSE){
 	
@@ -925,6 +935,7 @@ attr_mode <- function(x){
 #' 
 #' @param user the usernames to check for, as a character vector. 
 #' 
+#' @return A logical flag
 #' @export
 userIs <- function(user){
 	setNames(Sys.info()['user'], NULL) %in% user
@@ -1055,6 +1066,7 @@ expand_dots <- function(..., .exclude=NULL){
 #' 
 #' @param x environment variable name, as a character vector.
 #' 
+#' @return A logical flag.
 #' @export
 #' @examples 
 #' 
@@ -1081,7 +1093,7 @@ hasEnvar <- function(x){
 #' @param rev logical that indicates if the mapping should be interpreted in the 
 #' reverse way. 
 #' 
-#' 
+#' @return A character vector.
 #' @export
 charmap <- function(x, maps, nomatch = NULL, partial = FALSE, rev = FALSE){
 	
@@ -1157,6 +1169,8 @@ charmap <- function(x, maps, nomatch = NULL, partial = FALSE, rev = FALSE){
 #' such as \code{\link{png}} or \code{\link{pdf}}.
 #' 
 #' importFrom grDevices bmp jpeg pdf png svg tiff
+#' 
+#' @return The value of the called device function.
 #' @export
 gfile <- function(filename, width, height, ...){ 
   # Get file type
@@ -1189,12 +1203,14 @@ gfile <- function(filename, width, height, ...){
 
 #' Flatten a List Conserving Names 
 #' 
-#' `unlist2` is a replacement for [base::unlist] that does not mangle the names.
+#' `unlist_` is a replacement for [base::unlist] that does not mangle the names.
 #' 
 #' Use this function if you don't like the mangled names returned by the standard `unlist` function from the base package. 
 #' Using `unlist` with annotation data is dangerous and it is highly recommended to use `unlist_` instead.
 #' 
 #' @inheritParams AnnotationDbi::unlist2
+#' 
+#' @return A vector.
 #' 
 #' @author Herve Pages
 #' @source Bioconductor AnnotationDbi::unlist2
@@ -1349,6 +1365,8 @@ NULL
 
 #' @describeIn sys_call_stack computes digest hash for each function in the call stack.
 #' @param n a single frame
+#' 
+#' @return * `sys.function_digest` returns a character vector of length `n`.
 #' @export
 sys.function_digest <- function(n = NULL){
   assert_that(is.null(n) || (is.number(n) & n>0), msg = "Invalid argument 'n': must be NULL or a positive number.")
@@ -1363,6 +1381,8 @@ sys.function_digest <- function(n = NULL){
 
 #' @describeIn sys_call_stack returns the index of the frame that calls a given function.
 #' @param fun the function object to find in the call stack.
+#' 
+#' @return * `sys.function_nframe` returns a integer vector.
 #' @export 
 sys.function_nframe <- function(fun){
   which(sys.function_digest() == digest_function(fun))
@@ -1370,6 +1390,8 @@ sys.function_nframe <- function(fun){
 }
 
 #' @describeIn sys_call_stack returns the frame that calls a given function.
+#' 
+#' @return * `sys.function_frame` returns an environment.
 #' @export
 sys.function_frame <- function(fun){
   n <- sys.function_nframe(fun)

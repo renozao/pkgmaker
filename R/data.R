@@ -10,6 +10,7 @@
 #' 
 #' @param x object whose names are generated.
 #' 
+#' @return the input object updated with names. 
 #' @export
 #' @rdname addnames
 addnames <- function(x, ...){
@@ -67,6 +68,7 @@ addnames.matrix <- function(x, prefix=c('row', 'col'), ...){
 #' @param depth maximum number of levels to unlist. 
 #' Root level is `1L`. 
 #' 
+#' @return a vector of the same type as the inner vector elements of the input list.
 #' @export
 #' @examples 
 #' 

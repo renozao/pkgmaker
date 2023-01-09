@@ -9,6 +9,9 @@ hasEnvar(x)
 \arguments{
 \item{x}{environment variable name, as a character vector.}
 }
+\value{
+A logical flag.
+}
 \description{
 Tells if some environment variable(s) are defined.
 }

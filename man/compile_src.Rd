@@ -13,7 +13,7 @@ compile_src(pkg = NULL, load = TRUE)
 after the compilation (default) or not.}
 }
 \value{
-None
+Returns nothing. Used for its side effect of compiling source files.
 }
 \description{
 Compile Source Files from a Development Package

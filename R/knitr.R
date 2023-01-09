@@ -80,6 +80,7 @@ try_message <- function(signal = FALSE){
 #' @param options list of current knitr chunk options 
 #' @param envir environment where the chunk is evaluated
 #' 
+#' @return * `hook_try` returns a function.
 #' @export
 #' @examples
 #' 
@@ -91,6 +92,7 @@ try_message <- function(signal = FALSE){
 #' # with try the error is output on stderr but not caughted by knitr
 #' knit_ex("try( stop('ah ah') )")
 #' 
+#' \dontrun{
 #' # no message caught
 #' knit_ex("
 #' ^^^{r, include = FALSE}
@@ -100,6 +102,7 @@ try_message <- function(signal = FALSE){
 #' ^^^{r, try=TRUE}
 #' try( stop('ah ah') )
 #' ^^^")
+#' }
 #' 
 hook_try <- local({
     .try_defined <- FALSE
@@ -172,10 +175,12 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' characters in the output (e.g., as used in progress bars), and still 
 #' obtain a final output as in the console.
 #' 
+#' @return * `hook_backspace` returns a function.
 #' @rdname knit_ex
 #' @export 
 #' @examples 
 #' 
+#' \dontrun{
 #' # Correctly formatting backspaces in chunk outputs
 #' tmp <- tempfile(fileext = '.Rmd')
 #' cat(file = tmp, "
@@ -197,15 +202,15 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' # knit
 #' out <- knitr::knit2html(tmp, fragment.only = TRUE)
 #' # look at output
-#' \dontrun{
 #'   browseURL(out)
 #'   edit( file = out)
-#' }
+#'   
 #' # cleanup
 #' out_files <- list.files(dirname(out), full.names = TRUE,
 #'                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
 #' unlink(c(tmp, out_files))
 #' 
+#' }
 #' 
 hook_backspace <- chunkOutputHook('backspace', 
         function(x, options){
@@ -222,6 +227,7 @@ hook_backspace <- chunkOutputHook('backspace',
 #'  
 #' \code{str_bs} was adapted from a proposal from Yihui Xie.
 #' 
+#' @return * `str_bs` returns a character string.
 #' @export
 #' @examples 
 #' 
@@ -354,11 +360,14 @@ $( document ).ready(function(){
 });
 </script>"
 
-#' @describeIn knit_ex is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+#' @describeIn knit_ex a chunk hook that adds clickable elements to toggle \emph{indvidual}
 #' code chunks in HTML documents generated from .Rmd files.
 #' 
+#' @return * `hook_toggle`: returns a hook function.
 #' @export
 #' @examples
+#' 
+#' \dontrun{
 #' 
 #' knit_ex("
 #' 
@@ -397,6 +406,8 @@ $( document ).ready(function(){
 #' ^^^
 #' 
 #' ", open = TRUE)
+#' 
+#' }
 #' 
 hook_toggle <- function(){
     .init <- TRUE
@@ -543,6 +554,7 @@ parse_yaml_front_matter2 <- local({
 #' home directory, or, if missing, for a yaml section \code{rmarkdown::render} 
 #' in the user's R profile.
 #' 
+#' @return the path to the rendered file, like [rmarkdown::render].
 #' @seealso \code{\link{read.yaml_section}}
 #' @export
 render_notes <- function(input, output_format = NULL, output_options = NULL, ..., .config = NULL){

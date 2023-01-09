@@ -14,7 +14,8 @@ NULL
 #' that will arrange \code{n} panels in a single plot. 
 #' 
 #' @param n number of plots to be arranged.
-#' 
+#'
+#' @return a 2-long numeric vector that can be passed to `par(mfrow = <value>)`.
 #' @rdname graphics-utils
 #' @export
 #' @examples

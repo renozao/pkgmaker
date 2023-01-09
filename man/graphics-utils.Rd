@@ -10,6 +10,9 @@ mfrow(n)
 \arguments{
 \item{n}{number of plots to be arranged.}
 }
+\value{
+a 2-long numeric vector that can be passed to \verb{par(mfrow = <value>)}.
+}
 \description{
 Utility Functions for Graphics
 

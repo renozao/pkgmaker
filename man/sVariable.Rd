@@ -9,6 +9,9 @@ sVariable(default = NULL)
 \arguments{
 \item{default}{default value for the static variable.}
 }
+\value{
+A function that can be used to set/get the static variable.
+}
 \description{
 \code{sVariable} defines a function that acts as a global
 static variable.

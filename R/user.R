@@ -90,6 +90,9 @@ askUser <- function (msg, allowed = c("y", "n"), idefault = "n", default = "n", 
 #' It is used to prefix the path, within the user R data directory. 
 #' 
 #' @seealso \code{\link{tempdir}}
+#' 
+#' @return Path to the user data directory.
+#' 
 #' @export
 userData <- function(..., create=NULL, package = topenv(parent.frame())){
         

@@ -15,6 +15,9 @@ RdSection2latex(topic, package, i = 1L, notitle = TRUE)
 
 \item{notitle}{logical that indicates if the section's title should be removed}
 }
+\value{
+Nothing, just prints the LaTeX code on console.
+}
 \description{
 This function extract sections from Rd files and convert them into
 LaTeX code.

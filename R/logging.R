@@ -320,6 +320,7 @@ new_loggerSTDERR <- function(.logger, ...){
 #' @inheritParams base::sprintf
 #' @inheritParams base::message
 #' 
+#' @return Returns nothing. Used for their side effects of printing messages/warnings.
 #' @seealso \code{\link{sprintf}}, \code{\link{message}}
 #' @export
 #' @examples 
@@ -346,6 +347,7 @@ wnote <- function(..., immediate. = TRUE){
 #' @param extra character vector providing extra text to add at each step
 #' @param verbose logical that toggles the counter
 #' 
+#' @return A function that can be used to increment progress.
 #' @export
 #' @examples 
 #' 

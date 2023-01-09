@@ -15,6 +15,9 @@ checkPlot(expr, msg = NULL, width = 1000, height = NULL)
 
 \item{height}{plot height (not used)}
 }
+\value{
+TRUE is the check is successful.
+}
 \description{
 Saves a plot in a PNG file that will be included in unit test HTML reports.
 }
