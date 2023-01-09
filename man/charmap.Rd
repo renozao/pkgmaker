@@ -21,6 +21,9 @@ in which case mappings are used as regular expressions.}
 \item{rev}{logical that indicates if the mapping should be interpreted in the
 reverse way.}
 }
+\value{
+A character vector.
+}
 \description{
 Match the elements of a character vectors against a mapping table,
 that can specify multiple exact or partial matches.

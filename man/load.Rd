@@ -20,6 +20,9 @@ onUnload(libpath)
 
 \item{libpath}{a character string giving the complete path to the package.}
 }
+\value{
+Returns nothing, used only for their side-effects.
+}
 \description{
 Default Load/Unload Functions
 }

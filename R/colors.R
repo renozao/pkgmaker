@@ -11,6 +11,7 @@
 #'  
 #' @inheritParams grDevices::col2rgb
 #' 
+#' @return a character vector of color specifications.
 #' @export
 #' @examples
 #' 

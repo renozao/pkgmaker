@@ -43,6 +43,22 @@ loading namespace.}
 the name of the loading namespace if \code{env} and \code{info} are
 \code{FALSE}, an environment if \code{env=TRUE}, a list with elements
 \code{pkgname} and \code{libname} if \code{info=TRUE}.
+
+\itemize{
+\item \code{isLoadingNamespace} returns a logical flag.
+}
+
+\itemize{
+\item \code{isNamespaceLoaded2} returns a logical flag.
+}
+
+\itemize{
+\item \code{isDevNamespace} returns a logical flag.
+}
+
+\itemize{
+\item \code{ns_get} returns the requested object or \code{NULL} if not found.
+}
 }
 \description{
 \code{getLoadingNamespace} returns information about the loading namespace.

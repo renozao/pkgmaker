@@ -26,6 +26,8 @@
 #' @param new values for setting
 #' @param code code to execute in that environment
 #'
+#' @return Nothing, used for side effect.
+#' 
 #' @author Hadley Wickham
 #' @name using_something
 #' @examples

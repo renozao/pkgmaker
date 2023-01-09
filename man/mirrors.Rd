@@ -27,6 +27,9 @@ setCRANMirror(url = CRAN, unique = TRUE)
 \item{unique}{logical that indicate if duplicated urls or names should be
 removed.}
 }
+\value{
+\code{setBiocMirror} returns the old set of Bioc repositories.
+}
 \description{
 \code{setBiocMirror} sets all Bioconductor repositories (software, data,
 annotation, etc.).

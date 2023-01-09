@@ -12,6 +12,9 @@ add_lib(..., append = FALSE)
 \item{append}{logical that indicates that the paths should be appended
 rather than prepended.}
 }
+\value{
+Returns the new set of library paths.
+}
 \description{
 Prepend/append paths to the library path list, using \code{\link{.libPaths}}.
 }

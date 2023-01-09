@@ -75,11 +75,29 @@ source files should be extracted.
 In this case there will be no valid path.}
 }
 \value{
-\code{packageEnv} returns an environment
+\itemize{
+\item \code{packageEnv} returns an environment
+}
 
-a character string
+\itemize{
+\item \code{topns_name} returns the name of the namespace a character string.
+}
 
-a character string
+\itemize{
+\item \code{topns} returns an environment.
+}
+
+\itemize{
+\item \code{packageName} returns a character string
+}
+
+\itemize{
+\item \code{packagePath} returns a character string.
+}
+
+\itemize{
+\item \code{as_package} returns a \code{package} object like \link[devtools:as.package]{devtools::as.package}.
+}
 }
 \description{
 \code{packageEnv} is a slight modification from \code{\link{topenv}}, which
@@ -118,6 +136,9 @@ its installation/loading directory in the case of an installed package, or
 its source directory served by devtools.
 
 \item \code{isPackageInstalled()}: checks if a package is installed.
+\itemize{
+\item \code{isPackageInstalled} returns a logical flag.
+}
 
 \item \code{as_package()}: an enhanced version of \code{\link[devtools]{as.package}},
 that is not exported not to mask the original function.

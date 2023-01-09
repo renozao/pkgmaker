@@ -45,6 +45,9 @@ For example, \code{list(a='r', b='w', `blabla.*`='rw')} set attribute \code{'a'}
 as read-only, attribute \code{'b'} as write-only, all attributes that start with
 \code{'blabla'} in read-write access.}
 }
+\value{
+\code{ExposeAttribute} returns an S3 object of class \code{ExposeAttribute}.
+}
 \description{
 The function \code{ExposeAttribute} creates an S3 object that
 exposes all attributes of any R object, by making them accessible via

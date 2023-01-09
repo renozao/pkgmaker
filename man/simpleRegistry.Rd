@@ -16,6 +16,9 @@ Defaults to the caller's top environment.}
 \item{verbose}{logical that toggle a verbose message when
 the object is first created.}
 }
+\value{
+a simple registry object that is similar to an R5 object.
+}
 \description{
 Simple Package Registry
 }

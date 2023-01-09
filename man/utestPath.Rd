@@ -9,6 +9,9 @@ utestPath(...)
 \arguments{
 \item{...}{extra arguments passed to \code{\link{packagePath}}, e.g., \code{package}.}
 }
+\value{
+The path tot the unit-test results.
+}
 \description{
 Returns the path to the directory where the results of unit tests are stored.
 This path is used by \code{\link{utest}} to save unit test results, which are

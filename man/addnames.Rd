@@ -29,6 +29,9 @@ Names are build as \code{<prefix><sep><index>}.}
 
 \item{sep}{separator used between the prefix and the numeric index.}
 }
+\value{
+the input object updated with names.
+}
 \description{
 Generates names or dimnames for objects.
 }

@@ -13,7 +13,8 @@ NULL
 #' 
 #' @inheritParams base::.onLoad
 #' @inheritParams base::library.dynam
-#' 
+#'
+#' @return Returns nothing, used only for their side-effects. 
 #' @export
 #' @rdname load
 #' 
@@ -80,6 +81,9 @@ onUnload <- function(libpath) {
 #' Currently not used.
 #' @param verbose logical that toggles verbose messages.
 #'
+#'
+#' @return `postponeAction` returns the names of the postponed actions.
+#' 
 #' @import digest
 #' @export
 #' 
@@ -173,6 +177,7 @@ isRunningPostponedAction <- sVariable(FALSE)
 #' @param verbose logical that toggle a verbose message when 
 #' the object is first created.
 #' 
+#' @return a simple registry object that is similar to an R5 object.
 #' @export
 simpleRegistry <- function(name, envir=topenv(parent.frame()), verbose=FALSE){
 	

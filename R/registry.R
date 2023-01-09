@@ -224,6 +224,7 @@ testreg <- function(){
 #' @param update logical that indicates if the package registry should be updated, by adding/removing 
 #' entries from other loaded/unloaded packages. 
 #' @param package package where to store or look for the registry.
+#' 
 #' @return a \code{\link[registry:regobj]{registry}} object or \code{NULL} (see argument 
 #' \code{quiet}).
 #' 
@@ -438,7 +439,6 @@ xtable.package_metaregistry <- function(x, ...){
 #' @param overwrite a logical that indicate if an existing registry with the same 
 #' should be overwritten if it exists.
 #' 
-#' @inheritParams packageRegistry
 #' @export
 setPackageRegistry <- function(regname, regobj
 								, description='', entrydesc=NA

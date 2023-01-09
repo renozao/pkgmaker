@@ -16,6 +16,9 @@ sortVersion(x, ...)
 
 \item{decreasing}{a logical that indicates if the ordering should be decreasing}
 }
+\value{
+A character vector.
+}
 \description{
 Orders a vector of version numbers, in natural order.
 }

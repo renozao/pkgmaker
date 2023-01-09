@@ -50,6 +50,9 @@ paths are overwritten, which you don't usually want.}
 \item{prepend}{logical that indicates if the new paths should
 be added in front of the current ones.}
 }
+\value{
+Nothing, used for side effect.
+}
 \description{
 These functions were extracted from the \pkg{devtools} package
 to make them available without a dependency to \pkg{devtools}.

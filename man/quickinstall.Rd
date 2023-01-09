@@ -36,7 +36,7 @@ This can be usefull if dependencies are installed in this directory.
 If \code{NULL}, then the default library path is left unchanged.}
 }
 \value{
-The path of the library where the package was installed.
+\code{quickinstall} returns the path of the library where the package was installed.
 }
 \description{
 Builds and install a minimal version of a package from its

@@ -21,6 +21,19 @@ sys.source_file()
 
 \item{fun}{the function object to find in the call stack.}
 }
+\value{
+\itemize{
+\item \code{sys.function_digest} returns a character vector of length \code{n}.
+}
+
+\itemize{
+\item \code{sys.function_nframe} returns a integer vector.
+}
+
+\itemize{
+\item \code{sys.function_frame} returns an environment.
+}
+}
 \description{
 System Call Stack Utilities
 }

@@ -37,6 +37,18 @@ before or after the chunk is processed.}
 }
 \value{
 \code{knit_ex} returns the generated code, although invisibly when \code{open=TRUE}.
+
+\itemize{
+\item \code{hook_try} returns a function.
+}
+
+\itemize{
+\item \code{hook_backspace} returns a function.
+}
+
+\itemize{
+\item \code{hook_toggle}: returns a hook function.
+}
 }
 \description{
 \code{knit_ex} is a utility function for running small knitr examples,
@@ -56,7 +68,7 @@ using \link[knitr:knit_hooks]{knitr::knit_hooks} (see details on this dedicated 
 This simply defines a function \code{try} in \code{envir} that prints
 the error message if any, and is called instead of base \code{\link{try}}.
 
-\item \code{hook_toggle()}: is a chunk hook that adds clickable elements to toggle \emph{indvidual}
+\item \code{hook_toggle()}: a chunk hook that adds clickable elements to toggle \emph{indvidual}
 code chunks in HTML documents generated from .Rmd files.
 
 }}

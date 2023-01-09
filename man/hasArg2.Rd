@@ -9,6 +9,9 @@ hasArg2(name)
 \arguments{
 \item{name}{the name of an argument as a character string.}
 }
+\value{
+A logical flag.
+}
 \description{
 This function is identical to \code{\link{hasArg}}, except that
 it accepts the argument name as a character string.

@@ -36,7 +36,7 @@ path.protect <- function(...){
 #' This can be usefull if dependencies are installed in this directory.
 #' If \code{NULL}, then the default library path is left unchanged.
 #' 
-#' @return The path of the library where the package was installed.
+#' @return `quickinstall` returns the path of the library where the package was installed.
 #' 
 #' @export
 #' 
@@ -170,6 +170,7 @@ requirePackage <- function(pkg, ...){
 #' @param unique logical that indicate if duplicated urls or names should be 
 #' removed.
 #'
+#' @return `setBiocMirror` returns the old set of Bioc repositories.
 #' @rdname mirrors
 #' @export 
 setBiocMirror <- function(url='http://www.bioconductor.org', version=NULL, unique=TRUE){
@@ -269,6 +270,7 @@ CRAN <- 'https://cran.r-project.org'
 #' @param append logical that indicates that the paths should be appended
 #' rather than prepended.
 #' 
+#' @return Returns the new set of library paths.
 #' @export
 #' 
 #' @examples
@@ -328,6 +330,8 @@ add_lib <- function(..., append=FALSE){
 #' 
 #' @references Adapted from the function \code{CRAN}
 #' in the \pkg{fda} package.
+#' 
+#' @return A logical flag.
 #' 
 #' @export
 isCRANcheck <- function(...){

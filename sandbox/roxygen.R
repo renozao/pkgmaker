@@ -6,6 +6,8 @@
 #' Bibliography roclet
 #' 
 #' @rawNamespace if( require(roxygen2) ) import(roxygen2)
+#' 
+#' @return An S3 object of class `roclet_rd`.
 #' @export
 #' @rdname roclet
 bib_roclet <- function() {

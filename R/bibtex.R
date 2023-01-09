@@ -278,6 +278,7 @@ NULL
 #' @param check logical that indicates if the result should be an empty string if the
 #' bibliography file (or package) does not exist. 
 #' 
+#' @return * `packageReferenceFile`: returns the path to the REFERENCES file as a character string.
 #' @export 
 #' @examples
 #' 
@@ -303,6 +304,8 @@ packageReferenceFile <- function(PACKAGE = NULL, check = FALSE){
 #'   * 'load': load the bibliography file and return a list of [utils::bibentry] 
 #' objects. It returns `NULL` if the file does not exist.
 #' 
+#' @return * `package_bibliography`: returns the bibiliography as a bibtex list object,
+#' as returned by [rbibutils::readBib].
 #' @export
 package_bibliography <- function(PACKAGE = NULL, action = c('path', 'copy', 'load')){
   

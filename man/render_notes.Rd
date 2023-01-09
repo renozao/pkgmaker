@@ -43,6 +43,9 @@ Default behaviour is to look for file \code{'.rmarkdown.yaml'} in the user's
 home directory, or, if missing, for a yaml section \code{rmarkdown::render}
 in the user's R profile.}
 }
+\value{
+the path to the rendered file, like \link[rmarkdown:render]{rmarkdown::render}.
+}
 \description{
 Renders rmarkdown Documents Using User Default Options
 }

@@ -24,6 +24,9 @@ If a character vector, then it is used as the library path specification.}
 
 \item{libname}{name of the output compiled library}
 }
+\value{
+Returns the value of executing the R command via \link{system}.
+}
 \description{
 Functions to execute R commands.
 }

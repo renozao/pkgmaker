@@ -106,6 +106,7 @@ getLoadingNamespace <- function(env=FALSE, info=FALSE, nodev=FALSE){
 #' @param nodev logical that indicates if loading devtools namespace should 
 #' be discarded.
 #' 
+#' @return * `isLoadingNamespace` returns a logical flag.
 #' @export
 isLoadingNamespace <- function(ns, nodev=FALSE){
 	
@@ -122,6 +123,7 @@ isLoadingNamespace <- function(ns, nodev=FALSE){
 #' It is similar to \code{\link{isNamespaceLoaded}} -- which it uses -- but also accepts
 #' environments.
 #' 
+#' @return * `isNamespaceLoaded2` returns a logical flag.
 #' @export
 isNamespaceLoaded2 <- isNamespaceLoaded <- function(ns){
 	if( is.environment(ns) ){
@@ -134,6 +136,7 @@ isNamespaceLoaded2 <- isNamespaceLoaded <- function(ns){
 
 #' @describeIn namespace tests the -- current -- namespace is a devtools namespace.
 #' 
+#' @return * `isDevNamespace` returns a logical flag.
 #' @export
 isDevNamespace <- function(ns){
 	if( missing(ns) ){
@@ -166,6 +169,7 @@ addNamespaceExport <- function(x){
 #' @describeIn namespace gets an object from a given namespace.
 #' @param ... extra arguments passed to [get0].
 #' 
+#' @return * `ns_get` returns the requested object or `NULL` if not found.
 #' @export
 ns_get <- function(x, ns = NULL, ...){
   if( is.null(ns) ){

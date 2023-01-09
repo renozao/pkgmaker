@@ -28,6 +28,9 @@ The default is \code{FALSE} (i.e. no reset), except when loading a namespace,
 either from an installed package or a development package -- with devtools.
 If \code{FALSE}, an error is thrown if trying to setup options with the same name.}
 }
+\value{
+Returns an object of class \code{package_options}.
+}
 \description{
 The following functions to access/set the options from the set are assigned
 in \code{envir}:

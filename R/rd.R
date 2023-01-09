@@ -63,6 +63,8 @@ getRdTag <- function(topic, tag, package){
 #' @param i index of the section to format
 #' @param notitle logical that indicates if the section's title should be removed
 #' 
+#' @return Nothing, just prints the LaTeX code on console.
+#' 
 #' @export
 #' @examples
 #' RdSection2latex('RdSection2latex', package = 'pkgmaker')

@@ -14,6 +14,9 @@ source_files(x, pattern = NULL, ...)
 
 \item{...}{extra arguments passed to \code{\link{source}}.}
 }
+\value{
+the return value of running \link{source} on each individual file.
+}
 \description{
 Vectorised version of \code{source}.
 }

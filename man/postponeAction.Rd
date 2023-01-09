@@ -33,6 +33,9 @@ Currently not used.}
 
 \item{verbose}{logical that toggles verbose messages.}
 }
+\value{
+\code{postponeAction} returns the names of the postponed actions.
+}
 \description{
 This function implement a mechanism to postpone actions, which can be executed
 at a later stage.

@@ -16,6 +16,9 @@ or a single tag \code{"#<section_name@file_path>"} that redirect to a YAML file.
 \item{text}{text to parse.
 If provided, then argument \code{file} is not used.}
 }
+\value{
+Returns a list representation of the YAML header
+}
 \description{
 Reads YAML Options Embbeded into a File
 }

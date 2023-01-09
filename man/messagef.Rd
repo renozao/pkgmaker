@@ -25,6 +25,9 @@ wnote(..., immediate. = TRUE)
 \item{immediate.}{logical, indicating if the call should be output
     immediately, even if \code{\link[base]{getOption}("warn") <= 0}.}
 }
+\value{
+Returns nothing. Used for their side effects of printing messages/warnings.
+}
 \description{
 Generate a formatted diagnostic message.
 This function is a shortcut for \code{message(sprintf(...))}.

@@ -12,6 +12,9 @@ new2(class, ...)
 \item{...}{extra arguments from which slot values are extracted by exact
 matching of names.}
 }
+\value{
+An S4 object.
+}
 \description{
 An alternative version of \code{\link{new}} to create objects based on a list
 of values.

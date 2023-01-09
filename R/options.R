@@ -28,6 +28,8 @@ NULL
 #' either from an installed package or a development package -- with devtools. 
 #' If \code{FALSE}, an error is thrown if trying to setup options with the same name.
 #'
+#' @return Returns an object of class `package_options`.
+#' 
 #' @export
 setupPackageOptions <- function(..., NAME=NULL, ENVIR=topenv(parent.frame()), RESET = isLoadingNamespace()){
 	
@@ -336,6 +338,8 @@ as.package_options <- function(..., defaults=NULL){
 #' @seealso \code{\link{setupPackageOptions}}
 #' @export
 #' 
+#' @return `mkoptions` returns a function.
+#' 
 #' @examples
 #' f <- mkoptions(a=3, b=list(1,2,3))
 #' str(f())
@@ -421,7 +425,9 @@ mkoptions <- function(...){
 #' given package that were defined with \code{setupPackageOptions}, and behaves as the base function \code{\link[base]{options}}.
 #' 
 #' @param PACKAGE a package name
-#' @inheritParams base::options 
+#' @inheritDotParams base::options
+#' 
+#' @return * `packageOptions` returns a list of package-specific options.
 #' 
 #' @export
 #' @rdname options
@@ -438,7 +444,7 @@ packageOptions <- function(..., PACKAGE = packageName()){
 #' \code{listPackageOptions} returns the names of all option 
 #' currently defined with \code{setupPackageOptions}.
 #' 
-#' @return a character vector (possibly empty).
+#' @return * `listPackageOptions` returns a character vector (possibly empty).
 #'
 #' @export
 #' @rdname options 
@@ -459,6 +465,7 @@ listPackageOptions <- function(){
 #' @param text text to parse.
 #' If provided, then argument \code{file} is not used.
 #' 
+#' @return Returns a list representation of the YAML header 
 #' @export
 read.yaml_section <- function(section, file = '~/.Rprofile', text = NULL){
     
