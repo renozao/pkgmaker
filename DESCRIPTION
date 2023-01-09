@@ -1,8 +1,8 @@
 Package: pkgmaker
 Type: Package
 Title: Development Utilities for R Packages
-Version: 0.32.4
-Date: 2022-11-30
+Version: 0.32.6
+Date: 2023-01-09
 Authors@R: person("Renaud", "Gaujoux", email = "renozao@protonmail.com", role = c("aut", "cre"))
 Description: Provides some low-level utilities to use for package
     development. It currently provides managers for multiple package specific
