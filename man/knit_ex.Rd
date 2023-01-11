@@ -120,16 +120,22 @@ cat('abc\bd')
 
 # knit
 out <- knitr::knit2html(tmp, fragment.only = TRUE)
+
+}
+
 # look at output
+\dontrun{
   browseURL(out)
   edit( file = out)
-  
+}
+
+\donttest{    
 # cleanup
 out_files <- list.files(dirname(out), full.names = TRUE,
                          pattern = paste0("^", tools::file_path_sans_ext(out))) 
 unlink(c(tmp, out_files))
-
 }
+
 
 
 \donttest{
@@ -165,12 +171,12 @@ opts_chunk$set(toggle = TRUE)
 sample(5)
 ^^^
 
-To diable the toggle link, one can pass anything except TRUE/FALSE:
+To disable the toggle link, one can pass anything except TRUE/FALSE:
 ^^^{r, toggle = NA}
 sample(5)
 ^^^
 
-", open = TRUE)
+", open = FALSE)
 
 }
 
