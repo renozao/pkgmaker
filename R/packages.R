@@ -114,6 +114,8 @@ quickinstall <- function(path, destdir=NULL, vignettes=FALSE, force=TRUE, ..., l
 #' 
 #' @param ... extra arguments passed to \code{\link{library}} or \code{\link{require}}.
 #' 
+#' @return No return value, called to load packages.
+#' 
 #' @rdname packages
 #' @family require
 #' @export
@@ -150,6 +152,7 @@ mrequire <- function(msg, package, lib.loc = NULL, quietly = FALSE){
 }
 
 #' @param pkg package name to load.
+#' @return * `requirePackage`: returned no value, called to load a package.
 #' @rdname pkgmaker-deprecated
 #' @export
 requirePackage <- function(pkg, ...){
@@ -247,6 +250,7 @@ setCRANMirror <- function(url=CRAN, unique=TRUE){
 #' 
 #' @export
 #' 
+#' @docType data
 #' @examples
 #' \donttest{
 #' install.packages('pkgmaker', repos=CRAN)

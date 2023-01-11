@@ -48,6 +48,9 @@ Used is of the form \code{x='package:*'}.}
 
 \item{outdir}{output directory}
 }
+\value{
+Returns the result object returned by the unit-test suite executer.
+}
 \description{
 Run unit tests in a variety of settings.
 This is still \strong{very} experimental.

@@ -235,7 +235,6 @@ simpleRegistry <- function(name, envir=topenv(parent.frame()), verbose=FALSE){
 #' functions. 
 #' 
 #' @param ... extra arguments
-#' 
 #' @rdname pkgmaker-defunct
 #' @name pkgmaker-defunct
 NULL

@@ -675,6 +675,7 @@ list.tests <- function(x, pattern=NULL){
 #' @param ... extra arguments to allow extensions and are passed to 
 #' the unit framework running funcitons. 
 #'
+#' @return Returns the result object returned by the unit-test suite executer.
 #' @export
 setGeneric('utest', function(x, ...) standardGeneric('utest'))
 #' @describeIn utest Run the unit test assoicated to a function.

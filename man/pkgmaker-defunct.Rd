@@ -10,6 +10,11 @@ write.bib(...)
 \arguments{
 \item{...}{extra arguments}
 }
+\value{
+\itemize{
+\item \code{write.bib}: returns no value, called to write a bib file.
+}
+}
 \description{
 These functions have been defunct or superseded by other
 functions.

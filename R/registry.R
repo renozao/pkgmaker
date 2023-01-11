@@ -559,6 +559,7 @@ regkeys <- function(regobj, ...){
 #' @param entry a logical that indicates if the 
 #' @param msg a header to use in case of error.
 #' 
+#' @return `regfetch` returns a registry entry.
 #' @export
 regfetch <- function(regobj, ..., all=FALSE, error=TRUE, exact=FALSE
 						, KEYS = NULL
@@ -714,6 +715,8 @@ extract_pkg <- function(x){
 #' @param registry a registry object
 #' @param Class name of the class to generate
 #' @param ... extra arguments passed to \code{\link{setClass}}.
+#' 
+#' @return No return value, called to declare a registry class.
 #' 
 setClassRegistry <- function(registry, Class, ...){
 	

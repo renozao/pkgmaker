@@ -34,6 +34,7 @@ match_mix <- function(x, table, nomatch = NA_integer_, ignore.case = FALSE){
 #' @param error logical that indicates if an error should be raised
 #' if the directory is not a package directory.
 #' 
+#' @keywords internal
 is_package_path <- function(x, error = FALSE) {
 	if (is.null(x)) return(FALSE)
 	x <- normalizePath(x, mustWork = FALSE)

@@ -46,6 +46,7 @@ inSweave <- function(){
 #' @param out output file
 #' @param PACKAGE package name where to look the source vignette
 #' 
+#' @return No return value, called to create a vignette file.
 #' @export
 makeFakeVignette <- function(src, out, PACKAGE=NULL){
 	
@@ -71,7 +72,7 @@ makeFakeVignette <- function(src, out, PACKAGE=NULL){
 
 #' LaTeX Utilities for Vignettes
 #' 
-#' \code{latex_preamble} outputs/returns command definition LaTeX commands to 
+#' \code{latex_preamble} outputs/returns LaTeX command definitions to 
 #' be put in the preamble of vignettes.
 #' 
 #' Argument \code{PACKAGE} is not required for \code{latex_preamble}, but must 
@@ -95,6 +96,8 @@ makeFakeVignette <- function(src, out, PACKAGE=NULL){
 #' dedicated argument is not missing should be considered.
 #' @param file connection where to print. If \code{NULL} the result is returned
 #' silently.
+#' 
+#' @return A character string or nothing and output the command to stdout.
 #' 
 #' @import stringr
 #' @export
@@ -245,6 +248,8 @@ latex_bibliography <- function(PACKAGE, file=''){
 #' @param Rpkg.prefix prefix to use when generating the bibtex entries of cited R packages.
 #' If `Rpkg.prefix = 'Rpackage_'`, then Rmardown citations should be `@@Rpackage_mypkg`.
 #' @param ... other arguments passed to [latex_preamble]
+#' 
+#' @return Path to the preamble file.
 #' @export
 #' 
 make_vignette_auxfiles <- function(PACKAGE, input = NULL, bibfile = 'library.bib', Rpkg.prefix = 'Rpackage_', ...){
@@ -272,7 +277,12 @@ is.rnw <- function(x){
 	is(x, 'rnw')
 }
 
-
+#' Compile a Vignette Object
+#' 
+#' @param x an object that represents a vignette
+#' 
+#' @return Returns the value returned by the vignette compiler.
+#' @export
 runVignette <- function(x, ...){
     # flag the vignette as being locally made
     opts <- options(R_RUNNING_MANUAL_VIGNETTE=TRUE)
@@ -281,6 +291,7 @@ runVignette <- function(x, ...){
 	UseMethod('runVignette')
 }
 
+#' @export
 runVignette.default <- function(x, file=NULL, ...){
 	stop("Vignette compiler '", class(x), "' is not supported")
 } 
@@ -358,6 +369,7 @@ runVignette.rnw_sweave <- function(x, file=NULL, ...){
 #' @param raw a logical that indicates if the raw result for the compilation 
 #' should be returned, instead of the result file path.
 #'   
+#' @return `rnw` returns the result of compiling the vignette with [runVignette].
 #' @rdname vignette
 #' @export
 rnw <- function(x, file=NULL, ..., raw=FALSE){
@@ -584,6 +596,9 @@ rnwChildren <- function(x){
 #' Formatting Package Citations in Sweave/knitr Documents
 #' 
 #' @param x output document, as a single string.
+#' 
+#' @return A character vecotr of citation references.
+#' 
 #' @export
 parsePackageCitation <- function(x){
     

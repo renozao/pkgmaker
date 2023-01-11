@@ -148,6 +148,7 @@ write.pkgbib <- function(entry=NULL, file="Rpackages.bib", prefix='', append = F
 	invisible(bibs)
 }
 
+#' @return * `write.bib`: returns no value, called to write a bib file.
 #' @rdname pkgmaker-defunct
 write.bib <- function(...){
 	.Defunct('write.pkgbib', package = 'pkgmaker')

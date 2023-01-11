@@ -13,6 +13,9 @@ setClassRegistry(registry, Class, ...)
 
 \item{...}{extra arguments passed to \code{\link{setClass}}.}
 }
+\value{
+No return value, called to declare a registry class.
+}
 \description{
 Automatic S4 Class for Registry Entries
 }

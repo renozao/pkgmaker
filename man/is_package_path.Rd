@@ -16,3 +16,4 @@ if the directory is not a package directory.}
 Tells if a directory is a package directory, i.e. that it contains
 a \code{DESCRIPTION} file.
 }
+\keyword{internal}

@@ -33,6 +33,9 @@ mrequire(msg, package, lib.loc = NULL, quietly = FALSE)
     package attaching is printed, and most often, no errors/warnings are
     printed if package attaching fails.}
 }
+\value{
+No return value, called to load packages.
+}
 \description{
 \code{require.quiet} silently requires a package, and \code{qrequire} is an alias to \code{require.quiet}.
 }

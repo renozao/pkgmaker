@@ -92,6 +92,9 @@ when checking the package with \code{R CMD check}.}
     character vector naming a directory, when all \file{.pdf} files in
     that directory will be used.}
 }
+\value{
+\code{rnw} returns the result of compiling the vignette with \link{runVignette}.
+}
 \description{
 \code{rnw} provides a unified interface to run vignettes that detects
 the type of vignette (Sweave or knitr), and which Sweave driver

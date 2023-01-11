@@ -9,6 +9,9 @@ parsePackageCitation(x)
 \arguments{
 \item{x}{output document, as a single string.}
 }
+\value{
+A character vecotr of citation references.
+}
 \description{
 Formatting Package Citations in Sweave/knitr Documents
 }

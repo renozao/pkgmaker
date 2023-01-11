@@ -13,6 +13,9 @@ makeFakeVignette(src, out, PACKAGE = NULL)
 
 \item{PACKAGE}{package name where to look the source vignette}
 }
+\value{
+No return value, called to create a vignette file.
+}
 \description{
 Generate a Fake Vignette
 }

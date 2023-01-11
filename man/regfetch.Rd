@@ -60,6 +60,9 @@ If not missing, then arguments in \code{...} are discarded.}
 \item{quiet}{a logical that indicates if the operation should be performed quietly,
 without throwing errors or warnings.}
 }
+\value{
+\code{regfetch} returns a registry entry.
+}
 \description{
 This function provides extra control on how entries are queried
 from a \code{\link[registry:regobj]{registry}} object.

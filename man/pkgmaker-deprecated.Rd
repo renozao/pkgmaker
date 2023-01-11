@@ -12,6 +12,11 @@ requirePackage(pkg, ...)
 
 \item{...}{extra arguments}
 }
+\value{
+\itemize{
+\item \code{requirePackage}: returned no value, called to load a package.
+}
+}
 \description{
 These functions have been deprecated and will be defunct in the next release.
 }

@@ -25,6 +25,9 @@ If \code{Rpkg.prefix = 'Rpackage_'}, then Rmardown citations should be \verb{@Rp
 
 \item{...}{other arguments passed to \link{latex_preamble}}
 }
+\value{
+Path to the preamble file.
+}
 \description{
 Generate RMarkdown Vignette Axiliary Files
 }
