@@ -280,6 +280,7 @@ is.rnw <- function(x){
 #' Compile a Vignette Object
 #' 
 #' @param x an object that represents a vignette
+#' @param ... other arguments passed down to the relevant method.
 #' 
 #' @return Returns the value returned by the vignette compiler.
 #' @export

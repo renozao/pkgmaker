@@ -8,6 +8,8 @@ runVignette(x, ...)
 }
 \arguments{
 \item{x}{an object that represents a vignette}
+
+\item{...}{other arguments passed down to the relevant method.}
 }
 \value{
 Returns the value returned by the vignette compiler.
