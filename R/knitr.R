@@ -92,7 +92,7 @@ try_message <- function(signal = FALSE){
 #' # with try the error is output on stderr but not caughted by knitr
 #' knit_ex("try( stop('ah ah') )")
 #' 
-#' \dontrun{
+#' \donttest{
 #' # no message caught
 #' knit_ex("
 #' ^^^{r, include = FALSE}
@@ -180,7 +180,7 @@ chunkOutputHook <- function(name, hook, type = c('output', 'source', 'chunk')){
 #' @export 
 #' @examples 
 #' 
-#' \dontrun{
+#' \donttest{
 #' # Correctly formatting backspaces in chunk outputs
 #' tmp <- tempfile(fileext = '.Rmd')
 #' cat(file = tmp, "
@@ -367,7 +367,7 @@ $( document ).ready(function(){
 #' @export
 #' @examples
 #' 
-#' \dontrun{
+#' \donttest{
 #' 
 #' knit_ex("
 #' 

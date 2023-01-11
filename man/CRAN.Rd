@@ -16,7 +16,7 @@ CRAN
 calls to \code{\link{install.packages}}.
 }
 \examples{
-\dontrun{
+\donttest{
 install.packages('pkgmaker', repos=CRAN)
 }
 }

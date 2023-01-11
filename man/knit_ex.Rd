@@ -86,7 +86,7 @@ knit_ex("stop('ah ah')")
 # with try the error is output on stderr but not caughted by knitr
 knit_ex("try( stop('ah ah') )")
 
-\dontrun{
+\donttest{
 # no message caught
 knit_ex("
 ^^^{r, include = FALSE}
@@ -99,7 +99,7 @@ try( stop('ah ah') )
 }
 
 
-\dontrun{
+\donttest{
 # Correctly formatting backspaces in chunk outputs
 tmp <- tempfile(fileext = '.Rmd')
 cat(file = tmp, "
@@ -132,7 +132,7 @@ unlink(c(tmp, out_files))
 }
 
 
-\dontrun{
+\donttest{
 
 knit_ex("
 

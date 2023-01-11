@@ -59,14 +59,14 @@ It is a shortcut for \code{packageData(list, ..., envir=parent.frame())}.
 }}
 \examples{
 
-\dontrun{ mydata <- packageData('mydata') }
-
-
 \dontrun{ 
-# in a package' source => won't issue a NOTE
-myfunction function(){
-	mydata <- ldata('mydata') 
+mydata <- packageData('mydata')
 }
+
+
+# in a package source => won't issue a NOTE
+myfunction <- function(){
+	mydata <- ldata('mydata') 
 }
 
 }

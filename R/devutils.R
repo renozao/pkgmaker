@@ -525,7 +525,9 @@ NotImplemented <- function(msg){
 #' @export
 #' @examples 
 #' 
-#' \dontrun{ mydata <- packageData('mydata') }
+#' \dontrun{ 
+#' mydata <- packageData('mydata')
+#' }
 #' 
 packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAsFactors = getOption('stringsAsFactors')){
 	
@@ -578,11 +580,9 @@ packageData <- function(list, envir = .GlobalEnv, ..., options = NULL, stringsAs
 #' @export
 #' @examples
 #' 
-#' \dontrun{ 
-#' # in a package' source => won't issue a NOTE
-#' myfunction function(){
+#' # in a package source => won't issue a NOTE
+#' myfunction <- function(){
 #' 	mydata <- ldata('mydata') 
-#' }
 #' }
 #' 
 ldata <- function(list, ..., package = NULL, error = TRUE, simplify = TRUE){

@@ -248,7 +248,7 @@ setCRANMirror <- function(url=CRAN, unique=TRUE){
 #' @export
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' install.packages('pkgmaker', repos=CRAN)
 #' }
 CRAN <- 'https://cran.r-project.org'
