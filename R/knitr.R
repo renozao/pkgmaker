@@ -44,7 +44,7 @@ knit_ex <- function(x, ..., quiet = TRUE, open = FALSE){
     }
     x <- paste0(x, collapse = "\n")
     if( any(html_chunks) ){
-        res <- knitr::knit2html(text = x, ..., fragment.only = TRUE, quiet = quiet)
+        res <- knitr::knit2html(text = x, ..., template = FALSE, quiet = quiet)
         if( open ){
             tmp <- tempfile("knit_ex", fileext = '.html')
             cat(res, file = tmp, sep = "\n") 
