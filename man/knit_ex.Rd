@@ -119,7 +119,7 @@ cat('abc\bd')
 ")
 
 # knit
-out <- knitr::knit2html(tmp, fragment.only = TRUE)
+out <- knitr::knit2html(tmp, template = FALSE)
 
 }
 
