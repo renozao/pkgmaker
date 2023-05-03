@@ -37,7 +37,7 @@ mfrow <- function(n){
 	}
 }
 
-round.pretty <- function(x, min=2){
+round_pretty <- function(x, min=2){
 	
 	if( is.null(x) ) return(NULL)		
 	n <- 0
